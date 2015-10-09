@@ -1,0 +1,19 @@
+header,
+main,
+footer {
+    padding-left: 240px;
+}
+
+@media only screen and (max-width : 992px) {
+    header,
+    main,
+    footer {
+        padding-left: 0;
+    }
+}
+
+@media only screen and (min-width : 993px) {
+    .container {
+        width: calc(70% + 240px);
+    }
+}

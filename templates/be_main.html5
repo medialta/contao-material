@@ -24,109 +24,158 @@
     ?>">
     <!--[if IE]><link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/themes/<?= $this->theme ?>/iefixes.css"><![endif]-->
     <?= $this->stylesheets ?>
+    <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/css/materialize.min.css"></link>
+    <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/css/styles-seb.css"></link>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
+    <script type="text/javascript" src="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/js/materialize.min.js"></script>
     <script><?= $this->getLocaleString() ?></script>
-    <script src="<?php
-    $objCombiner = new Combiner();
-    $objCombiner->add('assets/mootools/core/' . $GLOBALS['TL_ASSETS']['MOOTOOLS'] . '/mootools.js', $GLOBALS['TL_ASSETS']['MOOTOOLS']);
-    $objCombiner->add('assets/mootools/colorpicker/'. $GLOBALS['TL_ASSETS']['COLORPICKER'] .'/js/mooRainbow.js', $GLOBALS['TL_ASSETS']['COLORPICKER']);
-    $objCombiner->add('assets/mootools/chosen/chosen.js');
-    $objCombiner->add('assets/mootools/stylect/js/stylect.js');
-    $objCombiner->add('assets/mootools/simplemodal/'. $GLOBALS['TL_ASSETS']['SIMPLEMODAL'] .'/js/simplemodal.js', $GLOBALS['TL_ASSETS']['SIMPLEMODAL']);
-    $objCombiner->add('assets/mootools/datepicker/'. $GLOBALS['TL_ASSETS']['DATEPICKER'] .'/datepicker.js', $GLOBALS['TL_ASSETS']['DATEPICKER']);
-    $objCombiner->add('assets/mootools/mootao/Mootao.js');
-    $objCombiner->add('assets/contao/js/core.js');
-    $objCombiner->add('system/themes/'. $this->theme .'/hover.js');
-    echo $objCombiner->getCombinedFile();
-    ?>"></script>
-    <script><?= $this->getDateString() ?></script>
-    <?= $this->javascripts ?>
-    <!--[if lt IE 9]><script src="<?= TL_ASSETS_URL ?>assets/html5shiv/<?= $GLOBALS['TL_ASSETS']['HTML5SHIV'] ?>/html5shiv.min.js"></script><![endif]-->
+    <script><?= ''//$this->getDateString() ?></script>
+    <?= ''//$this->javascripts ?>
 
 </head>
 <body id="top" class="<?= $this->ua ?><?php if ($this->isPopup) echo ' popup'; ?>">
 
     <?php if (!$this->isPopup): ?>
-        <div id="header" class="collapsible">
-            <h1>Contao Open Source CMS <?= VERSION . '.' . BUILD ?></h1>
-            <div class="collapsible_area">
-                <div id="tmenu">
-                    <span class="header_user_container"><a href="<?= $this->base ?>contao/main.php?do=login&amp;ref=<?= TL_REFERER_ID ?>" class="header_user" title="<?= $this->account ?>"><?= $this->username ?></a></span>
-                    <span class="header_preview_container"><a href="contao/preview.php<?= $this->frontendFile ?>" target="_blank" class="header_preview" title="<?= $this->previewTitle ?>" accesskey="f"><?= $this->preview ?></a></span>
-                    <span class="header_home_container"><a href="<?= $this->base ?>contao/main.php" class="header_home" title="<?= $this->homeTitle ?>" accesskey="h"><?= $this->home ?></a></span>
-                    <span class="header_logout_container"><a href="<?= $this->base ?>contao/" class="header_logout" title="<?= $this->logoutTitle ?>" accesskey="q"><?= $this->logout ?></a></span>
+        <aside>
+            <nav class="side-nav fixed">
+                <ul id="modules-nav" class="side-nav fixed">
+                    <li><h1><?= $this->backendModules ?></h1></li>
+                    <?php foreach ($this->modules as $strGroup => $arrModules): ?>
+                        <li class="no-padding">
+                            <ul class="collapsible collapsible-accordion">
+                                <li>
+                                    <a class="collapsible-header" href="<?= $arrModules['href'] ?>" title="<?= $arrModules['title'] ?>"><?= $arrModules['label'] ?></a>
+                                    <?php if ($arrModules['modules']): ?>
+                                        <div class="collapsible-body">
+                                            <ul>
+                                                <?php foreach ($arrModules['modules'] as $arrConfig): ?>
+                                                    <li>
+                                                        <a href="<?= $arrConfig['href'] ?>" class="<?= $arrConfig['class'] ?>" title="<?= $arrConfig['title'] ?>"<?= $arrConfig['icon'] ?>><?= $arrConfig['label'] ?></a>
+                                                    </li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        </div>
+                                    <?php endif; ?>
+                                </li>
+                            </ul>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </nav>
+        </aside>
+
+        <header>
+            <nav>
+                <div class="nav-wrapper orange lighten-1">
+                    <a href="#" data-activates="modules-nav" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+
+                    <a href="<?= $this->base ?>contao/main.php" class="brand-logo">Contao Open Source CMS <?= VERSION . '.' . BUILD ?></a>
+
+                    <ul class="right hide-on-med-and-down">
+                        <li>
+                            <a href="<?= $this->base ?>contao/main.php?do=login&amp;ref=<?= TL_REFERER_ID ?>" title="<?= $this->account ?>"><i class="material-icons left">account_circle</i><?= $this->username ?></a>
+                        </li>
+                        <li>
+                            <a href="contao/preview.php<?= $this->frontendFile ?>" target="_blank" title="<?= $this->previewTitle ?>" accesskey="f"><i class="material-icons left">open_in_browser</i><?= $this->preview ?></a>
+                        </li>
+                        <li>
+                            <a href="<?= $this->base ?>contao/main.php" title="<?= $this->homeTitle ?>" accesskey="h"><i class="material-icons left">home</i><?= $this->home ?></a>
+                        </li>
+                        <li>
+                            <a href="<?= $this->base ?>contao/" title="<?= $this->logoutTitle ?>" accesskey="q"><i class="material-icons left">power_settings_new</i><?= $this->logout ?></a>
+                        </li>
+                    </ul>
                 </div>
+            </nav>
+        </header>
+    <?php endif; ?>
+
+    <main>
+        <div class="container">
+            <div class="alerts">
                 <?php if ($this->isCoreOnlyMode): ?>
-                    <p class="tl_error tl_permalert"><?php if ($this->isAdmin): ?><a href="<?= $this->coreOnlyHref ?>" class="tl_submit"><?= $this->coreOnlyOff ?></a><?php endif; ?><?= $this->coreOnlyMode ?></p>
-                    <?php endif; ?>
-                    <?php if ($this->isMaintenanceMode): ?>
-                        <p class="tl_error tl_permalert"><?php if ($this->isAdmin): ?><a href="<?= $this->maintenanceHref ?>" class="tl_submit"><?= $this->maintenanceOff ?></a><?php endif; ?><?= $this->maintenanceMode ?></p>
-                        <?php endif; ?>
-                        <?php if ($this->needsCacheBuild): ?>
-                            <p class="tl_error tl_permalert"><?php if ($this->isAdmin): ?><a href="<?= $this->buildCacheHref ?>" class="tl_submit"><?= $this->buildCacheLink ?></a><?php endif; ?><?= $this->buildCacheText ?></p>
-                            <?php endif; ?>
+                    <div class="card hoverable red lighten-2">
+                        <div class="card-content white-text">
+                            <span class="card-title">Card Title</span>
+                            <p><?= $this->coreOnlyMode ?></p>
                         </div>
+                        <?php if ($this->isAdmin): ?>
+                            <div class="card-action">
+                                <a href="<?= $this->coreOnlyHref ?>" class="white-text"><?= $this->coreOnlyOff ?></a>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 <?php endif; ?>
 
-                <div id="container">
-
-                    <?php if (!$this->isPopup): ?>
-                        <div id="left">
-                            <div id="tl_navigation" class="collapsible">
-                                <h1><?= $this->backendModules ?></h1>
-                                <a href="<?= $this->request ?>#skipNavigation" class="invisible"><?= $this->skipNavigation ?></a>
-                                <ul class="tl_level_1 collapsible_area">
-                                    <?php foreach ($this->modules as $strGroup=>$arrModules): ?>
-                                        <li class="tl_level_1_group<?= $arrModules['class'] ?>"><a href="<?= $arrModules['href'] ?>" title="<?= $arrModules['title'] ?>" onclick="return AjaxRequest.toggleNavigation(this,'<?= $strGroup ?>')"><img src="<?= TL_FILES_URL ?>system/themes/<?= $this->theme ?>/images/<?= $arrModules['icon'] ?>" width="16" height="16" alt=""><?= $arrModules['label'] ?></a></li>
-                                        <?php if ($arrModules['modules']): ?>
-                                            <li class="tl_parent" id="<?= $strGroup ?>">
-                                                <ul class="tl_level_2">
-                                                    <?php foreach ($arrModules['modules'] as $arrConfig): ?>
-                                                        <li><a href="<?= $arrConfig['href'] ?>" class="<?= $arrConfig['class'] ?>" title="<?= $arrConfig['title'] ?>"<?= $arrConfig['icon'] ?>><?= $arrConfig['label'] ?></a></li>
-                                                    <?php endforeach; ?>
-                                                </ul>
-                                            </li>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
-                                </ul>
-                                <a id="skipNavigation" class="invisible">&nbsp;</a>
+                <?php if ($this->isMaintenanceMode): ?>
+                    <div class="card hoverable red lighten-2">
+                        <div class="card-content white-text">
+                            <p><?= $this->maintenanceMode ?></p>
+                        </div>
+                        <?php if ($this->isAdmin): ?>
+                            <div class="card-action">
+                                <a href="<?= $this->maintenanceHref ?>" class="white-text"><?= $this->maintenanceOff ?></a>
                             </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if ($this->needsCacheBuild): ?>
+                    <div class="card hoverable red lighten-2">
+                        <div class="card-content white-text">
+                            <p><?= $this->buildCacheText ?></p>
+                        </div>
+                        <?php if ($this->isAdmin): ?>
+                            <div class="card-action">
+                                <a href="<?= $this->maintenanceHref ?>" class="white-text"><?= $this->buildCacheLink ?></a>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+
+            <div class="card">
+                <div class="card-content">
+                    <h1 class="card-title"><?= $this->headline ?></h1>
+
+                    <?php if ($this->managerHref): ?>
+                        <div id="manager">
+                            <a href="<?= $this->managerHref ?>" class="close" title="<?= specialchars($this->manager) ?>"><?= $this->manager ?></a>
                         </div>
                     <?php endif; ?>
 
-                    <div id="main">
-                        <h1 class="main_headline"><?= $this->headline ?></h1>
-                        <?php if ($this->managerHref): ?>
-                            <div id="manager">
-                                <a href="<?= $this->managerHref ?>" class="close" title="<?= specialchars($this->manager) ?>"><?= $this->manager ?></a>
-                            </div>
-                        <?php endif; ?>
-                        <?php if ($this->error): ?>
-                            <p class="tl_gerror"><?= $this->error ?></p>
-                        <?php endif; ?>
-                        <?= $this->main ?>
-                    </div>
+                    <?php if ($this->error): ?>
+                        <p class="tl_gerror"><?= $this->error ?></p>
+                    <?php endif; ?>
 
-                    <div class="clear"></div>
-
+                    <?= $this->main ?>
                 </div>
+            </div>
+        </div>
+    </main>
 
-                <?php if (!$this->isPopup): ?>
-                    <div id="footer">
-                        <div>
-                            <span class="footer_top_container"><a href="<?= $this->request ?>#top" class="footer_top" title="<?= $this->backToTop ?>" accesskey="t"><?= $this->top ?></a></span>
-                            <span class="footer_preview_container"><a href="contao/preview.php<?= $this->frontendFile ?>" target="_blank" class="footer_preview" title="<?= $this->previewTitle ?>"><?= $this->preview ?></a></span>
-                        </div>
-                    </div>
+    <?php if (!$this->isPopup): ?>
+        <div id="footer">
+            <div>
+                <span class="footer_top_container"><a href="<?= $this->request ?>#top" class="footer_top" title="<?= $this->backToTop ?>" accesskey="t"><?= $this->top ?></a></span>
+                <span class="footer_preview_container"><a href="contao/preview.php<?= $this->frontendFile ?>" target="_blank" class="footer_preview" title="<?= $this->previewTitle ?>"><?= $this->preview ?></a></span>
+            </div>
+        </div>
 
-                    <?php if ($this->pageOffset): ?>
-                        <script>Backend.vScrollTo($('paste_hint') ? <?= $this->pageOffset + 20 ?> : <?= $this->pageOffset ?>)</script>
-                        <?php System::setCookie('BE_PAGE_OFFSET', 0, 0); ?>
-                    <?php endif; ?>
-                <?php endif; ?>
+        <?php if ($this->pageOffset): ?>
+            <script>Backend.vScrollTo($('paste_hint') ? <?= $this->pageOffset + 20 ?> : <?= $this->pageOffset ?>)</script>
+            <?php System::setCookie('BE_PAGE_OFFSET', 0, 0); ?>
+        <?php endif; ?>
+    <?php endif; ?>
 
-                <?= $this->mootools ?>
+    <script type="text/javascript">
+    $(".button-collapse").sideNav()
+    $('#modules-nav .collapsible-header').click(function(e) { e.preventDefault() })
+    </script>
 
-            </body>
-            </html>
+    <?= ''//$this->mootools ?>
+
+</body>
+</html>

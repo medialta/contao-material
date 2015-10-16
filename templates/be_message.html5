@@ -1,0 +1,3 @@
+<div class="card-panel <?= $this->cssClass ?>">
+    <p><?= $this->message ?></p>
+</div>

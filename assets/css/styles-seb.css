@@ -1,3 +1,10 @@
+/**
+ * LAYOUT
+ */
+html {
+    color: #272727;
+}
+
 body {
     display: flex;
     min-height: 100vh;
@@ -67,3 +74,37 @@ footer {
             min-height: 0;
             line-height: 1.5;
         }
+
+/**
+ * STYLES
+ */
+.card {
+
+}
+    .card .card-title {
+        color: inherit;
+    }
+
+        .card > .card-content:first-child > .card-title:first-child {
+            margin-top: 0;
+        }
+
+.card-panel {
+    color: #fff;
+}
+
+    .card-panel.-error {
+        background-color: #E57373;
+    }
+
+    .card-panel.-confirm {
+        background-color: #81c784;
+    }
+
+    .card-panel.-new {
+        background-color: #fbc02d;
+    }
+
+    .card-panel.-info {
+        background-color: #64b5f6;
+    }

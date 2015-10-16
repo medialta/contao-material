@@ -135,9 +135,13 @@
                 <?php endif; ?>
             </div>
 
+            <?php if (\Input::get('do') || \Input::get('act')): // Do not display a card on welcome screen ?>
             <div class="card">
                 <div class="card-content">
                     <h1 class="card-title"><?= $this->headline ?></h1>
+            <?php else: ?>
+            <h1><?= $this->headline ?></h1>
+            <?php endif; ?>
 
                     <?php if ($this->managerHref): ?>
                         <div id="manager">
@@ -150,8 +154,10 @@
                     <?php endif; ?>
 
                     <?= $this->main ?>
+            <?php if (\Input::get('do') || \Input::get('act')): // Do not display a card on welcome screen ?>
                 </div>
             </div>
+            <?php endif; ?>
         </div>
     </main>
 

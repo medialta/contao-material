@@ -25,6 +25,7 @@ ClassLoader::addNamespaces(array
 ClassLoader::addClasses(array
 (
 	// Classes
+	'ContaoMaterial\Message'    => 'system/modules/contao-material/classes/Message.php',
 	'ContaoMaterial\Helper'     => 'system/modules/contao-material/classes/Helper.php',
 	'Contao\Database\Installer' => 'system/modules/contao-material/classes/Installer.php',
 ));
@@ -68,5 +69,6 @@ TemplateLoader::addFiles(array
 	'be_referer'       => 'system/modules/contao-material/templates',
 	'be_preview'       => 'system/modules/contao-material/templates',
 	'be_purge_data'    => 'system/modules/contao-material/templates',
+	'be_message'       => 'system/modules/contao-material/templates',
 	'be_error'         => 'system/modules/contao-material/templates',
 ));

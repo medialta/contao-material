@@ -17,3 +17,43 @@ footer {
         width: calc(70% + 240px);
     }
 }
+
+.side-nav {
+    line-height: 1.5;
+}
+
+    .side-nav .collapsible {
+
+    }
+
+        .side-nav .collapsible li {
+            min-height: 0;
+        }
+
+        .side-nav .collapsible .collapsible-header {
+            padding-top: 12px;
+            padding-bottom: 12px;
+        }
+
+        .side-nav .collapsible-body li {
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+
+        .side-nav .collapsible li::before,
+        .side-nav .collapsible a,
+        .side-nav.fixed .collapsible a {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .side-nav .collapsible li::before {
+            content: "";
+            min-height: inherit;
+        }
+
+        .side-nav .collapsible a {
+            height: auto;
+            min-height: 0;
+            line-height: 1.5;
+        }

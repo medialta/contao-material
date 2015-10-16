@@ -10,6 +10,25 @@
 
 
 /**
+ * Register the namespaces
+ */
+ClassLoader::addNamespaces(array
+(
+	'ContaoMaterial',
+));
+
+
+/**
+ * Register the classes
+ */
+ClassLoader::addClasses(array
+(
+	// Classes
+	'ContaoMaterial\Helper'     => 'system/modules/contao-material/classes/Helper.php',
+));
+
+
+/**
  * Register the templates
  */
 TemplateLoader::addFiles(array

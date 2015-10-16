@@ -10,3 +10,9 @@
  * @license   GNU/LGPL
  * @copyright Medialta 2015
  */
+
+
+/**
+ * Hooks
+ */
+$GLOBALS['TL_HOOKS']['postLogin'][] = array('Helper', 'postLogin');

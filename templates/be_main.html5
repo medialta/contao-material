@@ -156,16 +156,21 @@
     </main>
 
     <?php if (!$this->isPopup): ?>
-        <div id="footer">
-            <div>
-                <span class="footer_top_container"><a href="<?= $this->request ?>#top" class="footer_top" title="<?= $this->backToTop ?>" accesskey="t"><?= $this->top ?></a></span>
-                <span class="footer_preview_container"><a href="contao/preview.php<?= $this->frontendFile ?>" target="_blank" class="footer_preview" title="<?= $this->previewTitle ?>"><?= $this->preview ?></a></span>
+        <footer class="page-footer orange lighten-2">
+            <div class="container">
+                <div class="row">
+                    <span>
+                        Contao Material Design by <a href="http://www.medialta.com" class="white-text" target="_blank">Medialta</a>
+                    </span>
+                    <a href="<?= $this->request ?>#top" class="white-text right" title="<?= $this->backToTop ?>" accesskey="t"><?= $this->top ?></a>
+                    <a href="contao/preview.php<?= $this->frontendFile ?>" class="white-text right" target="_blank" title="<?= $this->previewTitle ?>"><?= $this->preview ?></a>
+                </div>
             </div>
-        </div>
+        </footer>
 
         <?php if ($this->pageOffset): ?>
-            <script>Backend.vScrollTo($('paste_hint') ? <?= $this->pageOffset + 20 ?> : <?= $this->pageOffset ?>)</script>
-            <?php System::setCookie('BE_PAGE_OFFSET', 0, 0); ?>
+            <script>//Backend.vScrollTo($('paste_hint') ? <?= $this->pageOffset + 20 ?> : <?= $this->pageOffset ?>)</script>
+            <?php //System::setCookie('BE_PAGE_OFFSET', 0, 0); ?>
         <?php endif; ?>
     <?php endif; ?>
 

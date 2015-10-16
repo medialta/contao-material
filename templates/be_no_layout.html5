@@ -17,14 +17,14 @@ $lang = (object) $GLOBALS['TL_LANG']['XPT'];
 
     <style><?php
     include TL_ROOT . '/system/modules/contao-material/assets/css/materialize.min.css';
+    include TL_ROOT . '/system/modules/contao-material/assets/css/styles.css';
     ?></style>
-
 </head>
 <body class="<?= Environment::get('agent')->class ?> orange lighten-1">
     <div class="row">
         <div class="card" style="max-width:600px;margin:20px auto;">
             <div class="card-content">
-                <h1 class="card-title grey-text text-darken-4"><?= $lang->noLayout ?></h1>
+                <h1 class="grey-text text-darken-4"><?= $lang->noLayout ?></h1>
                 <hr>
                 <div class="row">
                     <h3><?= $lang->matter ?></h3>

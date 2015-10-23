@@ -15,7 +15,6 @@
 ClassLoader::addNamespaces(array
 (
 	'ContaoMaterial',
-	'Contao',
 ));
 
 
@@ -25,9 +24,9 @@ ClassLoader::addNamespaces(array
 ClassLoader::addClasses(array
 (
 	// Classes
-	'ContaoMaterial\Message'    => 'system/modules/contao-material/classes/Message.php',
-	'ContaoMaterial\Helper'     => 'system/modules/contao-material/classes/Helper.php',
-	'Contao\Database\Installer' => 'system/modules/contao-material/classes/Installer.php',
+	'ContaoMaterial\Message'            => 'system/modules/contao-material/classes/Message.php',
+	'ContaoMaterial\Helper'             => 'system/modules/contao-material/classes/Helper.php',
+	'ContaoMaterial\Database\Installer' => 'system/modules/contao-material/classes/Installer.php',
 ));
 
 

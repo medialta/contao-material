@@ -8,56 +8,45 @@
     <meta name="generator" content="Contao Open Source CMS">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-    <link rel="stylesheet" href="<?php
-    $objCombiner = new Combiner();
-    $objCombiner->add('system/themes/'. $this->theme .'/basic.css');
-    $objCombiner->add('system/themes/'. $this->theme .'/confirm.css');
-    echo $objCombiner->getCombinedFile();
-    ?>">
+    <link rel="stylesheet" href="/system/modules/contao-material/assets/css/materialize.min.css">
+    <link rel="stylesheet" href="/system/modules/contao-material/assets/css/login.css">
+    <link rel="stylesheet" href="/system/modules/contao-material/assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--[if IE]><link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/themes/<?= $this->theme ?>/iefixes.css"><![endif]-->
     <?= $this->stylesheets ?>
 
-    <script><?= $this->getLocaleString() ?></script>
-    <script src="<?php
-    $objCombiner = new Combiner();
-    $objCombiner->add('assets/mootools/core/' . $GLOBALS['TL_ASSETS']['MOOTOOLS'] . '/mootools.js', $GLOBALS['TL_ASSETS']['MOOTOOLS']);
-    $objCombiner->add('assets/mootools/mootao/Mootao.js');
-    $objCombiner->add('assets/contao/js/core.js');
-    echo $objCombiner->getCombinedFile();
-    ?>"></script>
-    <script><?= $this->getDateString() ?></script>
+    <script type="text/javascript" src="/system/modules/contao-material/assets/js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="/system/modules/contao-material/assets/js/materialize.min.js"></script>
     <?= $this->javascripts ?>
     <!--[if lt IE 9]><script src="<?= TL_ASSETS_URL ?>assets/html5shiv/<?= $GLOBALS['TL_ASSETS']['HTML5SHIV'] ?>/html5shiv.min.js"></script><![endif]-->
 
 </head>
-<body class="<?= $this->ua ?>">
-
-    <div id="header">
-        <h1>Contao Open Source CMS <?= VERSION ?></h1>
-    </div>
-
-    <div id="container">
-
-        <div id="main">
-            <p><img src="system/themes/<?= $this->theme ?>/images/stop.png" width="128" height="128" alt=""></p>
-            <form action="contao/confirm.php" class="tl_form" method="post">
-                <div class="tl_formbody_edit">
-                    <input type="hidden" name="FORM_SUBMIT" value="invalid_token_url">
-                    <input type="hidden" name="REQUEST_TOKEN" value="<?= REQUEST_TOKEN ?>">
-                    <p id="link"><?= $this->link ?></p>
-                    <dl>
-                        <?php foreach ($this->info as $key=>$info): ?>
-                            <dt><?= $this->labels[$key] ?></dt>
-                            <dd><?= $info ?></dd>
-                        <?php endforeach; ?>
-                    </dl>
-                    <p><?= $this->explain ?></p>
-                    <p><input type="submit" name="cancel" class="tl_submit" accesskey="s" value="<?= $this->cancel ?>"> <a href="<?= $this->href ?>"><?= $this->continue ?></a></p>
+<body class="<?= $this->ua ?> orange lighten-1">
+    <div class="row">
+        <div class="card" style="max-width:600px;margin:20px auto;">
+            <div class="card-content">
+                <h1 class="grey-text text-darken-4">Contao Open Source CMS <?= VERSION ?></h1>
+                <hr>
+                <div class="row">
+                    <p><img src="system/themes/<?= $this->theme ?>/images/stop.png" width="128" height="128" alt=""></p>
+                    <form action="contao/confirm.php" class="tl_form" method="post">
+                        <div class="tl_formbody_edit">
+                            <input type="hidden" name="FORM_SUBMIT" value="invalid_token_url">
+                            <input type="hidden" name="REQUEST_TOKEN" value="<?= REQUEST_TOKEN ?>">
+                            <p id="link"><?= $this->link ?></p>
+                            <dl>
+                                <?php foreach ($this->info as $key=>$info): ?>
+                                    <dt><?= $this->labels[$key] ?></dt>
+                                    <dd><?= $info ?></dd>
+                                <?php endforeach; ?>
+                            </dl>
+                            <p><?= $this->explain ?></p>
+                            <p><button type="submit" name="cancel" class="btn grey lighten-2 waves-effect waves-light" accesskey="s"><?= $this->cancel ?></button> <a class="btn orange lighten-1 waves-effect waves-light" href="<?= $this->href ?>"><?= $this->continue ?></a></p>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
-
     </div>
-
 </body>
 </html>

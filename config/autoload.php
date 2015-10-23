@@ -27,6 +27,9 @@ ClassLoader::addClasses(array
 	'ContaoMaterial\Message'            => 'system/modules/contao-material/classes/Message.php',
 	'ContaoMaterial\Helper'             => 'system/modules/contao-material/classes/Helper.php',
 	'ContaoMaterial\Database\Installer' => 'system/modules/contao-material/classes/Installer.php',
+
+	// Drivers
+	'ContaoMaterial\DC_Table'           => 'system/modules/contao-material/drivers/DC_Table.php',
 ));
 
 

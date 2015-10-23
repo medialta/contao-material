@@ -22,3 +22,8 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s;
 }
+.w50 {
+    width: 50%;
+    float: left;
+}
+/* $('link:not(link[href^="system/modules/contao-material"], link[href^="system/modules/contao-material"] ~ link)').detach() */

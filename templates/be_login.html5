@@ -21,7 +21,7 @@
     <!--[if lt IE 9]><script src="<?= TL_ASSETS_URL ?>assets/html5shiv/<?= $GLOBALS['TL_ASSETS']['HTML5SHIV'] ?>/html5shiv.min.js"></script><![endif]-->
 
 </head>
-<body class="<?= $this->ua ?> login orange lighten-1">
+<body class="<?= $this->ua ?> login grey lighten-3">
 
     <!--[if lte IE 6]>
     <div id="ie6warning"><?= $this->ie6warning ?></div>

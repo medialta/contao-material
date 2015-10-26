@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/themes/<?= $this->theme ?>/fonts.css">
     <?php endif; ?>
     <link rel="stylesheet" href="<?php
-    $objCombiner = new Combiner();
+    /*$objCombiner = new Combiner();
     $objCombiner->add('assets/mootools/colorpicker/'. $GLOBALS['TL_ASSETS']['COLORPICKER'] .'/css/mooRainbow.css', $GLOBALS['TL_ASSETS']['COLORPICKER']);
     $objCombiner->add('assets/mootools/chosen/chosen.css');
     $objCombiner->add('assets/mootools/stylect/css/stylect.css');
@@ -20,7 +20,7 @@
     $objCombiner->add('assets/mootools/datepicker/'. $GLOBALS['TL_ASSETS']['DATEPICKER'] .'/datepicker.css', $GLOBALS['TL_ASSETS']['DATEPICKER']);
     $objCombiner->add('system/themes/'. $this->theme .'/basic.css');
     $objCombiner->add('system/themes/'. $this->theme .'/main.css');
-    echo $objCombiner->getCombinedFile();
+    echo $objCombiner->getCombinedFile();*/
     ?>">
     <!--[if IE]><link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/themes/<?= $this->theme ?>/iefixes.css"><![endif]-->
     <?= $this->stylesheets ?>
@@ -31,6 +31,7 @@
 
     <script type="text/javascript" src="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/js/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/js/materialize.min.js"></script>
+    <script type="text/javascript" src="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/js/main.js"></script>
     <script><?= $this->getLocaleString() ?></script>
     <script><?= ''//$this->getDateString() ?></script>
     <?= ''//$this->javascripts ?>

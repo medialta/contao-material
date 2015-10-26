@@ -108,7 +108,7 @@ class DC_Table extends \Contao\DC_Table {
                 }
             }
 
-            $class = 'tl_tbox';
+            $class = '';
             $fs = $this->Session->get('fieldset_states');
             $blnIsFirst = true;
 
@@ -204,7 +204,7 @@ class DC_Table extends \Contao\DC_Table {
                     $blnAjax ? $strAjax .= $this->row($this->strPalette) : $return .= $this->row($this->strPalette);
                 }
 
-                $class = 'tl_box';
+                $class = '';
                 $return .= "\n" . '</div></li>';
             }
         }
@@ -525,7 +525,7 @@ class DC_Table extends \Contao\DC_Table {
 
 <div class="tl_search tl_subpanel">
 <strong>' . $GLOBALS['TL_LANG']['MSC']['search'] . ':</strong>
-<select name="tl_field" class="browser-default' . ($active ? ' active' : '') . '">
+<select name="tl_field" class="' . ($active ? ' active' : '') . '">
 '.implode("\n", $options_sorter).'
 </select>
 <span> = </span>
@@ -615,7 +615,7 @@ class DC_Table extends \Contao\DC_Table {
 
 <div class="tl_sorting tl_subpanel">
 <strong>' . $GLOBALS['TL_LANG']['MSC']['sortBy'] . ':</strong>
-<select name="tl_sort" id="tl_sort" class="browser-default">
+<select name="tl_sort" id="tl_sort" class="">
 '.implode("\n", $options_sorter).'
 </select>
 </div>';
@@ -849,7 +849,7 @@ class DC_Table extends \Contao\DC_Table {
             }
 
             $fields = '
-<select name="tl_limit" class="browser-default' . (($session['filter'][$filter]['limit'] != 'all' && $this->total > \Config::get('resultsPerPage')) ? ' active' : '') . '" onchange="this.form.submit()">
+<select name="tl_limit" class="' . (($session['filter'][$filter]['limit'] != 'all' && $this->total > \Config::get('resultsPerPage')) ? ' active' : '') . '" onchange="this.form.submit()">
   <option value="tl_limit">'.$GLOBALS['TL_LANG']['MSC']['filterRecords'].'</option>'.$options.'
 </select> ';
         }

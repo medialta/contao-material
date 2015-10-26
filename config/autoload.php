@@ -24,12 +24,17 @@ ClassLoader::addNamespaces(array
 ClassLoader::addClasses(array
 (
 	// Classes
+	'ContaoMaterial\DataContainer'      => 'system/modules/contao-material/classes/DataContainer.php',
 	'ContaoMaterial\Message'            => 'system/modules/contao-material/classes/Message.php',
 	'ContaoMaterial\Helper'             => 'system/modules/contao-material/classes/Helper.php',
 	'ContaoMaterial\Database\Installer' => 'system/modules/contao-material/classes/Installer.php',
 
 	// Drivers
 	'ContaoMaterial\DC_Table'           => 'system/modules/contao-material/drivers/DC_Table.php',
+
+	// Widgets
+	'ContaoMaterial\SelectMenu'         => 'system/modules/contao-material/widgets/SelectMenu.php',
+	'ContaoMaterial\TextField'          => 'system/modules/contao-material/widgets/TextField.php',
 ));
 
 

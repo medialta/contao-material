@@ -1,4 +1,4 @@
 $(document).ready(function() {
-    $('select').material_select();
+    $('select').select2();
     $('.tooltipped').tooltip({delay: 50});
 });

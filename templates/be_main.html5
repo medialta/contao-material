@@ -144,24 +144,22 @@
                     <img src="http://placehold.it/1280x300" width="1280" height="300" alt="" />
                     <h1 class="card-title -main"><?= $this->headline ?></h1>
                 </div>
-                <div class="card-content -main">
             <?php else: ?>
             <h1><?= $this->headline ?></h1>
             <?php endif; ?>
 
-                    <?php if ($this->managerHref): ?>
-                        <div id="manager">
-                            <a href="<?= $this->managerHref ?>" class="close" title="<?= specialchars($this->manager) ?>"><?= $this->manager ?></a>
-                        </div>
-                    <?php endif; ?>
+                <?php if ($this->managerHref): ?>
+                    <div id="manager">
+                        <a href="<?= $this->managerHref ?>" class="close" title="<?= specialchars($this->manager) ?>"><?= $this->manager ?></a>
+                    </div>
+                <?php endif; ?>
 
-                    <?php if ($this->error): ?>
-                        <p class="tl_gerror"><?= $this->error ?></p>
-                    <?php endif; ?>
+                <?php if ($this->error): ?>
+                    <p class="tl_gerror"><?= $this->error ?></p>
+                <?php endif; ?>
 
-                    <?= $this->main ?>
+                <?= $this->main ?>
             <?php if (\Input::get('do') || \Input::get('act')): // Do not display a card on welcome screen ?>
-                </div>
             </div>
             <?php endif; ?>
         </div>

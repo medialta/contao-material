@@ -76,6 +76,36 @@ footer {
         }
 
 /**
+ * MAIN
+ **/
+.card.-main {
+
+}
+
+    .card-content.-main {
+        position: relative;
+    }
+
+    .card-image.-main {
+
+    }
+
+    .card-title.-main {
+
+    }
+
+    .filters-form {
+        position: relative;
+    }
+
+    .card.-main .header-new {
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(-50%, -50%);
+    }
+
+/**
  * STYLES
  */
 .card {

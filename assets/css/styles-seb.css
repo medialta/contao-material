@@ -108,3 +108,10 @@ footer {
     .card-panel.-info {
         background-color: #64b5f6;
     }
+
+    .card-panel a {
+        display: inline-block;
+        color: #fff;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+    }

@@ -24,7 +24,7 @@ namespace ContaoMaterial;
 *     Message::addNew('There are two new messages');
 *     Message::addInfo('You can upload only two files');
 *
-* @author Leo Feyer <https://github.com/leofeyer>
+* @author Medialta <http://www.medialta.com>
 */
 class Message extends \Contao\Message
 {
@@ -35,7 +35,7 @@ class Message extends \Contao\Message
      *
      * @return string CSS class
      */
-    protected static function getCssClass($type)
+    public static function getCssClass($type)
     {
         return '-' . strtolower(substr($type, 3));
     }
@@ -71,11 +71,7 @@ class Message extends \Contao\Message
                 }
                 else
                 {
-                    $template = new \BackendTemplate('be_message');
-                    $template->cssClass = $strClass;
-                    $template->message = $strMessage;
-
-                    $strMessages .= $template->parse();
+                    $strMessages .= self::parseMessage($strClass, $strMessage);
                 }
             }
 
@@ -94,5 +90,22 @@ class Message extends \Contao\Message
         }
 
         return $strMessages;
+    }
+
+    /**
+     * Returns a HTML message generated from a CSS class and a message
+     *
+     * @param string CSS class
+     * @param string text message
+     *
+     * @return string The HTML markup
+     */
+    public static function parseMessage($class, $message)
+    {
+        $template = new \BackendTemplate('be_message');
+        $template->cssClass = $class;
+        $template->message = $message;
+
+        return $template->parse();
     }
 }

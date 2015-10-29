@@ -91,7 +91,7 @@ footer {
     }
 
     .card-title.-main {
-
+        margin-bottom: 52px;
     }
 
     .filters-form {
@@ -103,6 +103,16 @@ footer {
         top: 0;
         right: 0;
         transform: translate(-50%, -50%);
+    }
+
+    .toggle-buttons.-main {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        padding-left: 20px;
+        padding-right: 20px;
     }
 
 /**
@@ -145,3 +155,10 @@ footer {
         border-bottom-style: solid;
         border-bottom-width: 1px;
     }
+
+.btn-icon {
+    width: 36px;
+    padding: 0;
+    border-radius: 100%;
+    text-align: center;
+}

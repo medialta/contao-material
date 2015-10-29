@@ -16,8 +16,8 @@ namespace ContaoMaterial;
  * @author Leo Feyer <https://github.com/leofeyer>
  * @author Andreas Schempp <https://github.com/aschempp>
  */
-class DC_Table extends \Contao\DC_Table {
-
+class DC_Table extends \Contao\DC_Table
+{
     public function edit($intId=null, $ajaxId=null)
     {
         if ($GLOBALS['TL_DCA'][$this->strTable]['config']['notEditable'])
@@ -523,8 +523,8 @@ class DC_Table extends \Contao\DC_Table {
             {
                 $submit = '
 
-                <div class="tl_submit_panel tl_subpanel card-action">
-                <button type="submit" class="waves-effect btn-flat" title="' . specialchars($GLOBALS['TL_LANG']['MSC']['applyTitle']) . '"><i class="material-icons left">refresh</i> ' . specialchars($GLOBALS['TL_LANG']['MSC']['apply']) . '</button>
+                <div class="tl_submit_panel tl_subpanel card-action" id="submit-subpanel">
+                <button type="submit" class="btn waves-effect grey lighten-5 black-text" title="' . specialchars($GLOBALS['TL_LANG']['MSC']['applyTitle']) . '"><i class="material-icons left">refresh</i> ' . specialchars($GLOBALS['TL_LANG']['MSC']['apply']) . '</button>
                 </div>';
             }
 
@@ -675,7 +675,7 @@ class DC_Table extends \Contao\DC_Table {
 
         return '
 
-        <div class="tl_limit tl_subpanel card-action row">
+        <div class="tl_limit tl_subpanel card-action row" id="limit-subpanel">
         <div class="col m12"><strong>' . $GLOBALS['TL_LANG']['MSC']['showOnly'] . ':</strong></div> '.$fields.'
         </div>';
     }
@@ -1500,7 +1500,7 @@ class DC_Table extends \Contao\DC_Table {
 
 		return '
 
-        <div class="tl_filter tl_subpanel card-action row">
+        <div class="tl_filter tl_subpanel card-action row" id="filter-subpanel">
         <div class="col m12"><strong>' . $GLOBALS['TL_LANG']['MSC']['filter'] . ':</strong></div> ' . $fields . '
         </div>';
 	}
@@ -1593,7 +1593,7 @@ class DC_Table extends \Contao\DC_Table {
 
 		return '
 
-        <div class="tl_search tl_subpanel card-action row">
+        <div class="tl_search tl_subpanel card-action row" id="search-subpanel">
         <div class="col m12"><strong>' . $GLOBALS['TL_LANG']['MSC']['search'] . ':</strong></div>
         <div class="col m4 l3">
         <select name="tl_field" class="tl_select' . ($active ? ' active' : '') . '">
@@ -1692,7 +1692,7 @@ class DC_Table extends \Contao\DC_Table {
 
 		return '
 
-        <div class="tl_sorting tl_subpanel card-action row">
+        <div class="tl_sorting tl_subpanel card-action row" id="sorting-subpanel">
         <div class="col m12"><strong>' . $GLOBALS['TL_LANG']['MSC']['sortBy'] . ':</strong></div>
         <div class="col m4 l3">
         <select name="tl_sort" id="tl_sort" class="tl_select">

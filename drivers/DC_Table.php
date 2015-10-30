@@ -825,7 +825,8 @@ class DC_Table extends \Contao\DC_Table
             <div class="listing-container list_view">'.((\Input::get('act') == 'select') ? '
 
             <div class="select-trigger">
-            <label for="select-trigger" class="select-label">'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</label> <input type="checkbox" id="select-trigger" onclick="Backend.toggleCheckboxes(this)" class="tree-checkbox">
+            <input type="checkbox" id="select-trigger" onclick="Backend.toggleCheckboxes(this)" class="tree-checkbox">
+            <label for="select-trigger" class="select-trigger-label">'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</label>
             </div>' : '').'
 
             <table class="listing' . ($GLOBALS['TL_DCA'][$this->strTable]['list']['label']['showColumns'] ? ' showColumns' : '') . ' bordered highlight responsive-table">';
@@ -1042,7 +1043,7 @@ class DC_Table extends \Contao\DC_Table
 
                 // Buttons ($row, $table, $root, $blnCircularReference, $childs, $previous, $next)
                 $return .= ((\Input::get('act') == 'select') ? '
-                <td class="item actions"><input type="checkbox" name="IDS[]" id="ids_'.$row['id'].'" class="tree-checkbox" value="'.$row['id'].'"></td>' : '
+                <td class="item actions -select"><input type="checkbox" name="IDS[]" id="ids_'.$row['id'].'" class="tree-checkbox" value="'.$row['id'].'"><label for="ids_'.$row['id'].'"></label></td>' : '
                 <td class="item actions">'.$this->generateButtons($row, $this->strTable, $this->root).'</td>') . '
                 </tr>';
             }

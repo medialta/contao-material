@@ -30,8 +30,12 @@ var toggleSubpanel = function(e)
 }
 
 $(document).ready(function() {
-    $('select').select2();
-    $('.tooltipped').tooltip({delay: 50});
+    $(".button-collapse").sideNav()
+    $('#modules-nav .collapsible-header').click(function(e) { e.preventDefault() })
+
     hideUnnecessaryToggles()
     $('.js-toggle-subpanel').click(toggleSubpanel)
+
+    $('select').select2();
+    $('.tooltipped').tooltip({delay: 50});
 });

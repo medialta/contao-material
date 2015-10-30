@@ -1120,12 +1120,12 @@ class DC_Table extends \Contao\DC_Table
     protected function treeView()
     {
         $table = $this->strTable;
-        $treeClass = 'tl_tree';
+        $treeClass = 'tree';
 
         if ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 6)
         {
             $table = $this->ptable;
-            $treeClass = 'tl_tree_xtnd';
+            $treeClass = 'tree-extended';
 
             \System::loadLanguageFile($table);
             $this->loadDataContainer($table);
@@ -1163,15 +1163,13 @@ class DC_Table extends \Contao\DC_Table
         // Return if a mandatory field (id, pid, sorting) is missing
         if ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 5 && (!$this->Database->fieldExists('id', $table) || !$this->Database->fieldExists('pid', $table) || !$this->Database->fieldExists('sorting', $table)))
         {
-            return '
-            <p class="tl_empty">Table "'.$table.'" can not be shown as tree, because the "id", "pid" or "sorting" field is missing!</p>';
+            return \Message::parseMessage(\Message::getCssClass('tl_info'), 'Table "'.$table.'" can not be shown as tree, because the "id", "pid" or "sorting" field is missing!');
         }
 
         // Return if there is no parent table
         if ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 6 && !strlen($this->ptable))
         {
-            return '
-            <p class="tl_empty">Table "'.$table.'" can not be shown as extended tree, because there is no parent table!</p>';
+            return \Message::parseMessage(\Message::getCssClass('tl_info'), 'Table "'.$table.'" can not be shown as extended tree, because there is no parent table!');
         }
 
         $blnClipboard = false;
@@ -1279,14 +1277,15 @@ class DC_Table extends \Contao\DC_Table
         // Return if there are no records
         if ($tree == '' && \Input::get('act') != 'paste')
         {
-            return $return . '
-            <p class="tl_empty">'.$GLOBALS['TL_LANG']['MSC']['noResult'].'</p>';
+            return $return . \Message::parseMessage(\Message::getCssClass('tl_info'), $GLOBALS['TL_LANG']['MSC']['noResult']);
         }
+
+        $return .= '<div class="card-content">';
 
         $return .= ((\Input::get('act') == 'select') ? '
 
-        <form action="'.ampersand(\Environment::get('request'), true).'" id="tl_select" class="tl_form'.((\Input::get('act') == 'select') ? ' unselectable' : '').'" method="post" novalidate>
-        <div class="tl_formbody">
+        <form action="'.ampersand(\Environment::get('request'), true).'" id="tl_select" class="form'.((\Input::get('act') == 'select') ? ' unselectable' : '').'" method="post" novalidate>
+        <div class="formbody">
         <input type="hidden" name="FORM_SUBMIT" value="tl_select">
         <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">' : '').($blnClipboard ? '
 
@@ -1294,14 +1293,14 @@ class DC_Table extends \Contao\DC_Table
         <p>'.$GLOBALS['TL_LANG']['MSC']['selectNewPosition'].'</p>
         </div>' : '').'
 
-        <div class="tl_listing_container tree_view" id="tl_listing">'.(isset($GLOBALS['TL_DCA'][$table]['list']['sorting']['breadcrumb']) ? $GLOBALS['TL_DCA'][$table]['list']['sorting']['breadcrumb'] : '').((\Input::get('act') == 'select') ? '
+        <div class="listing-container tree_view" id="listing">'.(isset($GLOBALS['TL_DCA'][$table]['list']['sorting']['breadcrumb']) ? $GLOBALS['TL_DCA'][$table]['list']['sorting']['breadcrumb'] : '').((\Input::get('act') == 'select') ? '
 
-        <div class="tl_select_trigger">
-        <label for="tl_select_trigger" class="tl_select_label">'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</label> <input type="checkbox" id="tl_select_trigger" onclick="Backend.toggleCheckboxes(this)" class="tl_tree_checkbox">
+        <div class="select-trigger">
+        <label for="tl_select_trigger" class="select-trigger-label">'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</label> <input type="checkbox" id="select-trigger" onclick="Backend.toggleCheckboxes(this)" class="tree-checkbox">
         </div>' : '').'
 
-        <ul class="tl_listing '. $treeClass .'">
-        <li class="tl_folder_top"><div class="tl_left">'.$label.'</div> <div class="tl_right">';
+        <ul class="listing '. $treeClass .'">
+        <li class="row-top"><div class="item">'.$label.'</div> <div class="actions">';
 
         $_buttons = '&nbsp;';
 
@@ -1329,7 +1328,7 @@ class DC_Table extends \Contao\DC_Table
         }
 
         // End table
-        $return .= $_buttons . '</div><div style="clear:both"></div></li>'.$tree.'
+        $return .= $_buttons . '</div></li>'.$tree.'
         </ul>
 
         </div>';
@@ -1342,24 +1341,26 @@ class DC_Table extends \Contao\DC_Table
 
             if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['notDeletable'])
             {
-                $arrButtons['delete'] = '<input type="submit" name="delete" id="delete" class="tl_submit" accesskey="d" onclick="return confirm(\''.$GLOBALS['TL_LANG']['MSC']['delAllConfirm'].'\')" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['deleteSelected']).'">';
+                $arrButtons['delete'] = '<button type="submit" name="delete" id="delete" class="btn-flat" accesskey="d" onclick="return confirm(\''.$GLOBALS['TL_LANG']['MSC']['delAllConfirm'].'\')">'.specialchars($GLOBALS['TL_LANG']['MSC']['deleteSelected']).'</button>';
             }
 
             if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['notSortable'])
             {
-                $arrButtons['cut'] = '<input type="submit" name="cut" id="cut" class="tl_submit" accesskey="x" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['moveSelected']).'">';
+                $arrButtons['cut'] = '<button type="submit" name="cut" id="cut" class="btn-flat" accesskey="x">'.specialchars($GLOBALS['TL_LANG']['MSC']['moveSelected']).'</button>';
             }
 
             if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['notCopyable'])
             {
-                $arrButtons['copy'] = '<input type="submit" name="copy" id="copy" class="tl_submit" accesskey="c" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['copySelected']).'">';
+                $arrButtons['copy'] = '<button type="submit" name="copy" id="copy" class="btn-flat" accesskey="c">'.specialchars($GLOBALS['TL_LANG']['MSC']['copySelected']).'</button>';
             }
 
             if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['notEditable'])
             {
-                $arrButtons['override'] = '<input type="submit" name="override" id="override" class="tl_submit" accesskey="v" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['overrideSelected']).'">';
-                $arrButtons['edit'] = '<input type="submit" name="edit" id="edit" class="tl_submit" accesskey="s" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['editSelected']).'">';
+                $arrButtons['override'] = '<button type="submit" name="override" id="override" class="btn-flat" accesskey="v">'.specialchars($GLOBALS['TL_LANG']['MSC']['overrideSelected']).'</button>';
+                $arrButtons['edit'] = '<button type="submit" name="edit" id="edit" class="btn" accesskey="s">'.specialchars($GLOBALS['TL_LANG']['MSC']['editSelected']).'</button>';
             }
+
+            $arrButtons = array_reverse($arrButtons);
 
             // Call the buttons_callback (see #4691)
             if (is_array($GLOBALS['TL_DCA'][$this->strTable]['select']['buttons_callback']))
@@ -1380,9 +1381,9 @@ class DC_Table extends \Contao\DC_Table
 
             $return .= '
 
-            <div class="tl_formbody_submit" style="text-align:right">
+            <div class="card-action">
 
-            <div class="tl_submit_container">
+            <div class="submit-container">
             ' . implode(' ', $arrButtons) . '
             </div>
 
@@ -1390,6 +1391,8 @@ class DC_Table extends \Contao\DC_Table
             </div>
             </form>';
         }
+
+        $return .= '</div>';
 
         return $return;
     }
@@ -1989,5 +1992,274 @@ class DC_Table extends \Contao\DC_Table
         </select>
         </div>
         </div>';
+	}
+
+    /**
+	 * Recursively generate the tree and return it as HTML string
+	 *
+	 * @param string  $table
+	 * @param integer $id
+	 * @param array   $arrPrevNext
+	 * @param boolean $blnHasSorting
+	 * @param integer $intMargin
+	 * @param array   $arrClipboard
+	 * @param boolean $blnCircularReference
+	 * @param boolean $protectedPage
+	 * @param boolean $blnNoRecursion
+	 *
+	 * @return string
+	 */
+	protected function generateTree($table, $id, $arrPrevNext, $blnHasSorting, $intMargin=0, $arrClipboard=null, $blnCircularReference=false, $protectedPage=false, $blnNoRecursion=false)
+	{
+		static $session;
+
+		$session = $this->Session->getData();
+		$node = ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 6) ? $this->strTable.'_'.$table.'_tree' : $this->strTable.'_tree';
+
+		// Toggle nodes
+		if (\Input::get('ptg'))
+		{
+			$session[$node][\Input::get('ptg')] = (isset($session[$node][\Input::get('ptg')]) && $session[$node][\Input::get('ptg')] == 1) ? 0 : 1;
+			$this->Session->setData($session);
+
+			$this->redirect(preg_replace('/(&(amp;)?|\?)ptg=[^& ]*/i', '', \Environment::get('request')));
+		}
+
+		$objRow = $this->Database->prepare("SELECT * FROM " . $table . " WHERE id=?")
+								 ->limit(1)
+								 ->execute($id);
+
+		// Return if there is no result
+		if ($objRow->numRows < 1)
+		{
+			$this->Session->setData($session);
+
+			return '';
+		}
+
+		$return = '';
+		$intSpacing = 20;
+		$childs = array();
+
+		// Add the ID to the list of current IDs
+		if ($this->strTable == $table)
+		{
+			$this->current[] = $objRow->id;
+		}
+
+		// Check whether there are child records
+		if (!$blnNoRecursion)
+		{
+			if ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 5 || $this->strTable != $table)
+			{
+				$objChilds = $this->Database->prepare("SELECT id FROM " . $table . " WHERE pid=?" . ($blnHasSorting ? " ORDER BY sorting" : ''))
+											->execute($id);
+
+				if ($objChilds->numRows)
+				{
+					$childs = $objChilds->fetchEach('id');
+				}
+			}
+		}
+
+		$blnProtected = false;
+
+		// Check whether the page is protected
+		if ($table == 'tl_page')
+		{
+			$blnProtected = ($objRow->protected || $protectedPage) ? true : false;
+		}
+
+		$session[$node][$id] = (is_int($session[$node][$id])) ? $session[$node][$id] : 0;
+		$mouseover = ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 5 || $table == $this->strTable) ? ' toggle-select"' : '"';
+
+        if (($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 5 && $objRow->type == 'root') || $table != $this->strTable)
+        {
+            $return .= "\n  " . '<li class="row-container click2edit'.$mouseover.'><div class="collapsible-header"><div class="item">';
+        }
+        else
+        {
+            $return .= "\n  " . '<div class="collapsible-body"><div class="item">';
+        }
+
+		// Calculate label and add a toggle button
+		$args = array();
+		$folderAttribute = 'style="margin-left:20px"';
+		$showFields = $GLOBALS['TL_DCA'][$table]['list']['label']['fields'];
+		$level = ($intMargin / $intSpacing + 1);
+
+		if (!empty($childs))
+		{
+			$folderAttribute = '';
+			$img = ($session[$node][$id] == 1) ? 'folMinus.gif' : 'folPlus.gif';
+			$alt = ($session[$node][$id] == 1) ? $GLOBALS['TL_LANG']['MSC']['collapseNode'] : $GLOBALS['TL_LANG']['MSC']['expandNode'];
+			$return .= '<a href="'.$this->addToUrl('ptg='.$id).'" title="'.specialchars($alt).'" onclick="Backend.getScrollOffset();return AjaxRequest.toggleStructure(this,\''.$node.'_'.$id.'\','.$level.','.$GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'].')">'.\Image::getHtml($img, '', 'style="margin-right:2px"').'</a>';
+		}
+
+		foreach ($showFields as $k=>$v)
+		{
+			// Decrypt the value
+			if ($GLOBALS['TL_DCA'][$table]['fields'][$v]['eval']['encrypt'])
+			{
+				$objRow->$v = \Encryption::decrypt(deserialize($objRow->$v));
+			}
+
+			if (strpos($v, ':') !== false)
+			{
+				list($strKey, $strTable) = explode(':', $v);
+				list($strTable, $strField) = explode('.', $strTable);
+
+				$objRef = $this->Database->prepare("SELECT " . $strField . " FROM " . $strTable . " WHERE id=?")
+										 ->limit(1)
+										 ->execute($objRow->$strKey);
+
+				$args[$k] = $objRef->numRows ? $objRef->$strField : '';
+			}
+			elseif (in_array($GLOBALS['TL_DCA'][$table]['fields'][$v]['flag'], array(5, 6, 7, 8, 9, 10)))
+			{
+				$args[$k] = \Date::parse(\Config::get('datimFormat'), $objRow->$v);
+			}
+			elseif ($GLOBALS['TL_DCA'][$table]['fields'][$v]['inputType'] == 'checkbox' && !$GLOBALS['TL_DCA'][$table]['fields'][$v]['eval']['multiple'])
+			{
+				$args[$k] = ($objRow->$v != '') ? (isset($GLOBALS['TL_DCA'][$table]['fields'][$v]['label'][0]) ? $GLOBALS['TL_DCA'][$table]['fields'][$v]['label'][0] : $v) : '';
+			}
+			else
+			{
+				$args[$k] = $GLOBALS['TL_DCA'][$table]['fields'][$v]['reference'][$objRow->$v] ?: $objRow->$v;
+			}
+		}
+
+		$label = vsprintf(((strlen($GLOBALS['TL_DCA'][$table]['list']['label']['format'])) ? $GLOBALS['TL_DCA'][$table]['list']['label']['format'] : '%s'), $args);
+
+		// Shorten the label if it is too long
+		if ($GLOBALS['TL_DCA'][$table]['list']['label']['maxCharacters'] > 0 && $GLOBALS['TL_DCA'][$table]['list']['label']['maxCharacters'] < utf8_strlen(strip_tags($label)))
+		{
+			$label = trim(\StringUtil::substrHtml($label, $GLOBALS['TL_DCA'][$table]['list']['label']['maxCharacters'])) . ' …';
+		}
+
+		$label = preg_replace('/\(\) ?|\[\] ?|\{\} ?|<> ?/', '', $label);
+
+		// Call the label_callback ($row, $label, $this)
+		if (is_array($GLOBALS['TL_DCA'][$table]['list']['label']['label_callback']))
+		{
+			$strClass = $GLOBALS['TL_DCA'][$table]['list']['label']['label_callback'][0];
+			$strMethod = $GLOBALS['TL_DCA'][$table]['list']['label']['label_callback'][1];
+
+			$this->import($strClass);
+			$return .= $this->$strClass->$strMethod($objRow->row(), $label, $this, $folderAttribute, false, $blnProtected);
+		}
+		elseif (is_callable($GLOBALS['TL_DCA'][$table]['list']['label']['label_callback']))
+		{
+			$return .= $GLOBALS['TL_DCA'][$table]['list']['label']['label_callback']($objRow->row(), $label, $this, $folderAttribute, false, $blnProtected);
+		}
+		else
+		{
+			$return .= \Image::getHtml('iconPLAIN.gif', '') . ' ' . $label;
+		}
+
+		$return .= '</div> <div class="actions">';
+		$previous = ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 6) ? $arrPrevNext['pp'] : $arrPrevNext['p'];
+		$next = ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 6) ? $arrPrevNext['nn'] : $arrPrevNext['n'];
+		$_buttons = '';
+
+		// Regular buttons ($row, $table, $root, $blnCircularReference, $childs, $previous, $next)
+		if ($this->strTable == $table)
+		{
+			$_buttons .= (\Input::get('act') == 'select') ? '<input type="checkbox" name="IDS[]" id="ids_'.$id.'" class="tree-checkbox" value="'.$id.'">' : $this->generateButtons($objRow->row(), $table, $this->root, $blnCircularReference, $childs, $previous, $next);
+		}
+
+		// Paste buttons
+		if ($arrClipboard !== false && \Input::get('act') != 'select')
+		{
+			$_buttons .= ' ';
+
+			// Call paste_button_callback(&$dc, $row, $table, $blnCircularReference, $arrClipboard, $childs, $previous, $next)
+			if (is_array($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['paste_button_callback']))
+			{
+				$strClass = $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['paste_button_callback'][0];
+				$strMethod = $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['paste_button_callback'][1];
+
+				$this->import($strClass);
+				$_buttons .= $this->$strClass->$strMethod($this, $objRow->row(), $table, $blnCircularReference, $arrClipboard, $childs, $previous, $next);
+			}
+			elseif (is_callable($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['paste_button_callback']))
+			{
+				$_buttons .= $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['paste_button_callback']($this, $objRow->row(), $table, $blnCircularReference, $arrClipboard, $childs, $previous, $next);
+			}
+			else
+			{
+				$imagePasteAfter = \Image::getHtml('pasteafter.gif', sprintf($GLOBALS['TL_LANG'][$this->strTable]['pasteafter'][1], $id));
+				$imagePasteInto = \Image::getHtml('pasteinto.gif', sprintf($GLOBALS['TL_LANG'][$this->strTable]['pasteinto'][1], $id));
+
+				// Regular tree (on cut: disable buttons of the page all its childs to avoid circular references)
+				if ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 5)
+				{
+					$_buttons .= ($arrClipboard['mode'] == 'cut' && ($blnCircularReference || $arrClipboard['id'] == $id) || $arrClipboard['mode'] == 'cutAll' && ($blnCircularReference || in_array($id, $arrClipboard['id'])) || (!empty($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root']) && !$GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['rootPaste'] && in_array($id, $this->root))) ? \Image::getHtml('pasteafter_.gif').' ' : '<a href="'.$this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=1&amp;pid='.$id.(!is_array($arrClipboard['id']) ? '&amp;id='.$arrClipboard['id'] : '')).'" title="'.specialchars(sprintf($GLOBALS['TL_LANG'][$this->strTable]['pasteafter'][1], $id)).'" onclick="Backend.getScrollOffset()">'.$imagePasteAfter.'</a> ';
+					$_buttons .= ($arrClipboard['mode'] == 'paste' && ($blnCircularReference || $arrClipboard['id'] == $id) || $arrClipboard['mode'] == 'cutAll' && ($blnCircularReference || in_array($id, $arrClipboard['id']))) ? \Image::getHtml('pasteinto_.gif').' ' : '<a href="'.$this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=2&amp;pid='.$id.(!is_array($arrClipboard['id']) ? '&amp;id='.$arrClipboard['id'] : '')).'" title="'.specialchars(sprintf($GLOBALS['TL_LANG'][$this->strTable]['pasteinto'][1], $id)).'" onclick="Backend.getScrollOffset()">'.$imagePasteInto.'</a> ';
+				}
+
+				// Extended tree
+				else
+				{
+					$_buttons .= ($this->strTable == $table) ? (($arrClipboard['mode'] == 'cut' && ($blnCircularReference || $arrClipboard['id'] == $id) || $arrClipboard['mode'] == 'cutAll' && ($blnCircularReference || in_array($id, $arrClipboard['id']))) ? \Image::getHtml('pasteafter_.gif') : '<a href="'.$this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=1&amp;pid='.$id.(!is_array($arrClipboard['id']) ? '&amp;id='.$arrClipboard['id'] : '')).'" title="'.specialchars(sprintf($GLOBALS['TL_LANG'][$this->strTable]['pasteafter'][1], $id)).'" onclick="Backend.getScrollOffset()">'.$imagePasteAfter.'</a> ') : '';
+					$_buttons .= ($this->strTable != $table) ? '<a href="'.$this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=2&amp;pid='.$id.(!is_array($arrClipboard['id']) ? '&amp;id='.$arrClipboard['id'] : '')).'" title="'.specialchars(sprintf($GLOBALS['TL_LANG'][$this->strTable]['pasteinto'][1], $id)).'" onclick="Backend.getScrollOffset()">'.$imagePasteInto.'</a> ' : '';
+				}
+			}
+		}
+
+        $return .= $_buttons . '</div></div>';
+
+        if (($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] != 5 || $objRow->type != 'root') && $table == $this->strTable && !$arrPrevNext['nn'])
+        {
+            $return .=  '</li>';
+        }
+
+		// Add the records of the table itself
+		if ($table != $this->strTable)
+		{
+			$objChilds = $this->Database->prepare("SELECT id FROM " . $this->strTable . " WHERE pid=?" . ($blnHasSorting ? " ORDER BY sorting" : ''))
+										->execute($id);
+
+			if ($objChilds->numRows)
+			{
+				$ids = $objChilds->fetchEach('id');
+
+				for ($j=0, $c=count($ids); $j<$c; $j++)
+				{
+					$return .= $this->generateTree($this->strTable, $ids[$j], array('pp'=>$ids[($j-1)], 'nn'=>$ids[($j+1)]), $blnHasSorting, ($intMargin + $intSpacing + 20), $arrClipboard, false, ($j<(count($ids)-1) || !empty($childs)));
+				}
+			}
+		}
+
+		// Begin a new submenu
+		if (!$blnNoRecursion)
+		{
+			if (!empty($childs) && $session[$node][$id] == 1)
+			{
+				$return .= '<li class="parent" id="'.$node.'-'.$id.'"><ul class="level-'.$level.' collapsible" data-collapsible="expandable">';
+			}
+
+			// Add the records of the parent table
+			if ($session[$node][$id] == 1)
+			{
+				if (is_array($childs))
+				{
+					for ($k=0, $c=count($childs); $k<$c; $k++)
+					{
+						$return .= $this->generateTree($table, $childs[$k], array('p'=>$childs[($k-1)], 'n'=>$childs[($k+1)]), $blnHasSorting, ($intMargin + $intSpacing), $arrClipboard, ((($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 5 && $childs[$k] == $arrClipboard['id']) || $blnCircularReference) ? true : false), ($blnProtected || $protectedPage));
+					}
+				}
+			}
+
+			// Close the submenu
+			if (!empty($childs) && $session[$node][$id] == 1)
+			{
+				$return .= '</ul></li>';
+			}
+		}
+
+		$this->Session->setData($session);
+
+		return $return;
 	}
 }

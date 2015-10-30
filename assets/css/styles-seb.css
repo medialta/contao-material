@@ -172,9 +172,12 @@ footer {
     }
 
     .listing .actions {
-        width: 1%;
         white-space: nowrap;
     }
+
+        table.listing .actions {
+            width: 1%;
+        }
 
     .listing.highlight > tbody > tr:hover {
         background-color: #fff3e0;

@@ -803,11 +803,12 @@ class DC_Table extends \Contao\DC_Table
             '</div>' . \Message::generate(true);
         }
 
+        $return .= '<div class="card-content">';
+
         // Return "no records found" message
         if ($objRow->numRows < 1)
         {
-            $return .= '
-            <p class="tl_empty">'.$GLOBALS['TL_LANG']['MSC']['noResult'].'</p>';
+            $return .= \Message::parseMessage(\Message::getCssClass('tl_info'), $GLOBALS['TL_LANG']['MSC']['noResult']);
         }
 
         // List records
@@ -821,13 +822,13 @@ class DC_Table extends \Contao\DC_Table
             <input type="hidden" name="FORM_SUBMIT" value="tl_select">
             <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">' : '').'
 
-            <div class="tl_listing_container list_view">'.((\Input::get('act') == 'select') ? '
+            <div class="listing-container list_view">'.((\Input::get('act') == 'select') ? '
 
-            <div class="tl_select_trigger">
-            <label for="tl_select_trigger" class="tl_select_label">'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</label> <input type="checkbox" id="tl_select_trigger" onclick="Backend.toggleCheckboxes(this)" class="tl_tree_checkbox">
+            <div class="select-trigger">
+            <label for="select-trigger" class="select-label">'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</label> <input type="checkbox" id="select-trigger" onclick="Backend.toggleCheckboxes(this)" class="tree-checkbox">
             </div>' : '').'
 
-            <table class="tl_listing' . ($GLOBALS['TL_DCA'][$this->strTable]['list']['label']['showColumns'] ? ' showColumns' : '') . '">';
+            <table class="listing' . ($GLOBALS['TL_DCA'][$this->strTable]['list']['label']['showColumns'] ? ' showColumns' : '') . ' bordered highlight responsive-table">';
 
             // Automatically add the "order by" field as last column if we do not have group headers
             if ($GLOBALS['TL_DCA'][$this->strTable]['list']['label']['showColumns'])
@@ -869,17 +870,17 @@ class DC_Table extends \Contao\DC_Table
                     }
 
                     $return .= '
-                    <th class="tl_folder_tlist col_' . $f . (($f == $firstOrderBy) ? ' ordered_by' : '') . '">'.(is_array($GLOBALS['TL_DCA'][$this->strTable]['fields'][$f]['label']) ? $GLOBALS['TL_DCA'][$this->strTable]['fields'][$f]['label'][0] : $GLOBALS['TL_DCA'][$this->strTable]['fields'][$f]['label']).'</th>';
+                    <th class="row-headline col-' . $f . (($f == $firstOrderBy) ? ' ordered-by' : '') . '">'.(is_array($GLOBALS['TL_DCA'][$this->strTable]['fields'][$f]['label']) ? $GLOBALS['TL_DCA'][$this->strTable]['fields'][$f]['label'][0] : $GLOBALS['TL_DCA'][$this->strTable]['fields'][$f]['label']).'</th>';
             }
 
                 $return .= '
-                <th class="tl_folder_tlist tl_right_nowrap">&nbsp;</th>
+                <th class="row-headline actions">&nbsp;</th>
                 </tr>';
             }
 
             // Process result and add label and buttons
             $remoteCur = false;
-            $groupclass = 'tl_folder_tlist';
+            $groupclass = 'row-headline';
             $eoCount = -1;
 
             foreach ($result as $row)
@@ -988,12 +989,12 @@ class DC_Table extends \Contao\DC_Table
                         <tr>
                         <td colspan="2" class="'.$groupclass.'">'.$group.'</td>
                         </tr>';
-                        $groupclass = 'tl_folder_list';
+                        $groupclass = 'row-headline';
                     }
                 }
 
                 $return .= '
-                <tr class="'.((++$eoCount % 2 == 0) ? 'even' : 'odd').' click2edit toggle_select" onmouseover="Theme.hoverRow(this,1)" onmouseout="Theme.hoverRow(this,0)">
+                <tr class="'.((++$eoCount % 2 == 0) ? 'even' : 'odd').' click2edit toggle-select" onmouseover="Theme.hoverRow(this,1)" onmouseout="Theme.hoverRow(this,0)">
                 ';
 
                 $colspan = 1;
@@ -1031,18 +1032,18 @@ class DC_Table extends \Contao\DC_Table
                 {
                     foreach ($args as $j=>$arg)
                     {
-                        $return .= '<td colspan="' . $colspan . '" class="tl_file_list col_' . $GLOBALS['TL_DCA'][$this->strTable]['list']['label']['fields'][$j] . (($GLOBALS['TL_DCA'][$this->strTable]['list']['label']['fields'][$j] == $firstOrderBy) ? ' ordered_by' : '') . '">' . ($arg ?: '-') . '</td>';
+                        $return .= '<td colspan="' . $colspan . '" class="item col-' . $GLOBALS['TL_DCA'][$this->strTable]['list']['label']['fields'][$j] . (($GLOBALS['TL_DCA'][$this->strTable]['list']['label']['fields'][$j] == $firstOrderBy) ? ' ordered-by' : '') . '">' . ($arg ?: '-') . '</td>';
                     }
                 }
                 else
                 {
-                    $return .= '<td class="tl_file_list">' . $label . '</td>';
+                    $return .= '<td class="item">' . $label . '</td>';
                 }
 
                 // Buttons ($row, $table, $root, $blnCircularReference, $childs, $previous, $next)
                 $return .= ((\Input::get('act') == 'select') ? '
-                <td class="tl_file_list tl_right_nowrap"><input type="checkbox" name="IDS[]" id="ids_'.$row['id'].'" class="tl_tree_checkbox" value="'.$row['id'].'"></td>' : '
-                <td class="tl_file_list tl_right_nowrap">'.$this->generateButtons($row, $this->strTable, $this->root).'</td>') . '
+                <td class="item actions"><input type="checkbox" name="IDS[]" id="ids_'.$row['id'].'" class="tree-checkbox" value="'.$row['id'].'"></td>' : '
+                <td class="item actions">'.$this->generateButtons($row, $this->strTable, $this->root).'</td>') . '
                 </tr>';
             }
 
@@ -1060,18 +1061,18 @@ class DC_Table extends \Contao\DC_Table
 
                 if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['notDeletable'])
                 {
-                    $arrButtons['delete'] = '<input type="submit" name="delete" id="delete" class="tl_submit" accesskey="d" onclick="return confirm(\''.$GLOBALS['TL_LANG']['MSC']['delAllConfirm'].'\')" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['deleteSelected']).'">';
+                    $arrButtons['delete'] = '<button type="submit" name="delete" id="delete" class="btn-flat" accesskey="d" onclick="return confirm(\''.$GLOBALS['TL_LANG']['MSC']['delAllConfirm'].'\')" >'.specialchars($GLOBALS['TL_LANG']['MSC']['deleteSelected']).'</button>';
                 }
 
                 if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['notCopyable'])
                 {
-                    $arrButtons['copy'] = '<input type="submit" name="copy" id="copy" class="tl_submit" accesskey="c" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['copySelected']).'">';
+                    $arrButtons['copy'] = '<button type="submit" name="copy" id="copy" class="btn-flat" accesskey="c" >'.specialchars($GLOBALS['TL_LANG']['MSC']['copySelected']).'</button>';
                 }
 
                 if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['notEditable'])
                 {
-                    $arrButtons['override'] = '<input type="submit" name="override" id="override" class="tl_submit" accesskey="v" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['overrideSelected']).'">';
-                    $arrButtons['edit'] = '<input type="submit" name="edit" id="edit" class="tl_submit" accesskey="s" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['editSelected']).'">';
+                    $arrButtons['override'] = '<button type="submit" name="override" id="override" class="btn-flat" accesskey="v" >'.specialchars($GLOBALS['TL_LANG']['MSC']['overrideSelected']).'</button>';
+                    $arrButtons['edit'] = '<button type="submit" name="edit" id="edit" class="btn" accesskey="s" >'.specialchars($GLOBALS['TL_LANG']['MSC']['editSelected']).'</button>';
                 }
 
                 // Call the buttons_callback (see #4691)
@@ -1093,10 +1094,10 @@ class DC_Table extends \Contao\DC_Table
 
                 $return .= '
 
-                <div class="tl_formbody_submit" style="text-align:right">
+                <div class="card-action">
 
-                <div class="tl_submit_container">
-                ' . implode(' ', $arrButtons) . '
+                <div class="submit-container">
+                ' . implode(' ', array_reverse($arrButtons)) . '
                 </div>
 
                 </div>
@@ -1104,6 +1105,8 @@ class DC_Table extends \Contao\DC_Table
                 </form>';
             }
         }
+
+        $return .= '</div>';
 
         return $return;
     }

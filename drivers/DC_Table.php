@@ -221,25 +221,25 @@ class DC_Table extends \Contao\DC_Table
 
         // Submit buttons
         $arrButtons = array();
-        $arrButtons['save'] = '<input type="submit" name="save" id="save" class="tl_submit" accesskey="s" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['save']).'">';
+        $arrButtons['save'] = '<button type="submit" name="save" id="save" class="btn orange lighten-2" accesskey="s">'.specialchars($GLOBALS['TL_LANG']['MSC']['save']).'</button>';
 
         if (!\Input::get('nb'))
         {
-            $arrButtons['saveNclose'] = '<input type="submit" name="saveNclose" id="saveNclose" class="tl_submit" accesskey="c" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['saveNclose']).'">';
+            $arrButtons['saveNclose'] = '<button type="submit" name="saveNclose" id="saveNclose" class="btn-flat orange-text text-lighten-2" accesskey="c">'.specialchars($GLOBALS['TL_LANG']['MSC']['saveNclose']).'</button>';
         }
 
         if (!\Input::get('popup') && !$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable'])
         {
-            $arrButtons['saveNcreate'] = '<input type="submit" name="saveNcreate" id="saveNcreate" class="tl_submit" accesskey="n" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['saveNcreate']).'">';
+            $arrButtons['saveNcreate'] = '<button type="submit" name="saveNcreate" id="saveNcreate" class="btn-flat orange-text text-lighten-2" accesskey="n">'.specialchars($GLOBALS['TL_LANG']['MSC']['saveNcreate']).'</button>';
         }
 
         if (\Input::get('s2e'))
         {
-            $arrButtons['saveNedit'] = '<input type="submit" name="saveNedit" id="saveNedit" class="tl_submit" accesskey="e" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['saveNedit']).'">';
+            $arrButtons['saveNedit'] = '<button type="submit" name="saveNedit" id="saveNedit" class="btn-flat orange-text text-lighten-2" accesskey="e">'.specialchars($GLOBALS['TL_LANG']['MSC']['saveNedit']).'</button>';
         }
         elseif (!\Input::get('popup') && ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 4 || strlen($this->ptable) || $GLOBALS['TL_DCA'][$this->strTable]['config']['switchToEdit']))
         {
-            $arrButtons['saveNback'] = '<input type="submit" name="saveNback" id="saveNback" class="tl_submit" accesskey="g" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['saveNback']).'">';
+            $arrButtons['saveNback'] = '<button type="submit" name="saveNback" id="saveNback" class="btn-flat orange-text text-lighten-2" accesskey="g">'.specialchars($GLOBALS['TL_LANG']['MSC']['saveNback']).'</button>';
         }
 
         // Call the buttons_callback (see #4691)
@@ -261,11 +261,8 @@ class DC_Table extends \Contao\DC_Table
 
         // Add the buttons and end the form
         $return .= '
-        </div>
 
-        <div class="tl_formbody_submit">
-
-        <div class="tl_submit_container">
+        <div class="card-action">
         ' . implode(' ', $arrButtons) . '
         </div>
 

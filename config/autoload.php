@@ -15,6 +15,7 @@
 ClassLoader::addNamespaces(array
 (
 	'ContaoMaterial',
+	'ContaoMateriel',
 ));
 
 
@@ -35,6 +36,7 @@ ClassLoader::addClasses(array
 
 	// Widgets
 	'ContaoMaterial\SelectMenu'         => 'system/modules/contao-material/widgets/SelectMenu.php',
+	'ContaoMateriel\InputUnit'          => 'system/modules/contao-material/widgets/InputUnit.php',
 	'ContaoMaterial\TextField'          => 'system/modules/contao-material/widgets/TextField.php',
 ));
 

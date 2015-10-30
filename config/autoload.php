@@ -35,6 +35,7 @@ ClassLoader::addClasses(array
 	'ContaoMaterial\DC_Table'           => 'system/modules/contao-material/drivers/DC_Table.php',
 
 	// Widgets
+	'ContaoMaterial\TextArea'           => 'system/modules/contao-material/widgets/TextArea.php',
 	'ContaoMaterial\SelectMenu'         => 'system/modules/contao-material/widgets/SelectMenu.php',
 	'ContaoMateriel\InputUnit'          => 'system/modules/contao-material/widgets/InputUnit.php',
 	'ContaoMaterial\TextField'          => 'system/modules/contao-material/widgets/TextField.php',

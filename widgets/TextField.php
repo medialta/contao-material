@@ -66,16 +66,16 @@ class TextField extends \Contao\TextField
 
         for ($i=0; $i<$this->size; $i++)
         {
-            $arrFields[] = sprintf('<input type="%s" name="%s[]" id="ctrl_%s" class="tl_text_%s" value="%s"%s onfocus="Backend.getScrollOffset()">',
+            $arrFields[] = sprintf('<div class="col s%s"><input type="%s" name="%s[]" id="ctrl_%s" value="%s"%s onfocus="Backend.getScrollOffset()"></div>',
+                                    12/$this->size,
                                     $strType,
                                     $this->strName,
                                     $this->strId.'_'.$i,
-                                    $this->size,
                                     specialchars(@$this->varValue[$i]), // see #4979
                                     $this->getAttributes());
         }
 
-        return sprintf('<div class="input-field"><div id="ctrl_%s"%s>%s</div>%s</div>',
+        return sprintf('<div class="input-field"><div class="row" id="ctrl_%s"%s>%s</div>%s</div>',
                         $this->strId,
                         (($this->strClass != '') ? ' class="' . $this->strClass . '"' : ''),
                         implode(' ', $arrFields),

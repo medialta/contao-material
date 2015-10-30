@@ -527,7 +527,7 @@ class DC_Table extends \Contao\DC_Table
                 $submit = '
 
                 <div class="submit-panel subpanel card-action js-subpanel" id="submit-subpanel">
-                <button type="submit" class="btn waves-effect grey lighten-5 black-text" title="' . specialchars($GLOBALS['TL_LANG']['MSC']['applyTitle']) . '"><i class="material-icons left">refresh</i> ' . specialchars($GLOBALS['TL_LANG']['MSC']['apply']) . '</button>
+                <button type="submit" class="btn waves-effect grey lighten-5 black-text" data-position="top" data-delay="50" data-tooltip="' . specialchars($GLOBALS['TL_LANG']['MSC']['applyTitle']) . '"><i class="material-icons left">refresh</i> ' . specialchars($GLOBALS['TL_LANG']['MSC']['apply']) . '</button>
                 </div>';
             }
 
@@ -796,8 +796,8 @@ class DC_Table extends \Contao\DC_Table
             $return .= '
 
             <div class="card-action" id="'.$this->bid.'">'.((\Input::get('act') == 'select' || $this->ptable) ? '
-            <a href="'.$this->getReferer(true, $this->ptable).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a> ' : (isset($GLOBALS['TL_DCA'][$this->strTable]['config']['backlink']) ? '
-            <a href="contao/main.php?'.$GLOBALS['TL_DCA'][$this->strTable]['config']['backlink'].'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a> ' : '')) . ((\Input::get('act') != 'select') ? '
+            <a href="'.$this->getReferer(true, $this->ptable).'" class="header_back" data-position="top" data-delay="50" data-tooltip"'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a> ' : (isset($GLOBALS['TL_DCA'][$this->strTable]['config']['backlink']) ? '
+            <a href="contao/main.php?'.$GLOBALS['TL_DCA'][$this->strTable]['config']['backlink'].'" class="header_back" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a> ' : '')) . ((\Input::get('act') != 'select') ? '
             '.((!$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable']) ? '<a href="'.(($this->ptable != '') ? $this->addToUrl('act=create' .
             (($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] < 4) ? '&amp;mode=2' : '') . '&amp;pid=' . $this->intId) : $this->addToUrl('act=create')).'" class="header-new btn-floating btn-large waves-effect waves-light red tooltipped" data-position="left" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['new'][1]).'" accesskey="n" onclick="Backend.getScrollOffset()"><i class="material-icons">add</i></a> ' : '') . $this->generateGlobalButtons() : '') .
             '</div>' . \Message::generate(true);
@@ -1194,11 +1194,11 @@ class DC_Table extends \Contao\DC_Table
         // Begin buttons container
         $return = '
         <div class="card-action" id="tl_buttons">'.((\Input::get('act') == 'select') ? '
-        <a href="'.$this->getReferer(true).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a> ' : (isset($GLOBALS['TL_DCA'][$this->strTable]['config']['backlink']) ? '
-        <a href="contao/main.php?'.$GLOBALS['TL_DCA'][$this->strTable]['config']['backlink'].'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a> ' : '')) .
+        <a href="'.$this->getReferer(true).'" class="header_back" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a> ' : (isset($GLOBALS['TL_DCA'][$this->strTable]['config']['backlink']) ? '
+        <a href="contao/main.php?'.$GLOBALS['TL_DCA'][$this->strTable]['config']['backlink'].'" class="header_back" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a> ' : '')) .
         ((\Input::get('act') != 'select' && !$blnClipboard && !$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable']) ? '
         <a href="'.$this->addToUrl('act=paste&amp;mode=create').'" class="header-new btn-floating btn-large waves-effect waves-light red tooltipped" data-position="left" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['new'][1]).'" accesskey="n" onclick="Backend.getScrollOffset()"><i class="material-icons">add</i></a> ' : '') .
-        ((\Input::get('act') != 'select' && !$blnClipboard) ? $this->generateGlobalButtons() : '') . ($blnClipboard ? '<a href="'.$this->addToUrl('clipboard=1').'" class="header_clipboard" title="'.
+        ((\Input::get('act') != 'select' && !$blnClipboard) ? $this->generateGlobalButtons() : '') . ($blnClipboard ? '<a href="'.$this->addToUrl('clipboard=1').'" class="header_clipboard" data-position="top" data-delay="50" data-tooltip="'.
         specialchars($GLOBALS['TL_LANG']['MSC']['clearClipboard']).'" accesskey="x">'.$GLOBALS['TL_LANG']['MSC']['clearClipboard'].'</a> ' : '') . '
         </div>' . \Message::generate(true);
 

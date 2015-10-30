@@ -42,13 +42,21 @@ span.mandatory {
     }
 }
 
+.collapsible {
+    box-shadow: none;
+    border-right: 0;
+    border-left: 0;
+}
+
 .collapsible-body {
     padding-left: 20px;
     padding-right: 20px;
     padding-bottom: 20px;
+    padding-top: 20px;
 }
 .collapsible-body h3 {
     margin-bottom: 0;
+    margin-top: 0;
 }
 .collapsible-body input {
     width: 100%;
@@ -69,6 +77,9 @@ span.mandatory {
 }
 .collapsible-body .input-field {
     max-width: 580px;
+}
+.collapsible-body h3 + .input-field {
+    margin-top: -0.5em;
 }
 
 .select2-container {

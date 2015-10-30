@@ -450,55 +450,61 @@ class DC_Table extends \Contao\DC_Table
         $intFilterPanel = 0;
         $arrPanels = array();
 
-        foreach (trimsplit(';', $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['panelLayout']) as $strPanel)
+        $panels = '';
+        $arrSubPanelsUnsorted = trimsplit(',', str_replace(';', ',', $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['panelLayout']));
+        $arrSubPanels = ['sort', 'filter', 'search', 'limit'];
+
+        foreach ($arrSubPanels as $kSubPanel => $strSubPanel)
         {
-            $panels = '';
-            $arrSubPanels = trimsplit(',', $strPanel);
-
-            foreach ($arrSubPanels as $strSubPanel)
+            if (!in_array($strSubPanel, $arrSubPanelsUnsorted))
             {
-                $panel = '';
+                unset($arrSubPanels[$kSubPanel]);
+            }
+        }
 
-                // Regular panels
-                if ($strSubPanel == 'search' || $strSubPanel == 'limit' || $strSubPanel == 'sort')
+        foreach ($arrSubPanels as $strSubPanel)
+        {
+            $panel = '';
+
+            // Regular panels
+            if ($strSubPanel == 'search' || $strSubPanel == 'limit' || $strSubPanel == 'sort')
+            {
+                $panel = $this->{$strSubPanel . 'Menu'}();
+            }
+
+            // Multiple filter subpanels can be defined to split the fields across panels
+            elseif ($strSubPanel == 'filter')
+            {
+                $panel = $this->{$strSubPanel . 'Menu'}(++$intFilterPanel);
+            }
+
+            // Call the panel_callback
+            else
+            {
+                $arrCallback = $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['panel_callback'][$strSubPanel];
+
+                if (is_array($arrCallback))
                 {
-                    $panel = $this->{$strSubPanel . 'Menu'}();
+                    $this->import($arrCallback[0]);
+                    $panel = $this->$arrCallback[0]->$arrCallback[1]($this);
                 }
-
-                // Multiple filter subpanels can be defined to split the fields across panels
-                elseif ($strSubPanel == 'filter')
+                elseif (is_callable($arrCallback))
                 {
-                    $panel = $this->{$strSubPanel . 'Menu'}(++$intFilterPanel);
-                }
-
-                // Call the panel_callback
-                else
-                {
-                    $arrCallback = $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['panel_callback'][$strSubPanel];
-
-                    if (is_array($arrCallback))
-                    {
-                        $this->import($arrCallback[0]);
-                        $panel = $this->$arrCallback[0]->$arrCallback[1]($this);
-                    }
-                    elseif (is_callable($arrCallback))
-                    {
-                        $panel = $arrCallback($this);
-                    }
-                }
-
-                // Add the panel if it is not empty
-                if ($panel != '')
-                {
-                    $panels = $panel . $panels;
+                    $panel = $arrCallback($this);
                 }
             }
 
-            // Add the group if it is not empty
-            if ($panels != '')
+            // Add the panel if it is not empty
+            if ($panel != '')
             {
-                $arrPanels[] = $panels;
+                $panels = $panel . $panels;
             }
+        }
+
+        // Add the group if it is not empty
+        if ($panels != '')
+        {
+            $arrPanels[] = $panels;
         }
 
         if (empty($arrPanels))
@@ -523,13 +529,13 @@ class DC_Table extends \Contao\DC_Table
             {
                 $submit = '
 
-                <div class="tl_submit_panel tl_subpanel card-action" id="submit-subpanel">
+                <div class="submit-panel subpanel card-action js-subpanel" id="submit-subpanel">
                 <button type="submit" class="btn waves-effect grey lighten-5 black-text" title="' . specialchars($GLOBALS['TL_LANG']['MSC']['applyTitle']) . '"><i class="material-icons left">refresh</i> ' . specialchars($GLOBALS['TL_LANG']['MSC']['apply']) . '</button>
                 </div>';
             }
 
             $return .= '
-            <div class="tl_panel">' . $arrPanels[$i] . $submit . '
+            <div class="panel">' . $arrPanels[$i] . $submit . '
 
             </div>';
         }
@@ -675,7 +681,7 @@ class DC_Table extends \Contao\DC_Table
 
         return '
 
-        <div class="tl_limit tl_subpanel card-action row" id="limit-subpanel">
+        <div class="limit-panel subpanel card-action row js-subpanel" id="limit-subpanel">
         <div class="col m12"><strong>' . $GLOBALS['TL_LANG']['MSC']['showOnly'] . ':</strong></div> '.$fields.'
         </div>';
     }
@@ -792,7 +798,7 @@ class DC_Table extends \Contao\DC_Table
         {
             $return .= '
 
-            <div id="'.$this->bid.'">'.((\Input::get('act') == 'select' || $this->ptable) ? '
+            <div class="card-action" id="'.$this->bid.'">'.((\Input::get('act') == 'select' || $this->ptable) ? '
             <a href="'.$this->getReferer(true, $this->ptable).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a> ' : (isset($GLOBALS['TL_DCA'][$this->strTable]['config']['backlink']) ? '
             <a href="contao/main.php?'.$GLOBALS['TL_DCA'][$this->strTable]['config']['backlink'].'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a> ' : '')) . ((\Input::get('act') != 'select') ? '
             '.((!$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable']) ? '<a href="'.(($this->ptable != '') ? $this->addToUrl('act=create' .
@@ -1500,7 +1506,7 @@ class DC_Table extends \Contao\DC_Table
 
 		return '
 
-        <div class="tl_filter tl_subpanel card-action row" id="filter-subpanel">
+        <div class="filter-panel subpanel card-action row js-subpanel" id="filter-subpanel">
         <div class="col m12"><strong>' . $GLOBALS['TL_LANG']['MSC']['filter'] . ':</strong></div> ' . $fields . '
         </div>';
 	}
@@ -1593,7 +1599,7 @@ class DC_Table extends \Contao\DC_Table
 
 		return '
 
-        <div class="tl_search tl_subpanel card-action row" id="search-subpanel">
+        <div class="search-panel subpanel card-action row js-subpanel" id="search-subpanel">
         <div class="col m12"><strong>' . $GLOBALS['TL_LANG']['MSC']['search'] . ':</strong></div>
         <div class="col m4 l3">
         <select name="tl_field" class="tl_select' . ($active ? ' active' : '') . '">
@@ -1692,7 +1698,7 @@ class DC_Table extends \Contao\DC_Table
 
 		return '
 
-        <div class="tl_sorting tl_subpanel card-action row" id="sorting-subpanel">
+        <div class="sorting-panel subpanel card-action row js-subpanel" id="sorting-subpanel">
         <div class="col m12"><strong>' . $GLOBALS['TL_LANG']['MSC']['sortBy'] . ':</strong></div>
         <div class="col m4 l3">
         <select name="tl_sort" id="tl_sort" class="tl_select">

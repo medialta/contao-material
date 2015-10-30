@@ -144,10 +144,18 @@
                     <img src="http://placehold.it/1280x300" width="1280" height="300" alt="" />
                     <h1 class="card-title -main"><?= $this->headline ?></h1>
                     <div class="toggle-buttons -main">
-                        <a href="#" class="toggle-button btn-flat btn-icon waves-effect grey lighten-5 js-toggle-subpanel" data-toggle="filter-subpanel"><i class="material-icons">filter_list</i></a>
-                        <a href="#" class="toggle-button btn-flat btn-icon waves-effect grey lighten-5 js-toggle-subpanel" data-toggle="search-subpanel"><i class="material-icons">search</i></a>
-                        <a href="#" class="toggle-button btn-flat btn-icon waves-effect grey lighten-5 js-toggle-subpanel" data-toggle="limit-subpanel"><i class="material-icons">dvr</i></a>
-                        <a href="#" class="toggle-button btn-flat btn-icon waves-effect grey lighten-5 js-toggle-subpanel" data-toggle="sorting-subpanel"><i class="material-icons">sort_by_alpha</i></a>
+                        <a href="#" class="toggle-button btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5 js-toggle-subpanel" data-toggle="limit-subpanel" data-position="top" data-delay="50" data-tooltip="<?= $GLOBALS['TL_LANG']['MSC']['showOnly'] ?>">
+                            <i class="material-icons">dvr</i>
+                        </a>
+                        <a href="#" class="toggle-button btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5 js-toggle-subpanel" data-toggle="search-subpanel" data-position="top" data-delay="50" data-tooltip="<?= $GLOBALS['TL_LANG']['MSC']['search'] ?>">
+                            <i class="material-icons">search</i>
+                        </a>
+                        <a href="#" class="toggle-button btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5 js-toggle-subpanel" data-toggle="filter-subpanel" data-position="top" data-delay="50" data-tooltip="<?= $GLOBALS['TL_LANG']['MSC']['filter'] ?>">
+                            <i class="material-icons">filter_list</i>
+                        </a>
+                        <a href="#" class="toggle-button btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5 js-toggle-subpanel" data-toggle="sorting-subpanel" data-position="top" data-delay="50" data-tooltip="<?= $GLOBALS['TL_LANG']['MSC']['sortBy'] ?>">
+                            <i class="material-icons">sort_by_alpha</i>
+                        </a>
                     </div>
                 </div>
             <?php else: ?>

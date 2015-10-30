@@ -115,6 +115,15 @@ footer {
         padding-right: 20px;
     }
 
+    .subpanel {
+        display: none;
+        margin-bottom: 0;
+    }
+
+        .subpanel input[type=search] {
+            margin-bottom: 0;
+        }
+
 /**
  * STYLES
  */
@@ -162,3 +171,8 @@ footer {
     border-radius: 100%;
     text-align: center;
 }
+
+    .btn-icon.is-active {
+        background-color: #ffa726 !important;
+        color: #fff;
+    }

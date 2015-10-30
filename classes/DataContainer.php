@@ -27,7 +27,8 @@ namespace ContaoMaterial;
  *
  * @author Leo Feyer <https://github.com/leofeyer>
  */
-abstract class DataContainer extends \Contao\DataContainer {
+abstract class DataContainer extends \Contao\DataContainer
+{
     /**
      * Render a row of a box and return it as HTML string
      *
@@ -249,20 +250,20 @@ abstract class DataContainer extends \Contao\DataContainer {
             }
 
             $wizard .= ' <img src="assets/mootools/datepicker/' . $GLOBALS['TL_ASSETS']['DATEPICKER'] . '/icon.gif" width="20" height="20" alt="" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['datepicker']).'" id="toggle_' . $objWidget->id . '" style="vertical-align:-6px;cursor:pointer">
-  <script>
-    window.addEvent("domready", function() {
-      new Picker.Date($("ctrl_' . $objWidget->id . '"), {
-        draggable: false,
-        toggle: $("toggle_' . $objWidget->id . '"),
-        format: "' . $format . '",
-        positionOffset: {x:-211,y:-209}' . $time . ',
-        pickerClass: "datepicker_bootstrap",
-        useFadeInOut: !Browser.ie,
-        startDay: ' . $GLOBALS['TL_LANG']['MSC']['weekOffset'] . ',
-        titleFormat: "' . $GLOBALS['TL_LANG']['MSC']['titleFormat'] . '"
-      });
-    });
-  </script>';
+            <script>
+            window.addEvent("domready", function() {
+                new Picker.Date($("ctrl_' . $objWidget->id . '"), {
+                    draggable: false,
+                    toggle: $("toggle_' . $objWidget->id . '"),
+                    format: "' . $format . '",
+                    positionOffset: {x:-211,y:-209}' . $time . ',
+                    pickerClass: "datepicker_bootstrap",
+                    useFadeInOut: !Browser.ie,
+                    startDay: ' . $GLOBALS['TL_LANG']['MSC']['weekOffset'] . ',
+                    titleFormat: "' . $GLOBALS['TL_LANG']['MSC']['titleFormat'] . '"
+                });
+            });
+            </script>';
         }
 
         // Color picker
@@ -272,18 +273,18 @@ abstract class DataContainer extends \Contao\DataContainer {
             $strKey = $arrData['eval']['multiple'] ? $this->strField . '_0' : $this->strField;
 
             $wizard .= ' ' . \Image::getHtml('pickcolor.gif', $GLOBALS['TL_LANG']['MSC']['colorpicker'], 'style="vertical-align:top;cursor:pointer" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['colorpicker']).'" id="moo_' . $this->strField . '"') . '
-  <script>
-    window.addEvent("domready", function() {
-      new MooRainbow("moo_' . $this->strField . '", {
-        id: "ctrl_' . $strKey . '",
-        startColor: ((cl = $("ctrl_' . $strKey . '").value.hexToRgb(true)) ? cl : [255, 0, 0]),
-        imgPath: "assets/mootools/colorpicker/' . $GLOBALS['TL_ASSETS']['COLORPICKER'] . '/images/",
-        onComplete: function(color) {
-          $("ctrl_' . $strKey . '").value = color.hex.replace("#", "");
-        }
-      });
-    });
-  </script>';
+            <script>
+            window.addEvent("domready", function() {
+                new MooRainbow("moo_' . $this->strField . '", {
+                    id: "ctrl_' . $strKey . '",
+                    startColor: ((cl = $("ctrl_' . $strKey . '").value.hexToRgb(true)) ? cl : [255, 0, 0]),
+                    imgPath: "assets/mootools/colorpicker/' . $GLOBALS['TL_ASSETS']['COLORPICKER'] . '/images/",
+                    onComplete: function(color) {
+                        $("ctrl_' . $strKey . '").value = color.hex.replace("#", "");
+                    }
+                });
+            });
+            </script>';
         }
 
         // Add a custom wizard
@@ -354,14 +355,14 @@ abstract class DataContainer extends \Contao\DataContainer {
         elseif (\Input::get('act') == 'overrideAll' && ($arrData['inputType'] == 'checkbox' || $arrData['inputType'] == 'checkboxWizard') && $arrData['eval']['multiple'])
         {
             $updateMode = '
-</div>
-<div>
-  <fieldset class="tl_radio_container">
-  <legend>' . $GLOBALS['TL_LANG']['MSC']['updateMode'] . '</legend>
-    <input type="radio" name="'.$this->strInputName.'_update" id="opt_'.$this->strInputName.'_update_1" class="tl_radio" value="add" onfocus="Backend.getScrollOffset()"> <label for="opt_'.$this->strInputName.'_update_1">' . $GLOBALS['TL_LANG']['MSC']['updateAdd'] . '</label><br>
-    <input type="radio" name="'.$this->strInputName.'_update" id="opt_'.$this->strInputName.'_update_2" class="tl_radio" value="remove" onfocus="Backend.getScrollOffset()"> <label for="opt_'.$this->strInputName.'_update_2">' . $GLOBALS['TL_LANG']['MSC']['updateRemove'] . '</label><br>
-    <input type="radio" name="'.$this->strInputName.'_update" id="opt_'.$this->strInputName.'_update_0" class="tl_radio" value="replace" checked="checked" onfocus="Backend.getScrollOffset()"> <label for="opt_'.$this->strInputName.'_update_0">' . $GLOBALS['TL_LANG']['MSC']['updateReplace'] . '</label>
-  </fieldset>';
+            </div>
+            <div>
+            <fieldset class="tl_radio_container">
+            <legend>' . $GLOBALS['TL_LANG']['MSC']['updateMode'] . '</legend>
+            <input type="radio" name="'.$this->strInputName.'_update" id="opt_'.$this->strInputName.'_update_1" class="tl_radio" value="add" onfocus="Backend.getScrollOffset()"> <label for="opt_'.$this->strInputName.'_update_1">' . $GLOBALS['TL_LANG']['MSC']['updateAdd'] . '</label><br>
+            <input type="radio" name="'.$this->strInputName.'_update" id="opt_'.$this->strInputName.'_update_2" class="tl_radio" value="remove" onfocus="Backend.getScrollOffset()"> <label for="opt_'.$this->strInputName.'_update_2">' . $GLOBALS['TL_LANG']['MSC']['updateRemove'] . '</label><br>
+            <input type="radio" name="'.$this->strInputName.'_update" id="opt_'.$this->strInputName.'_update_0" class="tl_radio" value="replace" checked="checked" onfocus="Backend.getScrollOffset()"> <label for="opt_'.$this->strInputName.'_update_0">' . $GLOBALS['TL_LANG']['MSC']['updateReplace'] . '</label>
+            </fieldset>';
         }
 
         $strPreview = '';
@@ -391,9 +392,9 @@ abstract class DataContainer extends \Contao\DataContainer {
 
                 $strPreview = '
 
-<div id="' . $ctrl . '" class="tl_edit_preview" data-original-width="' . $objFile->viewWidth . '" data-original-height="' . $objFile->viewHeight . '">
-' . \Image::getHtml($image) . '
-</div>';
+                <div id="' . $ctrl . '" class="tl_edit_preview" data-original-width="' . $objFile->viewWidth . '" data-original-height="' . $objFile->viewHeight . '">
+                ' . \Image::getHtml($image) . '
+                </div>';
 
                 // Add the script to mark the important part
                 if ($image !== 'placeholder.png')
@@ -409,8 +410,8 @@ abstract class DataContainer extends \Contao\DataContainer {
         }
 
         return $strPreview . '
-<div' . ($arrData['eval']['tl_class'] ? ' class="' . $arrData['eval']['tl_class'] . '"' : '') . '>' . $objWidget->parse() . $updateMode . (!$objWidget->hasErrors() ? $this->help($strHelpClass) : '') . '
-</div>';
+        <div' . ($arrData['eval']['tl_class'] ? ' class="' . $arrData['eval']['tl_class'] . '"' : '') . '>' . $objWidget->parse() . $updateMode . (!$objWidget->hasErrors() ? $this->help($strHelpClass) : '') . '
+        </div>';
     }
 
     /**
@@ -430,6 +431,69 @@ abstract class DataContainer extends \Contao\DataContainer {
         }
 
         return '
-  <div class="tl_help tl_tip' . $strClass . '"><i class="tiny material-icons help-icon">info_outline</i>'.$return.'</div>';
+        <div class="tl_help tl_tip' . $strClass . '"><i class="tiny material-icons help-icon">info_outline</i>'.$return.'</div>';
     }
+
+    /**
+	 * Compile global buttons from the table configuration array and return them as HTML
+	 *
+	 * @return string
+	 */
+	protected function generateGlobalButtons()
+	{
+		if (!is_array($GLOBALS['TL_DCA'][$this->strTable]['list']['global_operations']))
+		{
+			return '';
+		}
+
+		$return = '';
+
+		foreach ($GLOBALS['TL_DCA'][$this->strTable]['list']['global_operations'] as $k=>$v)
+		{
+			$v = is_array($v) ? $v : array($v);
+			$label = is_array($v['label']) ? $v['label'][0] : $v['label'];
+			$title = is_array($v['label']) ? $v['label'][1] : $v['label'];
+			$attributes = ($v['attributes'] != '') ? ' ' . ltrim($v['attributes']) : '';
+
+			// Custom icon (see #5541)
+			if ($v['icon'])
+			{
+				$v['class'] = trim($v['class'] . ' header_icon');
+
+				// Add the theme path if only the file name is given
+				if (strpos($v['icon'], '/') === false)
+				{
+					$v['icon'] = 'system/themes/' . \Backend::getTheme() . '/images/' . $v['icon'];
+				}
+
+				$attributes = sprintf('style="background-image:url(\'%s%s\')"', TL_ASSETS_URL, $v['icon']) . $attributes;
+			}
+
+			if ($label == '')
+			{
+				$label = $k;
+			}
+			if ($title == '')
+			{
+				$title = $label;
+			}
+
+			// Call a custom function instead of using the default button
+			if (is_array($v['button_callback']))
+			{
+				$this->import($v['button_callback'][0]);
+				$return .= $this->$v['button_callback'][0]->$v['button_callback'][1]($v['href'], $label, $title, $v['class'], $attributes, $this->strTable, $this->root);
+				continue;
+			}
+			elseif (is_callable($v['button_callback']))
+			{
+				$return .= $v['button_callback']($v['href'], $label, $title, $v['class'], $attributes, $this->strTable, $this->root);
+				continue;
+			}
+
+			$return .= '<a href="'.$this->addToUrl($v['href']).'" class="'.$v['class'].' tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'"'.$attributes.'>'.$label.'</a> ';
+		}
+
+		return $return;
+	}
 }

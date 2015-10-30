@@ -115,6 +115,10 @@ footer {
         padding-right: 20px;
     }
 
+        .toggle-buttons.-main:empty + .card-title.-main {
+            margin-bottom: 0;
+        }
+
     .subpanel {
         display: none;
         margin-bottom: 0;

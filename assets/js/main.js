@@ -1,12 +1,19 @@
 function hideUnnecessaryToggles()
 {
+    var $parent = $('.js-toggle-subpanel').parent()
+
     $('.js-toggle-subpanel').each(function()
     {
         if (!$('#' + $(this).data('toggle')).length)
         {
-            $(this).hide()
+            $(this).detach()
         }
     })
+
+    if (!$parent.children().length)
+    {
+        $parent.html('')
+    }
 }
 
 var toggleSubpanel = function(e)

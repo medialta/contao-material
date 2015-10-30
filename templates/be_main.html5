@@ -142,7 +142,6 @@
             <div class="card -main">
                 <div class="card-image -main">
                     <img src="http://placehold.it/1280x300" width="1280" height="300" alt="" />
-                    <h1 class="card-title -main"><?= $this->headline ?></h1>
                     <div class="toggle-buttons -main">
                         <a href="#" class="toggle-button btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5 js-toggle-subpanel" data-toggle="limit-subpanel" data-position="top" data-delay="50" data-tooltip="<?= $GLOBALS['TL_LANG']['MSC']['showOnly'] ?>">
                             <i class="material-icons">dvr</i>
@@ -157,6 +156,7 @@
                             <i class="material-icons">sort_by_alpha</i>
                         </a>
                     </div>
+                    <h1 class="card-title -main"><?= $this->headline ?></h1>
                 </div>
             <?php else: ?>
             <h1><?= $this->headline ?></h1>

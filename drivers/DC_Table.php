@@ -1109,6 +1109,288 @@ class DC_Table extends \Contao\DC_Table
     }
 
     /**
+     * List all records of the current table as tree and return them as HTML string
+     *
+     * @return string
+     */
+    protected function treeView()
+    {
+        $table = $this->strTable;
+        $treeClass = 'tl_tree';
+
+        if ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 6)
+        {
+            $table = $this->ptable;
+            $treeClass = 'tl_tree_xtnd';
+
+            \System::loadLanguageFile($table);
+            $this->loadDataContainer($table);
+        }
+
+        $session = $this->Session->getData();
+
+        // Toggle the nodes
+        if (\Input::get('ptg') == 'all')
+        {
+            $node = ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 6) ? $this->strTable.'_'.$table.'_tree' : $this->strTable.'_tree';
+
+            // Expand tree
+            if (!is_array($session[$node]) || empty($session[$node]) || current($session[$node]) != 1)
+            {
+                $session[$node] = array();
+                $objNodes = $this->Database->execute("SELECT DISTINCT pid FROM " . $table . " WHERE pid>0");
+
+                while ($objNodes->next())
+                {
+                    $session[$node][$objNodes->pid] = 1;
+                }
+            }
+
+            // Collapse tree
+            else
+            {
+                $session[$node] = array();
+            }
+
+            $this->Session->setData($session);
+            $this->redirect(preg_replace('/(&(amp;)?|\?)ptg=[^& ]*/i', '', \Environment::get('request')));
+        }
+
+        // Return if a mandatory field (id, pid, sorting) is missing
+        if ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 5 && (!$this->Database->fieldExists('id', $table) || !$this->Database->fieldExists('pid', $table) || !$this->Database->fieldExists('sorting', $table)))
+        {
+            return '
+            <p class="tl_empty">Table "'.$table.'" can not be shown as tree, because the "id", "pid" or "sorting" field is missing!</p>';
+        }
+
+        // Return if there is no parent table
+        if ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 6 && !strlen($this->ptable))
+        {
+            return '
+            <p class="tl_empty">Table "'.$table.'" can not be shown as extended tree, because there is no parent table!</p>';
+        }
+
+        $blnClipboard = false;
+        $arrClipboard = $this->Session->get('CLIPBOARD');
+
+        // Check the clipboard
+        if (!empty($arrClipboard[$this->strTable]))
+        {
+            $blnClipboard = true;
+            $arrClipboard = $arrClipboard[$this->strTable];
+        }
+
+        // Load the fonts to display the paste hint
+        \Config::set('loadGoogleFonts', $blnClipboard);
+
+        $label = $GLOBALS['TL_DCA'][$table]['config']['label'];
+        $icon = $GLOBALS['TL_DCA'][$table]['list']['sorting']['icon'] ?: 'pagemounts.gif';
+        $label = \Image::getHtml($icon).' <label>'.$label.'</label>';
+
+        // Begin buttons container
+        $return = '
+        <div class="card-action" id="tl_buttons">'.((\Input::get('act') == 'select') ? '
+        <a href="'.$this->getReferer(true).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a> ' : (isset($GLOBALS['TL_DCA'][$this->strTable]['config']['backlink']) ? '
+        <a href="contao/main.php?'.$GLOBALS['TL_DCA'][$this->strTable]['config']['backlink'].'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a> ' : '')) .
+        ((\Input::get('act') != 'select' && !$blnClipboard && !$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable']) ? '
+        <a href="'.$this->addToUrl('act=paste&amp;mode=create').'" class="header-new btn-floating btn-large waves-effect waves-light red tooltipped" data-position="left" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['new'][1]).'" accesskey="n" onclick="Backend.getScrollOffset()"><i class="material-icons">add</i></a> ' : '') .
+        ((\Input::get('act') != 'select' && !$blnClipboard) ? $this->generateGlobalButtons() : '') . ($blnClipboard ? '<a href="'.$this->addToUrl('clipboard=1').'" class="header_clipboard" title="'.
+        specialchars($GLOBALS['TL_LANG']['MSC']['clearClipboard']).'" accesskey="x">'.$GLOBALS['TL_LANG']['MSC']['clearClipboard'].'</a> ' : '') . '
+        </div>' . \Message::generate(true);
+
+        $tree = '';
+        $blnHasSorting = $this->Database->fieldExists('sorting', $table);
+        $blnNoRecursion = false;
+
+        // Limit the results by modifying $this->root
+        if ($session['search'][$this->strTable]['value'] != '')
+        {
+            $for = ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 6) ? 'pid' : 'id';
+
+            if ($session['search'][$this->strTable]['field'] == 'id')
+            {
+                $objRoot = $this->Database->prepare("SELECT $for FROM {$this->strTable} WHERE id=?")
+                                          ->execute($session['search'][$this->strTable]['value']);
+            }
+            else
+            {
+                $strPattern = "CAST(%s AS CHAR) REGEXP ?";
+
+                if (substr(\Config::get('dbCollation'), -3) == '_ci')
+                {
+                    $strPattern = "LOWER(CAST(%s AS CHAR)) REGEXP LOWER(?)";
+                }
+
+                $fld = $session['search'][$this->strTable]['field'];
+
+                if (isset($GLOBALS['TL_DCA'][$this->strTable]['fields'][$fld]['foreignKey']))
+                {
+                    list($t, $f) = explode('.', $GLOBALS['TL_DCA'][$this->strTable]['fields'][$fld]['foreignKey']);
+
+                    $objRoot = $this->Database->prepare("SELECT $for FROM {$this->strTable} WHERE (" . sprintf($strPattern, $fld) . " OR " . sprintf($strPattern, "(SELECT $f FROM $t WHERE $t.id={$this->strTable}.$fld)") . ") GROUP BY $for")
+                                              ->execute($session['search'][$this->strTable]['value'], $session['search'][$this->strTable]['value']);
+                }
+                else
+                {
+                    $objRoot = $this->Database->prepare("SELECT $for FROM {$this->strTable} WHERE " . sprintf($strPattern, $fld) . " GROUP BY $for")
+                                              ->execute($session['search'][$this->strTable]['value']);
+                }
+            }
+
+            if ($objRoot->numRows < 1)
+            {
+                $this->root = array();
+            }
+            else
+            {
+                // Respect existing limitations (root IDs)
+                if (is_array($GLOBALS['TL_DCA'][$table]['list']['sorting']['root']))
+                {
+                    $arrRoot = array();
+
+                    while ($objRoot->next())
+                    {
+                        if (count(array_intersect($this->root, $this->Database->getParentRecords($objRoot->$for, $table))) > 0)
+                        {
+                            $arrRoot[] = $objRoot->$for;
+                        }
+                    }
+
+                    $this->root = $arrRoot;
+                }
+                else
+                {
+                    $blnNoRecursion = true;
+                    $this->root = $objRoot->fetchEach($for);
+                }
+            }
+        }
+
+        // Call a recursive function that builds the tree
+        for ($i=0, $c=count($this->root); $i<$c; $i++)
+        {
+            $tree .= $this->generateTree($table, $this->root[$i], array('p'=>$this->root[($i-1)], 'n'=>$this->root[($i+1)]), $blnHasSorting, -20, ($blnClipboard ? $arrClipboard : false), ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 5 && $blnClipboard && $this->root[$i] == $arrClipboard['id']), false, $blnNoRecursion);
+        }
+
+        // Return if there are no records
+        if ($tree == '' && \Input::get('act') != 'paste')
+        {
+            return $return . '
+            <p class="tl_empty">'.$GLOBALS['TL_LANG']['MSC']['noResult'].'</p>';
+        }
+
+        $return .= ((\Input::get('act') == 'select') ? '
+
+        <form action="'.ampersand(\Environment::get('request'), true).'" id="tl_select" class="tl_form'.((\Input::get('act') == 'select') ? ' unselectable' : '').'" method="post" novalidate>
+        <div class="tl_formbody">
+        <input type="hidden" name="FORM_SUBMIT" value="tl_select">
+        <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">' : '').($blnClipboard ? '
+
+        <div id="paste_hint">
+        <p>'.$GLOBALS['TL_LANG']['MSC']['selectNewPosition'].'</p>
+        </div>' : '').'
+
+        <div class="tl_listing_container tree_view" id="tl_listing">'.(isset($GLOBALS['TL_DCA'][$table]['list']['sorting']['breadcrumb']) ? $GLOBALS['TL_DCA'][$table]['list']['sorting']['breadcrumb'] : '').((\Input::get('act') == 'select') ? '
+
+        <div class="tl_select_trigger">
+        <label for="tl_select_trigger" class="tl_select_label">'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</label> <input type="checkbox" id="tl_select_trigger" onclick="Backend.toggleCheckboxes(this)" class="tl_tree_checkbox">
+        </div>' : '').'
+
+        <ul class="tl_listing '. $treeClass .'">
+        <li class="tl_folder_top"><div class="tl_left">'.$label.'</div> <div class="tl_right">';
+
+        $_buttons = '&nbsp;';
+
+        // Show paste button only if there are no root records specified
+        if (\Input::get('act') != 'select' && $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 5 && $blnClipboard && ((!count($GLOBALS['TL_DCA'][$table]['list']['sorting']['root']) && $GLOBALS['TL_DCA'][$table]['list']['sorting']['root'] !== false) || $GLOBALS['TL_DCA'][$table]['list']['sorting']['rootPaste']))
+        {
+            // Call paste_button_callback (&$dc, $row, $table, $cr, $childs, $previous, $next)
+            if (is_array($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['paste_button_callback']))
+            {
+                $strClass = $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['paste_button_callback'][0];
+                $strMethod = $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['paste_button_callback'][1];
+
+                $this->import($strClass);
+                $_buttons = $this->$strClass->$strMethod($this, array('id'=>0), $table, false, $arrClipboard);
+            }
+            elseif (is_callable($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['paste_button_callback']))
+            {
+                $_buttons = $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['paste_button_callback']($this, array('id'=>0), $table, false, $arrClipboard);
+            }
+            else
+            {
+                $imagePasteInto = \Image::getHtml('pasteinto.gif', $GLOBALS['TL_LANG'][$this->strTable]['pasteinto'][0]);
+                $_buttons = '<a href="'.$this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=2&amp;pid=0'.(!is_array($arrClipboard['id']) ? '&amp;id='.$arrClipboard['id'] : '')).'" title="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['pasteinto'][0]).'" onclick="Backend.getScrollOffset()">'.$imagePasteInto.'</a> ';
+            }
+        }
+
+        // End table
+        $return .= $_buttons . '</div><div style="clear:both"></div></li>'.$tree.'
+        </ul>
+
+        </div>';
+
+        // Close the form
+        if (\Input::get('act') == 'select')
+        {
+            // Submit buttons
+            $arrButtons = array();
+
+            if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['notDeletable'])
+            {
+                $arrButtons['delete'] = '<input type="submit" name="delete" id="delete" class="tl_submit" accesskey="d" onclick="return confirm(\''.$GLOBALS['TL_LANG']['MSC']['delAllConfirm'].'\')" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['deleteSelected']).'">';
+            }
+
+            if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['notSortable'])
+            {
+                $arrButtons['cut'] = '<input type="submit" name="cut" id="cut" class="tl_submit" accesskey="x" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['moveSelected']).'">';
+            }
+
+            if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['notCopyable'])
+            {
+                $arrButtons['copy'] = '<input type="submit" name="copy" id="copy" class="tl_submit" accesskey="c" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['copySelected']).'">';
+            }
+
+            if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['notEditable'])
+            {
+                $arrButtons['override'] = '<input type="submit" name="override" id="override" class="tl_submit" accesskey="v" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['overrideSelected']).'">';
+                $arrButtons['edit'] = '<input type="submit" name="edit" id="edit" class="tl_submit" accesskey="s" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['editSelected']).'">';
+            }
+
+            // Call the buttons_callback (see #4691)
+            if (is_array($GLOBALS['TL_DCA'][$this->strTable]['select']['buttons_callback']))
+            {
+                foreach ($GLOBALS['TL_DCA'][$this->strTable]['select']['buttons_callback'] as $callback)
+                {
+                    if (is_array($callback))
+                    {
+                        $this->import($callback[0]);
+                        $arrButtons = $this->$callback[0]->$callback[1]($arrButtons, $this);
+                    }
+                    elseif (is_callable($callback))
+                    {
+                        $arrButtons = $callback($arrButtons, $this);
+                    }
+                }
+            }
+
+            $return .= '
+
+            <div class="tl_formbody_submit" style="text-align:right">
+
+            <div class="tl_submit_container">
+            ' . implode(' ', $arrButtons) . '
+            </div>
+
+            </div>
+            </div>
+            </form>';
+        }
+
+        return $return;
+    }
+
+    /**
 	 * Generate the filter panel and return it as HTML string
 	 *
 	 * @param integer $intFilterPanel

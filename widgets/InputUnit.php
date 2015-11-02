@@ -8,7 +8,7 @@
  * @license LGPL-3.0+
  */
 
-namespace ContaoMateriel;
+namespace ContaoMaterial;
 
 
 /**

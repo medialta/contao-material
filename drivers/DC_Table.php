@@ -1299,7 +1299,7 @@ class DC_Table extends \Contao\DC_Table
         <label for="tl_select_trigger" class="select-trigger-label">'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</label> <input type="checkbox" id="select-trigger" onclick="Backend.toggleCheckboxes(this)" class="tree-checkbox">
         </div>' : '').'
 
-        <ul class="listing '. $treeClass .'">
+        <ul class="listing '. $treeClass .' collapsible" data-collapsible="expandable">
         <li class="row-top"><div class="item">'.$label.'</div> <div class="actions">';
 
         $_buttons = '&nbsp;';
@@ -2073,14 +2073,16 @@ class DC_Table extends \Contao\DC_Table
 		$session[$node][$id] = (is_int($session[$node][$id])) ? $session[$node][$id] : 0;
 		$mouseover = ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 5 || $table == $this->strTable) ? ' toggle-select"' : '"';
 
-        if (($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 5 && $objRow->type == 'root') || $table != $this->strTable)
-        {
-            $return .= "\n  " . '<li class="row-container click2edit'.$mouseover.'><div class="collapsible-header"><div class="item">';
-        }
-        else
-        {
-            $return .= "\n  " . '<div class="collapsible-body"><div class="item">';
-        }
+        $tableClass = str_replace(['tl_', '_'], ['', '-'], $table);
+
+        // if (($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 5 && $objRow->type == 'root') || $table != $this->strTable)
+        // {
+            $return .= "\n  " . '<li class="row-container click2edit'.$mouseover.'><div class="collapsible-header"><div class="item -' . $tableClass . '">';
+        // }
+        // else
+        // {
+            // $return .= "\n  " . '<div class="item -' . $tableClass . '">';
+        // }
 
 		// Calculate label and add a toggle button
 		$args = array();
@@ -2207,36 +2209,14 @@ class DC_Table extends \Contao\DC_Table
 			}
 		}
 
-        $return .= $_buttons . '</div></div>';
-
-        if (($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] != 5 || $objRow->type != 'root') && $table == $this->strTable && !$arrPrevNext['nn'])
-        {
-            $return .=  '</li>';
-        }
-
-		// Add the records of the table itself
-		if ($table != $this->strTable)
-		{
-			$objChilds = $this->Database->prepare("SELECT id FROM " . $this->strTable . " WHERE pid=?" . ($blnHasSorting ? " ORDER BY sorting" : ''))
-										->execute($id);
-
-			if ($objChilds->numRows)
-			{
-				$ids = $objChilds->fetchEach('id');
-
-				for ($j=0, $c=count($ids); $j<$c; $j++)
-				{
-					$return .= $this->generateTree($this->strTable, $ids[$j], array('pp'=>$ids[($j-1)], 'nn'=>$ids[($j+1)]), $blnHasSorting, ($intMargin + $intSpacing + 20), $arrClipboard, false, ($j<(count($ids)-1) || !empty($childs)));
-				}
-			}
-		}
+        $return .= $_buttons . '</div>';
 
 		// Begin a new submenu
 		if (!$blnNoRecursion)
 		{
 			if (!empty($childs) && $session[$node][$id] == 1)
 			{
-				$return .= '<li class="parent" id="'.$node.'-'.$id.'"><ul class="level-'.$level.' collapsible" data-collapsible="expandable">';
+				$return .= '</div><div class="collapsible-body" id="'.$node.'-'.$id.'"><ul class="level-'.$level.' collapsible" data-collapsible="expandable">';
 			}
 
 			// Add the records of the parent table
@@ -2246,7 +2226,8 @@ class DC_Table extends \Contao\DC_Table
 				{
 					for ($k=0, $c=count($childs); $k<$c; $k++)
 					{
-						$return .= $this->generateTree($table, $childs[$k], array('p'=>$childs[($k-1)], 'n'=>$childs[($k+1)]), $blnHasSorting, ($intMargin + $intSpacing), $arrClipboard, ((($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 5 && $childs[$k] == $arrClipboard['id']) || $blnCircularReference) ? true : false), ($blnProtected || $protectedPage));
+						$return .= $debug = $this->generateTree($table, $childs[$k], array('p'=>$childs[($k-1)], 'n'=>$childs[($k+1)]), $blnHasSorting, ($intMargin + $intSpacing), $arrClipboard,
+                        ((($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 5 && $childs[$k] == $arrClipboard['id']) || $blnCircularReference) ? true : false), ($blnProtected || $protectedPage));
 					}
 				}
 			}
@@ -2254,7 +2235,34 @@ class DC_Table extends \Contao\DC_Table
 			// Close the submenu
 			if (!empty($childs) && $session[$node][$id] == 1)
 			{
-				$return .= '</ul></li>';
+				$return .= '</ul>';
+
+                if (!$arrPrevNext['n'])
+                {
+                    $return .=  '</div>';
+                }
+			}
+		}
+
+        if (($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] != 5 || $objRow->type != 'root') && $table == $this->strTable && !$arrPrevNext['nn'])
+        {
+
+            $return .=  '</div></li>';
+        }
+
+		// Add the records of the table itself
+		if ($table != $this->strTable)
+		{
+			$objChilds = $this->Database->prepare("SELECT id FROM " . $this->strTable . " WHERE pid=?" . ($blnHasSorting ? " ORDER BY sorting" : ''))->execute($id);
+
+			if ($objChilds->numRows)
+			{
+				$ids = $objChilds->fetchEach('id');
+
+				for ($j=0, $c=count($ids); $j<$c; $j++)
+				{
+					$return .= $this->generateTree($this->strTable, $ids[$j], array('pp'=>$ids[($j-1)], 'nn'=>$ids[($j+1)]), $blnHasSorting, ($intMargin + $intSpacing + 20), $arrClipboard, false, ($j<(count($ids)-1) || !empty($childs)));
+				}
 			}
 		}
 

@@ -248,20 +248,20 @@ abstract class DataContainer extends \Contao\DataContainer
                     $time = '';
                     break;
             }
+            $search_date = array('Y', 'm', 'd');
+            $replace_date = array('yyyy', 'mm', 'dd');
 
             $wizard .= ' <img src="assets/mootools/datepicker/' . $GLOBALS['TL_ASSETS']['DATEPICKER'] . '/icon.gif" width="20" height="20" alt="" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['datepicker']).'" id="toggle_' . $objWidget->id . '" style="vertical-align:-6px;cursor:pointer">
             <script>
-            window.addEvent("domready", function() {
-                new Picker.Date($("ctrl_' . $objWidget->id . '"), {
-                    draggable: false,
-                    toggle: $("toggle_' . $objWidget->id . '"),
-                    format: "' . $format . '",
-                    positionOffset: {x:-211,y:-209}' . $time . ',
-                    pickerClass: "datepicker_bootstrap",
-                    useFadeInOut: !Browser.ie,
-                    startDay: ' . $GLOBALS['TL_LANG']['MSC']['weekOffset'] . ',
-                    titleFormat: "' . $GLOBALS['TL_LANG']['MSC']['titleFormat'] . '"
-                });
+            $("#ctrl_' . $objWidget->id . '").pickadate({
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 15,
+                format: \''.str_replace($search_date, $replace_date, \Config::get('dateFormat')).'\',
+                monthsFull: [\''.$GLOBALS['TL_LANG']['MONTHS'][0].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][1].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][2].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][3].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][4].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][5].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][6].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][7].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][8].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][9].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][10].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][11].'\'],
+                weekdaysShort: [\'Dim\', \'Lun\', \'Mar\', \'Mer\', \'Jeu\', \'Ven\', \'Sam\'],
+                today: \'aujourd\\\'hui\',
+                clear: \'<i class="material-icons">close</i>\',
+                close: \'<i class="material-icons">check</i>\',
             });
             </script>';
         }
@@ -433,67 +433,66 @@ abstract class DataContainer extends \Contao\DataContainer
         return '
         <div class="tl_help tl_tip' . $strClass . '"><i class="tiny material-icons help-icon">info_outline</i>'.$return.'</div>';
     }
-
     /**
-	 * Compile global buttons from the table configuration array and return them as HTML
-	 *
-	 * @return string
-	 */
-	protected function generateGlobalButtons()
-	{
-		if (!is_array($GLOBALS['TL_DCA'][$this->strTable]['list']['global_operations']))
-		{
-			return '';
-		}
+     * Compile global buttons from the table configuration array and return them as HTML
+     *
+     * @return string
+     */
+    protected function generateGlobalButtons()
+    {
+        if (!is_array($GLOBALS['TL_DCA'][$this->strTable]['list']['global_operations']))
+        {
+            return '';
+        }
 
-		$return = '';
+        $return = '';
 
-		foreach ($GLOBALS['TL_DCA'][$this->strTable]['list']['global_operations'] as $k=>$v)
-		{
-			$v = is_array($v) ? $v : array($v);
-			$label = is_array($v['label']) ? $v['label'][0] : $v['label'];
-			$title = is_array($v['label']) ? $v['label'][1] : $v['label'];
-			$attributes = ($v['attributes'] != '') ? ' ' . ltrim($v['attributes']) : '';
+        foreach ($GLOBALS['TL_DCA'][$this->strTable]['list']['global_operations'] as $k=>$v)
+        {
+            $v = is_array($v) ? $v : array($v);
+            $label = is_array($v['label']) ? $v['label'][0] : $v['label'];
+            $title = is_array($v['label']) ? $v['label'][1] : $v['label'];
+            $attributes = ($v['attributes'] != '') ? ' ' . ltrim($v['attributes']) : '';
 
-			// Custom icon (see #5541)
-			if ($v['icon'])
-			{
-				$v['class'] = trim($v['class'] . ' header_icon');
+            // Custom icon (see #5541)
+            if ($v['icon'])
+            {
+                $v['class'] = trim($v['class'] . ' header_icon');
 
-				// Add the theme path if only the file name is given
-				if (strpos($v['icon'], '/') === false)
-				{
-					$v['icon'] = 'system/themes/' . \Backend::getTheme() . '/images/' . $v['icon'];
-				}
+                // Add the theme path if only the file name is given
+                if (strpos($v['icon'], '/') === false)
+                {
+                    $v['icon'] = 'system/themes/' . \Backend::getTheme() . '/images/' . $v['icon'];
+                }
 
-				$attributes = sprintf('style="background-image:url(\'%s%s\')"', TL_ASSETS_URL, $v['icon']) . $attributes;
-			}
+                $attributes = sprintf('style="background-image:url(\'%s%s\')"', TL_ASSETS_URL, $v['icon']) . $attributes;
+            }
 
-			if ($label == '')
-			{
-				$label = $k;
-			}
-			if ($title == '')
-			{
-				$title = $label;
-			}
+            if ($label == '')
+            {
+                $label = $k;
+            }
+            if ($title == '')
+            {
+                $title = $label;
+            }
 
-			// Call a custom function instead of using the default button
-			if (is_array($v['button_callback']))
-			{
-				$this->import($v['button_callback'][0]);
-				$return .= $this->$v['button_callback'][0]->$v['button_callback'][1]($v['href'], $label, $title, $v['class'], $attributes, $this->strTable, $this->root);
-				continue;
-			}
-			elseif (is_callable($v['button_callback']))
-			{
-				$return .= $v['button_callback']($v['href'], $label, $title, $v['class'], $attributes, $this->strTable, $this->root);
-				continue;
-			}
+            // Call a custom function instead of using the default button
+            if (is_array($v['button_callback']))
+            {
+                $this->import($v['button_callback'][0]);
+                $return .= $this->$v['button_callback'][0]->$v['button_callback'][1]($v['href'], $label, $title, $v['class'], $attributes, $this->strTable, $this->root);
+                continue;
+            }
+            elseif (is_callable($v['button_callback']))
+            {
+                $return .= $v['button_callback']($v['href'], $label, $title, $v['class'], $attributes, $this->strTable, $this->root);
+                continue;
+            }
 
-			$return .= '<a href="'.$this->addToUrl($v['href']).'" class="'.$v['class'].' tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'"'.$attributes.'>'.$label.'</a> ';
-		}
+            $return .= '<a href="'.$this->addToUrl($v['href']).'" class="'.$v['class'].' tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'"'.$attributes.'>'.$label.'</a> ';
+        }
 
-		return $return;
-	}
+        return $return;
+    }
 }

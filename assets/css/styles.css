@@ -1,5 +1,6 @@
 body {
     overflow-x: hidden;
+    overflow-y: scroll;
 }
 h1 {
     font-size: 2.5em;
@@ -35,6 +36,9 @@ span.mandatory {
     width: 49%;
     display: inline-block;
     padding-right: 10px;
+}
+.w50.cbx {
+    display: block;
 }
 @media (max-width: 991px) {
     .w50 {
@@ -79,7 +83,7 @@ span.mandatory {
     max-width: 580px;
 }
 .collapsible-body h3 + .input-field {
-    margin-top: -0.5em;
+    margin-top: 0;
 }
 
 .select2-container {

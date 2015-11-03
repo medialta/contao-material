@@ -217,13 +217,14 @@ footer {
         margin-top: 0;
         margin-bottom: 0;
         padding-left: 1rem;
-        padding-right: 1rem;
+        padding-right: 0;
         border-top-width: 0;
     }
 
     .listing .collapsible-body {
         padding-top: 0;
         padding-bottom: 0;
+        padding-right: 0;
         border-bottom-width: 0;
     }
 
@@ -244,6 +245,24 @@ footer {
             content: "";
             height: 3rem;
         }
+
+        .listing .collapsible-header::after {
+            content: "";
+            display: block;
+            margin-left: 3rem;
+            margin-right: -1rem;
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+            border-bottom-color: #ddd;
+        }
+
+            .listing > .row-container > .collapsible-header::after {
+                margin-right: 0;
+            }
+
+            .listing .collapsible-header:only-child::after {
+                margin-left: 0;
+            }
 
         .listing .collapsible-header:hover a {
             color: #424242;

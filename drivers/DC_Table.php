@@ -2071,7 +2071,7 @@ class DC_Table extends \Contao\DC_Table
 		}
 
 		$session[$node][$id] = (is_int($session[$node][$id])) ? $session[$node][$id] : 0;
-		$mouseover = ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 5 || $table == $this->strTable) ? ' toggle-select"' : '"';
+		$mouseover = ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 5 || $table == $this->strTable) ? ' toggle-select' : '"';
 
         $tableClass = str_replace(['tl_', '_'], ['', '-'], $table);
 
@@ -2081,21 +2081,21 @@ class DC_Table extends \Contao\DC_Table
         }
         else
         {
-            $return .= "\n  " . '<li class="row-container click2edit'.$mouseover.'><div class="collapsible-header"><div class="item -' . $tableClass . '">';
+            $isNodeActive = ($session[$node][$id] == 1) ? ' active' : '';
+            $return .= "\n  " . '<li class="row-container click2edit' . $mouseover . '"><div class="collapsible-header' . $isNodeActive . '"><div class="item -' . $tableClass . '">';
         }
 
 		// Calculate label and add a toggle button
 		$args = array();
-		$folderAttribute = 'style="margin-left:20px"';
+		$folderAttribute = '';
 		$showFields = $GLOBALS['TL_DCA'][$table]['list']['label']['fields'];
 		$level = ($intMargin / $intSpacing + 1);
 
 		if (!empty($childs))
 		{
 			$folderAttribute = '';
-			$img = ($session[$node][$id] == 1) ? 'folMinus.gif' : 'folPlus.gif';
 			$alt = ($session[$node][$id] == 1) ? $GLOBALS['TL_LANG']['MSC']['collapseNode'] : $GLOBALS['TL_LANG']['MSC']['expandNode'];
-			$return .= '<a href="'.$this->addToUrl('ptg='.$id).'" title="'.specialchars($alt).'" onclick="Backend.getScrollOffset();return AjaxRequest.toggleStructure(this,\''.$node.'_'.$id.'\','.$level.','.$GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'].')">'.\Image::getHtml($img, '', 'style="margin-right:2px"').'</a>';
+			$return .= '<a href="'.$this->addToUrl('ptg='.$id).'" title="'.specialchars($alt).'" onclick="Backend.getScrollOffset();return AjaxRequest.toggleStructure(this,\''.$node.'_'.$id.'\','.$level.','.$GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'].')"><i class="material-icons expand-icon">expand_less</i></a>';
 		}
 
 		foreach ($showFields as $k=>$v)

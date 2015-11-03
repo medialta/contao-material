@@ -2071,7 +2071,7 @@ class DC_Table extends \Contao\DC_Table
 		}
 
 		$session[$node][$id] = (is_int($session[$node][$id])) ? $session[$node][$id] : 0;
-		$mouseover = ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 5 || $table == $this->strTable) ? ' toggle-select' : '"';
+		$mouseover = ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 5 || $table == $this->strTable) ? ' toggle-select' : '';
 
         $tableClass = str_replace(['tl_', '_'], ['', '-'], $table);
 
@@ -2209,6 +2209,7 @@ class DC_Table extends \Contao\DC_Table
 			}
 		}
 
+        $_buttons='';
         $return .= $_buttons . '</div>';
 
 		// Add the records of the table itself
@@ -2257,7 +2258,6 @@ class DC_Table extends \Contao\DC_Table
 
         if (($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] != 5 || $objRow->type != 'root') && $table == $this->strTable && array_key_exists('nn', $arrPrevNext) && !$arrPrevNext['nn'])
         {
-
             $return .=  '</div>';
         }
         else
@@ -2267,7 +2267,10 @@ class DC_Table extends \Contao\DC_Table
                 $return .=  '</div>';
             }
 
-            $return .=  '</li>';
+            if ($table == $this->strTable && (array_key_exists('nn', $arrPrevNext) && !$arrPrevNext['nn'] || array_key_exists('n', $arrPrevNext)) || $table != $this->strTable)
+            {
+                $return .=  '</li>';
+            }
         }
 
 		$this->Session->setData($session);

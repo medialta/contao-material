@@ -2209,7 +2209,6 @@ class DC_Table extends \Contao\DC_Table
 			}
 		}
 
-        $_buttons='';
         $return .= $_buttons . '</div>';
 
 		// Add the records of the table itself

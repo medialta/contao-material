@@ -2075,14 +2075,14 @@ class DC_Table extends \Contao\DC_Table
 
         $tableClass = str_replace(['tl_', '_'], ['', '-'], $table);
 
-        // if (($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 5 && $objRow->type == 'root') || $table != $this->strTable)
-        // {
+        if (array_key_exists('pp', $arrPrevNext) && $this->strTable == $table)
+        {
+            $return .= "\n  " . '<div class="record"><div class="item -' . $tableClass . '">';
+        }
+        else
+        {
             $return .= "\n  " . '<li class="row-container click2edit'.$mouseover.'><div class="collapsible-header"><div class="item -' . $tableClass . '">';
-        // }
-        // else
-        // {
-            // $return .= "\n  " . '<div class="item -' . $tableClass . '">';
-        // }
+        }
 
 		// Calculate label and add a toggle button
 		$args = array();
@@ -2211,6 +2211,22 @@ class DC_Table extends \Contao\DC_Table
 
         $return .= $_buttons . '</div>';
 
+		// Add the records of the table itself
+		if ($table != $this->strTable)
+		{
+			$objChilds = $this->Database->prepare("SELECT id FROM " . $this->strTable . " WHERE pid=?" . ($blnHasSorting ? " ORDER BY sorting" : ''))->execute($id);
+
+			if ($objChilds->numRows)
+			{
+				$ids = $objChilds->fetchEach('id');
+
+				for ($j=0, $c=count($ids); $j<$c; $j++)
+				{
+					$return .= $this->generateTree($this->strTable, $ids[$j], array('pp'=>$ids[($j-1)], 'nn'=>$ids[($j+1)]), $blnHasSorting, ($intMargin + $intSpacing + 20), $arrClipboard, false, ($j<(count($ids)-1) || !empty($childs)));
+				}
+			}
+		}
+
 		// Begin a new submenu
 		if (!$blnNoRecursion)
 		{
@@ -2235,36 +2251,24 @@ class DC_Table extends \Contao\DC_Table
 			// Close the submenu
 			if (!empty($childs) && $session[$node][$id] == 1)
 			{
-				$return .= '</ul>';
-
-                if (!$arrPrevNext['n'])
-                {
-                    $return .=  '</div>';
-                }
+				$return .= '</ul></div>';
 			}
 		}
 
-        if (($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] != 5 || $objRow->type != 'root') && $table == $this->strTable && !$arrPrevNext['nn'])
+        if (($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] != 5 || $objRow->type != 'root') && $table == $this->strTable && array_key_exists('nn', $arrPrevNext) && !$arrPrevNext['nn'])
         {
 
-            $return .=  '</div></li>';
+            $return .=  '</div>';
         }
+        else
+        {
+            if (empty($childs) || $session[$node][$id] != 1)
+            {
+                $return .=  '</div>';
+            }
 
-		// Add the records of the table itself
-		if ($table != $this->strTable)
-		{
-			$objChilds = $this->Database->prepare("SELECT id FROM " . $this->strTable . " WHERE pid=?" . ($blnHasSorting ? " ORDER BY sorting" : ''))->execute($id);
-
-			if ($objChilds->numRows)
-			{
-				$ids = $objChilds->fetchEach('id');
-
-				for ($j=0, $c=count($ids); $j<$c; $j++)
-				{
-					$return .= $this->generateTree($this->strTable, $ids[$j], array('pp'=>$ids[($j-1)], 'nn'=>$ids[($j+1)]), $blnHasSorting, ($intMargin + $intSpacing + 20), $arrClipboard, false, ($j<(count($ids)-1) || !empty($childs)));
-				}
-			}
-		}
+            $return .=  '</li>';
+        }
 
 		$this->Session->setData($session);
 

@@ -38,4 +38,137 @@ class Helper extends \System
             $session->set('backend_modules', $modules);
         }
     }
+
+    /**
+     * Returns true if given string is an image filename
+     *
+     * @param string $src Icon name or filename
+     *
+     * @return boolean true if current icon is an image filename
+     */
+    public static function isImage($src)
+    {
+        $src = rawurldecode($src);
+
+        if (strpos($src, '/') === false)
+        {
+            if (strncmp($src, 'icon', 4) === 0)
+            {
+                $src = 'assets/contao/images/' . $src;
+            }
+            else
+            {
+                $src = 'system/themes/' . \Backend::getTheme() . '/images/' . $src;
+            }
+        }
+
+        return file_exists(TL_ROOT . '/' . $src);
+    }
+
+    /**
+     * Returns true if given string is an inactive icon (not clickable)
+     *
+     * @param string $src Icon name or filename
+     *
+     * @return boolean true if current icon is inactive
+     */
+    public static function isInactiveIcon($src)
+    {
+        $inactive = false;
+
+        if (self::isImage($src))
+        {
+            $filename = basename($src, strrchr($src, '.'));
+            $inactive = substr($filename, -1) == '_';
+        }
+
+        return $inactive;
+    }
+
+    /**
+     * Gets the active image corresponding to an inactive one
+     *
+     * @param string $inactiveImage Inactive image filename
+     *
+     * @return string Active image filename
+     */
+    public static function getActiveImage($inactiveImage)
+    {
+        $extension = strrchr($inactiveImage, '.');
+        $filename = basename($inactiveImage, $extension);
+
+        return substr($filename, 0, -1) . $extension;
+    }
+
+    /**
+     * Replaces an HTML image by the corresponding Material Design icon
+     *
+     * @param string $html HTML string containing image
+     *
+     * @return string HTML string with image replaced by icon
+     */
+    public static function replaceImageByIcon($html)
+    {
+        preg_match_all('/(<img.*src=\"(.*)\".*>)/mU', $html, $matches);
+
+        if (isset($matches[1][0]) && isset($matches[2][0]) && strlen($matches[1][0]) && strlen($matches[2][0]))
+        {
+            $html = str_replace($matches[1][0], self::getIconHtml(basename($matches[2][0])), $html);
+        }
+
+        return $html;
+    }
+
+    /**
+     * Returns a Material Design icon HTML corresponding to a Contao image
+     *
+     * @param string $src        The image path
+	 * @param string $alt        An optional alt attribute
+	 * @param string $attributes A string of other attributes
+     *
+     * @return string The icon HTML tag
+     */
+    public static function getIconHtml($src, $alt = '', $attributes = '')
+    {
+        $icon = '';
+        $inactive = self::isInactiveIcon($src);
+
+        if (self::isImage($src))
+        {
+            if (!isset($GLOBALS['MD_ICONS']))
+            {
+                require __DIR__ . '/../config/icons.php';
+            }
+
+            if (isset($GLOBALS['MD_ICONS'][$src]))
+            {
+                $icon = $GLOBALS['MD_ICONS'][$src];
+            }
+            else if ($inactive)
+            {
+                $activeImage = self::getActiveImage($src);
+
+                if (isset($GLOBALS['MD_ICONS'][$activeImage]))
+                {
+                    $icon = $GLOBALS['MD_ICONS'][$activeImage];
+                }
+            }
+        }
+
+        if (strlen($icon))
+        {
+            $icon = '<i class="material-icons">' . $icon . '</i>';
+
+            if ($inactive)
+            {
+                $icon = '<span class="inactive-option">' . $icon . '</span>';
+            }
+        }
+        else
+        {
+            $icon = \Image::getHtml($src, $alt, $attributes);
+        }
+
+        return $icon;
+    }
 }

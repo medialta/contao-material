@@ -355,9 +355,12 @@ footer {
         }
 
     .listing .record {
-        padding-bottom: .75rem;
         padding-left: 3rem;
     }
+
+        .listing .record:last-child {
+            padding-bottom: .75rem;
+        }
 
     .listing .row-container .collapsible-header:hover,
     .listing.highlight > tbody > tr:hover {

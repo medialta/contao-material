@@ -433,6 +433,102 @@ abstract class DataContainer extends \Contao\DataContainer
         return '
         <div class="tl_help tl_tip' . $strClass . '"><i class="tiny material-icons help-icon">info_outline</i>'.$return.'</div>';
     }
+
+    /**
+	 * Compile buttons from the table configuration array and return them as HTML
+	 *
+	 * @param array   $arrRow
+	 * @param string  $strTable
+	 * @param array   $arrRootIds
+	 * @param boolean $blnCircularReference
+	 * @param array   $arrChildRecordIds
+	 * @param string  $strPrevious
+	 * @param string  $strNext
+	 *
+	 * @return string
+	 */
+	protected function generateButtons($arrRow, $strTable, $arrRootIds=array(), $blnCircularReference=false, $arrChildRecordIds=null, $strPrevious=null, $strNext=null)
+	{
+		if (empty($GLOBALS['TL_DCA'][$strTable]['list']['operations']))
+		{
+			return '';
+		}
+
+		$return = '';
+
+		foreach ($GLOBALS['TL_DCA'][$strTable]['list']['operations'] as $k=>$v)
+		{
+			$v = is_array($v) ? $v : array($v);
+			$id = specialchars(rawurldecode($arrRow['id']));
+
+			$label = $v['label'][0] ?: $k;
+			$title = sprintf($v['label'][1] ?: $k, $id);
+			$attributes = ($v['attributes'] != '') ? ' ' . ltrim(sprintf($v['attributes'], $id, $id)) : '';
+
+			// Add the key as CSS class
+			if (strpos($attributes, 'class="') !== false)
+			{
+				$attributes = str_replace('class="', 'class="' . $k . ' ', $attributes);
+			}
+			else
+			{
+				$attributes = ' class="' . $k . '"' . $attributes;
+			}
+
+			// Call a custom function instead of using the default button
+			if (is_array($v['button_callback']))
+			{
+				$this->import($v['button_callback'][0]);
+				$currentButton = $this->$v['button_callback'][0]->$v['button_callback'][1]($arrRow, $v['href'], $label, $title, $v['icon'], $attributes, $strTable, $arrRootIds, $arrChildRecordIds, $blnCircularReference, $strPrevious, $strNext, $this);
+                $return .= Helper::replaceImageByIcon($currentButton);
+				continue;
+			}
+			elseif (is_callable($v['button_callback']))
+			{
+				$currentButton = $v['button_callback']($arrRow, $v['href'], $label, $title, $v['icon'], $attributes, $strTable, $arrRootIds, $arrChildRecordIds, $blnCircularReference, $strPrevious, $strNext, $this);
+                $return .= Helper::replaceImageByIcon($currentButton);
+				continue;
+			}
+
+			// Generate all buttons except "move up" and "move down" buttons
+			if ($k != 'move' && $v != 'move')
+			{
+				if ($k == 'show')
+				{
+					$return .= '<a href="'.$this->addToUrl($v['href'].'&amp;id='.$arrRow['id'].'&amp;popup=1').'" title="'.specialchars($title).'" onclick="Backend.openModalIframe({\'width\':768,\'title\':\''.specialchars(str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG'][$strTable]['show'][1], $arrRow['id']))).'\',\'url\':this.href});return false"'.$attributes.'>'.Helper::getIconHtml($v['icon'], $label).'</a> ';
+				}
+				else
+				{
+					$return .= '<a href="'.$this->addToUrl($v['href'].'&amp;id='.$arrRow['id']).'" title="'.specialchars($title).'"'.$attributes.'>'.Helper::getIconHtml($v['icon'], $label).'</a> ';
+				}
+
+				continue;
+			}
+
+			$arrDirections = array('up', 'down');
+			$arrRootIds = is_array($arrRootIds) ? $arrRootIds : array($arrRootIds);
+
+			foreach ($arrDirections as $dir)
+			{
+				$label = $GLOBALS['TL_LANG'][$strTable][$dir][0] ?: $dir;
+				$title = $GLOBALS['TL_LANG'][$strTable][$dir][1] ?: $dir;
+
+				$label = Helper::getIconHtml($dir.'.gif', $label);
+				$href = $v['href'] ?: '&amp;act=move';
+
+				if ($dir == 'up')
+				{
+					$return .= ((is_numeric($strPrevious) && (!in_array($arrRow['id'], $arrRootIds) || empty($GLOBALS['TL_DCA'][$strTable]['list']['sorting']['root']))) ? '<a href="'.$this->addToUrl($href.'&amp;id='.$arrRow['id']).'&amp;sid='.intval($strPrevious).'" title="'.specialchars($title).'"'.$attributes.'>'.$label.'</a> ' : Helper::getIconHtml('up_.gif')).' ';
+					continue;
+				}
+
+				$return .= ((is_numeric($strNext) && (!in_array($arrRow['id'], $arrRootIds) || empty($GLOBALS['TL_DCA'][$strTable]['list']['sorting']['root']))) ? '<a href="'.$this->addToUrl($href.'&amp;id='.$arrRow['id']).'&amp;sid='.intval($strNext).'" title="'.specialchars($title).'"'.$attributes.'>'.$label.'</a> ' : Helper::getIconHtml('down_.gif')).' ';
+			}
+		}
+
+		return trim($return);
+	}
+
     /**
      * Compile global buttons from the table configuration array and return them as HTML
      *

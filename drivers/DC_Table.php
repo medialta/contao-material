@@ -1289,14 +1289,13 @@ class DC_Table extends \Contao\DC_Table
         <input type="hidden" name="FORM_SUBMIT" value="tl_select">
         <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">' : '').($blnClipboard ? '
 
-        <div id="paste_hint">
-        <p>'.$GLOBALS['TL_LANG']['MSC']['selectNewPosition'].'</p>
-        </div>' : '').'
+        <div class="paste-hint">' . \Message::parseMessage(\Message::getCssClass('tl_info'), $GLOBALS['TL_LANG']['MSC']['selectNewPosition'] . '<i class="material-icons paste-hint-icon">keyboard_backspace</i>') . '</div>' : '').'
 
         <div class="listing-container tree_view" id="listing">'.(isset($GLOBALS['TL_DCA'][$table]['list']['sorting']['breadcrumb']) ? $GLOBALS['TL_DCA'][$table]['list']['sorting']['breadcrumb'] : '').((\Input::get('act') == 'select') ? '
 
         <div class="select-trigger">
-        <label for="tl_select_trigger" class="select-trigger-label">'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</label> <input type="checkbox" id="select-trigger" onclick="Backend.toggleCheckboxes(this)" class="tree-checkbox">
+        <input type="checkbox" id="select-trigger" onclick="Backend.toggleCheckboxes(this)" class="tree-checkbox">
+        <label for="select-trigger" class="select-trigger-label">'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</label>
         </div>' : '').'
 
         <ul class="listing '. $treeClass .' collapsible" data-collapsible="expandable">
@@ -2167,7 +2166,7 @@ class DC_Table extends \Contao\DC_Table
 		// Regular buttons ($row, $table, $root, $blnCircularReference, $childs, $previous, $next)
 		if ($this->strTable == $table)
 		{
-			$_buttons .= (\Input::get('act') == 'select') ? '<input type="checkbox" name="IDS[]" id="ids_'.$id.'" class="tree-checkbox" value="'.$id.'">' : $this->generateButtons($objRow->row(), $table, $this->root, $blnCircularReference, $childs, $previous, $next);
+			$_buttons .= (\Input::get('act') == 'select') ? '<input type="checkbox" name="IDS[]" id="ids_'.$id.'" class="tree-checkbox" value="'.$id.'"><label for="ids_'.$id.'"></label>' : $this->generateButtons($objRow->row(), $table, $this->root, $blnCircularReference, $childs, $previous, $next);
 		}
 
 		// Paste buttons
@@ -2190,14 +2189,17 @@ class DC_Table extends \Contao\DC_Table
 			}
 			else
 			{
-				$imagePasteAfter = \Image::getHtml('pasteafter.gif', sprintf($GLOBALS['TL_LANG'][$this->strTable]['pasteafter'][1], $id));
-				$imagePasteInto = \Image::getHtml('pasteinto.gif', sprintf($GLOBALS['TL_LANG'][$this->strTable]['pasteinto'][1], $id));
+				$imagePasteAfter = '<i class="material-icons paste-after-icon">keyboard_return</i>';
+				$imagePasteInto = '<i class="material-icons paste-into-icon">keyboard_backspace</i>';
 
 				// Regular tree (on cut: disable buttons of the page all its childs to avoid circular references)
 				if ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 5)
 				{
-					$_buttons .= ($arrClipboard['mode'] == 'cut' && ($blnCircularReference || $arrClipboard['id'] == $id) || $arrClipboard['mode'] == 'cutAll' && ($blnCircularReference || in_array($id, $arrClipboard['id'])) || (!empty($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root']) && !$GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['rootPaste'] && in_array($id, $this->root))) ? \Image::getHtml('pasteafter_.gif').' ' : '<a href="'.$this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=1&amp;pid='.$id.(!is_array($arrClipboard['id']) ? '&amp;id='.$arrClipboard['id'] : '')).'" title="'.specialchars(sprintf($GLOBALS['TL_LANG'][$this->strTable]['pasteafter'][1], $id)).'" onclick="Backend.getScrollOffset()">'.$imagePasteAfter.'</a> ';
-					$_buttons .= ($arrClipboard['mode'] == 'paste' && ($blnCircularReference || $arrClipboard['id'] == $id) || $arrClipboard['mode'] == 'cutAll' && ($blnCircularReference || in_array($id, $arrClipboard['id']))) ? \Image::getHtml('pasteinto_.gif').' ' : '<a href="'.$this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=2&amp;pid='.$id.(!is_array($arrClipboard['id']) ? '&amp;id='.$arrClipboard['id'] : '')).'" title="'.specialchars(sprintf($GLOBALS['TL_LANG'][$this->strTable]['pasteinto'][1], $id)).'" onclick="Backend.getScrollOffset()">'.$imagePasteInto.'</a> ';
+					$_buttons .= ($arrClipboard['mode'] == 'cut' && ($blnCircularReference || $arrClipboard['id'] == $id) || $arrClipboard['mode'] == 'cutAll' && ($blnCircularReference || in_array($id, $arrClipboard['id'])) ||
+                    (!empty($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root']) && !$GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['rootPaste'] && in_array($id, $this->root))) ? '<span class="inactive-option">' . $imagePasteAfter . '</span> ' : '<a href="' .
+                    $this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=1&amp;pid='.$id.(!is_array($arrClipboard['id']) ? '&amp;id='.$arrClipboard['id'] : '')).'" class="paste-after-action btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars(sprintf($GLOBALS['TL_LANG'][$this->strTable]['pasteafter'][1], $id)).'" onclick="Backend.getScrollOffset()">'.$imagePasteAfter.'</a> ';
+					$_buttons .= ($arrClipboard['mode'] == 'paste' && ($blnCircularReference || $arrClipboard['id'] == $id) || $arrClipboard['mode'] == 'cutAll' && ($blnCircularReference || in_array($id, $arrClipboard['id']))) ? '<span class="inactive-option">' . $imagePasteInto . '</span> ' : '<a href="' .
+                    $this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=2&amp;pid='.$id.(!is_array($arrClipboard['id']) ? '&amp;id='.$arrClipboard['id'] : '')).'" class="paste-into-action btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars(sprintf($GLOBALS['TL_LANG'][$this->strTable]['pasteinto'][1], $id)).'" onclick="Backend.getScrollOffset()">'.$imagePasteInto.'</a> ';
 				}
 
 				// Extended tree

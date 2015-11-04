@@ -144,6 +144,10 @@ class Helper extends \System
             {
                 $icon = $GLOBALS['MD_ICONS'][$src];
             }
+            else if (isset($GLOBALS['MD_ICONS'][basename($src)]))
+            {
+                $icon = $GLOBALS['MD_ICONS'][basename($src)];
+            }
             else if ($inactive)
             {
                 $activeImage = self::getActiveImage($src);

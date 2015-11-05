@@ -47,11 +47,11 @@
                 <ul id="modules-nav" class="side-nav fixed primary -c100">
                     <?php foreach ($this->modules as $strGroup => $arrModules): ?>
                         <li class="no-padding">
-                            <ul class="collapsible collapsible-accordion">
+                            <ul class="collapsible collapsible-accordion<?= $arrModules['class'] ?>">
                                 <li><!--
-                                 --><a class="collapsible-header" href="<?= $arrModules['href'] ?>" title="<?= $arrModules['title'] ?>"><?= $arrModules['label'] ?></a>
+                                 --><a class="collapsible-header <?php echo (strpos($arrModules['class'], 'trail') !== false ? 'active' : '') ?>" href="<?= $arrModules['href'] ?>" title="<?= $arrModules['title'] ?>"><?= $arrModules['label'] ?></a>
                                     <?php if ($arrModules['modules']): ?>
-                                        <div class="collapsible-body">
+                                        <div class="collapsible-body primary -c100">
                                             <ul>
                                                 <?php foreach ($arrModules['modules'] as $arrConfig): ?>
                                                     <li><a href="<?= $arrConfig['href'] ?>" class="<?= $arrConfig['class'] ?>" title="<?= $arrConfig['title'] ?>"<?= $arrConfig['icon'] ?>><?= $arrConfig['label'] ?></a></li>

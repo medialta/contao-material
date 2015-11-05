@@ -122,12 +122,28 @@ nav {
     top: 64px;
 }
 
+.side-nav .collapsible-body {
+    padding: 0;
+}
+.side-nav .collapsible-body li a {
+    margin: 0;
+    padding: 12px 0 12px 4rem;
+}
+.side-nav .collapsible-body a.active {
+}
+
 .logo-contao-nav {
     height: 45px;
     vertical-align: middle;
     margin-left: 20px;
     margin-right: 20px;
 }
+
+.side-nav .collapsible-body li {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
 
 
 

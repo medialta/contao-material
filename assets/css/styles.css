@@ -128,6 +128,8 @@ nav {
 .side-nav .collapsible-body li a {
     margin: 0;
     padding: 12px 0 12px 4rem;
+    background-repeat: no-repeat;
+    background-position: left center;
 }
 .side-nav .collapsible-body a.active {
 }

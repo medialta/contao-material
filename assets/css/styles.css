@@ -131,6 +131,21 @@ nav {
 }
 .side-nav .collapsible-body a.active {
 }
+.side-nav .collapsible .collapsible-header {
+    padding-left: 0;
+}
+.side-nav .collapsible-header .expand-icon {
+    transition: transform .35s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.side-nav .collapsible-header.active .expand-icon {
+    transform: rotate(180deg);
+}
+.side-nav .collapsible-header i {
+    margin-right: 0;
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
 
 .logo-contao-nav {
     height: 45px;
@@ -145,16 +160,31 @@ nav {
 }
 
 
+footer .footer {
+    border-top: 1px solid #bdbdbd;
+    position: relative;
+    margin-top: 2rem;
+}
+footer .footer .go-top {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+footer .footer .copyright {
+    margin-top: 2rem;
+}
+
 
 
 /* Couleurs */
-.accent.-c100 {
+.accent.-c100:not(.text) {
     background-color: #ffcc80;
 }
-.accent.-c200 {
+.accent.-c200:not(.text) {
     background-color: #ffb74d;
 }
-.accent.-c300 {
+.accent.-c300:not(.text) {
     background-color: #ffa726;
 }
 
@@ -168,13 +198,13 @@ nav {
     color: #ffa726;
 }
 
-.primary.-c100 {
+.primary.-c100:not(.text) {
     background-color: #eeeeee;
 }
-.primary.-c200 {
+.primary.-c200:not(.text) {
     background-color: #e0e0e0;
 }
-.primary.-c300 {
+.primary.-c300:not(.text) {
     background-color: #bdbdbd;
 }
 

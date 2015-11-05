@@ -49,7 +49,7 @@
                         <li class="no-padding">
                             <ul class="collapsible collapsible-accordion<?= $arrModules['class'] ?>">
                                 <li><!--
-                                 --><a class="collapsible-header <?php echo (strpos($arrModules['class'], 'trail') !== false ? 'active' : '') ?>" href="<?= $arrModules['href'] ?>" title="<?= $arrModules['title'] ?>"><?= $arrModules['label'] ?></a>
+                                 --><a class="collapsible-header <?php echo (strpos($arrModules['class'], 'trail') !== false ? 'active' : '') ?>" href="<?= $arrModules['href'] ?>" title="<?= $arrModules['title'] ?>"><i class="material-icons expand-icon">expand_more</i><span><?= $arrModules['label'] ?></span></a>
                                     <?php if ($arrModules['modules']): ?>
                                         <div class="collapsible-body primary -c100">
                                             <ul>
@@ -181,14 +181,15 @@
     </main>
 
     <?php if (!$this->isPopup): ?>
-        <footer class="page-footer orange lighten-2">
+        <footer class="footer">
             <div class="container">
-                <div class="row">
-                    <span>
-                        Contao Material Design by <a href="http://www.medialta.com" class="white-text" target="_blank">Medialta</a>
-                    </span>
-                    <a href="<?= $this->request ?>#top" class="white-text right" title="<?= $this->backToTop ?>" accesskey="t"><?= $this->top ?></a>
-                    <a href="contao/preview.php<?= $this->frontendFile ?>" class="white-text right" target="_blank" title="<?= $this->previewTitle ?>"><?= $this->preview ?></a>
+                <div class="footer row">
+                    <a href="<?= $this->request ?>#top" class="btn-medium btn-floating accent -c300 tooltipped go-top" data-position="top" data-delay="50" data-tooltip="<?= $this->top ?>">
+                        <i class="material-icons ">expand_less</i>
+                    </a>
+                    <div class="center-align text primary -c300 copyright">
+                        Contao Material Design by <a href="http://www.medialta.com" class="text primary -c300" target="_blank">Medialta</a>
+                    </div>
                 </div>
             </div>
         </footer>

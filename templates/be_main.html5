@@ -39,13 +39,12 @@
     <?= ''//$this->javascripts ?>
 
 </head>
-<body id="top" class="<?= $this->ua ?><?php if ($this->isPopup) echo ' popup'; ?>">
+<body id="top" class="<?= $this->ua ?><?php if ($this->isPopup) echo ' popup'; ?> primary -c100">
 
     <?php if (!$this->isPopup): ?>
         <aside>
             <nav class="side-nav fixed">
-                <ul id="modules-nav" class="side-nav fixed">
-                    <li><h1><?= $this->backendModules ?></h1></li>
+                <ul id="modules-nav" class="side-nav fixed primary -c100">
                     <?php foreach ($this->modules as $strGroup => $arrModules): ?>
                         <li class="no-padding">
                             <ul class="collapsible collapsible-accordion">
@@ -72,8 +71,10 @@
             <nav>
                 <div class="nav-wrapper orange lighten-1">
                     <a href="#" data-activates="modules-nav" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
-
-                    <a href="<?= $this->base ?>contao/main.php" class="brand-logo">Contao Open Source CMS <?= VERSION . '.' . BUILD ?></a>
+                    <a href="<?= $this->base ?>contao/main.php" class="brand-logo">
+                        <img src="/system/modules/contao-material/assets/img/contao-logo-grey.png" class="logo-contao-nav" alt="Contao">
+                        Contao Open Source CMS <?= VERSION . '.' . BUILD ?>
+                    </a>
 
                     <ul class="right hide-on-med-and-down">
                         <li>

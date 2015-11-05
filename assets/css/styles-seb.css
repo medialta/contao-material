@@ -15,7 +15,6 @@ main {
     flex: 1 0 auto;
 }
 
-header,
 main,
 footer {
     padding-left: 240px;
@@ -60,7 +59,6 @@ footer {
         .side-nav .collapsible li::before,
         .side-nav .collapsible a,
         .side-nav.fixed .collapsible a {
-            display: inline-block;
             vertical-align: middle;
         }
 

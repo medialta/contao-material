@@ -105,4 +105,70 @@ span.mandatory {
     border-right: 0;
     border-top: 0;
 }
+header {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 999;
+}
+main {
+    margin-top: 64px;
+}
+nav {
+    color: #444;
+}
+.side-nav {
+    top: 64px;
+}
+
+.logo-contao-nav {
+    height: 45px;
+    vertical-align: middle;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+
+
+/* Couleurs */
+.accent.-c100 {
+    background-color: #ffcc80;
+}
+.accent.-c200 {
+    background-color: #ffb74d;
+}
+.accent.-c300 {
+    background-color: #ffa726;
+}
+
+.accent.-c100.text {
+    color: #ffcc80;
+}
+.accent.-c200.text {
+    color: #ffb74d;
+}
+.accent.-c300.text {
+    color: #ffa726;
+}
+
+.primary.-c100 {
+    background-color: #eeeeee;
+}
+.primary.-c200 {
+    background-color: #e0e0e0;
+}
+.primary.-c300 {
+    background-color: #bdbdbd;
+}
+
+.primary.-c100.text {
+    color: #eeeeee;
+}
+.primary.-c200.text {
+    color: #e0e0e0;
+}
+.primary.-c300.text {
+    color: #bdbdbd;
+}
 /* $('link:not(link[href^="system/modules/contao-material"], link[href^="system/modules/contao-material"] ~ link)').detach() */

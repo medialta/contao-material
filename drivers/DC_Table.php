@@ -995,7 +995,7 @@ class DC_Table extends \Contao\DC_Table
                 }
 
                 $return .= '
-                <tr class="'.((++$eoCount % 2 == 0) ? 'even' : 'odd').' click2edit toggle-select" onmouseover="Theme.hoverRow(this,1)" onmouseout="Theme.hoverRow(this,0)">
+                <tr class="'.((++$eoCount % 2 == 0) ? 'even' : 'odd').' click2edit toggle-select">
                 ';
 
                 $colspan = 1;

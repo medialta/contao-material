@@ -187,6 +187,11 @@ footer .footer .copyright {
     position: relative;
 }
 
+.modal {
+    height: 100%;
+    overflow-y: hidden;
+}
+
 /* Couleurs */
 .accent.-c100:not(.text) {
     background-color: #ffcc80;
@@ -226,5 +231,14 @@ footer .footer .copyright {
 }
 .primary.-c300.text {
     color: #bdbdbd;
+}
+
+/* popup */
+.popup .alerts {
+    display: none;
+}
+.popup main {
+    padding: 0;
+    margin: 0;
 }
 /* $('link:not(link[href^="system/modules/contao-material"], link[href^="system/modules/contao-material"] ~ link)').detach() */

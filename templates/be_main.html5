@@ -202,5 +202,10 @@
 
     <?= ''//$this->mootools ?>
 
+    <div class="modal" id="modal">
+        <div class="modal-content"></div>
+        <div class="modal-footer"></div>
+    </div>
+
 </body>
 </html>

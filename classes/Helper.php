@@ -107,14 +107,21 @@ class Helper extends \System
      *
      * @return string HTML string with image replaced by icon
      */
-    public static function replaceImageByIcon($html)
+    public static function formatButtonCallback($html)
     {
+        // Replaces image by icon
         preg_match_all('/(<img.*src=\"(.*)\".*>)/mU', $html, $matches);
 
         if (isset($matches[1][0]) && isset($matches[2][0]) && strlen($matches[1][0]) && strlen($matches[2][0]))
         {
             $html = str_replace($matches[1][0], self::getIconHtml(basename($matches[2][0])), $html);
         }
+
+        // Replaces title by a tooltip
+        $html = preg_replace('/(.* )title(=".*"[ >].*)/mU', '$1data-position="top" data-delay="50" data-tooltip$2', $html);
+
+        // Adds classes
+        $html = preg_replace('/(<a.* class=".*)(".*>)/mU', '$1 btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped$2', $html);
 
         return $html;
     }

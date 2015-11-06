@@ -32,6 +32,8 @@ ClassLoader::addClasses(array
 
 	// Drivers
 	'ContaoMaterial\DC_Table'           => 'system/modules/contao-material/drivers/DC_Table.php',
+	'ContaoMaterial\DC_Folder'          => 'system/modules/contao-material/drivers/DC_Folder.php',
+	'ContaoMaterial\DC_File'            => 'system/modules/contao-material/drivers/DC_File.php',
 
 	// Widgets
 	'ContaoMaterial\TextArea'           => 'system/modules/contao-material/widgets/TextArea.php',

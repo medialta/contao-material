@@ -716,11 +716,13 @@ class DC_Table extends \Contao\DC_Table
         $this->loadDataContainer($this->ptable);
 
         $return = '
-<div id="tl_buttons" class="card-action">' . (\Input::get('nb') ? '&nbsp;' : ($this->ptable ? '
-<a href="'.$this->getReferer(true, $this->ptable).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a>' : (isset($GLOBALS['TL_DCA'][$this->strTable]['config']['backlink']) ? '
-<a href="contao/main.php?'.$GLOBALS['TL_DCA'][$this->strTable]['config']['backlink'].'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a>' : ''))) . ' ' . (!$blnClipboard ? ((\Input::get('act') != 'select') ? ((!$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable']) ? '
-<a href="'.$this->addToUrl(($blnHasSorting ? 'act=paste&amp;mode=create' : 'act=create&amp;mode=2&amp;pid='.$this->intId)).'" class="header-new btn-floating btn-large waves-effect waves-light red tooltipped" data-position="left" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['new'][1]).'" accesskey="n" onclick="Backend.getScrollOffset()"><i class="material-icons">add</i></a> ' : '') . $this->generateGlobalButtons() : '') : '<a href="'.$this->addToUrl('clipboard=1').'" class="header_clipboard" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['clearClipboard']).'" accesskey="x">'.$GLOBALS['TL_LANG']['MSC']['clearClipboard'].'</a> ') . '
-</div>' . \Message::generate(true);
+        <div id="tl_buttons" class="card-action">' . (\Input::get('nb') ? '&nbsp;' : ($this->ptable ? '
+        <a href="'.$this->getReferer(true, $this->ptable).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a>' : (isset($GLOBALS['TL_DCA'][$this->strTable]['config']['backlink']) ? '
+        <a href="contao/main.php?'.$GLOBALS['TL_DCA'][$this->strTable]['config']['backlink'].'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a>' : ''))) . ' ' .
+        (!$blnClipboard ? ((\Input::get('act') != 'select') ? ((!$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable']) ? '
+        <a href="'.$this->addToUrl(($blnHasSorting ? 'act=paste&amp;mode=create' : 'act=create&amp;mode=2&amp;pid='.$this->intId)).'" class="header-new btn-floating btn-large waves-effect waves-light red tooltipped" data-position="left" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['new'][1]).'" accesskey="n" onclick="Backend.getScrollOffset()"><i class="material-icons">add</i></a> ' : '') .
+        $this->generateGlobalButtons() : '') : '<a href="'.$this->addToUrl('clipboard=1').'" class="header_clipboard" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['clearClipboard']).'" accesskey="x">'.$GLOBALS['TL_LANG']['MSC']['clearClipboard'].'</a> ') . '
+        </div>' . \Message::generate(true);
 
         // Get all details of the parent record
         $objParent = $this->Database->prepare("SELECT * FROM " . $this->ptable . " WHERE id=?")
@@ -734,18 +736,18 @@ class DC_Table extends \Contao\DC_Table
 
         $return .= ((\Input::get('act') == 'select') ? '
 
-<form action="'.ampersand(\Environment::get('request'), true).'" id="tl_select" class="tl_form'.((\Input::get('act') == 'select') ? ' unselectable' : '').'" method="post" novalidate>
-<div class="tl_formbody">
-<input type="hidden" name="FORM_SUBMIT" value="tl_select">
-<input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">' : '').($blnClipboard ? '
+        <form action="'.ampersand(\Environment::get('request'), true).'" id="tl_select" class="tl_form'.((\Input::get('act') == 'select') ? ' unselectable' : '').'" method="post" novalidate>
+        <div class="tl_formbody">
+        <input type="hidden" name="FORM_SUBMIT" value="tl_select">
+        <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">' : '').($blnClipboard ? '
 
-<div id="paste_hint">
-  <p>'.$GLOBALS['TL_LANG']['MSC']['selectNewPosition'].'</p>
-</div>' : '').'
+        <div id="paste_hint">
+        <p>'.$GLOBALS['TL_LANG']['MSC']['selectNewPosition'].'</p>
+        </div>' : '').'
 
-<div class="tl_listing_container parent_view">
+        <div class="tl_listing_container parent_view">
 
-<div class="tl_header click2edit toggle_select">';
+        <div class="tl_header click2edit toggle_select">';
 
         // List all records of the child table
         if (!\Input::get('act') || \Input::get('act') == 'paste' || \Input::get('act') == 'select')
@@ -758,10 +760,13 @@ class DC_Table extends \Contao\DC_Table
             $imageEditHeader = \Image::getHtml('header.gif', $GLOBALS['TL_LANG'][$this->strTable]['editheader'][0]);
 
             $return .= '
-<div class="tl_content_right">'.((\Input::get('act') == 'select') ? '
-<label for="tl_select_trigger" class="tl_select_label">'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</label> <input type="checkbox" id="tl_select_trigger" onclick="Backend.toggleCheckboxes(this)" class="tl_tree_checkbox">' : ($blnClipboard ? ' <a href="'.$this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=2&amp;pid='.$objParent->id . (!$blnMultiboard ? '&amp;id='.$arrClipboard['id'] : '')).'" title="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['pasteafter'][0]).'" onclick="Backend.getScrollOffset()">'.$imagePasteAfter.'</a>' : ((!$GLOBALS['TL_DCA'][$this->ptable]['config']['notEditable'] && $this->User->canEditFieldsOf($this->ptable)) ? '
-<a href="'.preg_replace('/&(amp;)?table=[^& ]*/i', (($this->ptable != '') ? '&amp;table='.$this->ptable : ''), $this->addToUrl('act=edit')).'" class="edit" title="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['editheader'][1]).'">'.$imageEditHeader.'</a>' : '') . (($blnHasSorting && !$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable']) ? ' <a href="'.$this->addToUrl('act=create&amp;mode=2&amp;pid='.$objParent->id.'&amp;id='.$this->intId).'" title="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['pastenew'][0]).'">'.$imagePasteNew.'</a>' : ''))) . '
-</div>';
+            <div class="tl_content_right">'.((\Input::get('act') == 'select') ? '
+            <label for="tl_select_trigger" class="tl_select_label">'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</label> <input type="checkbox" id="tl_select_trigger" onclick="Backend.toggleCheckboxes(this)" class="tl_tree_checkbox">' : ($blnClipboard ? ' <a href="'.$this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=2&amp;pid='.$objParent->id . (!$blnMultiboard ? '&amp;id='.$arrClipboard['id'] : '')).'" title="'.
+            specialchars($GLOBALS['TL_LANG'][$this->strTable]['pasteafter'][0]).'" onclick="Backend.getScrollOffset()">'.$imagePasteAfter.'</a>' : ((!$GLOBALS['TL_DCA'][$this->ptable]['config']['notEditable'] && $this->User->canEditFieldsOf($this->ptable)) ? '
+            <a href="'.preg_replace('/&(amp;)?table=[^& ]*/i', (($this->ptable != '') ? '&amp;table='.$this->ptable : ''), $this->addToUrl('act=edit')).'" class="edit" title="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['editheader'][1]).'">'.$imageEditHeader.'</a>' : '') .
+            (($blnHasSorting && !$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable']) ? ' <a href="'.$this->addToUrl('act=create&amp;mode=2&amp;pid='.$objParent->id.'&amp;id='.$this->intId).'" title="'.
+            specialchars($GLOBALS['TL_LANG'][$this->strTable]['pastenew'][0]).'">'.$imagePasteNew.'</a>' : ''))) . '
+            </div>';
 
             // Format header fields
             $add = array();
@@ -873,7 +878,7 @@ class DC_Table extends \Contao\DC_Table
             // Output the header data
             $return .= '
 
-<table class="bordered">';
+            <table class="bordered">';
 
             foreach ($add as $k=>$v)
             {
@@ -883,15 +888,15 @@ class DC_Table extends \Contao\DC_Table
                 }
 
                 $return .= '
-  <tr>
-    <td><span class="tl_label">'.$k.':</span> </td>
-    <td>'.$v.'</td>
-  </tr>';
+                <tr>
+                <td><span class="tl_label">'.$k.':</span> </td>
+                <td>'.$v.'</td>
+                </tr>';
             }
 
             $return .= '
-</table>
-</div>';
+            </table>
+            </div>';
 
             $orderBy = array();
             $firstOrderBy = array();
@@ -958,9 +963,9 @@ class DC_Table extends \Contao\DC_Table
             if ($objOrderBy->numRows < 1)
             {
                 return $return . '
-<p class="tl_empty_parent_view">'.$GLOBALS['TL_LANG']['MSC']['noResult'].'</p>
+                <p class="tl_empty_parent_view">'.$GLOBALS['TL_LANG']['MSC']['noResult'].'</p>
 
-</div>';
+                </div>';
             }
 
             // Call the child_record_callback
@@ -976,7 +981,7 @@ class DC_Table extends \Contao\DC_Table
                 {
                     $return .= '
 
-<ul id="ul_' . CURRENT_ID . '">';
+                    <ul id="ul_' . CURRENT_ID . '">';
                 }
 
                 for ($i=0, $c=count($row); $i<$c; $i++)
@@ -998,7 +1003,7 @@ class DC_Table extends \Contao\DC_Table
                     if ($blnHasSorting)
                     {
                         $return .= '
-<li id="li_' . $row[$i]['id'] . '">';
+                        <li id="li_' . $row[$i]['id'] . '">';
                     }
 
                     // Add the group header
@@ -1030,8 +1035,9 @@ class DC_Table extends \Contao\DC_Table
 
                     $return .= '
 
-<div class="tl_content'.($blnWrapperStart ? ' wrapper_start' : '').($blnWrapperSeparator ? ' wrapper_separator' : '').($blnWrapperStop ? ' wrapper_stop' : '').($blnIndent ? ' indent indent_'.$intWrapLevel : '').(($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['child_record_class'] != '') ? ' ' . $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['child_record_class'] : '').(($i%2 == 0) ? ' even' : ' odd').' click2edit toggle_select">
-<div class="tl_content_right">';
+                    <div class="tl_content'.($blnWrapperStart ? ' wrapper_start' : '').($blnWrapperSeparator ? ' wrapper_separator' : '').($blnWrapperStop ? ' wrapper_stop' : '').($blnIndent ? ' indent indent_'.$intWrapLevel : '').
+                    (($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['child_record_class'] != '') ? ' ' . $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['child_record_class'] : '').(($i%2 == 0) ? ' even' : ' odd').' click2edit toggle_select">
+                    <div class="tl_content_right">';
 
                     // Opening wrappers
                     if ($blnWrapperStart)
@@ -1106,7 +1112,7 @@ class DC_Table extends \Contao\DC_Table
                     {
                         $return .= '
 
-</li>';
+                        </li>';
                     }
                 }
             }
@@ -1116,16 +1122,16 @@ class DC_Table extends \Contao\DC_Table
         if ($blnHasSorting && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notSortable'] && \Input::get('act') != 'select')
         {
             $return .= '
-</ul>
+            </ul>
 
-<script>
-  Backend.makeParentViewSortable("ul_' . CURRENT_ID . '");
-</script>';
+            <script>
+            Backend.makeParentViewSortable("ul_' . CURRENT_ID . '");
+            </script>';
         }
 
         $return .= '
 
-</div>';
+        </div>';
 
         // Close form
         if (\Input::get('act') == 'select')
@@ -1173,15 +1179,15 @@ class DC_Table extends \Contao\DC_Table
 
             $return .= '
 
-<div class="tl_formbody_submit" style="text-align:right">
+            <div class="tl_formbody_submit" style="text-align:right">
 
-<div class="tl_submit_container">
-  ' . implode(' ', $arrButtons) . '
-</div>
+            <div class="tl_submit_container">
+            ' . implode(' ', $arrButtons) . '
+            </div>
 
-</div>
-</div>
-</form>';
+            </div>
+            </div>
+            </form>';
         }
 
         return $return;

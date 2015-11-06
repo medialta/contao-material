@@ -456,8 +456,27 @@ abstract class DataContainer extends \Contao\DataContainer
 
 		$return = '';
 
-		foreach ($GLOBALS['TL_DCA'][$strTable]['list']['operations'] as $k=>$v)
+        if (!isset($GLOBALS['TL_DCA'][$strTable]['list']['operations_order']))
+        {
+            $GLOBALS['TL_DCA'][$strTable]['list']['operations_order'] = [];
+            $operations = array_keys($GLOBALS['TL_DCA'][$strTable]['list']['operations']);
+            $operationsOrder = ['edit', 'editheader', 'published', 'toggle', 'su'];
+
+            foreach ($operationsOrder as $operation)
+            {
+                if (($key = array_search($operation, $operations)) !== false)
+                {
+                    unset($operations[$key]);
+                    $GLOBALS['TL_DCA'][$strTable]['list']['operations_order'][] = $operation;
+                }
+            }
+
+            $GLOBALS['TL_DCA'][$strTable]['list']['operations_order'] = array_merge($GLOBALS['TL_DCA'][$strTable]['list']['operations_order'], $operations);
+        }
+
+		foreach ($GLOBALS['TL_DCA'][$strTable]['list']['operations_order'] as $k)
 		{
+            $v = $GLOBALS['TL_DCA'][$strTable]['list']['operations'][$k];
 			$v = is_array($v) ? $v : array($v);
 			$id = specialchars(rawurldecode($arrRow['id']));
 

@@ -177,7 +177,15 @@ footer .footer .copyright {
     margin-top: 2rem;
 }
 
-
+.header-back {
+    position: absolute;
+    top: 8px;
+}
+.card .card-action {
+}
+.card.-main {
+    position: relative;
+}
 
 /* Couleurs */
 .accent.-c100:not(.text) {

@@ -91,12 +91,11 @@ footer {
     }
 
     .filters-form {
-        position: relative;
     }
 
     .card.-main .header-new {
         position: absolute;
-        top: 0;
+        top: 300px;
         right: 0;
         transform: translate(-50%, -50%);
     }

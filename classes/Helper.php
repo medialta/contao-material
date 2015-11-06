@@ -109,6 +109,7 @@ class Helper extends \System
      */
     public static function formatButtonCallback($html)
     {
+
         // Replaces image by icon
         preg_match_all('/(<img.*src=\"(.*)\".*>)/mU', $html, $matches);
 
@@ -121,7 +122,17 @@ class Helper extends \System
         $html = preg_replace('/(.* )title(=".*"[ >].*)/mU', '$1data-position="top" data-delay="50" data-tooltip$2', $html);
 
         // Adds classes
-        $html = preg_replace('/(<a.* class=".*)(".*>)/mU', '$1 btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped$2', $html);
+        $regexClass = '/(<a[^<]* class="[^<]*)("[^<]*>)/mU';
+        $classes = 'btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped';
+
+        if (preg_match($regexClass, $html))
+        {
+            $html = preg_replace($regexClass, '$1 ' . $classes . '$2', $html);
+        }
+        else
+        {
+            $html = preg_replace('/(<a[^<]* href="[^<]*")([^<]*>)/mU', '$1 class="' . $classes . '"$2', $html);
+        }
 
         return $html;
     }

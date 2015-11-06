@@ -18,6 +18,238 @@ namespace ContaoMaterial;
  */
 class DC_Table extends \Contao\DC_Table
 {
+    /**
+     * Return all non-excluded fields of a record as HTML table
+     *
+     * @return string
+     */
+    public function show()
+    {
+        if (!strlen($this->intId))
+        {
+            return '';
+        }
+
+        $objRow = $this->Database->prepare("SELECT * FROM " . $this->strTable . " WHERE id=?")
+                                 ->limit(1)
+                                 ->execute($this->intId);
+
+        if ($objRow->numRows < 1)
+        {
+            return '';
+        }
+
+        $count = 1;
+        $return = '';
+        $row = $objRow->row();
+
+        // Get the order fields
+        $objDcaExtractor = \DcaExtractor::getInstance($this->strTable);
+        $arrOrder = $objDcaExtractor->getOrderFields();
+
+        // Get all fields
+        $fields = array_keys($row);
+        $allowedFields = array('id', 'pid', 'sorting', 'tstamp');
+
+        if (is_array($GLOBALS['TL_DCA'][$this->strTable]['fields']))
+        {
+            $allowedFields = array_unique(array_merge($allowedFields, array_keys($GLOBALS['TL_DCA'][$this->strTable]['fields'])));
+        }
+
+        // Use the field order of the DCA file
+        $fields = array_intersect($allowedFields, $fields);
+
+        // Show all allowed fields
+        foreach ($fields as $i)
+        {
+            if (!in_array($i, $allowedFields) || $GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['inputType'] == 'password' || $GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['eval']['doNotShow'] || $GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['eval']['hideInput'])
+            {
+                continue;
+            }
+
+            // Special treatment for table tl_undo
+            if ($this->strTable == 'tl_undo' && $i == 'data')
+            {
+                continue;
+            }
+
+            $value = deserialize($row[$i]);
+
+            // Decrypt the value
+            if ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['eval']['encrypt'])
+            {
+                $value = \Encryption::decrypt($value);
+            }
+
+            $class = (($count++ % 2) == 0) ? ' class="tl_bg"' : '';
+
+            // Get the field value
+            if (isset($GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['foreignKey']))
+            {
+                $temp = array();
+                $chunks = explode('.', $GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['foreignKey'], 2);
+
+                foreach ((array) $value as $v)
+                {
+                    $objKey = $this->Database->prepare("SELECT " . $chunks[1] . " AS value FROM " . $chunks[0] . " WHERE id=?")
+                                             ->limit(1)
+                                             ->execute($v);
+
+                    if ($objKey->numRows)
+                    {
+                        $temp[] = $objKey->value;
+                    }
+                }
+
+                $row[$i] = implode(', ', $temp);
+            }
+            elseif ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['inputType'] == 'fileTree' || in_array($i, $arrOrder))
+            {
+                if (is_array($value))
+                {
+                    foreach ($value as $kk=>$vv)
+                    {
+                        $value[$kk] = $vv ? \StringUtil::binToUuid($vv) : '';
+                    }
+
+                    $row[$i] = implode(', ', $value);
+                }
+                else
+                {
+                    $row[$i] = $value ? \StringUtil::binToUuid($value) : '';
+                }
+            }
+            elseif (is_array($value))
+            {
+                foreach ($value as $kk=>$vv)
+                {
+                    if (is_array($vv))
+                    {
+                        $vals = array_values($vv);
+                        $value[$kk] = $vals[0].' ('.$vals[1].')';
+                    }
+                }
+
+                $row[$i] = implode(', ', $value);
+            }
+            elseif ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['eval']['rgxp'] == 'date')
+            {
+                $row[$i] = $value ? \Date::parse(\Config::get('dateFormat'), $value) : '-';
+            }
+            elseif ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['eval']['rgxp'] == 'time')
+            {
+                $row[$i] = $value ? \Date::parse(\Config::get('timeFormat'), $value) : '-';
+            }
+            elseif ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['eval']['rgxp'] == 'datim' || in_array($GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['flag'], array(5, 6, 7, 8, 9, 10)) || $i == 'tstamp')
+            {
+                $row[$i] = $value ? \Date::parse(\Config::get('datimFormat'), $value) : '-';
+            }
+            elseif ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['inputType'] == 'checkbox' && !$GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['eval']['multiple'])
+            {
+                $row[$i] = ($value != '') ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'];
+            }
+            elseif ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['inputType'] == 'textarea' && ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['eval']['allowHtml'] || $GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['eval']['preserveTags']))
+            {
+                $row[$i] = specialchars($value);
+            }
+            elseif (is_array($GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['reference']))
+            {
+                $row[$i] = isset($GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['reference'][$row[$i]]) ? ((is_array($GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['reference'][$row[$i]])) ? $GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['reference'][$row[$i]][0] : $GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['reference'][$row[$i]]) : $row[$i];
+            }
+            elseif ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['eval']['isAssociative'] || array_is_assoc($GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['options']))
+            {
+                $row[$i] = $GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['options'][$row[$i]];
+            }
+            else
+            {
+                $row[$i] = $value;
+            }
+
+            // Label
+            if (isset($GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['label']))
+            {
+                $label = is_array($GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['label']) ? $GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['label'][0] : $GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['label'];
+            }
+            else
+            {
+                $label = is_array($GLOBALS['TL_LANG']['MSC'][$i]) ? $GLOBALS['TL_LANG']['MSC'][$i][0] : $GLOBALS['TL_LANG']['MSC'][$i];
+            }
+
+            if ($label == '')
+            {
+                $label = $i;
+            }
+
+            $return .= '
+  <tr>
+    <td'.$class.'><span class="tl_label">'.$label.': </span></td>
+    <td'.$class.'>'.$row[$i].'</td>
+  </tr>';
+        }
+
+        // Special treatment for tl_undo
+        if ($this->strTable == 'tl_undo')
+        {
+            $arrData = deserialize($objRow->data);
+
+            foreach ($arrData as $strTable=>$arrTableData)
+            {
+                \System::loadLanguageFile($strTable);
+                $this->loadDataContainer($strTable);
+
+                foreach ($arrTableData as $arrRow)
+                {
+                    $count = 0;
+                    $return .= '
+  <tr>
+    <td colspan="2" style="padding:0"><div style="margin-bottom:26px;line-height:24px;border-bottom:1px dotted #ccc">&nbsp;</div></td>
+  </tr>';
+
+                    foreach ($arrRow as $i=>$v)
+                    {
+                        if (is_array(deserialize($v)))
+                        {
+                            continue;
+                        }
+
+                        $class = (($count++ % 2) == 0) ? ' class="tl_bg"' : '';
+
+                        // Get the field label
+                        if (isset($GLOBALS['TL_DCA'][$strTable]['fields'][$i]['label']))
+                        {
+                            $label = is_array($GLOBALS['TL_DCA'][$strTable]['fields'][$i]['label']) ? $GLOBALS['TL_DCA'][$strTable]['fields'][$i]['label'][0] : $GLOBALS['TL_DCA'][$strTable]['fields'][$i]['label'];
+                        }
+                        else
+                        {
+                            $label = is_array($GLOBALS['TL_LANG']['MSC'][$i]) ? $GLOBALS['TL_LANG']['MSC'][$i][0] : $GLOBALS['TL_LANG']['MSC'][$i];
+                        }
+
+                        if (!strlen($label))
+                        {
+                            $label = $i;
+                        }
+
+                        // Always encode special characters (thanks to Oliver Klee)
+                        $return .= '
+  <tr>
+    <td'.$class.'><span class="tl_label">'.$label.': </span></td>
+    <td'.$class.'>'.specialchars($v).'</td>
+  </tr>';
+                    }
+                }
+            }
+        }
+
+        // Return table
+        return '
+<div id="tl_buttons">' . (!\Input::get('popup') ? '
+<a href="'.$this->getReferer(true).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>' : '') . '
+</div>
+
+<table class="table-show bordered">'.$return.'
+</table>';
+    }
+
     public function edit($intId=null, $ajaxId=null)
     {
         if ($GLOBALS['TL_DCA'][$this->strTable]['config']['notEditable'])

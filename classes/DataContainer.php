@@ -495,11 +495,11 @@ abstract class DataContainer extends \Contao\DataContainer
 			{
 				if ($k == 'show')
 				{
-					$return .= '<a href="'.$this->addToUrl($v['href'].'&amp;id='.$arrRow['id'].'&amp;popup=1').'" title="'.specialchars($title).'" onclick="Backend.openModalIframe({\'width\':768,\'title\':\''.specialchars(str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG'][$strTable]['show'][1], $arrRow['id']))).'\',\'url\':this.href});return false"'.$attributes.'>'.Helper::getIconHtml($v['icon'], $label).'</a> ';
+					$return .= '<a href="'.$this->addToUrl($v['href'].'&amp;id='.$arrRow['id'].'&amp;popup=1').'" class="tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'" onclick="Backend.openModalIframe({\'width\':768,\'title\':\''.specialchars(str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG'][$strTable]['show'][1], $arrRow['id']))).'\',\'url\':this.href});return false"'.$attributes.'>'.Helper::getIconHtml($v['icon'], $label).'</a> ';
 				}
 				else
 				{
-					$return .= '<a href="'.$this->addToUrl($v['href'].'&amp;id='.$arrRow['id']).'" title="'.specialchars($title).'"'.$attributes.'>'.Helper::getIconHtml($v['icon'], $label).'</a> ';
+					$return .= '<a href="'.$this->addToUrl($v['href'].'&amp;id='.$arrRow['id']).'" class="tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'"'.$attributes.'>'.Helper::getIconHtml($v['icon'], $label).'</a> ';
 				}
 
 				continue;

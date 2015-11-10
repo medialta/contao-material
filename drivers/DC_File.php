@@ -214,11 +214,10 @@ class DC_File extends \Contao\DC_File
 
         // Add the buttons and end the form
         $return .= '
-</div>
 
-<div class="tl_formbody_submit">
+<div class="card-action">
 
-<div class="tl_submit_container">
+<div class="submit-container">
   ' . implode(' ', $arrButtons) . '
 </div>
 

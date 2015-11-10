@@ -95,7 +95,7 @@ footer {
 
     .card.-main .header-new {
         position: absolute;
-        top: 300px;
+        top: 280px;
         right: 0;
         transform: translate(-50%, -50%);
     }

@@ -203,6 +203,319 @@ class DC_Folder extends \Contao\DC_Folder
     }
 
     /**
+     * Auto-generate a form to rename a file or folder
+     *
+     * @return string
+     */
+    public function edit()
+    {
+        $return = '';
+        $this->noReload = false;
+        $this->isValid($this->intId);
+
+        if (!file_exists(TL_ROOT . '/' . $this->intId) || !$this->isMounted($this->intId))
+        {
+            $this->log('File or folder "'.$this->intId.'" was not mounted or could not be found', __METHOD__, TL_ERROR);
+            $this->redirect('contao/main.php?act=error');
+        }
+
+        // Get the DB entry
+        if ($this->blnIsDbAssisted && stristr($this->intId, '__new__') === false)
+        {
+            $objFile = \FilesModel::findByPath($this->intId);
+
+            if ($objFile === null)
+            {
+                $objFile = \Dbafs::addResource($this->intId);
+            }
+
+            $this->objActiveRecord = $objFile;
+        }
+
+        $this->blnCreateNewVersion = false;
+
+        /** @var \FilesModel $objFile */
+        $objVersions = new \Versions($this->strTable, $objFile->id);
+
+        if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['hideVersionMenu'])
+        {
+            // Compare versions
+            if (\Input::get('versions'))
+            {
+                $objVersions->compare();
+            }
+
+            // Restore a version
+            if (\Input::post('FORM_SUBMIT') == 'tl_version' && \Input::post('version') != '')
+            {
+                $objVersions->restore(\Input::post('version'));
+                $this->reload();
+            }
+        }
+
+        $objVersions->initialize();
+
+        // Build an array from boxes and rows (do not show excluded fields)
+        $this->strPalette = $this->getPalette();
+        $boxes = trimsplit(';', $this->strPalette);
+
+        if (!empty($boxes))
+        {
+            // Get fields
+            foreach ($boxes as $k=>$v)
+            {
+                $boxes[$k] = trimsplit(',', $v);
+
+                foreach ($boxes[$k] as $kk=>$vv)
+                {
+                    if ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$vv]['exclude'] || !isset($GLOBALS['TL_DCA'][$this->strTable]['fields'][$vv]))
+                    {
+                        unset($boxes[$k][$kk]);
+                    }
+                }
+
+                // Unset a box if it does not contain any fields
+                if (empty($boxes[$k]))
+                {
+                    unset($boxes[$k]);
+                }
+            }
+
+            // Render boxes
+            $class = 'tl_tbox';
+            $blnIsFirst = true;
+
+            foreach ($boxes as $v)
+            {
+                $return .= '
+<div class="'.$class.'">';
+
+                // Build rows of the current box
+                foreach ($v as $vv)
+                {
+                    $this->strField = $vv;
+                    $this->strInputName = $vv;
+
+                    // Load the current value
+                    if ($vv == 'name')
+                    {
+                        $pathinfo = pathinfo($this->intId);
+                        $this->strPath = $pathinfo['dirname'];
+
+                        if (is_dir(TL_ROOT . '/' . $this->intId))
+                        {
+                            $this->strExtension = '';
+                            $this->varValue = basename($pathinfo['basename']);
+                        }
+                        else
+                        {
+                            $this->strExtension = ($pathinfo['extension'] != '') ? '.'.$pathinfo['extension'] : '';
+                            $this->varValue = basename($pathinfo['basename'], $this->strExtension);
+                        }
+
+                        // Fix Unix system files like .htaccess
+                        if (strncmp($this->varValue, '.', 1) === 0)
+                        {
+                            $this->strExtension = '';
+                        }
+
+                        // Clear the current value if it is a new folder
+                        if (\Input::post('FORM_SUBMIT') != 'tl_files' && \Input::post('FORM_SUBMIT') != 'tl_templates' && $this->varValue == '__new__')
+                        {
+                            $this->varValue = '';
+                        }
+                    }
+                    else
+                    {
+                        $this->varValue = $objFile->$vv;
+                    }
+
+                    // Autofocus the first field
+                    if ($blnIsFirst && $GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['inputType'] == 'text')
+                    {
+                        $GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['eval']['autofocus'] = 'autofocus';
+                        $blnIsFirst = false;
+                    }
+
+                    // Call load_callback
+                    if (is_array($GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['load_callback']))
+                    {
+                        foreach ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['load_callback'] as $callback)
+                        {
+                            if (is_array($callback))
+                            {
+                                $this->import($callback[0]);
+                                $this->varValue = $this->$callback[0]->$callback[1]($this->varValue, $this);
+                            }
+                            elseif (is_callable($callback))
+                            {
+                                $this->varValue = $callback($this->varValue, $this);
+                            }
+                        }
+                    }
+
+                    // Build row
+                    $return .= $this->row();
+                }
+
+                $class = 'tl_box';
+                $return .= '
+  <input type="hidden" name="FORM_FIELDS[]" value="'.specialchars($this->strPalette).'">
+  <div class="clear"></div>
+</div>';
+            }
+        }
+
+        // Versions overview
+        if ($GLOBALS['TL_DCA'][$this->strTable]['config']['enableVersioning'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['hideVersionMenu'])
+        {
+            $version = $objVersions->renderDropdown();
+        }
+        else
+        {
+            $version = '';
+        }
+
+        // Submit buttons
+        $arrButtons = array();
+        $arrButtons['save'] = '<input type="submit" name="save" id="save" class="tl_submit" accesskey="s" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['save']).'">';
+        $arrButtons['saveNclose'] = '<input type="submit" name="saveNclose" id="saveNclose" class="tl_submit" accesskey="c" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['saveNclose']).'">';
+
+        // Call the buttons_callback (see #4691)
+        if (is_array($GLOBALS['TL_DCA'][$this->strTable]['edit']['buttons_callback']))
+        {
+            foreach ($GLOBALS['TL_DCA'][$this->strTable]['edit']['buttons_callback'] as $callback)
+            {
+                if (is_array($callback))
+                {
+                    $this->import($callback[0]);
+                    $arrButtons = $this->$callback[0]->$callback[1]($arrButtons, $this);
+                }
+                elseif (is_callable($callback))
+                {
+                    $arrButtons = $callback($arrButtons, $this);
+                }
+            }
+        }
+
+        // Add the buttons and end the form
+        $return .= '
+</div>
+
+<div class="tl_formbody_submit">
+
+<div class="tl_submit_container">
+  ' . implode(' ', $arrButtons) . '
+</div>
+
+</div>
+</form>
+
+<script>
+  window.addEvent(\'domready\', function() {
+    Theme.focusInput("'.$this->strTable.'");
+  });
+</script>';
+
+        // Begin the form (-> DO NOT CHANGE THIS ORDER -> this way the onsubmit attribute of the form can be changed by a field)
+        $return = $version . '
+<div id="tl_buttons">
+<a href="'.$this->getReferer(true).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
+</div>
+'.\Message::generate().'
+<form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form" method="post"'.(!empty($this->onsubmit) ? ' onsubmit="'.implode(' ', $this->onsubmit).'"' : '').'>
+<div class="tl_formbody_edit">
+<input type="hidden" name="FORM_SUBMIT" value="'.specialchars($this->strTable).'">
+<input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">'.($this->noReload ? '
+<p class="tl_error">'.$GLOBALS['TL_LANG']['ERR']['general'].'</p>' : '').$return;
+
+        // Reload the page to prevent _POST variables from being sent twice
+        if (\Input::post('FORM_SUBMIT') == $this->strTable && !$this->noReload)
+        {
+            // Trigger the onsubmit_callback
+            if (is_array($GLOBALS['TL_DCA'][$this->strTable]['config']['onsubmit_callback']))
+            {
+                foreach ($GLOBALS['TL_DCA'][$this->strTable]['config']['onsubmit_callback'] as $callback)
+                {
+                    if (is_array($callback))
+                    {
+                        $this->import($callback[0]);
+                        $this->$callback[0]->$callback[1]($this);
+                    }
+                    elseif (is_callable($callback))
+                    {
+                        $callback($this);
+                    }
+                }
+            }
+
+            // Save the current version
+            if ($this->blnCreateNewVersion)
+            {
+                $objVersions->create();
+
+                // Call the onversion_callback
+                if (is_array($GLOBALS['TL_DCA'][$this->strTable]['config']['onversion_callback']))
+                {
+                    foreach ($GLOBALS['TL_DCA'][$this->strTable]['config']['onversion_callback'] as $callback)
+                    {
+                        if (is_array($callback))
+                        {
+                            $this->import($callback[0]);
+                            $this->$callback[0]->$callback[1]($this->strTable, $objFile->id, $this);
+                        }
+                        elseif (is_callable($callback))
+                        {
+                            $callback($this->strTable, $objFile->id, $this);
+                        }
+                    }
+                }
+
+                $this->log('A new version of file "'.$objFile->path.'" has been created', __METHOD__, TL_GENERAL);
+            }
+
+            // Set the current timestamp (-> DO NOT CHANGE THE ORDER version - timestamp)
+            if ($this->blnIsDbAssisted)
+            {
+                $this->Database->prepare("UPDATE " . $this->strTable . " SET tstamp=? WHERE id=?")
+                               ->execute(time(), $objFile->id);
+            }
+
+            // Redirect
+            if (\Input::post('saveNclose'))
+            {
+                \Message::reset();
+                \System::setCookie('BE_PAGE_OFFSET', 0, 0);
+                $this->redirect($this->getReferer());
+            }
+
+            // Reload
+            if ($this->blnIsDbAssisted)
+            {
+                $this->redirect($this->addToUrl('id='.$this->urlEncode($this->objActiveRecord->path)));
+            }
+            else
+            {
+                $this->redirect($this->addToUrl('id='.$this->urlEncode($this->strPath.'/'.$this->varValue).$this->strExtension));
+            }
+        }
+
+        // Set the focus if there is an error
+        if ($this->noReload)
+        {
+            $return .= '
+
+<script>
+  window.addEvent(\'domready\', function() {
+    Backend.vScrollTo(($(\'' . $this->strTable . '\').getElement(\'label.error\').getPosition().y - 20));
+  });
+</script>';
+        }
+
+        return $return;
+    }
+
+    /**
      * Synchronize the file system with the database
      *
      * @return string
@@ -274,8 +587,8 @@ class DC_Folder extends \Contao\DC_Folder
         \Message::addConfirmation($GLOBALS['TL_LANG']['tl_files']['syncComplete']);
 
         $return = '
-<div id="tl_buttons">
-<a href="'.$this->getReferer(true).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
+<div id="tl_buttons" class="card-action">
+<a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a>
 </div>
 '.\Message::generate().'
 <div id="sync-results">
@@ -293,9 +606,10 @@ class DC_Folder extends \Contao\DC_Folder
 
         $return .= '
 </div>
-
-<div class="tl_submit_container">
-  <a href="'.$this->getReferer(true).'" class="tl_submit" style="display:inline-block">'.$GLOBALS['TL_LANG']['MSC']['continue'].'</a>
+<div class="card-action">
+<div class="submit-container">
+  <a href="'.$this->getReferer(true).'" class="btn orange lighten-2 white-text" style="display:inline-block">'.$GLOBALS['TL_LANG']['MSC']['continue'].'</a>
+</div>
 </div>
 ';
 

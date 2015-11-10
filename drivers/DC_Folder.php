@@ -203,6 +203,177 @@ class DC_Folder extends \Contao\DC_Folder
     }
 
     /**
+     * Move one or more local files to the server
+     *
+     * @param boolean $blnIsAjax
+     *
+     * @return string
+     */
+    public function move($blnIsAjax=false)
+    {
+        $strFolder = \Input::get('pid', true);
+
+        if (!file_exists(TL_ROOT . '/' . $strFolder) || !$this->isMounted($strFolder))
+        {
+            $this->log('Folder "'.$strFolder.'" was not mounted or is not a directory', __METHOD__, TL_ERROR);
+            $this->redirect('contao/main.php?act=error');
+        }
+
+        if (!preg_match('/^'.preg_quote(\Config::get('uploadPath'), '/').'/i', $strFolder))
+        {
+            $this->log('Parent folder "'.$strFolder.'" is not within the files directory', __METHOD__, TL_ERROR);
+            $this->redirect('contao/main.php?act=error');
+        }
+
+        // Empty clipboard
+        if (!$blnIsAjax)
+        {
+            $arrClipboard = $this->Session->get('CLIPBOARD');
+            $arrClipboard[$this->strTable] = array();
+            $this->Session->set('CLIPBOARD', $arrClipboard);
+        }
+
+        // Instantiate the uploader
+        $this->import('BackendUser', 'User');
+        $class = $this->User->uploader;
+
+        // See #4086
+        if (!class_exists($class))
+        {
+            $class = 'FileUpload';
+        }
+
+        /** @var \FileUpload $objUploader */
+        $objUploader = new $class();
+
+        // Process the uploaded files
+        if (\Input::post('FORM_SUBMIT') == 'tl_upload')
+        {
+            // Generate the DB entries
+            if ($this->blnIsDbAssisted)
+            {
+                // Upload the files
+                $arrUploaded = $objUploader->uploadTo($strFolder);
+
+                if (empty($arrUploaded))
+                {
+                    \Message::addError($GLOBALS['TL_LANG']['ERR']['emptyUpload']);
+                    $this->reload();
+                }
+
+                foreach ($arrUploaded as $strFile)
+                {
+                    $objFile = \FilesModel::findByPath($strFile);
+
+                    // Existing file is being replaced (see #4818)
+                    if ($objFile !== null)
+                    {
+                        $objFile->tstamp = time();
+                        $objFile->path   = $strFile;
+                        $objFile->hash   = md5_file(TL_ROOT . '/' . $strFile);
+                        $objFile->save();
+                    }
+                    else
+                    {
+                        \Dbafs::addResource($strFile);
+                    }
+                }
+            }
+            else
+            {
+                // Not DB-assisted, so just upload the file
+                $arrUploaded = $objUploader->uploadTo($strFolder);
+            }
+
+            // HOOK: post upload callback
+            if (isset($GLOBALS['TL_HOOKS']['postUpload']) && is_array($GLOBALS['TL_HOOKS']['postUpload']))
+            {
+                foreach ($GLOBALS['TL_HOOKS']['postUpload'] as $callback)
+                {
+                    if (is_array($callback))
+                    {
+                        $this->import($callback[0]);
+                        $this->$callback[0]->$callback[1]($arrUploaded);
+                    }
+                    elseif (is_callable($callback))
+                    {
+                        $callback($arrUploaded);
+                    }
+                }
+            }
+
+            // Update the hash of the target folder
+            if ($this->blnIsDbAssisted && $strFolder != \Config::get('uploadPath'))
+            {
+                \Dbafs::updateFolderHashes($strFolder);
+            }
+
+            // Redirect or reload
+            if (!$objUploader->hasError())
+            {
+                // Do not purge the html folder (see #2898)
+                if (\Input::post('uploadNback') && !$objUploader->hasResized())
+                {
+                    \Message::reset();
+                    $this->redirect($this->getReferer());
+                }
+
+                $this->reload();
+            }
+        }
+
+        // Submit buttons
+        $arrButtons = array();
+        $arrButtons['upload'] = '<input type="submit" name="upload" class="tl_submit" accesskey="s" value="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['upload']).'">';
+        $arrButtons['uploadNback'] = '<input type="submit" name="uploadNback" class="tl_submit" accesskey="c" value="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['uploadNback']).'">';
+
+        // Call the buttons_callback (see #4691)
+        if (is_array($GLOBALS['TL_DCA'][$this->strTable]['edit']['buttons_callback']))
+        {
+            foreach ($GLOBALS['TL_DCA'][$this->strTable]['edit']['buttons_callback'] as $callback)
+            {
+                if (is_array($callback))
+                {
+                    $this->import($callback[0]);
+                    $arrButtons = $this->$callback[0]->$callback[1]($arrButtons, $this);
+                }
+                elseif (is_callable($callback))
+                {
+                    $arrButtons = $callback($arrButtons, $this);
+                }
+            }
+        }
+
+        // Display the upload form
+        return '
+<div id="tl_buttons">
+<a href="'.$this->getReferer(true).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
+</div>
+'.\Message::generate().'
+<form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form" method="post"'.(!empty($this->onsubmit) ? ' onsubmit="'.implode(' ', $this->onsubmit).'"' : '').' enctype="multipart/form-data">
+<div class="tl_formbody_edit">
+<input type="hidden" name="FORM_SUBMIT" value="tl_upload">
+<input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
+<input type="hidden" name="MAX_FILE_SIZE" value="'.\Config::get('maxFileSize').'">
+
+<div class="tl_tbox">
+  <h3>'.$GLOBALS['TL_LANG'][$this->strTable]['fileupload'][0].'</h3>'.$objUploader->generateMarkup().'
+</div>
+
+</div>
+
+<div class="tl_formbody_submit">
+
+<div class="tl_submit_container">
+  ' . implode(' ', $arrButtons) . '
+</div>
+
+</div>
+
+</form>';
+    }
+
+    /**
      * Auto-generate a form to rename a file or folder
      *
      * @return string

@@ -85,19 +85,19 @@ class DC_File extends \Contao\DC_File
                 if (isset($legends[$k]))
                 {
                     list($key, $cls) = explode(':', $legends[$k]);
-                    $legend = "\n" . '<legend onclick="AjaxRequest.toggleFieldset(this, \'' . $key . '\', \'' . $this->strTable . '\')">' . (isset($GLOBALS['TL_LANG'][$this->strTable][$key]) ? $GLOBALS['TL_LANG'][$this->strTable][$key] : $key) . '</legend>';
+                    $legend = "\n" . '<div class="collapsible-header '.($cls == 'hide' ? '' : 'active').'" onclick="AjaxRequest.toggleFieldset(this, \'' . $key . '\', \'' . $this->strTable . '\')">' . (isset($GLOBALS['TL_LANG'][$this->strTable][$key]) ? $GLOBALS['TL_LANG'][$this->strTable][$key] : $key) . '</div><div class="collapsible-body">';
                 }
 
-                if (isset($fs[$this->strTable][$key]))
+                /*if (isset($fs[$this->strTable][$key]))
                 {
                     $class .= ($fs[$this->strTable][$key] ? '' : ' collapsed');
                 }
                 else
                 {
                     $class .= (($cls && $legend) ? ' ' . $cls : '');
-                }
+                }*/
 
-                $return .= "\n\n" . '<fieldset' . ($key ? ' id="pal_'.$key.'"' : '') . ' class="' . $class . ($legend ? '' : ' nolegend') . '">' . $legend;
+                $return .= "\n\n" . '<li' . ($key ? ' id="pal_'.$key.'"' : '') . ' class="' . $class . ($legend ? '' : ' nolegend') . '">' . $legend;
 
                 // Build rows of the current box
                 foreach ($v as $vv)
@@ -177,8 +177,8 @@ class DC_File extends \Contao\DC_File
                     $blnAjax ? $strAjax .= $this->row() : $return .= $this->row();
                 }
 
-                $class = 'tl_box';
-                $return .= "\n" . '</fieldset>';
+                $class = '';
+                $return .= "\n" . '</div></li>';
             }
         }
 
@@ -192,8 +192,8 @@ class DC_File extends \Contao\DC_File
 
         // Submit buttons
         $arrButtons = array();
-        $arrButtons['save'] = '<input type="submit" name="save" id="save" class="tl_submit" accesskey="s" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['save']).'">';
-        $arrButtons['saveNclose'] = '<input type="submit" name="saveNclose" id="saveNclose" class="tl_submit" accesskey="c" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['saveNclose']).'">';
+        $arrButtons['save'] = '<button type="submit" name="save" id="save" class="btn orange lighten-2" accesskey="s">'.specialchars($GLOBALS['TL_LANG']['MSC']['save']).'</button>';
+        $arrButtons['saveNclose'] = '<button type="submit" name="saveNclose" id="saveNclose" class="btn-flat orange-text text-lighten-2" accesskey="c">'.specialchars($GLOBALS['TL_LANG']['MSC']['saveNclose']).'</button>';
 
         // Call the buttons_callback (see #4691)
         if (is_array($GLOBALS['TL_DCA'][$this->strTable]['edit']['buttons_callback']))
@@ -223,6 +223,7 @@ class DC_File extends \Contao\DC_File
 </div>
 
 </div>
+</ul>
 </form>
 
 <script>
@@ -233,13 +234,13 @@ class DC_File extends \Contao\DC_File
 
         // Begin the form (-> DO NOT CHANGE THIS ORDER -> this way the onsubmit attribute of the form can be changed by a field)
         $return = '
-<div id="tl_buttons">
+<div id="tl_buttons" class="card-action">
 <a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a>
 </div>
 '.\Message::generate().'
 <form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form" method="post"'.(!empty($this->onsubmit) ? ' onsubmit="'.implode(' ', $this->onsubmit).'"' : '').'>
 
-<div class="tl_formbody_edit">
+<ul class="collapsible" data-collapsible="expandable">
 <input type="hidden" name="FORM_SUBMIT" value="'.specialchars($this->strTable).'">
 <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
 <input type="hidden" name="FORM_FIELDS[]" value="'.specialchars($this->strPalette).'">'.($this->noReload ? '

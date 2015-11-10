@@ -43,7 +43,7 @@
 
     <?php if (!$this->isPopup): ?>
         <aside>
-            <nav class="side-nav fixed">
+            <nav class="fixed" style="position:absolute">
                 <ul id="modules-nav" class="side-nav fixed primary -c100">
                     <?php foreach ($this->modules as $strGroup => $arrModules): ?>
                         <li class="no-padding">
@@ -73,7 +73,7 @@
                     <a href="#" data-activates="modules-nav" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
                     <a href="<?= $this->base ?>contao/main.php" class="brand-logo">
                         <img src="/system/modules/contao-material/assets/img/contao-logo-grey.png" class="logo-contao-nav" alt="Contao">
-                        Contao Open Source CMS <?= VERSION . '.' . BUILD ?>
+                        <span>Contao Open Source CMS <?= VERSION . '.' . BUILD ?></span>
                     </a>
 
                     <ul class="right hide-on-med-and-down">

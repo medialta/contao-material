@@ -324,8 +324,8 @@ class DC_Folder extends \Contao\DC_Folder
 
         // Submit buttons
         $arrButtons = array();
-        $arrButtons['upload'] = '<input type="submit" name="upload" class="tl_submit" accesskey="s" value="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['upload']).'">';
-        $arrButtons['uploadNback'] = '<input type="submit" name="uploadNback" class="tl_submit" accesskey="c" value="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['uploadNback']).'">';
+        $arrButtons['upload'] = '<button type="submit" name="upload" class="btn orange lighten-2" accesskey="s">'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['upload']).'</button>';
+        $arrButtons['uploadNback'] = '<button type="submit" name="uploadNback" class="btn-flat orange-text text-lighten-2" accesskey="c">'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['uploadNback']).'</button>';
 
         // Call the buttons_callback (see #4691)
         if (is_array($GLOBALS['TL_DCA'][$this->strTable]['edit']['buttons_callback']))
@@ -346,8 +346,8 @@ class DC_Folder extends \Contao\DC_Folder
 
         // Display the upload form
         return '
-<div id="tl_buttons">
-<a href="'.$this->getReferer(true).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
+<div id="tl_buttons" class="card-action">
+<a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a>
 </div>
 '.\Message::generate().'
 <form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form" method="post"'.(!empty($this->onsubmit) ? ' onsubmit="'.implode(' ', $this->onsubmit).'"' : '').' enctype="multipart/form-data">
@@ -362,9 +362,9 @@ class DC_Folder extends \Contao\DC_Folder
 
 </div>
 
-<div class="tl_formbody_submit">
+<div class="card-action">
 
-<div class="tl_submit_container">
+<div class="submit-container">
   ' . implode(' ', $arrButtons) . '
 </div>
 

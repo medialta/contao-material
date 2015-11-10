@@ -24,6 +24,7 @@ ClassLoader::addNamespaces(array
 ClassLoader::addClasses(array
 (
 	// Classes
+	'ContaoMaterial\FileUpload'         => 'system/modules/contao-material/classes/FileUpload.php',
 	'ContaoMaterial\DataContainer'      => 'system/modules/contao-material/classes/DataContainer.php',
 	'ContaoMaterial\Message'            => 'system/modules/contao-material/classes/Message.php',
 	'ContaoMaterial\Helper'             => 'system/modules/contao-material/classes/Helper.php',

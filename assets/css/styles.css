@@ -182,14 +182,9 @@ footer .footer .copyright {
 
 .header-back {
     position: absolute;
-    top: -12px;
+    top: 8px;
 }
 .card .card-action {
-    padding: 0;
-}
-.card .card-action a {
-    display: inline-block;
-    margin: 20px;
 }
 .card.-main {
     position: relative;

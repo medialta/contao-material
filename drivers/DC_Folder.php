@@ -282,13 +282,13 @@ class DC_Folder extends \Contao\DC_Folder
             }
 
             // Render boxes
-            $class = 'tl_tbox';
+            $class = 'collapsible-body';
             $blnIsFirst = true;
 
             foreach ($boxes as $v)
             {
                 $return .= '
-<div class="'.$class.'">';
+<div class="'.$class.'" style="display:block">';
 
                 // Build rows of the current box
                 foreach ($v as $vv)
@@ -358,7 +358,7 @@ class DC_Folder extends \Contao\DC_Folder
                     $return .= $this->row();
                 }
 
-                $class = 'tl_box';
+                $class = 'collapsible-body';
                 $return .= '
   <input type="hidden" name="FORM_FIELDS[]" value="'.specialchars($this->strPalette).'">
   <div class="clear"></div>
@@ -378,8 +378,8 @@ class DC_Folder extends \Contao\DC_Folder
 
         // Submit buttons
         $arrButtons = array();
-        $arrButtons['save'] = '<input type="submit" name="save" id="save" class="tl_submit" accesskey="s" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['save']).'">';
-        $arrButtons['saveNclose'] = '<input type="submit" name="saveNclose" id="saveNclose" class="tl_submit" accesskey="c" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['saveNclose']).'">';
+        $arrButtons['save'] = '<button type="submit" name="save" id="save" class="btn orange lighten-2" accesskey="s">'.specialchars($GLOBALS['TL_LANG']['MSC']['save']).'</button>';
+        $arrButtons['saveNclose'] = '<button type="submit" name="saveNclose" id="saveNclose" class="btn-flat orange-text text-lighten-2" accesskey="c">'.specialchars($GLOBALS['TL_LANG']['MSC']['saveNclose']).'</button>';
 
         // Call the buttons_callback (see #4691)
         if (is_array($GLOBALS['TL_DCA'][$this->strTable]['edit']['buttons_callback']))
@@ -400,15 +400,14 @@ class DC_Folder extends \Contao\DC_Folder
 
         // Add the buttons and end the form
         $return .= '
-</div>
 
-<div class="tl_formbody_submit">
+<div class="card-action">
 
-<div class="tl_submit_container">
+<div class="submit-container">
   ' . implode(' ', $arrButtons) . '
 </div>
 
-</div>
+</ul>
 </form>
 
 <script>
@@ -419,12 +418,12 @@ class DC_Folder extends \Contao\DC_Folder
 
         // Begin the form (-> DO NOT CHANGE THIS ORDER -> this way the onsubmit attribute of the form can be changed by a field)
         $return = $version . '
-<div id="tl_buttons">
-<a href="'.$this->getReferer(true).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
+<div id="tl_buttons" class="card-action">
+<a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a>
 </div>
 '.\Message::generate().'
 <form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form" method="post"'.(!empty($this->onsubmit) ? ' onsubmit="'.implode(' ', $this->onsubmit).'"' : '').'>
-<div class="tl_formbody_edit">
+<ul class="collapsible" data-collapsible="expandable">
 <input type="hidden" name="FORM_SUBMIT" value="'.specialchars($this->strTable).'">
 <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">'.($this->noReload ? '
 <p class="tl_error">'.$GLOBALS['TL_LANG']['ERR']['general'].'</p>' : '').$return;

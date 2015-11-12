@@ -104,10 +104,12 @@ class Helper extends \System
      * Replaces an HTML image by the corresponding Material Design icon
      *
      * @param string $html HTML string containing image
+     * @param boolean $dropdownSet true if current button is in a dropdown
+     * @param string $title label for current button
      *
      * @return string HTML string with image replaced by icon
      */
-    public static function formatButtonCallback($html)
+    public static function formatButtonCallback($html, $dropdownSet = false, $title = '')
     {
 
         // Replaces image by icon
@@ -115,7 +117,14 @@ class Helper extends \System
 
         if (isset($matches[1][0]) && isset($matches[2][0]) && strlen($matches[1][0]) && strlen($matches[2][0]))
         {
-            $html = str_replace($matches[1][0], self::getIconHtml(basename($matches[2][0])), $html);
+            $icon = self::getIconHtml(basename($matches[2][0]));
+
+            if ($dropdownSet) 
+            {
+                $icon .= $title;
+            }
+
+            $html = str_replace($matches[1][0], $icon, $html);
         }
 
         // Replaces title by a tooltip
@@ -123,7 +132,7 @@ class Helper extends \System
 
         // Adds classes
         $regexClass = '/(<a[^<]* class="[^<]*)("[^<]*>)/mU';
-        $classes = 'btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped';
+        $classes = ($dropdownSet) ? '' : 'btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped';
 
         if (preg_match($regexClass, $html))
         {

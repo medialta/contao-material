@@ -75,7 +75,7 @@ footer {
  * MAIN
  **/
 .card.-main {
-
+    overflow: visible;
 }
 
     .card-content.-main {
@@ -150,7 +150,8 @@ footer {
 
 }
 
-    .listing a {
+    .listing a,
+    .listing .dropdown-content li > a {
         color: #757575;
     }
 
@@ -192,6 +193,10 @@ footer {
             padding-left: 0;
             padding-right: 0;
         }
+
+            .listing > .row-container > * > .actions {
+                padding-right: 1rem;
+            }
 
     .listing td:first-child {
         padding-left: 20px;
@@ -292,7 +297,8 @@ footer {
     .listing .item:not(td):not(th),
     .listing .actions:not(td):not(th),
     .listing .item > *,
-    .listing .actions > * {
+    .listing .actions > *,
+    .listing .record::before {
         display: inline-block;
         vertical-align: middle;
     }
@@ -302,10 +308,14 @@ footer {
     }
 
     .listing .actions {
+        float: right;
+        padding-top: calc((3rem - 32px) / 2);
+        padding-bottom: calc((3rem - 32px) / 2);
         white-space: nowrap;
     }
 
         table.listing .actions {
+            float: none;
             width: 1%;
         }
 
@@ -349,12 +359,34 @@ footer {
             transform: translateY(50%);
         }
 
+    .listing .dropdown-actions-container {
+        position: relative;
+    }
+
+    .listing .dropdown-content {
+        right: 0 !important;
+    }
+
+        .listing .dropdown-content i {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 1rem;
+        }
+
     .listing .record {
+        min-height: 3rem;
         padding-left: 3rem;
+        clear: both;
     }
 
         .listing .record:last-child {
+            min-height: 3.75rem;
             padding-bottom: .75rem;
+        }
+
+        .listing .record::before {
+            content: "";
+            min-height: 3rem;
         }
 
     .listing .row-container .collapsible-header:hover,

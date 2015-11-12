@@ -455,6 +455,7 @@ abstract class DataContainer extends \Contao\DataContainer
 		}
 
 		$return = '';
+        $buttonClasses = 'btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped';
 
         if (!isset($GLOBALS['TL_DCA'][$strTable]['list']['operations_order']))
         {
@@ -474,8 +475,25 @@ abstract class DataContainer extends \Contao\DataContainer
             $GLOBALS['TL_DCA'][$strTable]['list']['operations_order'] = array_merge($GLOBALS['TL_DCA'][$strTable]['list']['operations_order'], $operations);
         }
 
+        $i = 0;
+        $max = count($GLOBALS['TL_DCA'][$strTable]['list']['operations_order']);
+        $displayDropdown = $max > 4;
+        $dropdownSet = false;
+
 		foreach ($GLOBALS['TL_DCA'][$strTable]['list']['operations_order'] as $k)
 		{
+            if (!$dropdownSet && $displayDropdown && $i++ > 2) 
+            {
+                $dropdownSet = true;
+                $return .= '<div class="dropdown-actions-container"><a class="dropdown-button ' . $buttonClasses . '" href="#" data-activates="dropdown-actions-row-' . $id . '" data-constrainwidth="false" data-position="top" data-delay="50" data-tooltip="' . $GLOBALS['TL_LANG']['MSC']['options'] . '"><i class="material-icons">more_vert</i></a>';
+                $return .= '<ul id="dropdown-actions-row-' . $id . '" class="dropdown-content">';
+            }
+
+            if ($dropdownSet) 
+            {
+                $return .= '<li>';
+            }
+
             $v = $GLOBALS['TL_DCA'][$strTable]['list']['operations'][$k];
 			$v = is_array($v) ? $v : array($v);
 			$id = specialchars(rawurldecode($arrRow['id']));
@@ -499,14 +517,25 @@ abstract class DataContainer extends \Contao\DataContainer
 			{
 				$this->import($v['button_callback'][0]);
 				$currentButton = $this->$v['button_callback'][0]->$v['button_callback'][1]($arrRow, $v['href'], $label, $title, $v['icon'], $attributes, $strTable, $arrRootIds, $arrChildRecordIds, $blnCircularReference, $strPrevious, $strNext, $this);
-                $return .= Helper::formatButtonCallback($currentButton);
-				continue;
+                $return .= Helper::formatButtonCallback($currentButton, $dropdownSet, $title);
+
+                if ($dropdownSet) 
+                {
+                    $return .= '</li>';
+                }
+                continue;
 			}
 			elseif (is_callable($v['button_callback']))
 			{
 				$currentButton = $v['button_callback']($arrRow, $v['href'], $label, $title, $v['icon'], $attributes, $strTable, $arrRootIds, $arrChildRecordIds, $blnCircularReference, $strPrevious, $strNext, $this);
-                $return .= Helper::formatButtonCallback($currentButton);
-				continue;
+                $return .= Helper::formatButtonCallback($currentButton, $dropdownSet, $title);
+				
+
+                if ($dropdownSet) 
+                {
+                    $return .= '</li>';
+                }
+                continue;
 			}
 
 			// Generate all buttons except "move up" and "move down" buttons
@@ -514,14 +543,19 @@ abstract class DataContainer extends \Contao\DataContainer
 			{
 				if ($k == 'show')
 				{
-					$return .= '<a href="'.$this->addToUrl($v['href'].'&amp;id='.$arrRow['id'].'&amp;popup=1').'" class="btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'" onclick="Backend.openModalIframe({\'width\':768,\'title\':\''.specialchars(str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG'][$strTable]['show'][1], $arrRow['id']))).'\',\'url\':this.href});return false"'.$attributes.'>'.Helper::getIconHtml($v['icon'], $label).'</a> ';
+                    $title = 
+					$return .= '<a href="'.$this->addToUrl($v['href'].'&amp;id='.$arrRow['id'].'&amp;popup=1').'" class="' . (($dropdownSet) ? '' : $buttonClasses) . '" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'" onclick="Backend.openModalIframe({\'width\':768,\'title\':\''.specialchars(str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG'][$strTable]['show'][1], $arrRow['id']))).'\',\'url\':this.href});return false"'.$attributes.'>' . Helper::getIconHtml($v['icon'], $label) . (($dropdownSet) ? specialchars($title) : '') . '</a> ';
 				}
 				else
 				{
-					$return .= '<a href="'.$this->addToUrl($v['href'].'&amp;id='.$arrRow['id']).'" class="btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'"'.$attributes.'>'.Helper::getIconHtml($v['icon'], $label).'</a> ';
+					$return .= '<a href="'.$this->addToUrl($v['href'].'&amp;id='.$arrRow['id']).'" class="' . (($dropdownSet) ? '' : $buttonClasses) . '" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'"'.$attributes.'>' . Helper::getIconHtml($v['icon'], $label) . (($dropdownSet) ? specialchars($title) : '') . '</a> ';
 				}
 
-				continue;
+                if ($dropdownSet) 
+                {
+                    $return .= '</li>';
+                }
+                continue;
 			}
 
 			$arrDirections = array('up', 'down');
@@ -537,13 +571,28 @@ abstract class DataContainer extends \Contao\DataContainer
 
 				if ($dir == 'up')
 				{
-					$return .= ((is_numeric($strPrevious) && (!in_array($arrRow['id'], $arrRootIds) || empty($GLOBALS['TL_DCA'][$strTable]['list']['sorting']['root']))) ? '<a href="'.$this->addToUrl($href.'&amp;id='.$arrRow['id']).'&amp;sid='.intval($strPrevious).'" class="btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'"'.$attributes.'>'.$label.'</a> ' : Helper::getIconHtml('up_.gif')).' ';
-					continue;
+					$return .= ((is_numeric($strPrevious) && (!in_array($arrRow['id'], $arrRootIds) || empty($GLOBALS['TL_DCA'][$strTable]['list']['sorting']['root']))) ? '<a href="'.$this->addToUrl($href.'&amp;id='.$arrRow['id']).'&amp;sid='.intval($strPrevious).'" class="' . $buttonClasses . '" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'"'.$attributes.'>'.$label.'</a> ' : Helper::getIconHtml('up_.gif')).' ';
+					
+                    if ($dropdownSet) 
+                    {
+                        $return .= '</li>';
+                    }
+                    continue;
 				}
 
-				$return .= ((is_numeric($strNext) && (!in_array($arrRow['id'], $arrRootIds) || empty($GLOBALS['TL_DCA'][$strTable]['list']['sorting']['root']))) ? '<a href="'.$this->addToUrl($href.'&amp;id='.$arrRow['id']).'&amp;sid='.intval($strNext).'" class="btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'"'.$attributes.'>'.$label.'</a> ' : Helper::getIconHtml('down_.gif')).' ';
+				$return .= ((is_numeric($strNext) && (!in_array($arrRow['id'], $arrRootIds) || empty($GLOBALS['TL_DCA'][$strTable]['list']['sorting']['root']))) ? '<a href="'.$this->addToUrl($href.'&amp;id='.$arrRow['id']).'&amp;sid='.intval($strNext).'" class="' . $buttonClasses . '" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'"'.$attributes.'>'.$label.'</a> ' : Helper::getIconHtml('down_.gif')).' ';
 			}
+
+            if ($dropdownSet) 
+            {
+                $return .= '</li>';
+            }
 		}
+
+        if ($dropdownSet) 
+        {
+            $return .= '</ul></div>';
+        }
 
 		return trim($return);
 	}

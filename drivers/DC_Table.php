@@ -181,10 +181,10 @@ class DC_Table extends \Contao\DC_Table
             }
 
             $return .= '
-  <tr>
-    <td'.$class.'><span class="tl_label">'.$label.': </span></td>
-    <td'.$class.'>'.$row[$i].'</td>
-  </tr>';
+            <tr>
+                <td'.$class.'><span class="tl_label">'.$label.': </span></td>
+                <td'.$class.'>'.$row[$i].'</td>
+            </tr>';
         }
 
         // Special treatment for tl_undo
@@ -201,9 +201,9 @@ class DC_Table extends \Contao\DC_Table
                 {
                     $count = 0;
                     $return .= '
-  <tr>
-    <td colspan="2" style="padding:0"><div style="margin-bottom:26px;line-height:24px;border-bottom:1px dotted #ccc">&nbsp;</div></td>
-  </tr>';
+                    <tr>
+                        <td colspan="2" style="padding:0"><div style="margin-bottom:26px;line-height:24px;border-bottom:1px dotted #ccc">&nbsp;</div></td>
+                    </tr>';
 
                     foreach ($arrRow as $i=>$v)
                     {
@@ -231,10 +231,10 @@ class DC_Table extends \Contao\DC_Table
 
                         // Always encode special characters (thanks to Oliver Klee)
                         $return .= '
-  <tr>
-    <td'.$class.'><span class="tl_label">'.$label.': </span></td>
-    <td'.$class.'>'.specialchars($v).'</td>
-  </tr>';
+                        <tr>
+                            <td'.$class.'><span class="tl_label">'.$label.': </span></td>
+                            <td'.$class.'>'.specialchars($v).'</td>
+                        </tr>';
                     }
                 }
             }
@@ -242,12 +242,12 @@ class DC_Table extends \Contao\DC_Table
 
         // Return table
         return '
-<div id="tl_buttons">' . (!\Input::get('popup') ? '
-<a href="'.$this->getReferer(true).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>' : '') . '
-</div>
+        <div id="tl_buttons">' . (!\Input::get('popup') ? '
+            <a href="'.$this->getReferer(true).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>' : '') . '
+        </div>
 
-<table class="table-show bordered">'.$return.'
-</table>';
+        <table class="table-show bordered">'.$return.'
+        </table>';
     }
 
     public function edit($intId=null, $ajaxId=null)

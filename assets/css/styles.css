@@ -38,9 +38,7 @@ span.mandatory {
     padding-right: 10px;
     vertical-align: top;
 }
-.w50.cbx {
-    display: block;
-}
+
 @media (max-width: 991px) {
     .w50 {
         width: 100%;

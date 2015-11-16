@@ -98,6 +98,12 @@ span.mandatory {
     font-weight: bold;
 }
 
+.right-header {
+    position: absolute;
+    right: 20px;
+    margin-top: 8px;
+}
+
 .select2-container {
     width: 100% !important;
 }

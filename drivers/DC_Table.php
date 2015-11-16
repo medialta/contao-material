@@ -1110,7 +1110,7 @@ class DC_Table extends \Contao\DC_Table
             // Output the header data
             $return .= '
 
-            <table class="bordered">';
+            <table class="table-header">';
 
             foreach ($add as $k=>$v)
             {

@@ -85,6 +85,19 @@ span.mandatory {
     margin-top: 0;
 }
 
+.table-header {
+    line-height: 0.5rem;
+    border-top: 1px solid #d0d0d0;
+    border-bottom: 1px solid #d0d0d0;
+}
+.table-header td:first-child {
+    width: 1%;
+    white-space: nowrap;
+    padding: 0px 5px;
+    margin: 0;
+    font-weight: bold;
+}
+
 .select2-container {
     width: 100% !important;
 }

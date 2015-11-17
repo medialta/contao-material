@@ -104,6 +104,47 @@ span.mandatory {
     margin-top: 8px;
 }
 
+.parent_view {
+    padding: 20px;
+}
+
+.parent_view .tl_content {
+    border-bottom: 1px solid #d0d0d0;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+}
+
+figure {
+    margin: 1rem 0;
+}
+
+.cte_type.published, .cte_type.unpublished {
+    display: inline-block;
+    position: relative;
+    height: 32px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 32px;
+    padding: 0 16px 0 40px;
+    border-radius: 16px;
+    background-color: #e4e4e4;
+}
+.cte_type.published:before {
+    position: absolute;
+    left: 8px;
+    content: "\E8F4";
+    font-size: 1.3rem;
+    font-family: 'Material Icons';
+}
+.cte_type.unpublished:before {
+    position: absolute;
+    left: 8px;
+    content: "\E8F5";
+    font-size: 1.3rem;
+    font-family: 'Material Icons';
+}
+
 .select2-container {
     width: 100% !important;
 }

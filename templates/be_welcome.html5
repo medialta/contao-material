@@ -50,9 +50,9 @@
                                             <?= Helper::getIconHtml('edit_.gif', '', 'style="padding:0 2px"') ?>
                                         <?php endif; ?>
                                         <?php if ($version['to'] > 1): ?>
-                                            <a href="<?= $version['editUrl'] ?>&amp;from=<?= $version['from'] ?>&amp;to=<?= $version['to'] ?>&amp;versions=1&amp;popup=1" title="<?= $this->showDifferences ?>" onclick="Backend.openModalIframe({'width':768,'title':'<?= $this->showDifferences ?>','url':this.href});return false"><?= Image::getHtml('diff.gif') ?></a>
+                                            <a href="<?= $version['editUrl'] ?>&amp;from=<?= $version['from'] ?>&amp;to=<?= $version['to'] ?>&amp;versions=1&amp;popup=1" data-tooltip="<?= $this->showDifferences ?>" class="btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped" data-delay="50" data-position="top" onclick="Backend.openModalIframe({'width':768,'title':'<?= $this->showDifferences ?>','url':this.href});return false"><?= Helper::getIconHtml('diff.gif') ?></a>
                                         <?php else: ?>
-                                            <?= Image::getHtml('diff_.gif') ?>
+                                            <a style="cursor:default" class="btn-flat btn-icon waves-effect waves-circle waves-orange"><?= Helper::getIconHtml('diff_.gif') ?></a>
                                         <?php endif; ?>
                                     <?php endif; ?>
                                 </td>

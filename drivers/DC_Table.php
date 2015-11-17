@@ -1220,7 +1220,8 @@ class DC_Table extends \Contao\DC_Table
                 {
                     $this->current[] = $row[$i]['id'];
                     $imagePasteAfter = \Image::getHtml('pasteafter.gif', sprintf($GLOBALS['TL_LANG'][$this->strTable]['pasteafter'][1], $row[$i]['id']));
-                    $imagePasteNew = \Image::getHtml('new.gif', sprintf($GLOBALS['TL_LANG'][$this->strTable]['pastenew'][1], $row[$i]['id']));
+                    $imagePasteNew = Helper::getIconHtml('new.gif', sprintf($GLOBALS['TL_LANG'][$this->strTable]['pastenew'][1], $row[$i]['id']));
+                    $imageDrag = Helper::getIconHtml('drag.gif', sprintf($GLOBALS['TL_LANG'][$this->strTable]['cut'][1], $row[$i]['id']));
 
                     // Decrypt encrypted value
                     foreach ($row[$i] as $k=>$v)
@@ -1297,7 +1298,7 @@ class DC_Table extends \Contao\DC_Table
                             // Create new button
                             if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable'])
                             {
-                                $return .= ' <a href="'.$this->addToUrl('act=create&amp;mode=1&amp;pid='.$row[$i]['id'].'&amp;id='.$objParent->id).'" title="'.specialchars(sprintf($GLOBALS['TL_LANG'][$this->strTable]['pastenew'][1], $row[$i]['id'])).'">'.$imagePasteNew.'</a>';
+                                $return .= ' <a href="'.$this->addToUrl('act=create&amp;mode=1&amp;pid='.$row[$i]['id'].'&amp;id='.$objParent->id).'" class="btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped" data-delay="50" data-position="top" data-tooltip="'.specialchars(sprintf($GLOBALS['TL_LANG'][$this->strTable]['pastenew'][1], $row[$i]['id'])).'">'.$imagePasteNew.'</a>';
                             }
 
                             // Prevent circular references
@@ -1321,7 +1322,7 @@ class DC_Table extends \Contao\DC_Table
                             // Drag handle
                             if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['notSortable'])
                             {
-                                $return .= ' ' . \Image::getHtml('drag.gif', '', 'class="drag-handle" title="' . sprintf($GLOBALS['TL_LANG'][$this->strTable]['cut'][1], $row[$i]['id']) . '"');
+                                $return .= ' <a class="drag-handle btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped" data-delay="50" data-position="top" data-tooltip="'.specialchars(sprintf($GLOBALS['TL_LANG'][$this->strTable]['cut'][1], $row[$i]['id'])).'">'.$imageDrag.'</a>';
                             }
                         }
                     }

@@ -83,6 +83,8 @@ var Backend = {
 
             $(this).css('height', hgt);
 
+            //TODO title tooltip
+
             toggler = $('<a class="btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped limit_toggler" data-delay="50" data-position="right" data-tooltip=""><i class="material-icons">expand_more</i></a>');
 
 
@@ -104,21 +106,6 @@ var Backend = {
                     limitheight.css('height', size.height);
                 }
             });
-
-            /*toggler.addEvent('click', function() {
-                style = this.getPrevious('div').getStyle('height').toInt();
-                this.getPrevious('div').setStyle('height', ((style > hgt) ? hgt : ''));
-
-                if (this.get('data-state') == 0) {
-                    this.src = Backend.themePath + 'collapse.gif';
-                    this.set('data-state', 1);
-                    this.store('tip:title', Contao.lang.collapse);
-                } else {
-                    this.src = Backend.themePath + 'expand.gif';
-                    this.set('data-state', 0);
-                    this.store('tip:title', Contao.lang.expand);
-                }
-            });*/
 
             $(this).after(toggler);
         });

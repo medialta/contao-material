@@ -114,6 +114,18 @@ span.mandatory {
     padding-bottom: 1rem;
 }
 
+.limit_height {
+    overflow: hidden;
+}
+.limit_toggler {
+    margin-top: 1rem;
+}
+
+.limit_toggler.open i.material-icons {
+    transform: rotate(180deg);
+    transition: transform .35s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
 figure {
     margin: 1rem 0;
 }

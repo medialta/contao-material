@@ -29,6 +29,7 @@ ClassLoader::addClasses(array
 	'ContaoMaterial\Message'            => 'system/modules/contao-material/classes/Message.php',
 	'ContaoMaterial\Helper'             => 'system/modules/contao-material/classes/Helper.php',
 	'ContaoMaterial\Database\Installer' => 'system/modules/contao-material/classes/Installer.php',
+	'ContaoMaterial\Versions'           => 'system/modules/contao-material/classes/Versions.php',
 	'ContaoMaterial\Messages'           => 'system/modules/contao-material/classes/Messages.php',
 
 	// Drivers

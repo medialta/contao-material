@@ -142,19 +142,37 @@ figure {
     border-radius: 16px;
     background-color: #e4e4e4;
 }
+
+.cte_type.published {
+    background-color: #a0e7a0;
+}
+.cte_type.unpublished {
+    background-color: #ff9994;
+}
+
 .cte_type.published:before {
     position: absolute;
-    left: 8px;
+    left: 0;
     content: "\E8F4";
     font-size: 1.3rem;
     font-family: 'Material Icons';
+    height: 32px;
+    border-radius: 1rem;
+    padding-right: 8px;
+    padding-left: 8px;
+    background-color: #77DD77;
 }
 .cte_type.unpublished:before {
     position: absolute;
-    left: 8px;
+    left: 0;
     content: "\E8F5";
     font-size: 1.3rem;
     font-family: 'Material Icons';
+    height: 32px;
+    border-radius: 1rem;
+    padding-right: 8px;
+    padding-left: 8px;
+    background-color: #ff6961;
 }
 
 .select2-container {

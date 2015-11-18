@@ -42,7 +42,7 @@ class DC_Folder extends \Contao\DC_Folder
                 'id' => $this->urlEncode($this->intId),
                 'childs' => \Input::get('childs'),
                 'mode' => \Input::get('mode')
-            );
+                );
 
             $this->Session->set('CLIPBOARD', $arrClipboard);
         }
@@ -117,90 +117,90 @@ class DC_Folder extends \Contao\DC_Folder
 
         // Build the tree
         $return = '
-<div id="tl_buttons" class="card-action">'.((\Input::get('act') == 'select') ? '
-<a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5 data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a> ' : '') . ((\Input::get('act') != 'select' && !$blnClipboard) ? '
-<a href="'.$this->addToUrl($hrfNew).'" class="'.$clsNew.' tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($ttlNew).'" accesskey="n" onclick="Backend.getScrollOffset()">'.$lblNew.'</a> ' . ((!$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable']) ? '<a href="'.$this->addToUrl('&amp;act=paste&amp;mode=move').'" class="header-new btn-floating btn-large waves-effect waves-light red tooltipped" data-position="left" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['move'][1]).'" onclick="Backend.getScrollOffset()"><i class="material-icons">add</i></a> ' : '') . $this->generateGlobalButtons() : '') . ($blnClipboard ? '<a href="'.$this->addToUrl('clipboard=1').'" class="header_clipboard tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['clearClipboard']).'" accesskey="x">'.$GLOBALS['TL_LANG']['MSC']['clearClipboard'].'</a> ' : '') . '
-</div>' . \Message::generate(true) . ((\Input::get('act') == 'select') ? '
+        <div id="tl_buttons" class="card-action">'.((\Input::get('act') == 'select') ? '
+            <a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5 data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a> ' : '') . ((\Input::get('act') != 'select' && !$blnClipboard) ? '
+            <a href="'.$this->addToUrl($hrfNew).'" class="'.$clsNew.' tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($ttlNew).'" accesskey="n" onclick="Backend.getScrollOffset()">'.$lblNew.'</a> ' . ((!$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable']) ? '<a href="'.$this->addToUrl('&amp;act=paste&amp;mode=move').'" class="header-new btn-floating btn-large waves-effect waves-light red tooltipped" data-position="left" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['move'][1]).'" onclick="Backend.getScrollOffset()"><i class="material-icons">add</i></a> ' : '') . $this->generateGlobalButtons() : '') . ($blnClipboard ? '<a href="'.$this->addToUrl('clipboard=1').'" class="header_clipboard tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['clearClipboard']).'" accesskey="x">'.$GLOBALS['TL_LANG']['MSC']['clearClipboard'].'</a> ' : '') . '
+        </div>' . \Message::generate(true) . ((\Input::get('act') == 'select') ? '
 
-<form action="'.ampersand(\Environment::get('request'), true).'" id="tl_select" class="tl_form'.((\Input::get('act') == 'select') ? ' unselectable' : '').'" method="post" novalidate>
-<div class="tl_formbody">
-<input type="hidden" name="FORM_SUBMIT" value="tl_select">
-<input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">' : '').($blnClipboard ? '
+            <form action="'.ampersand(\Environment::get('request'), true).'" id="tl_select" class="tl_form'.((\Input::get('act') == 'select') ? ' unselectable' : '').'" method="post" novalidate>
+                <div class="tl_formbody">
+                    <input type="hidden" name="FORM_SUBMIT" value="tl_select">
+                    <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">' : '').($blnClipboard ? '
 
-<div id="paste_hint">
-  <p>'.$GLOBALS['TL_LANG']['MSC']['selectNewPosition'].'</p>
-</div>' : '').'
+                    <div id="paste_hint">
+                      <p>'.$GLOBALS['TL_LANG']['MSC']['selectNewPosition'].'</p>
+                  </div>' : '').'
 
-<div class="tl_listing_container tree_view" id="tl_listing">'.(isset($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['breadcrumb']) ? $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['breadcrumb'] : '').((\Input::get('act') == 'select') ? '
+                    <div class="tl_listing_container tree_view" id="tl_listing">'.(isset($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['breadcrumb']) ? $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['breadcrumb'] : '').((\Input::get('act') == 'select') ? '
 
-<div class="tl_select_trigger">
-<label for="tl_select_trigger" class="tl_select_label">'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</label> <input type="checkbox" id="tl_select_trigger" onclick="Backend.toggleCheckboxes(this)" class="tl_tree_checkbox">
-</div>' : '').'
+                        <div class="tl_select_trigger">
+                            <label for="tl_select_trigger" class="tl_select_label">'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</label> <input type="checkbox" id="tl_select_trigger" onclick="Backend.toggleCheckboxes(this)" class="tl_tree_checkbox">
+                        </div>' : '').'
 
-<ul class="tl_listing">
-  <li class="tl_folder_top" onmouseover="Theme.hoverDiv(this,1)" onmouseout="Theme.hoverDiv(this,0)"><div class="tl_left">'.\Image::getHtml('filemounts.gif').' '.$GLOBALS['TL_LANG']['MSC']['filetree'].'</div> <div class="tl_right">'.(($blnClipboard && empty($this->arrFilemounts) && !is_array($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root']) && $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root'] !== false) ? '<a href="'.$this->addToUrl('&amp;act='.$arrClipboard['mode'].'&amp;mode=2&amp;pid='.\Config::get('uploadPath').(!is_array($arrClipboard['id']) ? '&amp;id='.$arrClipboard['id'] : '')).'" title="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['pasteinto'][1]).'" onclick="Backend.getScrollOffset()">'.$imagePasteInto.'</a>' : '&nbsp;').'</div><div style="clear:both"></div></li>'.$return.'
-</ul>
+                    <ul class="tl_listing">
+                      <li class="tl_folder_top" onmouseover="Theme.hoverDiv(this,1)" onmouseout="Theme.hoverDiv(this,0)"><div class="tl_left">'.\Image::getHtml('filemounts.gif').' '.$GLOBALS['TL_LANG']['MSC']['filetree'].'</div> <div class="tl_right">'.(($blnClipboard && empty($this->arrFilemounts) && !is_array($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root']) && $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root'] !== false) ? '<a href="'.$this->addToUrl('&amp;act='.$arrClipboard['mode'].'&amp;mode=2&amp;pid='.\Config::get('uploadPath').(!is_array($arrClipboard['id']) ? '&amp;id='.$arrClipboard['id'] : '')).'" title="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['pasteinto'][1]).'" onclick="Backend.getScrollOffset()">'.$imagePasteInto.'</a>' : '&nbsp;').'</div><div style="clear:both"></div></li>'.$return.'
+                  </ul>
 
-</div>';
+              </div>';
 
         // Close the form
-        if (\Input::get('act') == 'select')
-        {
+              if (\Input::get('act') == 'select')
+              {
             // Submit buttons
-            $arrButtons = array();
+                $arrButtons = array();
 
-            if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['notDeletable'])
-            {
-                $arrButtons['delete'] = '<input type="submit" name="delete" id="delete" class="tl_submit" accesskey="d" onclick="return confirm(\''.$GLOBALS['TL_LANG']['MSC']['delAllConfirmFile'].'\')" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['deleteSelected']).'">';
-            }
+                if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['notDeletable'])
+                {
+                    $arrButtons['delete'] = '<input type="submit" name="delete" id="delete" class="tl_submit" accesskey="d" onclick="return confirm(\''.$GLOBALS['TL_LANG']['MSC']['delAllConfirmFile'].'\')" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['deleteSelected']).'">';
+                }
 
-            if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['notSortable'])
-            {
-                $arrButtons['cut'] = '<input type="submit" name="cut" id="cut" class="tl_submit" accesskey="x" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['moveSelected']).'">';
-            }
+                if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['notSortable'])
+                {
+                    $arrButtons['cut'] = '<input type="submit" name="cut" id="cut" class="tl_submit" accesskey="x" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['moveSelected']).'">';
+                }
 
-            if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['notCopyable'])
-            {
-                $arrButtons['copy'] = '<input type="submit" name="copy" id="copy" class="tl_submit" accesskey="c" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['copySelected']).'">';
-            }
+                if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['notCopyable'])
+                {
+                    $arrButtons['copy'] = '<input type="submit" name="copy" id="copy" class="tl_submit" accesskey="c" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['copySelected']).'">';
+                }
 
-            if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['notEditable'])
-            {
-                $arrButtons['edit'] = '<input type="submit" name="edit" id="edit" class="tl_submit" accesskey="s" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['editSelected']).'">';
-            }
+                if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['notEditable'])
+                {
+                    $arrButtons['edit'] = '<input type="submit" name="edit" id="edit" class="tl_submit" accesskey="s" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['editSelected']).'">';
+                }
 
             // Call the buttons_callback (see #4691)
-            if (is_array($GLOBALS['TL_DCA'][$this->strTable]['select']['buttons_callback']))
-            {
-                foreach ($GLOBALS['TL_DCA'][$this->strTable]['select']['buttons_callback'] as $callback)
+                if (is_array($GLOBALS['TL_DCA'][$this->strTable]['select']['buttons_callback']))
                 {
-                    if (is_array($callback))
+                    foreach ($GLOBALS['TL_DCA'][$this->strTable]['select']['buttons_callback'] as $callback)
                     {
-                        $this->import($callback[0]);
-                        $arrButtons = $this->$callback[0]->$callback[1]($arrButtons, $this);
-                    }
-                    elseif (is_callable($callback))
-                    {
-                        $arrButtons = $callback($arrButtons, $this);
+                        if (is_array($callback))
+                        {
+                            $this->import($callback[0]);
+                            $arrButtons = $this->$callback[0]->$callback[1]($arrButtons, $this);
+                        }
+                        elseif (is_callable($callback))
+                        {
+                            $arrButtons = $callback($arrButtons, $this);
+                        }
                     }
                 }
-            }
 
-            $return .= '
+                $return .= '
 
-<div class="tl_formbody_submit" style="text-align:right">
+                <div class="tl_formbody_submit" style="text-align:right">
 
-<div class="tl_submit_container">
-  ' . implode(' ', $arrButtons) . '
-</div>
+                    <div class="tl_submit_container">
+                      ' . implode(' ', $arrButtons) . '
+                  </div>
 
-</div>
-</div>
-</form>';
-        }
+              </div>
+          </div>
+      </form>';
+  }
 
-        return $return;
-    }
+  return $return;
+}
 
     /**
      * Move one or more local files to the server
@@ -346,32 +346,32 @@ class DC_Folder extends \Contao\DC_Folder
 
         // Display the upload form
         return '
-<div id="tl_buttons" class="card-action">
-<a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a>
-</div>
-'.\Message::generate().'
-<form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form" method="post"'.(!empty($this->onsubmit) ? ' onsubmit="'.implode(' ', $this->onsubmit).'"' : '').' enctype="multipart/form-data">
-<div class="tl_formbody_edit">
-<input type="hidden" name="FORM_SUBMIT" value="tl_upload">
-<input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
-<input type="hidden" name="MAX_FILE_SIZE" value="'.\Config::get('maxFileSize').'">
+        <div id="tl_buttons" class="card-action">
+            <a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a>
+        </div>
+        '.\Message::generate().'
+        <form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form" method="post"'.(!empty($this->onsubmit) ? ' onsubmit="'.implode(' ', $this->onsubmit).'"' : '').' enctype="multipart/form-data">
+            <div class="tl_formbody_edit">
+                <input type="hidden" name="FORM_SUBMIT" value="tl_upload">
+                <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
+                <input type="hidden" name="MAX_FILE_SIZE" value="'.\Config::get('maxFileSize').'">
 
-<div class="tl_tbox">
-  <h3>'.$GLOBALS['TL_LANG'][$this->strTable]['fileupload'][0].'</h3>'.$objUploader->generateMarkup().'
-</div>
+                <div class="tl_tbox">
+                  <h3>'.$GLOBALS['TL_LANG'][$this->strTable]['fileupload'][0].'</h3>'.$objUploader->generateMarkup().'
+              </div>
 
-</div>
+          </div>
 
-<div class="card-action">
+          <div class="card-action">
 
-<div class="submit-container">
-  ' . implode(' ', $arrButtons) . '
-</div>
+            <div class="submit-container">
+              ' . implode(' ', $arrButtons) . '
+          </div>
 
-</div>
+      </div>
 
-</form>';
-    }
+  </form>';
+}
 
     /**
      * Auto-generate a form to rename a file or folder
@@ -459,81 +459,81 @@ class DC_Folder extends \Contao\DC_Folder
             foreach ($boxes as $v)
             {
                 $return .= '
-<div class="'.$class.'" style="display:block">';
+                <div class="'.$class.'" style="display:block">';
 
                 // Build rows of the current box
-                foreach ($v as $vv)
-                {
-                    $this->strField = $vv;
-                    $this->strInputName = $vv;
+                    foreach ($v as $vv)
+                    {
+                        $this->strField = $vv;
+                        $this->strInputName = $vv;
 
                     // Load the current value
-                    if ($vv == 'name')
-                    {
-                        $pathinfo = pathinfo($this->intId);
-                        $this->strPath = $pathinfo['dirname'];
-
-                        if (is_dir(TL_ROOT . '/' . $this->intId))
+                        if ($vv == 'name')
                         {
-                            $this->strExtension = '';
-                            $this->varValue = basename($pathinfo['basename']);
+                            $pathinfo = pathinfo($this->intId);
+                            $this->strPath = $pathinfo['dirname'];
+
+                            if (is_dir(TL_ROOT . '/' . $this->intId))
+                            {
+                                $this->strExtension = '';
+                                $this->varValue = basename($pathinfo['basename']);
+                            }
+                            else
+                            {
+                                $this->strExtension = ($pathinfo['extension'] != '') ? '.'.$pathinfo['extension'] : '';
+                                $this->varValue = basename($pathinfo['basename'], $this->strExtension);
+                            }
+
+                        // Fix Unix system files like .htaccess
+                            if (strncmp($this->varValue, '.', 1) === 0)
+                            {
+                                $this->strExtension = '';
+                            }
+
+                        // Clear the current value if it is a new folder
+                            if (\Input::post('FORM_SUBMIT') != 'tl_files' && \Input::post('FORM_SUBMIT') != 'tl_templates' && $this->varValue == '__new__')
+                            {
+                                $this->varValue = '';
+                            }
                         }
                         else
                         {
-                            $this->strExtension = ($pathinfo['extension'] != '') ? '.'.$pathinfo['extension'] : '';
-                            $this->varValue = basename($pathinfo['basename'], $this->strExtension);
+                            $this->varValue = $objFile->$vv;
                         }
-
-                        // Fix Unix system files like .htaccess
-                        if (strncmp($this->varValue, '.', 1) === 0)
-                        {
-                            $this->strExtension = '';
-                        }
-
-                        // Clear the current value if it is a new folder
-                        if (\Input::post('FORM_SUBMIT') != 'tl_files' && \Input::post('FORM_SUBMIT') != 'tl_templates' && $this->varValue == '__new__')
-                        {
-                            $this->varValue = '';
-                        }
-                    }
-                    else
-                    {
-                        $this->varValue = $objFile->$vv;
-                    }
 
                     // Autofocus the first field
-                    if ($blnIsFirst && $GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['inputType'] == 'text')
-                    {
-                        $GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['eval']['autofocus'] = 'autofocus';
-                        $blnIsFirst = false;
-                    }
+                        if ($blnIsFirst && $GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['inputType'] == 'text')
+                        {
+                            $GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['eval']['autofocus'] = 'autofocus';
+                            $blnIsFirst = false;
+                        }
 
                     // Call load_callback
-                    if (is_array($GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['load_callback']))
-                    {
-                        foreach ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['load_callback'] as $callback)
+                        if (is_array($GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['load_callback']))
                         {
-                            if (is_array($callback))
+                            foreach ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['load_callback'] as $callback)
                             {
-                                $this->import($callback[0]);
-                                $this->varValue = $this->$callback[0]->$callback[1]($this->varValue, $this);
-                            }
-                            elseif (is_callable($callback))
-                            {
-                                $this->varValue = $callback($this->varValue, $this);
+                                if (is_array($callback))
+                                {
+                                    $this->import($callback[0]);
+                                    $this->varValue = $this->$callback[0]->$callback[1]($this->varValue, $this);
+                                }
+                                elseif (is_callable($callback))
+                                {
+                                    $this->varValue = $callback($this->varValue, $this);
+                                }
                             }
                         }
-                    }
 
                     // Build row
-                    $return .= $this->row();
-                }
+                        $return .= $this->row();
+                    }
 
-                $class = 'collapsible-body';
-                $return .= '
-  <input type="hidden" name="FORM_FIELDS[]" value="'.specialchars($this->strPalette).'">
-  <div class="clear"></div>
-</div>';
+                    $class = 'collapsible-body';
+                    $return .= '
+                    <input type="hidden" name="FORM_FIELDS[]" value="'.specialchars($this->strPalette).'">
+                    <div class="clear"></div>
+                </div>';
             }
         }
 
@@ -572,32 +572,32 @@ class DC_Folder extends \Contao\DC_Folder
         // Add the buttons and end the form
         $return .= '
 
-<div class="card-action">
+        <div class="card-action">
 
-<div class="submit-container">
-  ' . implode(' ', $arrButtons) . '
-</div>
+            <div class="submit-container">
+              ' . implode(' ', $arrButtons) . '
+          </div>
 
-</ul>
-</form>
+      </ul>
+  </form>
 
-<script>
-  window.addEvent(\'domready\', function() {
-    Theme.focusInput("'.$this->strTable.'");
-  });
+  <script>
+      window.addEvent(\'domready\', function() {
+        Theme.focusInput("'.$this->strTable.'");
+    });
 </script>';
 
         // Begin the form (-> DO NOT CHANGE THIS ORDER -> this way the onsubmit attribute of the form can be changed by a field)
-        $return = $version . '
+$return = $version . '
 <div id="tl_buttons" class="card-action">
-<a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a>
+    <a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a>
 </div>
 '.\Message::generate().'
 <form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form" method="post"'.(!empty($this->onsubmit) ? ' onsubmit="'.implode(' ', $this->onsubmit).'"' : '').'>
-<ul class="collapsible" data-collapsible="expandable">
-<input type="hidden" name="FORM_SUBMIT" value="'.specialchars($this->strTable).'">
-<input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">'.($this->noReload ? '
-<p class="tl_error">'.$GLOBALS['TL_LANG']['ERR']['general'].'</p>' : '').$return;
+    <ul class="collapsible" data-collapsible="expandable">
+        <input type="hidden" name="FORM_SUBMIT" value="'.specialchars($this->strTable).'">
+        <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">'.($this->noReload ? '
+            <p class="tl_error">'.$GLOBALS['TL_LANG']['ERR']['general'].'</p>' : '').$return;
 
         // Reload the page to prevent _POST variables from being sent twice
         if (\Input::post('FORM_SUBMIT') == $this->strTable && !$this->noReload)
@@ -648,7 +648,7 @@ class DC_Folder extends \Contao\DC_Folder
             if ($this->blnIsDbAssisted)
             {
                 $this->Database->prepare("UPDATE " . $this->strTable . " SET tstamp=? WHERE id=?")
-                               ->execute(time(), $objFile->id);
+                ->execute(time(), $objFile->id);
             }
 
             // Redirect
@@ -675,15 +675,15 @@ class DC_Folder extends \Contao\DC_Folder
         {
             $return .= '
 
-<script>
-  window.addEvent(\'domready\', function() {
-    Backend.vScrollTo(($(\'' . $this->strTable . '\').getElement(\'label.error\').getPosition().y - 20));
-  });
+            <script>
+              window.addEvent(\'domready\', function() {
+                Backend.vScrollTo(($(\'' . $this->strTable . '\').getElement(\'label.error\').getPosition().y - 20));
+            });
 </script>';
-        }
+}
 
-        return $return;
-    }
+return $return;
+}
 
     /**
      * Synchronize the file system with the database
@@ -725,25 +725,25 @@ class DC_Folder extends \Contao\DC_Folder
             switch ($type)
             {
                 case 'Added';
-                    $arrMessages[] = '<p class="tl_new">' . sprintf($GLOBALS['TL_LANG']['tl_files']['syncAdded'], specialchars($file)) . '</p>';
-                    break;
+                $arrMessages[] = '<p class="tl_new">' . sprintf($GLOBALS['TL_LANG']['tl_files']['syncAdded'], specialchars($file)) . '</p>';
+                break;
 
                 case 'Changed';
-                    $arrMessages[] = '<p class="tl_info">' . sprintf($GLOBALS['TL_LANG']['tl_files']['syncChanged'], specialchars($file)) . '</p>';
-                    break;
+                $arrMessages[] = '<p class="tl_info">' . sprintf($GLOBALS['TL_LANG']['tl_files']['syncChanged'], specialchars($file)) . '</p>';
+                break;
 
                 case 'Unchanged';
-                    $arrMessages[] = '<p class="tl_confirm hidden">' . sprintf($GLOBALS['TL_LANG']['tl_files']['syncUnchanged'], specialchars($file)) . '</p>';
-                    break;
+                $arrMessages[] = '<p class="tl_confirm hidden">' . sprintf($GLOBALS['TL_LANG']['tl_files']['syncUnchanged'], specialchars($file)) . '</p>';
+                break;
 
                 case 'Moved';
-                    list($source, $target) = explode(' to ', $file, 2);
-                    $arrMessages[] = '<p class="tl_info">' . sprintf($GLOBALS['TL_LANG']['tl_files']['syncMoved'], specialchars($source), specialchars($target)) . '</p>';
-                    break;
+                list($source, $target) = explode(' to ', $file, 2);
+                $arrMessages[] = '<p class="tl_info">' . sprintf($GLOBALS['TL_LANG']['tl_files']['syncMoved'], specialchars($source), specialchars($target)) . '</p>';
+                break;
 
                 case 'Deleted';
-                    $arrMessages[] = '<p class="tl_error">' . sprintf($GLOBALS['TL_LANG']['tl_files']['syncDeleted'], specialchars($file)) . '</p>';
-                    break;
+                $arrMessages[] = '<p class="tl_error">' . sprintf($GLOBALS['TL_LANG']['tl_files']['syncDeleted'], specialchars($file)) . '</p>';
+                break;
             }
 
             ++$arrCounts[$type];
@@ -757,16 +757,16 @@ class DC_Folder extends \Contao\DC_Folder
         \Message::addConfirmation($GLOBALS['TL_LANG']['tl_files']['syncComplete']);
 
         $return = '
-<div id="tl_buttons" class="card-action">
-<a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a>
-</div>
-'.\Message::generate().'
-<div id="sync-results">
-  <p class="left">' . sprintf($GLOBALS['TL_LANG']['tl_files']['syncResult'], \System::getFormattedNumber($arrCounts['Added'], 0), \System::getFormattedNumber($arrCounts['Changed'], 0), \System::getFormattedNumber($arrCounts['Unchanged'], 0), \System::getFormattedNumber($arrCounts['Moved'], 0), \System::getFormattedNumber($arrCounts['Deleted'], 0)) . '</p>
-  <p class="right"><input type="checkbox" id="show-hidden" class="tl_checkbox" onclick="Backend.toggleUnchanged()"> <label for="show-hidden">' . $GLOBALS['TL_LANG']['tl_files']['syncShowUnchanged'] . '</label></p>
-  <div class="clear"></div>
-</div>
-<div class="tl_message nobg" id="result-list" style="margin-bottom:2em">';
+        <div id="tl_buttons" class="card-action">
+            <a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a>
+        </div>
+        '.\Message::generate().'
+        <div id="sync-results">
+          <p class="left">' . sprintf($GLOBALS['TL_LANG']['tl_files']['syncResult'], \System::getFormattedNumber($arrCounts['Added'], 0), \System::getFormattedNumber($arrCounts['Changed'], 0), \System::getFormattedNumber($arrCounts['Unchanged'], 0), \System::getFormattedNumber($arrCounts['Moved'], 0), \System::getFormattedNumber($arrCounts['Deleted'], 0)) . '</p>
+          <p class="right"><input type="checkbox" id="show-hidden" class="tl_checkbox" onclick="Backend.toggleUnchanged()"> <label for="show-hidden">' . $GLOBALS['TL_LANG']['tl_files']['syncShowUnchanged'] . '</label></p>
+          <div class="clear"></div>
+      </div>
+      <div class="tl_message nobg" id="result-list" style="margin-bottom:2em">';
 
         // Add the messages
         foreach ($arrMessages as $strMessage)
@@ -775,14 +775,14 @@ class DC_Folder extends \Contao\DC_Folder
         }
 
         $return .= '
-</div>
-<div class="card-action">
-<div class="submit-container">
-  <a href="'.$this->getReferer(true).'" class="btn orange lighten-2 white-text" style="display:inline-block">'.$GLOBALS['TL_LANG']['MSC']['continue'].'</a>
-</div>
-</div>
-';
+    </div>
+    <div class="card-action">
+        <div class="submit-container">
+          <a href="'.$this->getReferer(true).'" class="btn orange lighten-2 white-text" style="display:inline-block">'.$GLOBALS['TL_LANG']['MSC']['continue'].'</a>
+      </div>
+  </div>
+  ';
 
-        return $return;
-    }
+  return $return;
+}
 }

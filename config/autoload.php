@@ -66,6 +66,7 @@ TemplateLoader::addFiles(array
 	'be_live_update'   => 'system/modules/contao-material/templates',
 	'be_maintenance'   => 'system/modules/contao-material/templates',
 	'be_wildcard'      => 'system/modules/contao-material/templates',
+	'dev_autoload'     => 'system/modules/contao-material/templates',
 	'be_switch'        => 'system/modules/contao-material/templates',
 	'be_widget_rdo'    => 'system/modules/contao-material/templates',
 	'be_no_page'       => 'system/modules/contao-material/templates',

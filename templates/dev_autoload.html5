@@ -1,10 +1,10 @@
 
-<div id="tl_buttons">
-  <a href="<?= $this->href ?>" class="header_back" title="<?= $this->title ?>"><?= $this->button ?></a>
+<div id="tl_buttons" class="card-action">
+  <a href="<?= $this->href ?>" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="<?= $this->title ?>"><i class="material-icons black-text">keyboard_backspace</i></a>
 </div>
 
-<div id="tl_extension">
-  <h2 class="sub_headline"><?= $this->headline ?></h2>
+<div id="tl_extension" class="card-content">
+  <h2 class="sub_headline" style="margin-top:0"><?= $this->headline ?></h2>
   <?= $this->messages ?>
   <form action="<?= $this->action ?>" class="tl_form" method="post">
     <div class="tl_formbody_edit">
@@ -29,8 +29,9 @@
         </div>
       </div>
     </div>
-    <div class="tl_submit_container">
-      <input type="submit" class="tl_submit" value="<?= $this->autoload ?>">
-    </div>
-  </form>
+</div>
+<div class="card-action">
+    <button type="submit" class="btn orange lighten-2"><?= $this->autoload ?></button>
+</div>
+</form>
 </div>

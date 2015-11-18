@@ -42,16 +42,23 @@ class Versions extends \Contao\Versions
         }
 
         return '
-        <div class="tl_version_panel">
+        <a href="#" class="toggle-button btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5 js-toggle-version toggle-version" data-position="left" data-delay="50" data-tooltip="'.$GLOBALS['TL_LANG']['MSC']['showDifferences'].'">
+            <i class="material-icons">subtitles</i>
+        </a>
+        <div class="tl_version_panel panel js-version-panel" style="display:none">
 
             <form action="'.ampersand(\Environment::get('request'), true).'" id="tl_version" class="tl_form" method="post">
-                <div class="tl_formbody">
+                <div class="tl_formbody card-action">
                     <input type="hidden" name="FORM_SUBMIT" value="tl_version">
                     <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
-                    <select name="version" class="tl_select">'.$versions.'
-                    </select>
-                    <input type="submit" name="showVersion" id="showVersion" class="tl_submit" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['restore']).'">
-                    <a href="'.$this->addToUrl('versions=1&amp;popup=1').'" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['showDifferences']).'" onclick="Backend.openModalIframe({\'width\':768,\'title\':\''.specialchars(str_replace("'", "\\'", $GLOBALS['TL_LANG']['MSC']['showDifferences'])).'\',\'url\':this.href});return false">'.\Image::getHtml('diff.gif').'</a>
+                    <div class="row">
+                        <div class="col m4 l3">
+                            <select name="version" class="tl_select">'.$versions.'
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" name="showVersion" id="showVersion" class="btn waves-effect grey lighten-5 black-text"><i class="material-icons left">undo</i>'.specialchars($GLOBALS['TL_LANG']['MSC']['restore']).'</button>
+                    <a href="'.$this->addToUrl('versions=1&amp;popup=1').'" class="btn waves-effect grey lighten-5 black-text" onclick="Backend.openModalIframe({\'width\':768,\'title\':\''.specialchars(str_replace("'", "\\'", $GLOBALS['TL_LANG']['MSC']['showDifferences'])).'\',\'url\':this.href});return false"><i class="material-icons left">subtitles</i>'.specialchars($GLOBALS['TL_LANG']['MSC']['showDifferences']).'</a>
                 </div>
             </form>
 

@@ -175,6 +175,12 @@ figure {
     background-color: #ff6961;
 }
 
+.toggle-version {
+    position: absolute;
+    right: 20px;
+    top: 8px;
+}
+
 .select2-container {
     width: 100% !important;
 }

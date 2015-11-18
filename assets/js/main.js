@@ -63,6 +63,17 @@ var Backend = {
         }
     },
 
+    toggleVersion: function(e)
+    {
+        e.preventDefault()
+
+        var $toggle = $(e.currentTarget)
+        $toggle.toggleClass('is-active')
+        var $subpanel = $('.js-version-panel');
+
+        $subpanel.toggleClass('is-active').slideToggle()
+    },
+
     limitPreviewHeight: function() {
         var hgt = 0;
 
@@ -117,6 +128,7 @@ var Backend = {
 
         // Bind events
         $('.js-toggle-subpanel').click(Backend.toggleSubpanel)
+        $('.js-toggle-version').click(Backend.toggleVersion)
     }
 }
 

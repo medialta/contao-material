@@ -122,6 +122,29 @@ var Backend = {
         });
     },
 
+    initPanels: function()
+    {
+        var limit = $('#limit-subpanel').data('limit');
+        if (limit) {
+            $('#toggle-limit-subpanel').trigger('click');
+        }
+
+        var search = $('#search-subpanel').data('search');
+        if (search) {
+            $('#toggle-search-subpanel').trigger('click');
+        }
+
+        var filter = $('#filter-subpanel').data('filter');
+        if (filter) {
+            $('#toggle-filter-subpanel').trigger('click');
+        }
+
+        var sort = $('#sorting-subpanel').data('sort');
+        if (sort) {
+            $('#toggle-sort-subpanel').trigger('click');
+        }
+    },
+
     initialize: function()
     {
         Backend.hideUnnecessaryToggles()
@@ -143,4 +166,5 @@ $(function()
     $('.tooltipped').tooltip({delay: 50})
 
     Backend.limitPreviewHeight();
+    Backend.initPanels();
 })

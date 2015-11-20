@@ -910,7 +910,7 @@ class DC_Table extends \Contao\DC_Table
 
         return '
 
-        <div class="limit-panel subpanel card-action row js-subpanel" id="limit-subpanel">
+        <div class="limit-panel subpanel card-action row js-subpanel" id="limit-subpanel" data-limit="">
         <div class="col m12"><strong>' . $GLOBALS['TL_LANG']['MSC']['showOnly'] . ':</strong></div> '.$fields.'
         </div>';
     }
@@ -2534,7 +2534,7 @@ class DC_Table extends \Contao\DC_Table
 
 		return '
 
-        <div class="filter-panel subpanel card-action row js-subpanel" id="filter-subpanel">
+        <div class="filter-panel subpanel card-action row js-subpanel" id="filter-subpanel" data-filter="">
         <div class="col m12"><strong>' . $GLOBALS['TL_LANG']['MSC']['filter'] . ':</strong></div> ' . $fields . '
         </div>';
 	}
@@ -2624,10 +2624,9 @@ class DC_Table extends \Contao\DC_Table
 		// Sort by option values
 		$options_sorter = natcaseksort($options_sorter);
 		$active = ($session['search'][$this->strTable]['value'] != '') ? true : false;
-
 		return '
 
-        <div class="search-panel subpanel card-action row js-subpanel" id="search-subpanel">
+        <div class="search-panel subpanel card-action row js-subpanel" id="search-subpanel" data-search="'.$session['search'][$this->strTable]['value'].'">
         <div class="col m12"><strong>' . $GLOBALS['TL_LANG']['MSC']['search'] . ':</strong></div>
         <div class="col m4 l3">
         <select name="tl_field" class="tl_select' . ($active ? ' active' : '') . '">
@@ -2726,7 +2725,7 @@ class DC_Table extends \Contao\DC_Table
 
 		return '
 
-        <div class="sorting-panel subpanel card-action row js-subpanel" id="sorting-subpanel">
+        <div class="sorting-panel subpanel card-action row js-subpanel" id="sorting-subpanel" data-sort="">
         <div class="col m12"><strong>' . $GLOBALS['TL_LANG']['MSC']['sortBy'] . ':</strong></div>
         <div class="col m4 l3">
         <select name="tl_sort" id="tl_sort" class="tl_select">

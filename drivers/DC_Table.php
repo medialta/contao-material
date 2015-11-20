@@ -2670,6 +2670,7 @@ class DC_Table extends \Contao\DC_Table
 			return '';
 		}
 
+        $datasort = false;
 		$this->bid = 'tl_buttons_a';
 		$session = $this->Session->getData();
 		$orderBy = $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['fields'];
@@ -2684,6 +2685,7 @@ class DC_Table extends \Contao\DC_Table
 		// Set sorting from user input
 		if (\Input::post('FORM_SUBMIT') == 'tl_filters')
 		{
+            if ($orderBy != $session['sorting'][$this->strTable]) { $datasort = true; }
 			$strSort = \Input::post('tl_sort');
 
 			// Validate the user input (thanks to aulmn) (see #4971)
@@ -2697,6 +2699,7 @@ class DC_Table extends \Contao\DC_Table
 		// Overwrite the "orderBy" value with the session value
 		elseif (strlen($session['sorting'][$this->strTable]))
 		{
+            if ($orderBy[0] != $session['sorting'][$this->strTable]) { $datasort = true; }
 			$overwrite = preg_quote(preg_replace('/\s+.*$/', '', $session['sorting'][$this->strTable]), '/');
 			$orderBy = array_diff($orderBy, preg_grep('/^'.$overwrite.'/i', $orderBy));
 
@@ -2723,10 +2726,9 @@ class DC_Table extends \Contao\DC_Table
 
 		// Sort by option values
 		uksort($options_sorter, 'strcasecmp');
-
 		return '
 
-        <div class="sorting-panel subpanel card-action row js-subpanel" id="sorting-subpanel" data-sort="">
+        <div class="sorting-panel subpanel card-action row js-subpanel" id="sorting-subpanel" data-sort="'.($datasort ?'true':'').'">
         <div class="col m12"><strong>' . $GLOBALS['TL_LANG']['MSC']['sortBy'] . ':</strong></div>
         <div class="col m4 l3">
         <select name="tl_sort" id="tl_sort" class="tl_select">

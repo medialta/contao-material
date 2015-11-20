@@ -2194,6 +2194,7 @@ class DC_Table extends \Contao\DC_Table
 			{
 				if (isset($session['filter'][$filter][$field]))
 				{
+                    $datafilter = true;
 					// Sort by day
 					if (in_array($GLOBALS['TL_DCA'][$this->strTable]['fields'][$field]['flag'], array(5, 6)))
 					{
@@ -2534,7 +2535,7 @@ class DC_Table extends \Contao\DC_Table
 
 		return '
 
-        <div class="filter-panel subpanel card-action row js-subpanel" id="filter-subpanel" data-filter="">
+        <div class="filter-panel subpanel card-action row js-subpanel" id="filter-subpanel" data-filter="'.(isset($datafilter) ? 'true' : '').'">
         <div class="col m12"><strong>' . $GLOBALS['TL_LANG']['MSC']['filter'] . ':</strong></div> ' . $fields . '
         </div>';
 	}

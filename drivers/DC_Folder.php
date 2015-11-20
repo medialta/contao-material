@@ -137,7 +137,7 @@ class DC_Folder extends \Contao\DC_Folder
                             <label for="tl_select_trigger" class="tl_select_label">'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</label> <input type="checkbox" id="tl_select_trigger" onclick="Backend.toggleCheckboxes(this)" class="tl_tree_checkbox">
                         </div>' : '').'
 
-                    <ul class="listing tree collapsible" data-collapsible="expandable">
+                    <ul class="listing listing-files tree collapsible" data-collapsible="expandable">
                         <li class="row-top"><div class="item">'.\Image::getHtml('filemounts.gif').' <label>'.$GLOBALS['TL_LANG']['MSC']['filetree'].'</label></div> <div class="actions">'.(($blnClipboard && empty($this->arrFilemounts) && !is_array($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root']) && $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root'] !== false) ? '<a href="'.$this->addToUrl('&amp;act='.$arrClipboard['mode'].'&amp;mode=2&amp;pid='.\Config::get('uploadPath').(!is_array($arrClipboard['id']) ? '&amp;id='.$arrClipboard['id'] : '')).'" title="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['pasteinto'][1]).'" onclick="Backend.getScrollOffset()">'.$imagePasteInto.'</a>' : '&nbsp;').'</div><div style="clear:both"></div></li>'.$return.'
                     </ul>
 
@@ -815,7 +815,7 @@ $return = $version . '
         $files = array();
         $folders = array();
         $intSpacing = 20;
-        $level = ($intMargin / $intSpacing + 1);
+        $level = ($intMargin / $intSpacing);
 
         // Mount folder
         if ($mount)
@@ -918,14 +918,14 @@ $return = $version . '
                 }
             }
 
-            $return .= '</div></div><div style="clear:both"></div></li>';
+            $return .= '</div>';
 
             // Call the next node
             if (!empty($content) && $session['filetree'][$md5] == 1)
             {
-                $return .= '<li class="parent" id="filetree_'.$md5.'"><ul class="level_'.$level.'">';
+                $return .= '</div><div class="collapsible-body" id="filetree_'.$md5.'"><ul class="level-'.$level.' collapsible" data-collapsible="expandable">';
                 $return .= $this->generateTree($folders[$f], ($intMargin + $intSpacing), false, $protected, $arrClipboard);
-                $return .= '</ul></li>';
+                $return .= '</ul></div>';
             }
         }
 
@@ -945,7 +945,7 @@ $return = $version . '
             }
 
             $currentEncoded = $this->urlEncode($currentFile);
-            $return .= "\n  " . '<li class="tl_file click2edit toggle_select"><div class="tl_left" style="padding-left:'.($intMargin + $intSpacing).'px">';
+            $return .= "\n  " . '<li class="row-container click2edit toggle_select"><div class="collapsible-header"><div class="item">';
 
             // Generate the thumbnail
             if ($objFile->isImage)
@@ -974,7 +974,7 @@ $return = $version . '
 
                     if (\Config::get('thumbnails') && ($objFile->isSvgImage || $objFile->height <= \Config::get('gdMaxImgHeight') && $objFile->width <= \Config::get('gdMaxImgWidth')))
                     {
-                        $thumbnail .= '<br><img src="' . TL_FILES_URL . \Image::get($currentEncoded, 400, (($objFile->height && $objFile->height < 50) ? $objFile->height : 50), 'box') . '" alt="" style="margin:0 0 2px -19px">';
+                        $thumbnail .= '<br><img src="' . TL_FILES_URL . \Image::get($currentEncoded, 400, (($objFile->height && $objFile->height < 50) ? $objFile->height : 50), 'box') . '" alt="">';
                     }
                 }
                 else
@@ -992,11 +992,11 @@ $return = $version . '
             // No popup links for templates and in the popup file manager
             if ($this->strTable == 'tl_templates' || \Input::get('popup'))
             {
-                $return .= \Image::getHtml($objFile->icon).' '.$strFileNameEncoded.$thumbnail.'</div> <div class="tl_right">';
+                $return .= \Image::getHtml($objFile->icon).' '.$strFileNameEncoded.$thumbnail.'</div> <div class="actions">';
             }
             else
             {
-                $return .= '<a href="'. $currentEncoded.'" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['view']).'" target="_blank">' . \Image::getHtml($objFile->icon, $objFile->mime).'</a> '.$strFileNameEncoded.$thumbnail.'</div> <div class="tl_right">';
+                $return .= '<a href="'. $currentEncoded.'" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['view']).'" target="_blank">' . \Image::getHtml($objFile->icon, $objFile->mime).'</a> '.$strFileNameEncoded.$thumbnail.'</div> <div class="actions">';
             }
 
             // Buttons
@@ -1009,7 +1009,7 @@ $return = $version . '
                 $_buttons = (\Input::get('act') == 'select') ? '<input type="checkbox" name="IDS[]" id="ids_'.md5($currentEncoded).'" class="tl_tree_checkbox" value="'.$currentEncoded.'">' : $this->generateButtons(array('id'=>$currentEncoded, 'popupWidth'=>$popupWidth, 'popupHeight'=>$popupHeight, 'fileNameEncoded'=>$strFileNameEncoded), $this->strTable);
             }
 
-            $return .= $_buttons . '</div><div style="clear:both"></div></li>';
+            $return .= $_buttons . '</div></div></li>';
         }
 
         return $return;

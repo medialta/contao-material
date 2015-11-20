@@ -237,8 +237,11 @@ footer {
         line-height: inherit;
     }
 
-        .listing .collapsible-header:only-child {
+        .listing:not(.listing-files) .collapsible-header:only-child, .listing.listing-files li.folder .collapsible-header:only-child {
             padding-left: 4rem;
+        }
+        .listing.listing-files li:not(.folder) .collapsible-header:only-child {
+            padding-left: 3rem;
         }
 
             .listing .collapsible-header:only-child .record {

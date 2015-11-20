@@ -120,7 +120,7 @@ class DC_Folder extends \Contao\DC_Folder
         <div id="tl_buttons" class="card-action">'.((\Input::get('act') == 'select') ? '
             <a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5 data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a> ' : '') . ((\Input::get('act') != 'select' && !$blnClipboard) ? '
             <a href="'.$this->addToUrl($hrfNew).'" class="'.$clsNew.' tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($ttlNew).'" accesskey="n" onclick="Backend.getScrollOffset()">'.$lblNew.'</a> ' . ((!$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable']) ? '<a href="'.$this->addToUrl('&amp;act=paste&amp;mode=move').'" class="header-new btn-floating btn-large waves-effect waves-light red tooltipped" data-position="left" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['move'][1]).'" onclick="Backend.getScrollOffset()"><i class="material-icons">add</i></a> ' : '') . $this->generateGlobalButtons() : '') . ($blnClipboard ? '<a href="'.$this->addToUrl('clipboard=1').'" class="header_clipboard tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['clearClipboard']).'" accesskey="x">'.$GLOBALS['TL_LANG']['MSC']['clearClipboard'].'</a> ' : '') . '
-        </div>' . \Message::generate(true) . ((\Input::get('act') == 'select') ? '
+        </div>' . \Message::generate(true) . '<div class="card-content">' . ((\Input::get('act') == 'select') ? '
 
             <form action="'.ampersand(\Environment::get('request'), true).'" id="tl_select" class="tl_form'.((\Input::get('act') == 'select') ? ' unselectable' : '').'" method="post" novalidate>
                 <div class="tl_formbody">
@@ -198,6 +198,7 @@ class DC_Folder extends \Contao\DC_Folder
           </div>
         </form>';
         }
+        $return .= '</div>';
 
         return $return;
     }
@@ -878,15 +879,14 @@ $return = $version . '
                     --$countFiles;
                 }
             }
-
-            $return .= "\n  " . '<li class="tl_folder click2edit toggle_select"><div class="tl_left" style="padding-left:'.($intMargin + (($countFiles < 1) ? 20 : 0)).'px">';
+            $isNodeActive = ($session['filetree'][$md5] == 1) ? ' active' : '';
+            $return .= "\n  " . '<li class="folder row-container click2edit toggle_select"><div class="collapsible-header' . $isNodeActive . '"><div class="item">';
 
             // Add a toggle button if there are childs
             if ($countFiles > 0)
             {
-                $img = ($session['filetree'][$md5] == 1) ? 'folMinus.gif' : 'folPlus.gif';
                 $alt = ($session['filetree'][$md5] == 1) ? $GLOBALS['TL_LANG']['MSC']['collapseNode'] : $GLOBALS['TL_LANG']['MSC']['expandNode'];
-                $return .= '<a href="'.$this->addToUrl('tg='.$md5).'" title="'.specialchars($alt).'" onclick="Backend.getScrollOffset(); return AjaxRequest.toggleFileManager(this, \'filetree_'.$md5.'\', \''.$currentFolder.'\', '.$level.')">'.\Image::getHtml($img, '', 'style="margin-right:2px"').'</a>';
+                $return .= '<a href="'.$this->addToUrl('tg='.$md5).'" title="'.specialchars($alt).'" onclick="Backend.getScrollOffset(); return AjaxRequest.toggleFileManager(this, \'filetree_'.$md5.'\', \''.$currentFolder.'\', '.$level.')"><i class="material-icons expand-icon">expand_less</i></a>';
             }
 
             $protected = ($blnProtected === true || array_search('.htaccess', $content) !== false) ? true : false;
@@ -894,7 +894,7 @@ $return = $version . '
 
             // Add the current folder
             $strFolderNameEncoded = utf8_convert_encoding(specialchars(basename($currentFolder)), \Config::get('characterSet'));
-            $return .= \Image::getHtml($folderImg, '').' <a href="' . $this->addToUrl('node='.$currentEncoded) . '" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['selectNode']).'"><strong>'.$strFolderNameEncoded.'</strong></a></div> <div class="tl_right">';
+            $return .= \Image::getHtml($folderImg, '').' <a href="' . $this->addToUrl('node='.$currentEncoded) . '" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['selectNode']).'"><strong>'.$strFolderNameEncoded.'</strong></a></div> <div class="actions">';
 
             // Paste buttons
             if ($arrClipboard !== false && \Input::get('act') != 'select')
@@ -918,7 +918,7 @@ $return = $version . '
                 }
             }
 
-            $return .= '</div><div style="clear:both"></div></li>';
+            $return .= '</div></div><div style="clear:both"></div></li>';
 
             // Call the next node
             if (!empty($content) && $session['filetree'][$md5] == 1)

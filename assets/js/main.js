@@ -1,7 +1,13 @@
 'use strict';
 var Backend = {
+
+    getScrollOffset: function() {
+        //document.cookie = "BE_PAGE_OFFSET=" + window.getScroll().y + "; path=" + (Contao.path || '/');
+        //TODO
+    },
+
     autoSubmit: function(el) {
-        //Backend.getScrollOffset();
+        Backend.getScrollOffset();
         var hidden = $('<input type="hidden" name="SUBMIT_TYPE" value="auto">');
 
         var form = $('#'+el);
@@ -12,26 +18,72 @@ var Backend = {
     openModalIframe: function(e) {
         $('#modal').html('<iframe src="' + e.url + '" width="100%" height="100%" frameborder="0"></iframe>');
         $('#modal').openModal();
-        return false;
-        var t = e || {}
-          , a = (window.getSize().y - 180).toInt();
-        (!t.height || t.height > a) && (t.height = a);
-        var n = new SimpleModal({
-            width: t.width,
-            hideFooter: !0,
-            draggable: !1,
-            overlayOpacity: .5,
-            onShow: function() {
-                document.body.setStyle("overflow", "hidden")
-            },
-            onHide: function() {
-                document.body.setStyle("overflow", "auto")
-            }
+        return ;
+    },
+
+    openModalSelector: function(options) {
+        $('#modal').html('<iframe src="' + options.url + '" width="100%" height="100%" frameborder="0"></iframe>');
+        $('#modal').openModal();
+        return ;
+        var opt = options || {},
+            max = (window.getSize().y-180).toInt();
+        if (!opt.height || opt.height > max) opt.height = max;
+        var M = new SimpleModal({
+            'width': opt.width,
+            'btn_ok': Contao.lang.close,
+            'draggable': false,
+            'overlayOpacity': .5,
+            'onShow': function() { document.body.setStyle('overflow', 'hidden'); },
+            'onHide': function() { document.body.setStyle('overflow', 'auto'); }
         });
-        n.show({
-            title: t.title,
-            contents: '<iframe src="' + t.url + '" width="100%" height="' + t.height + '" frameborder="0"></iframe>'
-        })
+        M.addButton(Contao.lang.close, 'btn', function() {
+            this.hide();
+        });
+        M.addButton(Contao.lang.apply, 'btn primary', function() {
+            var frm = window.frames['simple-modal-iframe'],
+                val = [], inp, field, i;
+            if (frm === undefined) {
+                alert('Could not find the SimpleModal frame');
+                return;
+            }
+            if (frm.document.location.href.indexOf('contao/main.php') != -1) {
+                alert(Contao.lang.picker);
+                return; // see #5704
+            }
+            inp = frm.document.getElementById('tl_select').getElementsByTagName('input');
+            for (i=0; i<inp.length; i++) {
+                if (!inp[i].checked || inp[i].id.match(/^check_all_/)) continue;
+                if (!inp[i].id.match(/^reset_/)) val.push(inp[i].get('value'));
+            }
+            if (opt.tag) {
+                $(opt.tag).value = val.join(',');
+                if (frm.document.location.href.indexOf('contao/page.php') != -1) {
+                    $(opt.tag).value = '{{link_url::' + $(opt.tag).value + '}}';
+                }
+                opt.self.set('href', opt.self.get('href').replace(/&value=[^&]*/, '&value='+val.join(',')));
+            } else {
+                field = $('ctrl_' + opt.id);
+                field.value = val.join("\t");
+                var act = (frm.document.location.href.indexOf('contao/page.php') != -1) ? 'reloadPagetree' : 'reloadFiletree';
+                new Request.Contao({
+                    field: field,
+                    evalScripts: false,
+                    onRequest: AjaxRequest.displayBox(Contao.lang.loading + ' …'),
+                    onSuccess: function(txt, json) {
+                        $('ctrl_'+opt.id).getParent('div').set('html', json.content);
+                        json.javascript && Browser.exec(json.javascript);
+                        AjaxRequest.hideBox();
+                        window.fireEvent('ajax_change');
+                    }
+                }).post({'action':act, 'name':opt.id, 'value':field.value, 'REQUEST_TOKEN':Contao.request_token});
+            }
+            this.hide();
+        });
+        M.show({
+            'title': opt.title,
+            'contents': '<iframe src="' + opt.url + '" name="simple-modal-iframe" width="100%" height="' + opt.height + '" frameborder="0"></iframe>',
+            'model': 'modal'
+        });
     },
 
     hideUnnecessaryToggles: function()

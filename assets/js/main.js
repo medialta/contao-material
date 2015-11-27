@@ -1,5 +1,14 @@
 'use strict';
 var Backend = {
+    autoSubmit: function(el) {
+        //Backend.getScrollOffset();
+        var hidden = $('<input type="hidden" name="SUBMIT_TYPE" value="auto">');
+
+        var form = $('#'+el);
+        hidden.appendTo(form);
+        form.submit();
+    },
+
     openModalIframe: function(e) {
         $('#modal').html('<iframe src="' + e.url + '" width="100%" height="100%" frameborder="0"></iframe>');
         $('#modal').openModal();

@@ -19,13 +19,13 @@
               <input type="checkbox" name="modules[]" id="opt_<?= $module ?>" class="tl_checkbox" value="<?= $module ?>" onfocus="Backend.getScrollOffset()"> <label for="opt_<?= $module ?>"><?= $module ?></label><br>
             <?php endforeach; ?>
           </fieldset>
-          <p class="tl_help tl_tip"><?= $this->xplAvailable ?></p>
+          <p class="tl_help tl_tip"><i class="tiny material-icons help-icon">info_outline</i><?= $this->xplAvailable ?></p>
         </div>
         <div>
           <div class="tl_checkbox_single_container">
             <input type="hidden" name="override" value=""><input type="checkbox" name="override" id="opt_override" value="1" class="tl_checkbox" onfocus="Backend.getScrollOffset()"> <label for="opt_override"><?= $this->override ?></label>
           </div>
-          <p class="tl_help tl_tip"><?= $this->xplOverride ?></p>
+          <p class="tl_help tl_tip"><i class="tiny material-icons help-icon">info_outline</i><?= $this->xplOverride ?></p>
         </div>
       </div>
     </div>

@@ -56,16 +56,15 @@
                             <?php endforeach; ?>
                         </select>
                         <?php if ($this->indexHelp): ?>
-                            <p class="tl_help tl_tip"><?= $this->indexHelp ?></p>
+                            <p class="tl_help tl_tip"><i class="tiny material-icons help-icon">info_outline</i><?= $this->indexHelp ?></p>
                         <?php endif; ?>
                     </div>
                 </div>
-                <div class="card-action">
+                <div style="padding:20px">
                     <button type="submit" id="index" class="btn orange lighten-2"><?= $this->indexSubmit ?></button>
                 </div>
             </form>
         <?php endif; ?>
     </div>
-    
 
 </div>

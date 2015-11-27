@@ -33,12 +33,12 @@
                         </tbody>
                     </table>
                     <?php if ($this->help): ?>
-                        <p class="tl_help tl_tip"><?= $this->help ?></p>
+                        <p class="tl_help tl_tip"><i class="tiny material-icons help-icon">info_outline</i><?= $this->help ?></p>
                     <?php endif; ?>
                 </div>
             </div>
 
-            <div class="card-action">
+            <div style="padding:20px">
                 <button type="submit" name="clear" class="btn orange lighten-2"><?= $this->submit ?></button>
             </div>
         </form>

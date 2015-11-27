@@ -8,7 +8,7 @@
         </div>
 
         <?php if ($this->phar): ?>
-            <div class="card-action">
+            <div style="padding:20px">
                 <p style="margin-top:19px"><a href="contao/update.phar.php/index.php" class="btn orange lighten-2 white-text"><?= $this->toLiveUpdate ?></a></p>
             </div>
         <?php else: ?>
@@ -20,11 +20,11 @@
                         <h3 style="padding-top:9px"><label for="ctrl_liveUpdate"><?= $this->liveUpdateId ?></label></h3>
                         <input type="text" name="uid" id="ctrl_liveUpdate" value="<?= $this->uid ?>" class="tl_text" onfocus="Backend.getScrollOffset()">
                         <?php if (Config::get('showHelp')): ?>
-                            <p class="tl_help tl_tip"><?= $this->updateHelp ?></p>
+                            <p class="tl_help tl_tip"><i class="tiny material-icons help-icon">info_outline</i><?= $this->updateHelp ?></p>
                         <?php endif; ?>
                     </div>
                 </div>
-                <div class="card-action">
+                <div style="padding:20px">
                     <button type="submit" class="btn orange lighten-2"><?= $this->runLiveUpdate ?></button>
                 </div>
             </form>

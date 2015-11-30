@@ -242,6 +242,7 @@ nav {
     padding: 12px 0 12px 4rem;
     background-repeat: no-repeat;
     background-position: left center;
+    background-position-x: 1.5rem;
 }
 .side-nav .collapsible-body a.active {
 }
@@ -366,3 +367,79 @@ footer .footer .copyright {
     }
 }
 /* $('link:not(link[href^="system/modules/contao-material"], link[href^="system/modules/contao-material"] ~ link)').detach() */
+
+
+/* Navigation */
+
+.navigation.article {
+    background-image: url(/system/modules/contao-material/assets/icon/article.png) !important;
+}
+.navigation.news {
+    background-image: url(/system/modules/contao-material/assets/icon/news.png) !important;
+}
+.navigation.calendar {
+    background-image: url(/system/modules/contao-material/assets/icon/calendar.png) !important;
+}
+.navigation.faq {
+    background-image: url(/system/modules/contao-material/assets/icon/faq.png) !important;
+}
+.navigation.newsletter {
+    background-image: url(/system/modules/contao-material/assets/icon/newsletter.png) !important;
+}
+.navigation.form {
+    background-image: url(/system/modules/contao-material/assets/icon/form.png) !important;
+}
+.navigation.comments {
+    background-image: url(/system/modules/contao-material/assets/icon/comment.png) !important;
+}
+.navigation.themes {
+    background-image: url(/system/modules/contao-material/assets/icon/theme.png) !important;
+}
+.navigation.page {
+    background-image: url(/system/modules/contao-material/assets/icon/page.png) !important;
+}
+.navigation.tpl_editor {
+    background-image: url(/system/modules/contao-material/assets/icon/tpl_editor.png) !important;
+}
+.navigation.columnset {
+    background-image: url(/system/modules/contao-material/assets/icon/columnset.png) !important;
+}
+.navigation.member {
+    background-image: url(/system/modules/contao-material/assets/icon/member.png) !important;
+}
+.navigation.mgroup {
+    background-image: url(/system/modules/contao-material/assets/icon/mgroup.png) !important;
+}
+.navigation.user {
+    background-image: url(/system/modules/contao-material/assets/icon/user.png) !important;
+}
+.navigation.group {
+    background-image: url(/system/modules/contao-material/assets/icon/group.png) !important;
+}
+.navigation.files {
+    background-image: url(/system/modules/contao-material/assets/icon/files.png) !important;
+}
+.navigation.log {
+    background-image: url(/system/modules/contao-material/assets/icon/log.png) !important;
+}
+.navigation.settings {
+    background-image: url(/system/modules/contao-material/assets/icon/settings.png) !important;
+}
+.navigation.maintenance {
+    background-image: url(/system/modules/contao-material/assets/icon/maintenance.png) !important;
+}
+.navigation.undo {
+    background-image: url(/system/modules/contao-material/assets/icon/undo.png) !important;
+}
+.navigation.composer {
+    background-image: url(/system/modules/contao-material/assets/icon/composer.png) !important;
+}
+.navigation.autoload {
+    background-image: url(/system/modules/contao-material/assets/icon/autoload.png) !important;
+}
+.navigation.extension {
+    background-image: url(/system/modules/contao-material/assets/icon/extension.png) !important;
+}
+.navigation.labels {
+    background-image: url(/system/modules/contao-material/assets/icon/labels.png) !important;
+}

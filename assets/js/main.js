@@ -1,4 +1,169 @@
 'use strict';
+var AjaxRequest = {
+    /**
+     * The theme path
+     * @member {string}
+     */
+    themePath: Contao.script_url + 'system/themes/' + Contao.theme + '/images/',
+
+    /**
+     * Toggle the navigation menu
+     *
+     * @param {object} el The DOM element
+     * @param {string} id The ID of the menu item
+     *
+     * @returns {boolean}
+     */
+    toggleNavigation: function(el, id) {
+        
+    },
+
+    /**
+     * Toggle the site structure tree
+     *
+     * @param {object} el    The DOM lement
+     * @param {string} id    The ID of the target element
+     * @param {int}    level The indentation level
+     * @param {int}    mode  The insert mode
+     *
+     * @returns {boolean}
+     */
+    toggleStructure: function (el, id, level, mode) {
+        
+    },
+
+    /**
+     * Toggle the file manager tree
+     *
+     * @param {object} el     The DOM element
+     * @param {string} id     The ID of the target element
+     * @param {string} folder The folder's path
+     * @param {int}    level  The indentation level
+     *
+     * @returns {boolean}
+     */
+    toggleFileManager: function (el, id, folder, level) {
+        
+    },
+
+    /**
+     * Toggle the page tree input field
+     *
+     * @param {object} el    The DOM element
+     * @param {string} id    The ID of the target element
+     * @param {string} field The field name
+     * @param {string} name  The Ajax field name
+     * @param {int}    level The indentation level
+     *
+     * @returns {boolean}
+     */
+    togglePagetree: function (el, id, field, name, level) {
+        
+    },
+
+    /**
+     * Toggle the file tree input field
+     *
+     * @param {object} el     The DOM element
+     * @param {string} id     The ID of the target element
+     * @param {string} folder The folder name
+     * @param {string} field  The field name
+     * @param {string} name   The Ajax field name
+     * @param {int}    level  The indentation level
+     *
+     * @returns {boolean}
+     */
+    toggleFiletree: function (el, id, folder, field, name, level) {
+        
+    },
+
+    /**
+     * Toggle subpalettes in edit mode
+     *
+     * @param {object} el    The DOM element
+     * @param {string} id    The ID of the target element
+     * @param {string} field The field name
+     */
+    toggleSubpalette: function (el, id, field) {
+        
+    },
+
+    /**
+     * Toggle the visibility of an element
+     *
+     * @param {object} el    The DOM element
+     * @param {string} id    The ID of the target element
+     * @param {string} table The table name
+     *
+     * @returns {boolean}
+     */
+    toggleVisibility: function(el, id, table) {
+        
+    },
+
+    /**
+     * Feature/unfeature an element
+     *
+     * @param {object} el The DOM element
+     * @param {string} id The ID of the target element
+     *
+     * @returns {boolean}
+     */
+    toggleFeatured: function(el, id) {
+        
+    },
+
+    /**
+     * Toggle the visibility of a fieldset
+     *
+     * @param {object} el    The DOM element
+     * @param {string} id    The ID of the target element
+     * @param {string} table The table name
+     *
+     * @returns {boolean}
+     */
+    toggleFieldset: function(el, id, table) {
+        
+    },
+
+    /**
+     * Toggle a group of a multi-checkbox field
+     *
+     * @param {object} el The DOM element
+     * @param {string} id The ID of the target element
+     *
+     * @returns {boolean}
+     */
+    toggleCheckboxGroup: function(el, id) {
+        
+    },
+
+    /**
+     * Store the Live Update ID
+     *
+     * @param {object} el The DOM element
+     * @param {string} id The ID of the input field
+     */
+    liveUpdate: function(el, id) {
+        
+    },
+
+    /**
+     * Display the "loading data" message
+     *
+     * @param {string} message The message text
+     */
+    displayBox: function(message) {
+        
+    },
+
+    /**
+     * Hide the "loading data" message
+     */
+    hideBox: function() {
+        
+    }
+}
 var Backend = {
 
     getScrollOffset: function() {

@@ -119,7 +119,7 @@ class Helper extends \System
         {
             $icon = self::getIconHtml(basename($matches[2][0]));
 
-            if ($dropdownSet) 
+            if ($dropdownSet)
             {
                 $icon .= $title;
             }

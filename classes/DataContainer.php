@@ -237,16 +237,16 @@ abstract class DataContainer extends \Contao\DataContainer
             switch ($rgxp)
             {
                 case 'datim':
-                    $time = ",\n      timePicker:true";
-                    break;
+                $time = ",\n      timePicker:true";
+                break;
 
                 case 'time':
-                    $time = ",\n      pickOnly:\"time\"";
-                    break;
+                $time = ",\n      pickOnly:\"time\"";
+                break;
 
                 default:
-                    $time = '';
-                    break;
+                $time = '';
+                break;
             }
             $search_date = array('Y', 'm', 'd');
             $replace_date = array('yyyy', 'mm', 'dd');
@@ -435,26 +435,26 @@ abstract class DataContainer extends \Contao\DataContainer
     }
 
     /**
-	 * Compile buttons from the table configuration array and return them as HTML
-	 *
-	 * @param array   $arrRow
-	 * @param string  $strTable
-	 * @param array   $arrRootIds
-	 * @param boolean $blnCircularReference
-	 * @param array   $arrChildRecordIds
-	 * @param string  $strPrevious
-	 * @param string  $strNext
-	 *
-	 * @return string
-	 */
-	protected function generateButtons($arrRow, $strTable, $arrRootIds=array(), $blnCircularReference=false, $arrChildRecordIds=null, $strPrevious=null, $strNext=null)
-	{
-		if (empty($GLOBALS['TL_DCA'][$strTable]['list']['operations']))
-		{
-			return '';
-		}
+     * Compile buttons from the table configuration array and return them as HTML
+     *
+     * @param array   $arrRow
+     * @param string  $strTable
+     * @param array   $arrRootIds
+     * @param boolean $blnCircularReference
+     * @param array   $arrChildRecordIds
+     * @param string  $strPrevious
+     * @param string  $strNext
+     *
+     * @return string
+     */
+    protected function generateButtons($arrRow, $strTable, $arrRootIds=array(), $blnCircularReference=false, $arrChildRecordIds=null, $strPrevious=null, $strNext=null)
+    {
+        if (empty($GLOBALS['TL_DCA'][$strTable]['list']['operations']))
+        {
+            return '';
+        }
 
-		$return = '';
+        $return = '';
         $buttonClasses = 'btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped';
 
         if (!isset($GLOBALS['TL_DCA'][$strTable]['list']['operations_order']))
@@ -480,123 +480,122 @@ abstract class DataContainer extends \Contao\DataContainer
         $displayDropdown = $max > 4;
         $dropdownSet = false;
 
-		foreach ($GLOBALS['TL_DCA'][$strTable]['list']['operations_order'] as $k)
-		{
-            if (!$dropdownSet && $displayDropdown && $i++ > 2) 
+        foreach ($GLOBALS['TL_DCA'][$strTable]['list']['operations_order'] as $k)
+        {
+            if (!$dropdownSet && $displayDropdown && $i++ > 2)
             {
                 $dropdownSet = true;
                 $return .= '<div class="dropdown-actions-container"><a class="dropdown-button ' . $buttonClasses . '" href="#" data-activates="dropdown-actions-row-' . $id . '" data-constrainwidth="false" data-position="top" data-delay="50" data-tooltip="' . $GLOBALS['TL_LANG']['MSC']['options'] . '"><i class="material-icons">more_vert</i></a>';
                 $return .= '<ul id="dropdown-actions-row-' . $id . '" class="dropdown-content">';
             }
 
-            if ($dropdownSet) 
+            if ($dropdownSet)
             {
                 $return .= '<li>';
             }
 
             $v = $GLOBALS['TL_DCA'][$strTable]['list']['operations'][$k];
-			$v = is_array($v) ? $v : array($v);
-			$id = specialchars(rawurldecode($arrRow['id']));
+            $v = is_array($v) ? $v : array($v);
+            $id = specialchars(rawurldecode($arrRow['id']));
             $id = str_replace(array('/', '.'), '-', $id);
 
-			$label = $v['label'][0] ?: $k;
-			$title = sprintf($v['label'][1] ?: $k, $id);
-			$attributes = ($v['attributes'] != '') ? ' ' . ltrim(sprintf($v['attributes'], $id, $id)) : '';
+            $label = $v['label'][0] ?: $k;
+            $title = sprintf($v['label'][1] ?: $k, $id);
+            $attributes = ($v['attributes'] != '') ? ' ' . ltrim(sprintf($v['attributes'], $id, $id)) : '';
 
-			// Add the key as CSS class
-			if (strpos($attributes, 'class="') !== false)
-			{
-				$attributes = str_replace('class="', 'class="' . $k . ' ', $attributes);
-			}
-			else
-			{
-				$attributes = ' class="' . $k . '"' . $attributes;
-			}
+            // Add the key as CSS class
+            if (strpos($attributes, 'class="') !== false)
+            {
+                $attributes = str_replace('class="', 'class="' . $k . ' ', $attributes);
+            }
+            else
+            {
+                $attributes = ' class="' . $k . '"' . $attributes;
+            }
 
-			// Call a custom function instead of using the default button
-			if (is_array($v['button_callback']))
-			{
-				$this->import($v['button_callback'][0]);
-				$currentButton = $this->$v['button_callback'][0]->$v['button_callback'][1]($arrRow, $v['href'], $label, $title, $v['icon'], $attributes, $strTable, $arrRootIds, $arrChildRecordIds, $blnCircularReference, $strPrevious, $strNext, $this);
+            // Call a custom function instead of using the default button
+            if (is_array($v['button_callback']))
+            {
+                $this->import($v['button_callback'][0]);
+                $currentButton = $this->$v['button_callback'][0]->$v['button_callback'][1]($arrRow, $v['href'], $label, $title, $v['icon'], $attributes, $strTable, $arrRootIds, $arrChildRecordIds, $blnCircularReference, $strPrevious, $strNext, $this);
                 $return .= Helper::formatButtonCallback($currentButton, $dropdownSet, $title);
 
-                if ($dropdownSet) 
+                if ($dropdownSet)
                 {
                     $return .= '</li>';
                 }
                 continue;
-			}
-			elseif (is_callable($v['button_callback']))
-			{
-				$currentButton = $v['button_callback']($arrRow, $v['href'], $label, $title, $v['icon'], $attributes, $strTable, $arrRootIds, $arrChildRecordIds, $blnCircularReference, $strPrevious, $strNext, $this);
+            }
+            elseif (is_callable($v['button_callback']))
+            {
+                $currentButton = $v['button_callback']($arrRow, $v['href'], $label, $title, $v['icon'], $attributes, $strTable, $arrRootIds, $arrChildRecordIds, $blnCircularReference, $strPrevious, $strNext, $this);
                 $return .= Helper::formatButtonCallback($currentButton, $dropdownSet, $title);
-				
 
-                if ($dropdownSet) 
+
+                if ($dropdownSet)
                 {
                     $return .= '</li>';
                 }
                 continue;
-			}
+            }
 
-			// Generate all buttons except "move up" and "move down" buttons
-			if ($k != 'move' && $v != 'move')
-			{
-				if ($k == 'show')
-				{
-                    $title = 
-					$return .= '<a href="'.$this->addToUrl($v['href'].'&amp;id='.$arrRow['id'].'&amp;popup=1').'" class="' . (($dropdownSet) ? '' : $buttonClasses) . '" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'" onclick="Backend.openModalIframe({\'width\':768,\'title\':\''.specialchars(str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG'][$strTable]['show'][1], $arrRow['id']))).'\',\'url\':this.href});return false"'.$attributes.'>' . Helper::getIconHtml($v['icon'], $label) . (($dropdownSet) ? specialchars($title) : '') . '</a> ';
-				}
-				else
-				{
-					$return .= '<a href="'.$this->addToUrl($v['href'].'&amp;id='.$arrRow['id']).'" class="' . (($dropdownSet) ? '' : $buttonClasses) . '" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'"'.$attributes.'>' . Helper::getIconHtml($v['icon'], $label) . (($dropdownSet) ? specialchars($title) : '') . '</a> ';
-				}
+            // Generate all buttons except "move up" and "move down" buttons
+            if ($k != 'move' && $v != 'move')
+            {
+                if ($k == 'show')
+                {
+                    $return .= '<a href="'.$this->addToUrl($v['href'].'&amp;id='.$arrRow['id'].'&amp;popup=1').'" class="' . (($dropdownSet) ? '' : $buttonClasses) . '" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'" onclick="Backend.openModalIframe({\'width\':768,\'title\':\''.specialchars(str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG'][$strTable]['show'][1], $arrRow['id']))).'\',\'url\':this.href});return false"'.$attributes.'>' . Helper::getIconHtml($v['icon'], $label) . (($dropdownSet) ? specialchars($title) : '') . '</a> ';
+                }
+                else
+                {
+                    $return .= '<a href="'.$this->addToUrl($v['href'].'&amp;id='.$arrRow['id']).'" class="' . (($dropdownSet) ? '' : $buttonClasses) . '" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'"'.$attributes.'>' . Helper::getIconHtml($v['icon'], $label) . (($dropdownSet) ? specialchars($title) : '') . '</a> ';
+                }
 
-                if ($dropdownSet) 
+                if ($dropdownSet)
                 {
                     $return .= '</li>';
                 }
                 continue;
-			}
+            }
 
-			$arrDirections = array('up', 'down');
-			$arrRootIds = is_array($arrRootIds) ? $arrRootIds : array($arrRootIds);
+            $arrDirections = array('up', 'down');
+            $arrRootIds = is_array($arrRootIds) ? $arrRootIds : array($arrRootIds);
 
-			foreach ($arrDirections as $dir)
-			{
-				$label = $GLOBALS['TL_LANG'][$strTable][$dir][0] ?: $dir;
-				$title = $GLOBALS['TL_LANG'][$strTable][$dir][1] ?: $dir;
+            foreach ($arrDirections as $dir)
+            {
+                $label = $GLOBALS['TL_LANG'][$strTable][$dir][0] ?: $dir;
+                $title = $GLOBALS['TL_LANG'][$strTable][$dir][1] ?: $dir;
 
-				$label = Helper::getIconHtml($dir.'.gif', $label);
-				$href = $v['href'] ?: '&amp;act=move';
+                $label = Helper::getIconHtml($dir.'.gif', $label);
+                $href = $v['href'] ?: '&amp;act=move';
 
-				if ($dir == 'up')
-				{
-					$return .= ((is_numeric($strPrevious) && (!in_array($arrRow['id'], $arrRootIds) || empty($GLOBALS['TL_DCA'][$strTable]['list']['sorting']['root']))) ? '<a href="'.$this->addToUrl($href.'&amp;id='.$arrRow['id']).'&amp;sid='.intval($strPrevious).'" class="' . $buttonClasses . '" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'"'.$attributes.'>'.$label.'</a> ' : Helper::getIconHtml('up_.gif')).' ';
-					
-                    if ($dropdownSet) 
+                if ($dir == 'up')
+                {
+                    $return .= ((is_numeric($strPrevious) && (!in_array($arrRow['id'], $arrRootIds) || empty($GLOBALS['TL_DCA'][$strTable]['list']['sorting']['root']))) ? '<a href="'.$this->addToUrl($href.'&amp;id='.$arrRow['id']).'&amp;sid='.intval($strPrevious).'" class="' . $buttonClasses . '" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'"'.$attributes.'>'.$label.'</a> ' : Helper::getIconHtml('up_.gif')).' ';
+
+                    if ($dropdownSet)
                     {
                         $return .= '</li>';
                     }
                     continue;
-				}
+                }
 
-				$return .= ((is_numeric($strNext) && (!in_array($arrRow['id'], $arrRootIds) || empty($GLOBALS['TL_DCA'][$strTable]['list']['sorting']['root']))) ? '<a href="'.$this->addToUrl($href.'&amp;id='.$arrRow['id']).'&amp;sid='.intval($strNext).'" class="' . $buttonClasses . '" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'"'.$attributes.'>'.$label.'</a> ' : Helper::getIconHtml('down_.gif')).' ';
-			}
+                $return .= ((is_numeric($strNext) && (!in_array($arrRow['id'], $arrRootIds) || empty($GLOBALS['TL_DCA'][$strTable]['list']['sorting']['root']))) ? '<a href="'.$this->addToUrl($href.'&amp;id='.$arrRow['id']).'&amp;sid='.intval($strNext).'" class="' . $buttonClasses . '" data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'"'.$attributes.'>'.$label.'</a> ' : Helper::getIconHtml('down_.gif')).' ';
+            }
 
-            if ($dropdownSet) 
+            if ($dropdownSet)
             {
                 $return .= '</li>';
             }
-		}
+        }
 
-        if ($dropdownSet) 
+        if ($dropdownSet)
         {
             $return .= '</ul></div>';
         }
 
-		return trim($return);
-	}
+        return trim($return);
+    }
 
     /**
      * Compile global buttons from the table configuration array and return them as HTML

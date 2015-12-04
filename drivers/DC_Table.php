@@ -514,7 +514,7 @@ class DC_Table extends \Contao\DC_Table
         </div>
         '.\Message::generate().'
         <form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form" method="post" enctype="' . ($this->blnUploadable ? 'multipart/form-data' : 'application/x-www-form-urlencoded') . '"'.(!empty($this->onsubmit) ? ' onsubmit="'.implode(' ', $this->onsubmit).'"' : '').'>
-        <ul class="collapsible" data-collapsible="expandable">
+        <ul class="collapsible dca-edit" data-collapsible="expandable">
         <input type="hidden" name="FORM_SUBMIT" value="'.specialchars($this->strTable).'">
         <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
         <input type="hidden" name="FORM_FIELDS[]" value="'.specialchars($this->strPalette).'">'.($this->noReload ? '

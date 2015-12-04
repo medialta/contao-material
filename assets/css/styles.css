@@ -50,6 +50,15 @@ span.mandatory {
     border-right: 0;
     border-left: 0;
 }
+.side-nav .collapsible-header {
+    font-weight: bold;
+}
+.dca-edit .collapsible-header {
+    font-size: 1.3rem;
+    line-height: 3.9rem;
+    color: #ffa726;
+    font-weight: bold;
+}
 
 .collapsible-body {
     padding-left: 1rem;

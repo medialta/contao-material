@@ -101,6 +101,31 @@ class Helper extends \System
     }
 
     /**
+     * Calls formatButtonCallback for each button in a set of HTML buttons
+     *
+     * @param string $html HTML string containing multiple buttons
+     *
+     * @return string HTML string with image replaced by icon
+     */
+    public static function formatMultipleButtonCallback($html)
+    {
+        // Separates the links
+        preg_match_all('/(<a.*\\/a>)+/iU', $html, $matches);
+
+        if (isset($matches[1]))
+        {
+            $html = '';
+
+            foreach ($matches[1] as $k => $match)
+            {
+                $html .= static::formatButtonCallback($match);
+            }
+        }
+
+        return $html;
+    }
+
+    /**
      * Replaces an HTML image by the corresponding Material Design icon
      *
      * @param string $html HTML string containing image
@@ -111,13 +136,13 @@ class Helper extends \System
      */
     public static function formatButtonCallback($html, $dropdownSet = false, $title = '')
     {
-
         // Replaces image by icon
         preg_match_all('/(<img.*src=\"(.*)\".*>)/mU', $html, $matches);
 
         if (isset($matches[1][0]) && isset($matches[2][0]) && strlen($matches[1][0]) && strlen($matches[2][0]))
         {
-            $icon = self::getIconHtml(basename($matches[2][0]));
+            $iconFile = basename($matches[2][0]);
+            $icon = self::getIconHtml($iconFile);
 
             if ($dropdownSet)
             {
@@ -133,6 +158,11 @@ class Helper extends \System
         // Adds classes
         $regexClass = '/(<a[^<]* class="[^<]*)("[^<]*>)/mU';
         $classes = ($dropdownSet) ? '' : 'btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped';
+
+        if (isset($iconFile) && strlen($classes) && in_array($iconFile, ['pasteafter.gif', 'pasteinto.gif']))
+        {
+            $classes .= ' paste-action -' . substr($iconFile, 5, -4);
+        }
 
         if (preg_match($regexClass, $html))
         {

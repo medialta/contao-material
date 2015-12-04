@@ -377,14 +377,30 @@ footer {
     }
 
     .listing .dropdown-content, .parent_view .dropdown-content {
+        left: auto !important;
         right: 0 !important;
     }
 
-        .listing .dropdown-content i, .parent_view .dropdown-content i {
+        .listing .dropdown-content i,
+        .parent_view .dropdown-content i,
+        .listing .dropdown-content .old-icon-wrapper,
+        .parent_view .dropdown-content .old-icon-wrapper {
             display: inline-block;
             vertical-align: middle;
             margin-right: 1rem;
         }
+
+        .listing .dropdown-content .old-icon-wrapper,
+        .parent_view .dropdown-content .old-icon-wrapper {
+            min-width: 2rem;
+        }
+
+            .listing .dropdown-content .old-icon-wrapper img,
+            .parent_view .dropdown-content .old-icon-wrapper img {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
 
     .listing .record {
         min-height: 3rem;

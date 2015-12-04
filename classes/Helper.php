@@ -197,7 +197,7 @@ class Helper extends \System
         }
         else
         {
-            $icon = \Image::getHtml($src, $alt, $attributes);
+            $icon = '<span class="old-icon-wrapper">' . \Image::getHtml($src, $alt, $attributes) . '</span>';
         }
 
         return $icon;

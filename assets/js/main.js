@@ -650,7 +650,7 @@ var Backend = {
      */
     editPreviewWizard: function(el) {
         
-    }
+    },
 
     hideUnnecessaryToggles: function()
     {

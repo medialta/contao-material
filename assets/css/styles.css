@@ -241,6 +241,7 @@ nav {
 .side-nav {
     top: 64px;
     overflow-y: overlay;
+    height: calc(100% - 64px);
 }
 
 .side-nav .collapsible-body {

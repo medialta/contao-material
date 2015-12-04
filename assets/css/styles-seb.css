@@ -585,7 +585,7 @@ footer {
         top: 50%;
         right: 1rem;
         font-size: 36px;
-        transform: rotate(270deg) translateX(50%);
+        transform: translateY(-50%);
     }
 
     .paste-hint + .listing-container .listing .record:not(:last-child) {

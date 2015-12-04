@@ -123,7 +123,26 @@ var AjaxRequest = {
      * @returns {boolean}
      */
     toggleFieldset: function(el, id, table) {
-        
+        el.blur();
+        var fs = $('#pal_' + id + ' .collapsible-header');
+
+        if (fs.hasClass('active')) {
+            $.ajax({
+                url: window.location,
+                dataType: 'JSON',
+                type: 'POST',
+                data: {action: 'toggleFieldset', id: id, table: table, state: 1, REQUEST_TOKEN: Contao.request_token},
+            });
+        } else {
+            $.ajax({
+                url: window.location,
+                dataType: 'JSON',
+                type: 'POST',
+                data: {action: 'toggleFieldset', id: id, table: table, state: 0, REQUEST_TOKEN: Contao.request_token},
+            });
+        }
+
+        return true;
     },
 
     /**
@@ -165,12 +184,122 @@ var AjaxRequest = {
     }
 }
 var Backend = {
+    /**
+     * The current ID
+     * @member {string}
+     */
+    currentId: null,
 
-    getScrollOffset: function() {
-        //document.cookie = "BE_PAGE_OFFSET=" + window.getScroll().y + "; path=" + (Contao.path || '/');
-        //TODO
+    /**
+     * The x mouse position
+     * @member {int}
+     */
+    xMousePosition: 0,
+
+    /**
+     * The Y mouse position
+     * @member {int}
+     */
+    yMousePosition: 0,
+
+    /**
+     * The popup window
+     * @member {object}
+     */
+    popupWindow: null,
+
+    /**
+     * The theme path
+     * @member {string}
+     */
+    themePath: Contao.script_url + 'system/themes/' + Contao.theme + '/images/',
+
+    /**
+     * Get the current mouse position
+     *
+     * @param {object} event The event object
+     */
+    getMousePosition: function(event) {
+        
     },
 
+    /**
+     * Open a new window
+     *
+     * @param {object} el     The DOM element
+     * @param {int}    width  The width in pixels
+     * @param {int}    height The height in pixels
+     *
+     * @deprecated Use Backend.openModalWindow() instead
+     */
+    openWindow: function(el, width, height) {
+        
+    },
+
+    /**
+     * Open a modal window
+     *
+     * @param {int}    width   The width in pixels
+     * @param {string} title   The window's title
+     * @param {string} content The window's content
+     */
+    openModalWindow: function(width, title, content) {
+        
+    },
+
+    /**
+     * Open an image in a modal window
+     *
+     * @param {object} options An optional options object
+     */
+    openModalImage: function(options) {
+        
+    },
+
+    /**
+     * Open an iframe in a modal window
+     *
+     * @param {object} options An optional options object
+     */
+    openModalIframe: function(e) {
+        $('#modal').html('<iframe src="' + e.url + '" width="100%" height="100%" frameborder="0"></iframe>');
+        $('#modal').openModal();
+        return ;
+    },
+
+    /**
+     * Open a selector page in a modal window
+     *
+     * @param {object} options An optional options object
+     */
+    openModalSelector: function(options) {
+        
+    },
+
+    /**
+     * Open a TinyMCE file browser in a modal window
+     *
+     * @param {string} field_name The field name
+     * @param {object} url        An URI object
+     * @param {string} type       The picker type
+     * @param {object} win        The window object
+     */
+    openModalBrowser: function(field_name, url, type, win) {
+        
+    },
+
+    /**
+     * Get the current scroll offset and store it in a cookie
+     */
+    getScrollOffset: function() {
+        
+    },
+
+    /**
+     * Automatically submit a form
+     *
+     * @param {object} el The DOM element
+     */
     autoSubmit: function(el) {
         Backend.getScrollOffset();
         var hidden = $('<input type="hidden" name="SUBMIT_TYPE" value="auto">');
@@ -180,76 +309,348 @@ var Backend = {
         form.submit();
     },
 
-    openModalIframe: function(e) {
-        $('#modal').html('<iframe src="' + e.url + '" width="100%" height="100%" frameborder="0"></iframe>');
-        $('#modal').openModal();
-        return ;
+    /**
+     * Scroll the window to a certain vertical position
+     *
+     * @param {int} offset The offset to scroll to
+     */
+    vScrollTo: function(offset) {
+        
     },
 
-    openModalSelector: function(options) {
-        $('#modal').html('<iframe src="' + options.url + '" width="100%" height="100%" frameborder="0"></iframe>');
-        $('#modal').openModal();
-        return ;
-        var opt = options || {},
-            max = (window.getSize().y-180).toInt();
-        if (!opt.height || opt.height > max) opt.height = max;
-        var M = new SimpleModal({
-            'width': opt.width,
-            'btn_ok': Contao.lang.close,
-            'draggable': false,
-            'overlayOpacity': .5,
-            'onShow': function() { document.body.setStyle('overflow', 'hidden'); },
-            'onHide': function() { document.body.setStyle('overflow', 'auto'); }
-        });
-        M.addButton(Contao.lang.close, 'btn', function() {
-            this.hide();
-        });
-        M.addButton(Contao.lang.apply, 'btn primary', function() {
-            var frm = window.frames['simple-modal-iframe'],
-                val = [], inp, field, i;
-            if (frm === undefined) {
-                alert('Could not find the SimpleModal frame');
+    /**
+     * Limit the height of the preview pane
+     */
+    limitPreviewHeight: function() {
+        var hgt = 0;
+
+        $('.limit_height').each(function() {
+            var toggler = null,
+            style = '';
+
+            var limitheight = $(this);
+
+            //size = div.getCoordinates();
+            var size = {height : $(this).height()};
+            if (hgt === 0) {
+                hgt = parseInt($(this).attr('class').replace(/[^0-9]*/, ''));
+            }
+
+            // Return if there is no height value
+            if (!hgt) return;
+
+            $(this).css('height', hgt);
+
+            //TODO title tooltip
+
+            toggler = $('<a class="btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped limit_toggler" data-delay="50" data-position="right" data-tooltip=""><i class="material-icons">expand_more</i></a>');
+
+
+            // Disable the function if the preview height is below the max-height
+            if (size.height < hgt) {
                 return;
             }
-            if (frm.document.location.href.indexOf('contao/main.php') != -1) {
-                alert(Contao.lang.picker);
-                return; // see #5704
-            }
-            inp = frm.document.getElementById('tl_select').getElementsByTagName('input');
-            for (i=0; i<inp.length; i++) {
-                if (!inp[i].checked || inp[i].id.match(/^check_all_/)) continue;
-                if (!inp[i].id.match(/^reset_/)) val.push(inp[i].get('value'));
-            }
-            if (opt.tag) {
-                $(opt.tag).value = val.join(',');
-                if (frm.document.location.href.indexOf('contao/page.php') != -1) {
-                    $(opt.tag).value = '{{link_url::' + $(opt.tag).value + '}}';
+
+
+            toggler.css('cursor', 'pointer');
+
+            toggler.on('click', function (e) {
+                e.preventDefault();
+                if ($(this).hasClass('open')) {
+                    $(this).removeClass('open');
+                    limitheight.css('height', hgt);
+                } else {
+                    $(this).addClass('open');
+                    limitheight.css('height', size.height);
                 }
-                opt.self.set('href', opt.self.get('href').replace(/&value=[^&]*/, '&value='+val.join(',')));
-            } else {
-                field = $('ctrl_' + opt.id);
-                field.value = val.join("\t");
-                var act = (frm.document.location.href.indexOf('contao/page.php') != -1) ? 'reloadPagetree' : 'reloadFiletree';
-                new Request.Contao({
-                    field: field,
-                    evalScripts: false,
-                    onRequest: AjaxRequest.displayBox(Contao.lang.loading + ' …'),
-                    onSuccess: function(txt, json) {
-                        $('ctrl_'+opt.id).getParent('div').set('html', json.content);
-                        json.javascript && Browser.exec(json.javascript);
-                        AjaxRequest.hideBox();
-                        window.fireEvent('ajax_change');
-                    }
-                }).post({'action':act, 'name':opt.id, 'value':field.value, 'REQUEST_TOKEN':Contao.request_token});
-            }
-            this.hide();
-        });
-        M.show({
-            'title': opt.title,
-            'contents': '<iframe src="' + opt.url + '" name="simple-modal-iframe" width="100%" height="' + opt.height + '" frameborder="0"></iframe>',
-            'model': 'modal'
+            });
+
+            $(this).after(toggler);
         });
     },
+
+    /**
+     * Toggle checkboxes
+     *
+     * @param {object} el The DOM element
+     * @param {string} id The ID of the target element
+     */
+    toggleCheckboxes: function(el, id) {
+        
+    },
+
+    /**
+     * Toggle a checkbox group
+     *
+     * @param {object} el The DOM element
+     * @param {string} id The ID of the target element
+     */
+    toggleCheckboxGroup: function(el, id) {
+        
+    },
+
+    /**
+     * Toggle checkbox elements
+     *
+     * @param {string} el  The DOM element
+     * @param {string} cls The CSS class name
+     */
+    toggleCheckboxElements: function(el, cls) {
+        
+    },
+
+    /**
+     * Toggle the line wrapping mode of a textarea
+     *
+     * @param {string} id The ID of the target element
+     */
+    toggleWrap: function(id) {
+        
+    },
+
+    /**
+     * Toggle the synchronization results
+     */
+    toggleUnchanged: function() {
+        
+    },
+
+    /**
+     * Toggle the opacity of the paste buttons
+     *
+     * @deprecated Not required anymore
+     */
+    blink: function() {},
+
+    /**
+     * Initialize the mootools color picker
+     *
+     * @returns {boolean}
+     *
+     * @deprecated Not required anymore
+     */
+    addColorPicker: function() {
+        return true;
+    },
+
+    /**
+     * Open the page picker wizard in a modal window
+     *
+     * @param {string} id The ID of the target element
+     *
+     * @deprecated Use Backend.openModalIframe() instead
+     */
+    pickPage: function(id) {
+        
+    },
+
+    /**
+     * Open the file picker wizard in a modal window
+     *
+     * @param {string} id     The ID of the target element
+     * @param {string} filter The filter value
+     *
+     * @deprecated Use Backend.openModalIframe() instead
+     */
+    pickFile: function(id, filter) {
+        
+    },
+
+    /**
+     * Collapse all palettes
+     */
+    collapsePalettes: function() {
+        
+    },
+
+    /**
+     * Add the interactive help
+     */
+    addInteractiveHelp: function() {
+        
+    },
+
+    /**
+     * Make parent view items sortable
+     *
+     * @param {object} ul The DOM element
+     *
+     * @author Joe Ray Gregory
+     * @author Martin Auswöger
+     */
+    makeParentViewSortable: function(ul) {
+        
+    },
+
+    /**
+     * Make multiSRC items sortable
+     *
+     * @param {string} id  The ID of the target element
+     * @param {string} oid The DOM element
+     */
+    makeMultiSrcSortable: function(id, oid) {
+        
+    },
+
+    /**
+     * Make the wizards sortable
+     */
+    makeWizardsSortable: function() {
+        
+    },
+
+    /**
+     * List wizard
+     *
+     * @param {object} el      The DOM element
+     * @param {string} command The command name
+     * @param {string} id      The ID of the target element
+     */
+    listWizard: function(el, command, id) {
+        
+    },
+
+    /**
+     * Table wizard
+     *
+     * @param {object} el      The DOM element
+     * @param {string} command The command name
+     * @param {string} id      The ID of the target element
+     */
+    tableWizard: function(el, command, id) {
+        
+    },
+
+    /**
+     * Resort the table wizard fields
+     *
+     * @param {object} tbody The DOM element
+     */
+    tableWizardResort: function(tbody) {
+        
+    },
+
+    /**
+     * Resize the table wizard fields on focus
+     *
+     * @param {float} factor The resize factor
+     */
+    tableWizardResize: function(factor) {
+        
+    },
+
+    /**
+     * Module wizard
+     *
+     * @param {object} el      The DOM element
+     * @param {string} command The command name
+     * @param {string} id      The ID of the target element
+     */
+    moduleWizard: function(el, command, id) {
+        
+    },
+
+    /**
+     * Options wizard
+     *
+     * @param {object} el      The DOM element
+     * @param {string} command The command name
+     * @param {string} id      The ID of the target element
+     */
+    optionsWizard: function(el, command, id) {
+        
+    },
+
+    /**
+     * Key/value wizard
+     *
+     * @param {object} el      The DOM element
+     * @param {string} command The command name
+     * @param {string} id      The ID of the target element
+     */
+    keyValueWizard: function(el, command, id) {
+        
+    },
+
+    /**
+     * Checkbox wizard
+     *
+     * @param {object} el      The DOM element
+     * @param {string} command The command name
+     * @param {string} id      The ID of the target element
+     */
+    checkboxWizard: function(el, command, id) {
+        
+    },
+
+    /**
+     * Meta wizard
+     *
+     * @param {object} el The select element
+     * @param {string} ul The DOM element
+     */
+    metaWizard: function(el, ul) {
+        
+    },
+
+    /**
+     * Remove a meta entry
+     *
+     * @param {object} el The DOM element
+     */
+    metaDelete: function(el) {
+        
+    },
+
+    /**
+     * Toggle the "add language" button
+     *
+     * @param {object} el The DOM element
+     */
+    toggleAddLanguageButton: function(el) {
+        
+    },
+
+    /**
+     * Update the "edit module" links in the module wizard
+     *
+     * @param {object} el The DOM element
+     */
+    updateModuleLink: function(el) {
+        
+    },
+
+    /**
+     * Convert the "enable module" checkboxes
+     */
+    convertEnableModules: function() {
+        
+    },
+
+    /**
+     * Update the fields of the imageSize widget upon change
+     */
+    enableImageSizeWidgets: function() {
+        
+    },
+
+    /**
+     * Allow to toggle checkboxes or radio buttons by clicking a row
+     *
+     * @author Kamil Kuzminski
+     */
+    enableToggleSelect: function() {
+        
+    },
+
+    /**
+     * Allow to mark the important part of an image
+     *
+     * @param {object} el The DOM element
+     */
+    editPreviewWizard: function(el) {
+        
+    }
 
     hideUnnecessaryToggles: function()
     {
@@ -300,54 +701,6 @@ var Backend = {
         $subpanel.toggleClass('is-active').slideToggle()
     },
 
-    limitPreviewHeight: function() {
-        var hgt = 0;
-
-        $('.limit_height').each(function() {
-            var toggler = null,
-            style = '';
-
-            var limitheight = $(this);
-
-            //size = div.getCoordinates();
-            var size = {height : $(this).height()};
-            if (hgt === 0) {
-                hgt = parseInt($(this).attr('class').replace(/[^0-9]*/, ''));
-            }
-
-            // Return if there is no height value
-            if (!hgt) return;
-
-            $(this).css('height', hgt);
-
-            //TODO title tooltip
-
-            toggler = $('<a class="btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped limit_toggler" data-delay="50" data-position="right" data-tooltip=""><i class="material-icons">expand_more</i></a>');
-
-
-            // Disable the function if the preview height is below the max-height
-            if (size.height < hgt) {
-                return;
-            }
-
-
-            toggler.css('cursor', 'pointer');
-
-            toggler.on('click', function (e) {
-                e.preventDefault();
-                if ($(this).hasClass('open')) {
-                    $(this).removeClass('open');
-                    limitheight.css('height', hgt);
-                } else {
-                    $(this).addClass('open');
-                    limitheight.css('height', size.height);
-                }
-            });
-
-            $(this).after(toggler);
-        });
-    },
-
     initPanels: function()
     {
         var limit = $('#limit-subpanel').data('limit');
@@ -381,7 +734,7 @@ var Backend = {
     }
 }
 
-$(function() 
+$(function()
 {
     $(".button-collapse").sideNav()
     $('#modules-nav .collapsible-header').click(function(e) { e.preventDefault() })

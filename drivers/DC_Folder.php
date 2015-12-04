@@ -595,7 +595,7 @@ $return = $version . '
 </div>
 '.\Message::generate().'
 <form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form" method="post"'.(!empty($this->onsubmit) ? ' onsubmit="'.implode(' ', $this->onsubmit).'"' : '').'>
-    <ul class="collapsible" data-collapsible="expandable">
+    <ul class="collapsible dca-edit" data-collapsible="expandable">
         <input type="hidden" name="FORM_SUBMIT" value="'.specialchars($this->strTable).'">
         <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">'.($this->noReload ? '
             <p class="tl_error">'.$GLOBALS['TL_LANG']['ERR']['general'].'</p>' : '').$return;

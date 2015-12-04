@@ -30,11 +30,12 @@
     <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/css/styles.css"></link>
     <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/css/styles-seb.css"></link>
 
+    <script><?= $this->getLocaleString() ?></script>
     <script type="text/javascript" src="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/js/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/js/materialize.min.js"></script>
     <script type="text/javascript" src="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/js/select2.min.js"></script>
     <script type="text/javascript" src="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/js/main.js"></script>
-    <script><?= $this->getLocaleString() ?></script>
+
     <script><?= ''//$this->getDateString() ?></script>
     <?= ''//$this->javascripts ?>
 

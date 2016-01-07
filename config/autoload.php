@@ -3,7 +3,7 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2015 Leo Feyer
+ * Copyright (c) 2005-2016 Leo Feyer
  *
  * @license LGPL-3.0+
  */
@@ -27,6 +27,7 @@ ClassLoader::addClasses(array
 	'ContaoMaterial\FileUpload'         => 'system/modules/contao-material/classes/FileUpload.php',
 	'ContaoMaterial\DataContainer'      => 'system/modules/contao-material/classes/DataContainer.php',
 	'ContaoMaterial\Message'            => 'system/modules/contao-material/classes/Message.php',
+	'ContaoMaterial\Backend'            => 'system/modules/contao-material/classes/Backend.php',
 	'ContaoMaterial\Helper'             => 'system/modules/contao-material/classes/Helper.php',
 	'ContaoMaterial\Database\Installer' => 'system/modules/contao-material/classes/Installer.php',
 	'ContaoMaterial\Versions'           => 'system/modules/contao-material/classes/Versions.php',

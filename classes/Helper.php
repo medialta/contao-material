@@ -101,31 +101,6 @@ class Helper extends \System
     }
 
     /**
-     * Calls formatButtonCallback for each button in a set of HTML buttons
-     *
-     * @param string $html HTML string containing multiple buttons
-     *
-     * @return string HTML string with image replaced by icon
-     */
-    public static function formatMultipleButtonCallback($html)
-    {
-        // Separates the links
-        preg_match_all('/(<a.*\\/a>)+/iU', $html, $matches);
-
-        if (isset($matches[1]))
-        {
-            $html = '';
-
-            foreach ($matches[1] as $k => $match)
-            {
-                $html .= static::formatButtonCallback($match);
-            }
-        }
-
-        return $html;
-    }
-
-    /**
      * Replaces an HTML image by the corresponding Material Design icon
      *
      * @param string $html HTML string containing image
@@ -136,15 +111,15 @@ class Helper extends \System
      */
     public static function formatButtonCallback($html, $dropdownSet = false, $title = '')
     {
+
         // Replaces image by icon
         preg_match_all('/(<img.*src=\"(.*)\".*>)/mU', $html, $matches);
 
         if (isset($matches[1][0]) && isset($matches[2][0]) && strlen($matches[1][0]) && strlen($matches[2][0]))
         {
-            $iconFile = basename($matches[2][0]);
-            $icon = self::getIconHtml($iconFile);
+            $icon = self::getIconHtml(basename($matches[2][0]));
 
-            if ($dropdownSet)
+            if ($dropdownSet) 
             {
                 $icon .= $title;
             }
@@ -158,11 +133,6 @@ class Helper extends \System
         // Adds classes
         $regexClass = '/(<a[^<]* class="[^<]*)("[^<]*>)/mU';
         $classes = ($dropdownSet) ? '' : 'btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped';
-
-        if (isset($iconFile) && strlen($classes) && in_array($iconFile, ['pasteafter.gif', 'pasteinto.gif']))
-        {
-            $classes .= ' paste-action -' . substr($iconFile, 5, -4);
-        }
 
         if (preg_match($regexClass, $html))
         {
@@ -227,9 +197,51 @@ class Helper extends \System
         }
         else
         {
-            $icon = '<span class="old-icon-wrapper">' . \Image::getHtml($src, $alt, $attributes) . '</span>';
+            $icon = self::getHtml($src, $alt, $attributes);
         }
 
         return $icon;
+    }
+
+    /**
+     * Generate an image tag and return it as string
+     *
+     * @param string $src        The image path
+     * @param string $alt        An optional alt attribute
+     * @param string $attributes A string of other attributes
+     *
+     * @return string The image HTML tag
+     */
+    public static function getHtml($src, $alt='', $attributes='')
+    {
+        $static = TL_FILES_URL;
+        $src = rawurldecode($src);
+
+        if (strpos($src, '/') === false)
+        {
+            if (strncmp($src, 'icon', 4) === 0)
+            {
+                $static = TL_ASSETS_URL;
+                $src = 'assets/contao/images/' . $src;
+            }
+            else
+            {
+                $srcpng = str_replace('.gif', '.png', $src);
+                if (file_exists( __DIR__ . '/../assets/images/' . $srcpng)) {
+                    $src = 'system/modules/contao-material/assets/images/' . $srcpng;
+                } else {
+                    $src = 'system/themes/' . \Backend::getTheme() . '/images/' . $src;
+                }
+            }
+        }
+
+        if (!file_exists(TL_ROOT .'/'. $src))
+        {
+            return '';
+        }
+
+        $objFile = new \File($src, true);
+
+        return '<img src="' . $static . \System::urlEncode($src) . '" width="' . $objFile->width . '" height="' . $objFile->height . '" alt="' . specialchars($alt) . '"' . (($attributes != '') ? ' ' . $attributes : '') . '>';
     }
 }

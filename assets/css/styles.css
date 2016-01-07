@@ -65,6 +65,8 @@ span.mandatory {
 .card .card-image .card-title {
     font-weight: 500;
     font-size: 26px;
+    background-color: rgba(255,255,255,0.4);
+    margin-left: 20px;
 }
 
 .collapsible {

@@ -410,6 +410,13 @@ footer .footer .copyright {
 /* $('link:not(link[href^="system/modules/contao-material"], link[href^="system/modules/contao-material"] ~ link)').detach() */
 
 
+.list_icon {
+    background-repeat: no-repeat;
+    background-position: left center;
+    vertical-align: middle;
+    padding-left: 2rem;
+}
+
 /* Navigation */
 
 .navigation.article {

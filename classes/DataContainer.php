@@ -54,13 +54,13 @@ abstract class DataContainer extends \Contao\DataContainer
         // Toggle line wrap (textarea)
         if ($arrData['inputType'] == 'textarea' && !isset($arrData['eval']['rte']))
         {
-            $xlabel .= ' ' . \Image::getHtml('wrap.gif', $GLOBALS['TL_LANG']['MSC']['wordWrap'], 'title="' . specialchars($GLOBALS['TL_LANG']['MSC']['wordWrap']) . '" class="toggleWrap" onclick="Backend.toggleWrap(\'ctrl_'.$this->strInputName.'\')"');
+            $xlabel .= ' ' . Helper::getIconHtml('wrap.gif', $GLOBALS['TL_LANG']['MSC']['wordWrap'], 'title="' . specialchars($GLOBALS['TL_LANG']['MSC']['wordWrap']) . '" class="toggleWrap" onclick="Backend.toggleWrap(\'ctrl_'.$this->strInputName.'\')"');
         }
 
         // Add the help wizard
         if ($arrData['eval']['helpwizard'])
         {
-            $xlabel .= ' <a href="contao/help.php?table='.$this->strTable.'&amp;field='.$this->strField.'" title="' . specialchars($GLOBALS['TL_LANG']['MSC']['helpWizard']) . '" onclick="Backend.openModalIframe({\'width\':735,\'height\':405,\'title\':\''.specialchars(str_replace("'", "\\'", $arrData['label'][0])).'\',\'url\':this.href});return false">'.\Image::getHtml('about.gif', $GLOBALS['TL_LANG']['MSC']['helpWizard'], 'style="vertical-align:text-bottom"').'</a>';
+            $xlabel .= ' <a href="contao/help.php?table='.$this->strTable.'&amp;field='.$this->strField.'" title="' . specialchars($GLOBALS['TL_LANG']['MSC']['helpWizard']) . '" onclick="Backend.openModalIframe({\'width\':735,\'height\':405,\'title\':\''.specialchars(str_replace("'", "\\'", $arrData['label'][0])).'\',\'url\':this.href});return false">'.Helper::getIconHtml('about.gif', $GLOBALS['TL_LANG']['MSC']['helpWizard'], 'style="vertical-align:text-bottom"').'</a>';
         }
 
         // Add a custom xlabel
@@ -272,7 +272,7 @@ abstract class DataContainer extends \Contao\DataContainer
             // Support single fields as well (see #5240)
             $strKey = $arrData['eval']['multiple'] ? $this->strField . '_0' : $this->strField;
 
-            $wizard .= ' ' . \Image::getHtml('pickcolor.gif', $GLOBALS['TL_LANG']['MSC']['colorpicker'], 'style="vertical-align:top;cursor:pointer" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['colorpicker']).'" id="moo_' . $this->strField . '"') . '
+            $wizard .= ' ' . Helper::getIconHtml('pickcolor.gif', $GLOBALS['TL_LANG']['MSC']['colorpicker'], 'style="vertical-align:top;cursor:pointer" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['colorpicker']).'" id="moo_' . $this->strField . '"') . '
             <script>
             window.addEvent("domready", function() {
                 new MooRainbow("moo_' . $this->strField . '", {
@@ -393,7 +393,7 @@ abstract class DataContainer extends \Contao\DataContainer
                 $strPreview = '
 
                 <div id="' . $ctrl . '" class="tl_edit_preview" data-original-width="' . $objFile->viewWidth . '" data-original-height="' . $objFile->viewHeight . '">
-                ' . \Image::getHtml($image) . '
+                ' . Helper::getIconHtml($image) . '
                 </div>';
 
                 // Add the script to mark the important part

@@ -134,6 +134,10 @@ span.mandatory {
     font-weight: bold;
 }
 
+.item.-article {
+    margin-left: 2rem;
+}
+
 .right-header {
     position: absolute;
     right: 20px;

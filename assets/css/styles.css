@@ -29,6 +29,9 @@ input:-webkit-autofill:active {
 .invisible {
     display: none;
 }
+.inactive-option {
+    opacity: .3;
+}
 span.mandatory {
     color: #c33;
 }

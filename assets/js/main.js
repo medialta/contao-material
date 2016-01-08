@@ -85,7 +85,48 @@ var AjaxRequest = {
      * @param {string} field The field name
      */
     toggleSubpalette: function (el, id, field) {
-        
+        el.blur();
+        var item = $('#' + id);
+        if (item.length) {
+            if (!el.value) {
+                el.value = 1;
+                el.checked = 'checked';
+                item.css('display', 'block');
+                $.ajax({
+                    url: window.location,
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {action: 'toggleSubpalette', id: id, field: field, state: 1, REQUEST_TOKEN:Contao.request_token},
+                });
+            } else {
+                el.value = '';
+                el.checked = '';
+                item.css('display', 'none');
+                $.ajax({
+                    url: window.location,
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {action: 'toggleSubpalette', id: id, field: field, state: 0, REQUEST_TOKEN:Contao.request_token},
+                });
+            }
+            return;
+        }
+
+        $.ajax({
+            url: window.location,
+            type: 'POST',
+            dataType: 'HTML',
+            data: {action: 'toggleSubpalette', id: id, field: field, load: 1, state: 1, REQUEST_TOKEN: Contao.request_token},
+        })
+        .done(function (res, json) {
+            var div = $('<div id="' + id + '" style="display:block">' + res + '</div>');
+            $(el).parent('div').parent('div').after(div);
+            el.value = 1;
+            el.checked = 'checked';
+            div.getElements('a').each(function(el) {
+                el.href = el.href.replace(/&ref=[a-f0-9]+/, '&ref=' + Contao.referer_id);
+            });
+        });
     },
 
     /**

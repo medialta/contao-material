@@ -111,6 +111,20 @@ span.mandatory {
     margin-right: 5px;
     vertical-align: top;
 }
+
+.tl_error:not(.tl_tip) {
+    background-color: #E57373;
+    color: #fff;
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 2px;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+}
+.tl_error.tl_tip {
+    color: #E57373;
+    font-weight: bold;
+    padding: 10px 0;
+}
 .collapsible-body label {
     font-size: 1.2rem;
 }

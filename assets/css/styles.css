@@ -345,6 +345,9 @@ footer .footer .copyright {
     height: 100%;
     overflow-y: hidden;
 }
+.modal.modal-fixed-footer .modal-content {
+    overflow-y: inherit;
+}
 
 /* Couleurs */
 .accent.-c100:not(.text) {

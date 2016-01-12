@@ -48,7 +48,8 @@ class DropZone extends \Contao\DropZone
             <div class="dropzone-previews"></div>
         </div>
         <script>
-            window.addEvent("domready", function() {
+
+            jQuery(document).ready(function($) {
               new Dropzone("#tl_files", {
                 paramName: "' . $this->strName . '",
                 maxFilesize: ' . $intMaxSize . ',
@@ -56,11 +57,12 @@ class DropZone extends \Contao\DropZone
                 previewsContainer: ".dropzone-previews",
                 uploadMultiple: true
             }).on("processing", function() {
-                $$(".dz-message").setStyle("padding", "12px 18px 0");
+                $(".dz-message").css("padding", "12px 18px 0");
             });
-        $$("div.tl_formbody_submit").setStyle("display", "none");
+        $(".card-action:last-child").css("display", "none");
+        $(".messages").css("display", "none");
         });
         </script>
-        <p class="tl_help tl_tip">' . sprintf($GLOBALS['TL_LANG']['tl_files']['fileupload'][1], \System::getReadableSize($this->getMaximumUploadSize()), \Config::get('gdMaxImgWidth') . 'x' . \Config::get('gdMaxImgHeight')) . '</p>';
+        <p class="tl_help tl_tip"><i class="tiny material-icons help-icon">info_outline</i>' . sprintf($GLOBALS['TL_LANG']['tl_files']['fileupload'][1], \System::getReadableSize($this->getMaximumUploadSize()), \Config::get('gdMaxImgWidth') . 'x' . \Config::get('gdMaxImgHeight')) . '</p>';
     }
 }

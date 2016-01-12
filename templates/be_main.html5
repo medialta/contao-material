@@ -37,7 +37,7 @@
     <script type="text/javascript" src="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/js/main.js"></script>
 
     <script><?= ''//$this->getDateString() ?></script>
-    <?= ''//$this->javascripts ?>
+    <?= $this->javascripts ?>
 
 </head>
 <body id="top" class="<?= $this->ua ?><?php if ($this->isPopup) echo ' popup'; ?> primary -c100">

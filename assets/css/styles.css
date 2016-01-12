@@ -392,6 +392,26 @@ footer .footer .copyright {
     box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
 }
 
+.dz-container {
+    padding: 6px;
+    border: 3px dashed #ddd
+}
+
+.dz-message {
+    cursor: pointer;
+    padding: 36px 18px;
+    -moz-transition: all .15s linear;
+    -webkit-transition: all .15s linear;
+    -o-transition: all .15s linear;
+    transition: all .15s linear
+}
+
+.dz-message span {
+    font-size: 21px;
+    font-size: 1.3125rem;
+    color: #ccc
+}
+
 /* Couleurs */
 .accent.-c100:not(.text) {
     background-color: #ffcc80;

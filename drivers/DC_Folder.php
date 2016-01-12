@@ -355,7 +355,7 @@ class DC_Folder extends \Contao\DC_Folder
                 <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
                 <input type="hidden" name="MAX_FILE_SIZE" value="'.\Config::get('maxFileSize').'">
 
-                <div class="tl_tbox">
+                <div class="card-content">
                   <h3>'.$GLOBALS['TL_LANG'][$this->strTable]['fileupload'][0].'</h3>'.$objUploader->generateMarkup().'
               </div>
 

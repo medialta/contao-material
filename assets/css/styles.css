@@ -422,6 +422,22 @@ footer .footer .copyright {
     color: #ccc
 }
 
+.dropdown-content li {
+    font-size: 1.2rem;
+    display: block;
+    padding: 1rem 1rem;
+    color: #757575;
+}
+.dropdown-content li>a, .dropdown-content li>span {
+    font-size: inherit;
+    padding: 0;
+    display: inline-block;
+}
+.dropdown-content li>span>i {
+    height: inherit;
+    line-height: inherit;
+}
+
 /* Couleurs */
 .accent.-c100:not(.text) {
     background-color: #ffcc80;

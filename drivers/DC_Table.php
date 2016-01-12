@@ -2824,7 +2824,7 @@ class DC_Table extends \Contao\DC_Table
         else
         {
             $isNodeActive = ($session[$node][$id] == 1) ? ' active' : '';
-            $return .= "\n  " . '<li class="row-container click2edit' . $mouseover . '"><div class="collapsible-header' . $isNodeActive . '"><div class="item -' . $tableClass . '">';
+            $return .= "\n  " . '<li class="row-container click2edit' . $mouseover . '"><div class="collapsible-header' . $isNodeActive . (!empty($childs) ? ' -with-child' : '') . '"><div class="item -' . $tableClass . '">';
         }
 
         // Calculate label and add a toggle button

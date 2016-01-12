@@ -880,7 +880,7 @@ $return = $version . '
                 }
             }
             $isNodeActive = ($session['filetree'][$md5] == 1) ? ' active' : '';
-            $return .= "\n  " . '<li class="folder row-container click2edit toggle_select"><div class="collapsible-header' . $isNodeActive . '"><div class="item">';
+            $return .= "\n  " . '<li class="folder row-container click2edit toggle_select"><div class="collapsible-header' . $isNodeActive . (!empty($countFiles) ? ' -with-child' : '') . '"><div class="item">';
 
             // Add a toggle button if there are childs
             if ($countFiles > 0)

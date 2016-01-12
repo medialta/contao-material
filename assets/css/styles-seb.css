@@ -252,14 +252,14 @@ footer {
         line-height: inherit;
     }
 
-        .listing:not(.listing-files) .collapsible-header:only-child, .listing.listing-files li.folder .collapsible-header:only-child {
+        .listing:not(.listing-files) .collapsible-header:not(.-with-child):only-child, .listing.listing-files li.folder .collapsible-header:not(.-with-child):only-child {
             padding-left: 4rem;
         }
         .listing.listing-files li:not(.folder) .collapsible-header:only-child {
             padding-left: 3rem;
         }
 
-            .listing .collapsible-header:only-child .record {
+            .listing .collapsible-header:not(.-with-child):only-child .record {
                 padding-left: 0;
             }
 
@@ -285,7 +285,7 @@ footer {
                 margin-right: 0;
             }
 
-            .listing .collapsible-header:only-child::after {
+            .listing .collapsible-header:not(.-with-child):only-child::after {
                 margin-left: 0;
             }
 
@@ -309,7 +309,7 @@ footer {
             transition: transform .35s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-            .listing .collapsible-header.active .expand-icon {
+            .listing .collapsible-header:not(.active) .expand-icon {
                 transform: rotate(180deg);
             }
 

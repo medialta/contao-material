@@ -194,6 +194,13 @@ figure {
 img.preview {
     margin: 5px 0 5px 22px;
 }
+.breadcrumb li {
+    display: inline-block;
+    padding: 0 3px;
+}
+.breadcrumb li img {
+    vertical-align: -5px;
+}
 .tl_content_header {
     background-color: #e0e0e0;
     padding: 5px 5px;

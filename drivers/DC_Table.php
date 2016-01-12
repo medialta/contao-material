@@ -2837,7 +2837,7 @@ class DC_Table extends \Contao\DC_Table
         {
             $folderAttribute = '';
             $alt = ($session[$node][$id] == 1) ? $GLOBALS['TL_LANG']['MSC']['collapseNode'] : $GLOBALS['TL_LANG']['MSC']['expandNode'];
-            $return .= '<a href="'.$this->addToUrl('ptg='.$id).'" title="'.specialchars($alt).'" onclick="Backend.getScrollOffset();return AjaxRequest.toggleStructure(this,\''.$node.'_'.$id.'\','.$level.','.$GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'].')"><i class="material-icons expand-icon">expand_less</i></a>';
+            $return .= '<a href="'.$this->addToUrl('ptg='.$id).'" class="tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($alt).'" onclick="Backend.getScrollOffset();return AjaxRequest.toggleStructure(this,\''.$node.'_'.$id.'\','.$level.','.$GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'].')"><i class="material-icons expand-icon">expand_less</i></a>';
         }
 
         foreach ($showFields as $k=>$v)

@@ -847,10 +847,17 @@ var Backend = {
         }
     },
 
+    disableCollapseActions: function ()
+    {
+        $('.listing .collapsible-header').unbind('click').on('click', function (e) {
+        })
+    },
+
     initialize: function()
     {
         Backend.hideUnnecessaryToggles()
         Backend.enableToggleSelect()
+        Backend.disableCollapseActions()
 
         // Bind events
         $('.js-toggle-subpanel').click(Backend.toggleSubpanel)

@@ -25,6 +25,10 @@
     echo $objCombiner->getCombinedFile();
     ?>"></script>
     <script><?= $this->getDateString() ?></script>
+    <script type="text/javascript" src="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/js/materialize.min.js"></script>
+    <script type="text/javascript" src="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/js/select2.min.js"></script>
+    <script type="text/javascript" src="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/js/main.js"></script>
     <?= $this->javascripts ?>
     <!--[if lt IE 9]><script src="<?= TL_ASSETS_URL ?>assets/html5shiv/<?= $GLOBALS['TL_ASSETS']['HTML5SHIV'] ?>/html5shiv.min.js"></script><![endif]-->
 

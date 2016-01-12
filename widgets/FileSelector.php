@@ -120,9 +120,9 @@ class FileSelector extends \Contao\FileSelector
         }
 
         // Return the tree
-        return '<ul class="listing listing-files tree collapsible tree_view picker_selector'.(($this->strClass != '') ? ' ' . $this->strClass : '').'" id="'.$this->strId.'" data-collapsible="expandable">
-    <li class="tl_folder_top"><div class="tl_left">'.Helper::getIconHtml($GLOBALS['TL_DCA']['tl_files']['list']['sorting']['icon'] ?: 'filemounts.gif').'<label> '.(\Config::get('websiteTitle') ?: 'Contao Open Source CMS').'</label></div> <div class="actions">&nbsp;</div><div style="clear:both"></div></li><li class="parent" id="'.$this->strId.'_parent"><ul>'.$tree.$strReset.'
-  </ul></li></ul>';
+        return '<ul class="white listing listing-files tree collapsible tree_view picker_selector'.(($this->strClass != '') ? ' ' . $this->strClass : '').'" id="'.$this->strId.'" data-collapsible="expandable">
+    <li class="row-top"><div class="item">'.Helper::getIconHtml($GLOBALS['TL_DCA']['tl_files']['list']['sorting']['icon'] ?: 'filemounts.gif').'<label> '.(\Config::get('websiteTitle') ?: 'Contao Open Source CMS').'</label></div> <div class="actions">&nbsp;</div><div style="clear:both"></div></li>'.$tree.$strReset.'
+  </ul>';
     }
 
 
@@ -224,7 +224,7 @@ class FileSelector extends \Contao\FileSelector
         $intSpacing = 20;
         $files = array();
         $folders = array();
-        $level = ($intMargin / $intSpacing + 1);
+        $level = ($intMargin / $intSpacing);
 
         // Mount folder
         if ($mount)
@@ -273,7 +273,7 @@ class FileSelector extends \Contao\FileSelector
         {
             $countFiles = 0;
             $content = scan($folders[$f]);
-            $return .= "\n    " . '<li class="'.$folderClass.' toggle_select"><div class="collapsible-header" style="padding-left:'.$intMargin.'px">';
+            $return .= "\n    " . '<li class="'.$folderClass.' toggle_select">';
 
             // Check whether there are subfolders or files
             foreach ($content as $v)
@@ -289,14 +289,14 @@ class FileSelector extends \Contao\FileSelector
             $session[$node][$tid] = is_numeric($session[$node][$tid]) ? $session[$node][$tid] : 0;
             $currentFolder = str_replace(TL_ROOT . '/', '', $folders[$f]);
             $blnIsOpen = ($session[$node][$tid] == 1 || count(preg_grep('/^' . preg_quote($currentFolder, '/') . '\//', $this->varValue)) > 0);
+            $isNodeActive = ($session[$node][$tid] == 1) ? ' active' : '';
 
             // Add a toggle button if there are childs
             if ($countFiles > 0)
             {
                 $folderAttribute = '';
-                $img = $blnIsOpen ? 'folMinus.gif' : 'folPlus.gif';
                 $alt = $blnIsOpen ? $GLOBALS['TL_LANG']['MSC']['collapseNode'] : $GLOBALS['TL_LANG']['MSC']['expandNode'];
-                $return .= '<a href="'.$this->addToUrl($flag.'tg='.$tid).'" title="'.specialchars($alt).'" onclick="return AjaxRequest.toggleFiletree(this,\''.$xtnode.'_'.$tid.'\',\''.$currentFolder.'\',\''.$this->strField.'\',\''.$this->strName.'\','.$level.')">'.Helper::getIconHtml($img, '', 'style="margin-right:2px"').'</a>';
+                $return .= '<div class="collapsible-header' . $isNodeActive . '"><div class="item"><a href="'.$this->addToUrl($flag.'tg='.$tid).'" title="'.specialchars($alt).'" onclick="return AjaxRequest.toggleFiletree(this,\''.$xtnode.'_'.$tid.'\',\''.$currentFolder.'\',\''.$this->strField.'\',\''.$this->strName.'\','.$level.')"><i class="material-icons expand-icon">expand_less</i></a>';
             }
 
             $protected = ($blnProtected === true || array_search('.htaccess', $content) !== false) ? true : false;
@@ -304,7 +304,7 @@ class FileSelector extends \Contao\FileSelector
             $folderLabel = ($this->files || $this->filesOnly) ? '<strong>'.specialchars(basename($currentFolder)).'</strong>' : specialchars(basename($currentFolder));
 
             // Add the current folder
-            $return .= Helper::getIconHtml($folderImg, '', $folderAttribute).' <a href="' . $this->addToUrl('node='.$this->urlEncode($currentFolder)) . '" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['selectNode']).'">'.$folderLabel.'</a></div> <div class="collapsible-body">';
+            $return .= Helper::getIconHtml($folderImg, '', $folderAttribute).' <a href="' . $this->addToUrl('node='.$this->urlEncode($currentFolder)) . '" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['selectNode']).'">'.$folderLabel.'</a></div><div class="actions">';
 
             // Add a checkbox or radio button
             if (!$this->filesOnly)
@@ -321,14 +321,14 @@ class FileSelector extends \Contao\FileSelector
                 }
             }
 
-            $return .= '</div><div style="clear:both"></div></li>';
+            $return .= '</div>';
 
             // Call the next node
             if ($countFiles > 0 && $blnIsOpen)
             {
-                $return .= '<li class="parent" id="'.$xtnode.'_'.$tid.'"><ul class="level_'.$level.' collapsible" data-collapsible="expandable">';
+                $return .= '</div><div class="collapsible-body" id="'.$xtnode.'_'.$tid.'" style="display:block"><ul class="level-'.$level.' collapsible" data-collapsible="expandable">';
                 $return .= $this->renderFiletree($folders[$f], ($intMargin + $intSpacing), false, $protected);
-                $return .= '</ul></li>';
+                $return .= '</ul></div>';
             }
         }
 
@@ -356,7 +356,7 @@ class FileSelector extends \Contao\FileSelector
                     continue;
                 }
 
-                $return .= "\n    " . '<li class="file row-container toggle_select"><div class="collapsible-header" style="padding-left:'.($intMargin + $intSpacing).'px">';
+                $return .= "\n    " . '<li class="file row-container toggle_select"><div class="collapsible-header"><div class="item">';
 
                 // Generate thumbnail
                 if ($objFile->isImage && $objFile->viewHeight > 0)
@@ -368,11 +368,11 @@ class FileSelector extends \Contao\FileSelector
 
                     if (\Config::get('thumbnails') && ($objFile->isSvgImage || $objFile->height <= \Config::get('gdMaxImgHeight') && $objFile->width <= \Config::get('gdMaxImgWidth')))
                     {
-                        $thumbnail .= '<br><img src="' . TL_FILES_URL . \Image::get($currentEncoded, 400, (($objFile->height && $objFile->height < 50) ? $objFile->height : 50), 'box') . '" alt="" style="margin:0 0 2px -19px">';
+                        $thumbnail .= '<br><img src="' . TL_FILES_URL . \Image::get($currentEncoded, 400, (($objFile->height && $objFile->height < 50) ? $objFile->height : 50), 'box') . '" alt="">';
                     }
                 }
 
-                $return .= Helper::getIconHtml($objFile->icon, $objFile->mime).' '.utf8_convert_encoding(specialchars(basename($currentFile)), \Config::get('characterSet')).$thumbnail.'<div class="actions">';
+                $return .= Helper::getIconHtml($objFile->icon, $objFile->mime).' '.utf8_convert_encoding(specialchars(basename($currentFile)), \Config::get('characterSet')).$thumbnail.'</div><div class="actions">';
 
                 // Add checkbox or radio button
                 switch ($this->fieldType)
@@ -386,7 +386,7 @@ class FileSelector extends \Contao\FileSelector
                         break;
                 }
 
-                $return .= '</div></div><div style="clear:both"></div></li>';
+                $return .= '</div></div></li>';
             }
         }
 

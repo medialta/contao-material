@@ -127,9 +127,7 @@ class DC_Folder extends \Contao\DC_Folder
                     <input type="hidden" name="FORM_SUBMIT" value="tl_select">
                     <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">' : '').($blnClipboard ? '
 
-                    <div id="paste_hint">
-                      <p>'.$GLOBALS['TL_LANG']['MSC']['selectNewPosition'].'</p>
-                    </div>' : '').'
+                    <div class="paste-hint">' . \Message::parseMessage(\Message::getCssClass('tl_info'), $GLOBALS['TL_LANG']['MSC']['selectNewPosition'] . '<i class="material-icons paste-hint-icon">arrow_downward</i>') . '</div>' : '').'
 
                     <div class="listing_container tree_view" id="listing">'.(isset($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['breadcrumb']) ? $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['breadcrumb'] : '').((\Input::get('act') == 'select') ? '
 
@@ -138,7 +136,7 @@ class DC_Folder extends \Contao\DC_Folder
                         </div>' : '').'
 
                     <ul class="listing listing-files tree collapsible" data-collapsible="expandable">
-                        <li class="row-top"><div class="item">'.Helper::getIconHtml('filemounts.gif').' <label>'.$GLOBALS['TL_LANG']['MSC']['filetree'].'</label></div> <div class="actions">'.(($blnClipboard && empty($this->arrFilemounts) && !is_array($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root']) && $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root'] !== false) ? '<a href="'.$this->addToUrl('&amp;act='.$arrClipboard['mode'].'&amp;mode=2&amp;pid='.\Config::get('uploadPath').(!is_array($arrClipboard['id']) ? '&amp;id='.$arrClipboard['id'] : '')).'" title="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['pasteinto'][1]).'" onclick="Backend.getScrollOffset()">'.$imagePasteInto.'</a>' : '&nbsp;').'</div><div style="clear:both"></div></li>'.$return.'
+                        <li class="row-top"><div class="item">'.Helper::getIconHtml('filemounts.gif').' <label>'.$GLOBALS['TL_LANG']['MSC']['filetree'].'</label></div> <div class="actions">'.(($blnClipboard && empty($this->arrFilemounts) && !is_array($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root']) && $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root'] !== false) ? '<a href="'.$this->addToUrl('&amp;act='.$arrClipboard['mode'].'&amp;mode=2&amp;pid='.\Config::get('uploadPath').(!is_array($arrClipboard['id']) ? '&amp;id='.$arrClipboard['id'] : '')).'" class="btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped paste-action -into" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['pasteinto'][1]).'" onclick="Backend.getScrollOffset()">'.$imagePasteInto.'</a>' : '&nbsp;').'</div></li>'.$return.'
                     </ul>
 
               </div>';
@@ -900,7 +898,7 @@ $return = $version . '
             if ($arrClipboard !== false && \Input::get('act') != 'select')
             {
                 $imagePasteInto = Helper::getIconHtml('pasteinto.gif', $GLOBALS['TL_LANG'][$this->strTable]['pasteinto'][0]);
-                $return .= (($arrClipboard['mode'] == 'cut' || $arrClipboard['mode'] == 'copy') && preg_match('/^' . preg_quote($arrClipboard['id'], '/') . '/i', $currentFolder)) ? Helper::getIconHtml('pasteinto_.gif') : '<a href="'.$this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=2&amp;pid='.$currentEncoded.(!is_array($arrClipboard['id']) ? '&amp;id='.$arrClipboard['id'] : '')).'" title="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['pasteinto'][1]).'" onclick="Backend.getScrollOffset()">'.$imagePasteInto.'</a> ';
+                $return .= (($arrClipboard['mode'] == 'cut' || $arrClipboard['mode'] == 'copy') && preg_match('/^' . preg_quote($arrClipboard['id'], '/') . '/i', $currentFolder)) ? Helper::getIconHtml('pasteinto_.gif') : '<a href="'.$this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=2&amp;pid='.$currentEncoded.(!is_array($arrClipboard['id']) ? '&amp;id='.$arrClipboard['id'] : '')).'" class="btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped paste-action -into" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['pasteinto'][1]).'" onclick="Backend.getScrollOffset()">'.$imagePasteInto.'</a> ';
             }
             // Default buttons
             else

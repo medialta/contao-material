@@ -25,6 +25,7 @@ ClassLoader::addClasses(array
 (
 	// Classes
 	'ContaoMaterial\FileUpload'         => 'system/modules/contao-material/classes/FileUpload.php',
+	'ContaoMaterial\DropZone'           => 'system/modules/contao-material/classes/DropZone.php',
 	'ContaoMaterial\DataContainer'      => 'system/modules/contao-material/classes/DataContainer.php',
 	'ContaoMaterial\Message'            => 'system/modules/contao-material/classes/Message.php',
 	'ContaoMaterial\Backend'            => 'system/modules/contao-material/classes/Backend.php',

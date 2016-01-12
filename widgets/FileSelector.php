@@ -116,7 +116,7 @@ class FileSelector extends \Contao\FileSelector
         // Reset radio button selection
         else
         {
-            $strReset = "\n" . '    <li class="tl_folder"><div class="tl_left">&nbsp;</div> <div class="actions"><label for="reset_' . $this->strId . '" class="tl_change_selected">' . $GLOBALS['TL_LANG']['MSC']['resetSelected'] . '</label> <input type="radio" name="' . $this->strName . '" id="reset_' . $this->strName . '" class="tl_tree_radio" value="" onfocus="Backend.getScrollOffset()"><label for="reset_' . $this->strName . '"></label></div><div style="clear:both"></div></li>';
+            $strReset = "\n" . '    <li class="tl_folder row-container white"><div><div class="tl_left">&nbsp;</div> <div class="actions"><label for="reset_' . $this->strId . '" class="tl_change_selected">' . $GLOBALS['TL_LANG']['MSC']['resetSelected'] . '</label> <input type="radio" name="' . $this->strName . '" id="reset_' . $this->strName . '" class="tl_tree_radio" value="" onfocus="Backend.getScrollOffset()"><label for="reset_' . $this->strName . '"></label></div></div></li>';
         }
 
         // Return the tree
@@ -368,7 +368,7 @@ class FileSelector extends \Contao\FileSelector
 
                     if (\Config::get('thumbnails') && ($objFile->isSvgImage || $objFile->height <= \Config::get('gdMaxImgHeight') && $objFile->width <= \Config::get('gdMaxImgWidth')))
                     {
-                        $thumbnail .= '<br><img src="' . TL_FILES_URL . \Image::get($currentEncoded, 400, (($objFile->height && $objFile->height < 50) ? $objFile->height : 50), 'box') . '" alt="">';
+                        $thumbnail .= '<br><img src="' . TL_FILES_URL . \Image::get($currentEncoded, 400, (($objFile->height && $objFile->height < 50) ? $objFile->height : 50), 'box') . '" alt="" class="preview">';
                     }
                 }
 

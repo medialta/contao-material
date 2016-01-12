@@ -101,7 +101,7 @@ span.mandatory {
     width: 100%;
     margin-bottom: 0;
 }
-.tl_tip, .card-content p.tl_tip {
+.tl_tip, p.tl_tip, .card-content p.tl_tip {
     padding: 0;
     margin-top: 5px;
     color: #9e9e9e;
@@ -191,6 +191,9 @@ figure {
     margin: 1rem 0;
 }
 
+img.preview {
+    margin: 5px 0 5px 22px;
+}
 .tl_content_header {
     background-color: #e0e0e0;
     padding: 5px 5px;

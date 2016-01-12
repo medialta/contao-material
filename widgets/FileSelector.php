@@ -356,7 +356,7 @@ class FileSelector extends \Contao\FileSelector
                     continue;
                 }
 
-                $return .= "\n    " . '<li class="file row-container toggle_select"><div class="collapsible-header"><div class="item">';
+                $return .= "\n    " . '<li class="file row-container file_toggle_select"><div class="collapsible-header"><div class="item">';
 
                 // Generate thumbnail
                 if ($objFile->isImage && $objFile->viewHeight > 0)

@@ -152,6 +152,7 @@ footer {
 
     .listing a,
     .listing .dropdown-content li > a,
+    .listing .dropdown-content li > span,
     .parent_view a,
     .parent_view .dropdown-content li > a {
         color: #757575;

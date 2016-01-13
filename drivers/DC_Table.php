@@ -972,9 +972,7 @@ class DC_Table extends \Contao\DC_Table
         <input type="hidden" name="FORM_SUBMIT" value="tl_select">
         <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">' : '').($blnClipboard ? '
 
-        <div id="paste_hint">
-        <p>'.$GLOBALS['TL_LANG']['MSC']['selectNewPosition'].'</p>
-        </div>' : '').'
+        <div class="paste-hint margin20">' . \Message::parseMessage(\Message::getCssClass('tl_info'), $GLOBALS['TL_LANG']['MSC']['selectNewPosition'] . '<i class="material-icons paste-hint-icon">arrow_downward</i>') . '</div>' : '').'
 
         <div class="tl_listing_container parent_view">
 
@@ -992,7 +990,7 @@ class DC_Table extends \Contao\DC_Table
 
             $return .= '
             <div class="right-header">'.((\Input::get('act') == 'select') ? '
-            <label for="tl_select_trigger" class="tl_select_label">'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</label> <input type="checkbox" id="tl_select_trigger" onclick="Backend.toggleCheckboxes(this)" class="tl_tree_checkbox">' : ($blnClipboard ? ' <a href="'.$this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=2&amp;pid='.$objParent->id . (!$blnMultiboard ? '&amp;id='.$arrClipboard['id'] : '')).'" class="btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped" data-delay="50" data-position="top" data-tooltip="'.
+            <label for="tl_select_trigger" class="tl_select_label">'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</label> <input type="checkbox" id="tl_select_trigger" onclick="Backend.toggleCheckboxes(this)" class="tl_tree_checkbox">' : ($blnClipboard ? ' <a href="'.$this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=2&amp;pid='.$objParent->id . (!$blnMultiboard ? '&amp;id='.$arrClipboard['id'] : '')).'" class="btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped paste-action-simple -after" data-delay="50" data-position="top" data-tooltip="'.
             specialchars($GLOBALS['TL_LANG'][$this->strTable]['pasteafter'][0]).'" onclick="Backend.getScrollOffset()">'.$imagePasteAfter.'</a>' : ((!$GLOBALS['TL_DCA'][$this->ptable]['config']['notEditable'] && $this->User->canEditFieldsOf($this->ptable)) ? '
             <a href="'.preg_replace('/&(amp;)?table=[^& ]*/i', (($this->ptable != '') ? '&amp;table='.$this->ptable : ''), $this->addToUrl('act=edit')).'" class="btn-flat btn-icon waves-effect waves-circle waves-orange edit tooltipped" data-delay="50" data-position="top" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['editheader'][1]).'">'.$imageEditHeader.'</a>' : '') .
             (($blnHasSorting && !$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable']) ? ' <a href="'.$this->addToUrl('act=create&amp;mode=2&amp;pid='.$objParent->id.'&amp;id='.$this->intId).'" class="btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped" data-delay="50" data-position="top" data-tooltip="'.

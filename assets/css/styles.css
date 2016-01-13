@@ -20,6 +20,12 @@ h5 {
 h6 {
     font-size: 1.1em;
 }
+.padding20 {
+    padding: 20px;
+}
+.margin20 {
+    margin: 20px;
+}
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -363,6 +369,18 @@ footer .footer .copyright {
 }
 .card.-main {
     position: relative;
+}
+
+.paste-action-simple {
+    background-color: #ffa726 !important;
+    color: #fff !important;
+}
+.paste-action-simple i {
+    font-size: 1.6rem;
+    line-height: inherit;
+    text-align: center;
+    width: 2rem;
+    display: inline-block;
 }
 
 .modal {

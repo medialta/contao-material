@@ -43,7 +43,7 @@ class Versions extends \Contao\Versions
 
         return '
         <a href="#" class="toggle-button btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5 js-toggle-version toggle-version" data-position="left" data-delay="50" data-tooltip="'.$GLOBALS['TL_LANG']['MSC']['showDifferences'].'">
-            <i class="material-icons">subtitles</i>
+            <i class="material-icons">history</i>
         </a>
         <div class="tl_version_panel panel js-version-panel" style="display:none">
 
@@ -58,7 +58,7 @@ class Versions extends \Contao\Versions
                         </div>
                     </div>
                     <button type="submit" name="showVersion" id="showVersion" class="btn waves-effect grey lighten-5 black-text"><i class="material-icons left">undo</i>'.specialchars($GLOBALS['TL_LANG']['MSC']['restore']).'</button>
-                    <a href="'.$this->addToUrl('versions=1&amp;popup=1').'" class="btn waves-effect grey lighten-5 black-text" onclick="Backend.openModalIframe({\'width\':768,\'title\':\''.specialchars(str_replace("'", "\\'", $GLOBALS['TL_LANG']['MSC']['showDifferences'])).'\',\'url\':this.href});return false"><i class="material-icons left">subtitles</i>'.specialchars($GLOBALS['TL_LANG']['MSC']['showDifferences']).'</a>
+                    <a href="'.$this->addToUrl('versions=1&amp;popup=1').'" class="btn waves-effect grey lighten-5 black-text" onclick="Backend.openModalIframe({\'width\':768,\'title\':\''.specialchars(str_replace("'", "\\'", $GLOBALS['TL_LANG']['MSC']['showDifferences'])).'\',\'url\':this.href});return false"><i class="material-icons left">history</i>'.specialchars($GLOBALS['TL_LANG']['MSC']['showDifferences']).'</a>
                 </div>
             </form>
 

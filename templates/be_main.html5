@@ -133,7 +133,7 @@
                         </div>
                         <?php if ($this->isAdmin): ?>
                             <div class="card-action">
-                                <a href="<?= $this->maintenanceHref ?>" class="white-text"><?= $this->buildCacheLink ?></a>
+                                <a href="<?= $this->buildCacheHref ?>" class="white-text"><?= $this->buildCacheLink ?></a>
                             </div>
                         <?php endif; ?>
                     </div>

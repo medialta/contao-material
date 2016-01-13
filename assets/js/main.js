@@ -647,7 +647,36 @@ var Backend = {
      * @param {string} id      The ID of the target element
      */
     moduleWizard: function(el, command, id) {
-        
+        var table = $('#' + id),
+            tbody = table.find('tbody'),
+            parent = $(el).closest('tr'),
+            rows = tbody.children(),
+            tabindex = tbody.data('tabindex'),
+            input, select, childs, a, i, j, tr;
+
+        switch (command) {
+            case 'copy':
+                break;
+            case 'up':
+                if (parent.prev('tr').length) {
+                   parent.prev('tr').before(parent)
+                } else {
+                    tbody.append(parent)
+                }
+                break;
+            case 'down':
+                if (parent.next('tr').length) {
+                    parent.next('tr').after(parent)
+                } else {
+                    tbody.prepend(parent)
+                }
+                break;
+            case 'delete':
+                if (rows.length > 1) {
+                    parent.remove();
+                }
+                break;
+        }
     },
 
     /**

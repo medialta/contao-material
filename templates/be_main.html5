@@ -165,8 +165,8 @@
             <?php endif; ?>
 
                 <?php if ($this->managerHref): ?>
-                    <div id="manager">
-                        <a href="<?= $this->managerHref ?>" class="close" title="<?= specialchars($this->manager) ?>"><?= $this->manager ?></a>
+                    <div id="manager" class="card-action" style="margin-top:-3rem;">
+                        <a href="<?= $this->managerHref ?>" class="close header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="<?= specialchars($this->manager) ?>"><i class="material-icons black-text">arrow_back</i></a>
                     </div>
                 <?php endif; ?>
 

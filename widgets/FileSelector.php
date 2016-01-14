@@ -273,7 +273,13 @@ class FileSelector extends \Contao\FileSelector
         {
             $countFiles = 0;
             $content = scan($folders[$f]);
-            $return .= "\n    " . '<li class="'.$folderClass.' toggle_select">';
+            $tid = md5($folders[$f]);
+            $folderAttribute = 'style="margin-left:20px"';
+            $session[$node][$tid] = is_numeric($session[$node][$tid]) ? $session[$node][$tid] : 0;
+            $currentFolder = str_replace(TL_ROOT . '/', '', $folders[$f]);
+            $blnIsOpen = ($session[$node][$tid] == 1 || count(preg_grep('/^' . preg_quote($currentFolder, '/') . '\//', $this->varValue)) > 0);
+            $isNodeActive = ($session[$node][$tid] == 1) ? ' active' : '';
+            $return .= "\n    " . '<li class="'.$folderClass.' toggle_select"><div class="collapsible-header' . $isNodeActive . (!empty($countFiles) ? ' -with-child' : '') . '"><div class="item">';
 
             // Check whether there are subfolders or files
             foreach ($content as $v)
@@ -284,19 +290,13 @@ class FileSelector extends \Contao\FileSelector
                 }
             }
 
-            $tid = md5($folders[$f]);
-            $folderAttribute = 'style="margin-left:20px"';
-            $session[$node][$tid] = is_numeric($session[$node][$tid]) ? $session[$node][$tid] : 0;
-            $currentFolder = str_replace(TL_ROOT . '/', '', $folders[$f]);
-            $blnIsOpen = ($session[$node][$tid] == 1 || count(preg_grep('/^' . preg_quote($currentFolder, '/') . '\//', $this->varValue)) > 0);
-            $isNodeActive = ($session[$node][$tid] == 1) ? ' active' : '';
 
             // Add a toggle button if there are childs
             if ($countFiles > 0)
             {
                 $folderAttribute = '';
                 $alt = $blnIsOpen ? $GLOBALS['TL_LANG']['MSC']['collapseNode'] : $GLOBALS['TL_LANG']['MSC']['expandNode'];
-                $return .= '<div class="collapsible-header' . $isNodeActive . (!empty($countFiles) ? ' -with-child' : '') . '"><div class="item"><a href="'.$this->addToUrl($flag.'tg='.$tid).'" class="tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($alt).'" onclick="return AjaxRequest.toggleFiletree(this,\''.$xtnode.'_'.$tid.'\',\''.$currentFolder.'\',\''.$this->strField.'\',\''.$this->strName.'\','.$level.')"><i class="material-icons expand-icon">expand_less</i></a>';
+                $return .= '<a href="'.$this->addToUrl($flag.'tg='.$tid).'" class="tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($alt).'" onclick="return AjaxRequest.toggleFiletree(this,\''.$xtnode.'_'.$tid.'\',\''.$currentFolder.'\',\''.$this->strField.'\',\''.$this->strName.'\','.$level.')"><i class="material-icons expand-icon">expand_less</i></a>';
             }
 
             $protected = ($blnProtected === true || array_search('.htaccess', $content) !== false) ? true : false;

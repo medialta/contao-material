@@ -4,7 +4,7 @@ var AjaxRequest = {
      * The theme path
      * @member {string}
      */
-    themePath: Contao.script_url + 'system/themes/' + Contao.theme + '/images/',
+    themePath: Contao.script_url + 'system/modules/contao-material/assets/images/',
 
     /**
      * Toggle the navigation menu
@@ -139,7 +139,74 @@ var AjaxRequest = {
      * @returns {boolean}
      */
     toggleVisibility: function(el, id, table) {
-        
+        el.blur();
+        var img = null,
+            icon = $(el).find('i'),
+            published = (icon.text() == 'visibility'),
+            div = $(el).parent('div'),
+            index, next, icone, icond, pa;
+
+        // Find the icon depending on the view (tree view, list view, parent view)
+        if (div.hasClass('actions')) {
+            if (div.next('div.cte_type').length) {
+                img = div.next('div.cte_type')
+            }
+            if (div.prev('div.item').length) {
+                img = div.prev('div.item').find('img')
+            }
+        }
+        // Change the icon
+        if (img !== null) {
+            if (img.parent('listing-container').hasClass('tree_view')) {
+                alert('tree')
+            }
+
+            else if (img.hasClass('cte_type')) {
+                if (!published) {
+                    img.addClass('published')
+                    img.removeClass('unpublished')
+                } else {
+                    img.addClass('unpublished')
+                    img.removeClass('published')
+                }
+            }
+
+            else {
+                icone = img.data('icon')
+                icond = img.data('icon-disabled')
+                icone = icone.replace('gif', 'png')
+                icond = icond.replace('gif', 'png')
+                // Backwards compatibility
+                if (img.data('icon') === null) {
+                    icone = img.attr('src').replace(/.*\/([a-z0-9]+)_?\.(gif|png|jpe?g|svg)$/, '$1.$2')
+                }
+                if (img.data('icon-disabled') === null) {
+                    icond = img.attr('src').replace(/.*\/([a-z0-9]+)_?\.(gif|png|jpe?g|svg)$/, '$1_.$2')
+                }
+                img.attr('src', AjaxRequest.themePath + (!published ? icone : icond))
+            }
+        }
+
+        // Send request
+        if (!published) {
+            icon.text('visibility')
+            $.ajax({
+                url: window.location,
+                type: 'GET',
+                dataType: 'JSON',
+                data: {tid: id, state: 1, rt: Contao.request_token},
+            })
+        } else {
+            icon.text('visibility_off')
+            $.ajax({
+                url: window.location,
+                type: 'GET',
+                dataType: 'JSON',
+                data: {tid: id, state: 0, rt: Contao.request_token},
+            })
+        }
+
+        return false;
     },
 
     /**
@@ -253,7 +320,7 @@ var Backend = {
      * The theme path
      * @member {string}
      */
-    themePath: Contao.script_url + 'system/themes/' + Contao.theme + '/images/',
+    themePath: Contao.script_url + 'system/modules/contao-material/assets/images/',
 
     /**
      * Get the current mouse position

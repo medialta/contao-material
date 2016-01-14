@@ -226,6 +226,7 @@ img.preview {
     padding: 0 16px 0 40px;
     border-radius: 16px;
     background-color: #e4e4e4;
+    transition: background-color .5s;
 }
 
 .cte_type.published {
@@ -235,28 +236,24 @@ img.preview {
     background-color: #ff9994;
 }
 
-.cte_type.published:before {
+.cte_type.published:before, .cte_type.unpublished:before {
     position: absolute;
     left: 0;
-    content: "\E8F4";
     font-size: 1.3rem;
     font-family: 'Material Icons';
     height: 32px;
     border-radius: 1rem;
     padding-right: 8px;
     padding-left: 8px;
+    transition: background-color .5s;
+}
+
+.cte_type.published:before {
+    content: "\E8F4";
     background-color: #77DD77;
 }
 .cte_type.unpublished:before {
-    position: absolute;
-    left: 0;
     content: "\E8F5";
-    font-size: 1.3rem;
-    font-family: 'Material Icons';
-    height: 32px;
-    border-radius: 1rem;
-    padding-right: 8px;
-    padding-left: 8px;
     background-color: #ff6961;
 }
 

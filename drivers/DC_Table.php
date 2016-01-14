@@ -974,7 +974,7 @@ class DC_Table extends \Contao\DC_Table
 
         <div class="paste-hint margin20">' . \Message::parseMessage(\Message::getCssClass('tl_info'), $GLOBALS['TL_LANG']['MSC']['selectNewPosition'] . '<i class="material-icons paste-hint-icon">arrow_downward</i>') . '</div>' : '').'
 
-        <div class="tl_listing_container parent_view">
+        <div class="listing-container parent_view">
 
         <div class="tl_header click2edit toggle_select">';
 

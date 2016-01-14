@@ -711,6 +711,12 @@ var Backend = {
 
         switch (command) {
             case 'copy':
+                tr = $('<tr/>')
+                childs = parent.children()
+                for (i=0; i<childs.length; i++) {
+                    var next = $(childs[i]).clone(true).appendTo(tr)
+                }
+                parent.after(tr)
                 break;
             case 'up':
                 if (parent.prev('tr').length) {
@@ -731,6 +737,23 @@ var Backend = {
                     parent.remove();
                 }
                 break;
+        }
+
+        rows = tbody.children()
+
+        for (i=0; i<rows.length; i++) {
+            childs = $(rows[i]).children()
+            for (j=0; j<childs.length; j++) {
+                if ($(childs[j]).find('select').length) {
+                    select = $(childs[j]).find('select')
+                    select.attr('name', select.attr('name').replace(/\[[0-9]+\]/g, '[' + i + ']'))
+                }
+                if ($(childs[j]).find('input[type="checkbox"]').length) {
+                    input = $(childs[j]).find('input[type="checkbox"]')
+                    input.attr('tabindex', tabindex++)
+                    input.attr('name', input.attr('name').replace(/\[[0-9]+\]/g, '[' + i + ']'))
+                }
+            }
         }
     },
 

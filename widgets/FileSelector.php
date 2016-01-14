@@ -274,12 +274,11 @@ class FileSelector extends \Contao\FileSelector
             $countFiles = 0;
             $content = scan($folders[$f]);
             $tid = md5($folders[$f]);
-            $folderAttribute = 'style="margin-left:20px"';
+            $folderAttribute = '';
             $session[$node][$tid] = is_numeric($session[$node][$tid]) ? $session[$node][$tid] : 0;
             $currentFolder = str_replace(TL_ROOT . '/', '', $folders[$f]);
             $blnIsOpen = ($session[$node][$tid] == 1 || count(preg_grep('/^' . preg_quote($currentFolder, '/') . '\//', $this->varValue)) > 0);
             $isNodeActive = ($session[$node][$tid] == 1) ? ' active' : '';
-            $return .= "\n    " . '<li class="'.$folderClass.' toggle_select"><div class="collapsible-header' . $isNodeActive . (!empty($countFiles) ? ' -with-child' : '') . '"><div class="item">';
 
             // Check whether there are subfolders or files
             foreach ($content as $v)
@@ -289,6 +288,7 @@ class FileSelector extends \Contao\FileSelector
                     $countFiles++;
                 }
             }
+            $return .= "\n    " . '<li class="'.$folderClass.' toggle_select"><div class="collapsible-header' . $isNodeActive . ($countFiles > 0 ? ' -with-child' : '') . '"><div class="item">';
 
 
             // Add a toggle button if there are childs

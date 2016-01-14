@@ -121,7 +121,7 @@ class FileSelector extends \Contao\FileSelector
 
         // Return the tree
         return '<ul class="white listing listing-files tree collapsible tree_view picker_selector'.(($this->strClass != '') ? ' ' . $this->strClass : '').'" id="'.$this->strId.'" data-collapsible="expandable">
-    <li class="row-top"><div class="item">'.Helper::getIconHtml($GLOBALS['TL_DCA']['tl_files']['list']['sorting']['icon'] ?: 'filemounts.gif').'<label> '.(\Config::get('websiteTitle') ?: 'Contao Open Source CMS').'</label></div> <div class="actions">&nbsp;</div><div style="clear:both"></div></li>'.$tree.$strReset.'
+    <li class="row-top"><div class="item">'.Helper::getIconHtml($GLOBALS['TL_DCA']['tl_files']['list']['sorting']['icon'] ?: 'filemounts.gif').'<label> '.(\Config::get('websiteTitle') ?: 'Contao Open Source CMS').'</label></div> <div class="actions">&nbsp;</div></li>'.$tree.$strReset.'
   </ul>';
     }
 

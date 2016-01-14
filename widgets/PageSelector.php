@@ -205,18 +205,18 @@ class PageSelector extends \Contao\PageSelector
         // Select all checkboxes
         if ($this->fieldType == 'checkbox')
         {
-            $strReset = "\n" . '    <li class="tl_folder"><div class="tl_left">&nbsp;</div> <div style="float:right"><label for="check_all_' . $this->strId . '" class="tl_change_selected">' . $GLOBALS['TL_LANG']['MSC']['selectAll'] . '</label> <input type="checkbox" id="check_all_' . $this->strId . '" class="tl_tree_checkbox" value="" onclick="Backend.toggleCheckboxGroup(this,\'' . $this->strName . '\')"><label></label></div><div style="clear:both"></div></li>';
+            $strReset = "\n" . '    <li class="tl_folder"><div class="tl_left">&nbsp;</div> <div class="actions"><label for="check_all_' . $this->strId . '" class="tl_change_selected">' . $GLOBALS['TL_LANG']['MSC']['selectAll'] . '</label> <input type="checkbox" id="check_all_' . $this->strId . '" class="tl_tree_checkbox" value="" onclick="Backend.toggleCheckboxGroup(this,\'' . $this->strName . '\')"><label></label></div></li>';
         }
         // Reset radio button selection
         else
         {
-            $strReset = "\n" . '    <li class="tl_folder"><div class="tl_left">&nbsp;</div> <div style="float:right"><label for="reset_' . $this->strId . '" class="tl_change_selected">' . $GLOBALS['TL_LANG']['MSC']['resetSelected'] . '</label> <input type="radio" name="' . $this->strName . '" id="reset_' . $this->strName . '" class="tl_tree_radio" value="" onfocus="Backend.getScrollOffset()"><label></label></div><div style="clear:both"></div></li>';
+            $strReset = "\n" . '    <li class="tl_folder row-container white"><div><div class="tl_left">&nbsp;</div> <div class="actions"><label for="reset_' . $this->strId . '" class="tl_change_selected">' . $GLOBALS['TL_LANG']['MSC']['resetSelected'] . '</label> <input type="radio" name="' . $this->strName . '" id="reset_' . $this->strName . '" class="tl_tree_radio" value="" onfocus="Backend.getScrollOffset()"><label for="reset_' . $this->strName . '"></label></div></div></li>';
         }
 
         // Return the tree
-        return '<ul class="tl_listing tree_view picker_selector'.(($this->strClass != '') ? ' ' . $this->strClass : '').'" id="'.$this->strId.'">
-    <li class="tl_folder_top"><div class="tl_left">'.\Image::getHtml($GLOBALS['TL_DCA']['tl_page']['list']['sorting']['icon'] ?: 'pagemounts.gif').' '.(\Config::get('websiteTitle') ?: 'Contao Open Source CMS').'</div> <div style="float:right">&nbsp;</div><div style="clear:both"></div></li><li class="parent" id="'.$this->strId.'_parent"><ul>'.$tree.$strReset.'
-  </ul></li></ul>';
+        return '<ul class="white listing tree collapsible'.(($this->strClass != '') ? ' ' . $this->strClass : '').'" id="'.$this->strId.'" data-collapsible="expandable">
+    <li class="row-top"><div class="tl_left">'.Helper::getIconHtml($GLOBALS['TL_DCA']['tl_page']['list']['sorting']['icon'] ?: 'pagemounts.gif').' <label>'.(\Config::get('websiteTitle') ?: 'Contao Open Source CMS').'</label></div> <div class="actions">&nbsp;</div></li><li class="row-container toggle_select" id="'.$this->strId.'_parent">'.$tree.$strReset.'
+  </li></ul>';
     }
 
 
@@ -337,19 +337,20 @@ class PageSelector extends \Contao\PageSelector
             }
         }
 
-        $return .= "\n    " . '<li class="'.(($objPage->type == 'root') ? 'tl_folder' : 'tl_file').' toggle_select" onmouseover="Theme.hoverDiv(this, 1)" onmouseout="Theme.hoverDiv(this, 0)"><div class="tl_left" style="padding-left:'.($intMargin + $intSpacing).'px">';
-
-        $folderAttribute = 'style="margin-left:20px"';
+        $folderAttribute = '';
         $session[$node][$id] = is_numeric($session[$node][$id]) ? $session[$node][$id] : 0;
         $level = ($intMargin / $intSpacing + 1);
         $blnIsOpen = ($session[$node][$id] == 1 || in_array($id, $this->arrNodes));
+        $isNodeActive = ($blnIsOpen) ? ' active' : '';
+
+        $return .= "\n    " . '<li class="'.(($objPage->type == 'root') ? 'folder' : 'file').' row-container click2edit"><div class="collapsible-header' . $isNodeActive . (!empty($childs) ? ' -with-child' : '') . ' page_toggle_select" onclick="Backend.selectCheckboxRadio(this)"><div class="item '.(($objPage->type == 'root') ? 'tl_folder' : 'tl_file').'">';
+
 
         if (!empty($childs))
         {
             $folderAttribute = '';
-            $img = $blnIsOpen ? 'folMinus.gif' : 'folPlus.gif';
             $alt = $blnIsOpen ? $GLOBALS['TL_LANG']['MSC']['collapseNode'] : $GLOBALS['TL_LANG']['MSC']['expandNode'];
-            $return .= '<a href="'.$this->addToUrl($flag.'tg='.$id).'" title="'.specialchars($alt).'" onclick="return AjaxRequest.togglePagetree(this,\''.$xtnode.'_'.$id.'\',\''.$this->strField.'\',\''.$this->strName.'\','.$level.')">'.\Image::getHtml($img, '', 'style="margin-right:2px"').'</a>';
+            $return .= '<a href="'.$this->addToUrl($flag.'tg='.$id).'" class="tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($alt).'" onclick="return AjaxRequest.togglePagetree(this,\''.$xtnode.'_'.$id.'\',\''.$this->strField.'\',\''.$this->strName.'\','.$level.')"><i class="material-icons expand-icon">expand_less</i></a>';
         }
 
         // Set the protection status
@@ -358,32 +359,32 @@ class PageSelector extends \Contao\PageSelector
         // Add the current page
         if (!empty($childs))
         {
-            $return .= \Image::getHtml($this->getPageStatusIcon($objPage), '', $folderAttribute).' <a href="' . $this->addToUrl('node='.$objPage->id) . '" title="'.specialchars($objPage->title . ' (' . $objPage->alias . \Config::get('urlSuffix') . ')').'">'.(($objPage->type == 'root') ? '<strong>' : '').$objPage->title.(($objPage->type == 'root') ? '</strong>' : '').'</a></div> <div style="float:right">';
+            $return .= Helper::getIconHtml($this->getPageStatusIcon($objPage), '', $folderAttribute).' <a href="' . $this->addToUrl('node='.$objPage->id) . '" title="'.specialchars($objPage->title . ' (' . $objPage->alias . \Config::get('urlSuffix') . ')').'">'.(($objPage->type == 'root') ? '<strong>' : '').$objPage->title.(($objPage->type == 'root') ? '</strong>' : '').'</a></div> <div class="actions">';
         }
         else
         {
-            $return .= \Image::getHtml($this->getPageStatusIcon($objPage), '', $folderAttribute).' '.(($objPage->type == 'root') ? '<strong>' : '').$objPage->title.(($objPage->type == 'root') ? '</strong>' : '').'</div> <div style="float:right">';
+            $return .= Helper::getIconHtml($this->getPageStatusIcon($objPage), '', $folderAttribute).' '.(($objPage->type == 'root') ? '<strong>' : '').$objPage->title.(($objPage->type == 'root') ? '</strong>' : '').'</div> <div class="actions">';
         }
 
         // Add checkbox or radio button
         switch ($this->fieldType)
         {
             case 'checkbox':
-                $return .= '<input type="checkbox" name="'.$this->strName.'[]" id="'.$this->strName.'_'.$id.'" class="tl_tree_checkbox" value="'.specialchars($id).'" onfocus="Backend.getScrollOffset()"'.static::optionChecked($id, $this->varValue).'><label></label>';
+                $return .= '<input type="checkbox" name="'.$this->strName.'[]" id="'.$this->strName.'_'.$id.'" class="tl_tree_checkbox" value="'.specialchars($id).'" onfocus="Backend.getScrollOffset()"'.static::optionChecked($id, $this->varValue).'><label for="'.$this->strName.'_'.$id.'"></label>';
                 break;
 
             default:
             case 'radio':
-                $return .= '<input type="radio" name="'.$this->strName.'" id="'.$this->strName.'_'.$id.'" class="tl_tree_radio" value="'.specialchars($id).'" onfocus="Backend.getScrollOffset()"'.static::optionChecked($id, $this->varValue).'><label></label>';
+                $return .= '<input type="radio" name="'.$this->strName.'" id="'.$this->strName.'_'.$id.'" class="tl_tree_radio" value="'.specialchars($id).'" onfocus="Backend.getScrollOffset()"'.static::optionChecked($id, $this->varValue).'><label for="'.$this->strName.'_'.$id.'"></label>';
                 break;
         }
 
-        $return .= '</div><div style="clear:both"></div></li>';
+        $return .= '</div>';
 
         // Begin a new submenu
         if (!empty($childs) && ($blnIsOpen || $this->Session->get('page_selector_search') != ''))
         {
-            $return .= '<li class="parent" id="'.$node.'_'.$id.'"><ul class="level_'.$level.'">';
+            $return .= '</div><div class="collapsible-body" id="'.$node.'_'.$id.'" style="display:block"><ul class="level-'.$level.' collapsible" data-collapsible="expandable">';
 
             for ($k=0, $c=count($childs); $k<$c; $k++)
             {

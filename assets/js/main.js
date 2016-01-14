@@ -339,27 +339,15 @@ var Backend = {
                 if (!inp[i].id.match(/^reset_/)) val.push(inp[i].get('value'));
             }
             if (opt.tag) {
-                $(opt.tag).value = val.join(',');
+                $('#' + opt.tag).val(val.join(','));
                 if (frm.document.location.href.indexOf('contao/page.php') != -1) {
-                    $(opt.tag).value = '{{link_url::' + $(opt.tag).value + '}}';
+                    $('#' + opt.tag).val('{{link_url::' + $('#' + opt.tag).val() + '}}');
                 }
-                opt.self.set('href', opt.self.get('href').replace(/&value=[^&]*/, '&value='+val.join(',')));
+                $(opt.self).attr('href', $(opt.self).attr('href').replace(/&value=[^&]*/, '&value='+val.join(',')));
             } else {
                 field = $('ctrl_' + opt.id);
                 field.value = val.join("\t");
                 var act = (frm.document.location.href.indexOf('contao/page.php') != -1) ? 'reloadPagetree' : 'reloadFiletree';
-                /*new Request.Contao({
-                    field: field,
-                    evalScripts: false,
-                    onRequest: AjaxRequest.displayBox(Contao.lang.loading + ' …'),
-                    onSuccess: function(txt, json) {
-                        $('ctrl_'+opt.id).getParent('div').set('html', json.content);
-                        json.javascript && Browser.exec(json.javascript);
-                        AjaxRequest.hideBox();
-                        window.fireEvent('ajax_change');
-                    }
-                }).post({'action':act, 'name':opt.id, 'value':field.value, 'REQUEST_TOKEN':Contao.request_token});*/
-
                 $.ajax({
                     url: window.location,
                     dataType: 'HTML',
@@ -793,6 +781,27 @@ var Backend = {
                 return;
             }
         });
+    },
+
+    selectCheckboxRadio: function(el) {
+        var input = $(el).find('.actions').find('input[type="checkbox"],input[type="radio"]');
+        // Radio buttons
+        if (input.attr('type') == 'radio') {
+            if (!input.attr('checked')) {
+                $('.file_toggle_select input[type="radio"]').removeAttr('checked')
+                input.prop('checked', true);
+            }
+            return;
+        }
+
+        // Checkboxes
+        if (input.attr('type') == 'checkbox') {
+            if (!input.attr('checked')) {
+                $('.file_toggle_select input[type="checkbox"]').removeAttr('checked')
+                input.prop('checked', true);
+            }
+            return;
+        }
     },
 
     /**

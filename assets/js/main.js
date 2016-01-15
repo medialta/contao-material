@@ -531,7 +531,19 @@ var Backend = {
      * @param {string} id The ID of the target element
      */
     toggleCheckboxes: function(el, id) {
-        
+        var items = $('input'),
+            status = $(el).is(':checked') ? 'checked' : ''
+
+        for (var i=0; i<items.length; i++) {
+            if ($(items[i]).attr('type') != 'checkbox') {
+                continue;
+            }
+            (function (x) {
+                setTimeout(function () {
+                    $(items[x]).prop('checked', (status == 'checked' ? true : false))
+                }, 50*x)
+            })(i);
+        }
     },
 
     /**

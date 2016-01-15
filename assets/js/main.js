@@ -546,11 +546,15 @@ var Backend = {
         if (cls == 'tl_checkbox') {
             var cbx = $('#' + id).length ? $('#' + id + ' .tl_checkbox') : $(el).parent('fieldset').children('.tl_checkbox')
             cbx.each(function(index, checkbox) {
-                $(checkbox).prop('checked', (status == 'checked' ? true : false))
+                setTimeout(function () {
+                    $(checkbox).prop('checked', (status == 'checked' ? true : false))
+                }, 50*index)
             });
         } else if (cls == 'tl_tree_checkbox') {
             $('#' + id + ' .parent .tl_tree_checkbox').each(function(index, checkbox) {
-                $(checkbox).prop('checked', (status == 'checked' ? true : false))
+                setTimeout(function () {
+                    $(checkbox).prop('checked', (status == 'checked' ? true : false))
+                }, 50*index)
             });
         }
     },

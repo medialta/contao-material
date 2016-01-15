@@ -541,7 +541,18 @@ var Backend = {
      * @param {string} id The ID of the target element
      */
     toggleCheckboxGroup: function(el, id) {
-        
+        var cls = $(el).attr('class'),
+            status = $(el).is(':checked') ? 'checked' : ''
+        if (cls == 'tl_checkbox') {
+            var cbx = $('#' + id).length ? $('#' + id + ' .tl_checkbox') : $(el).parent('fieldset').children('.tl_checkbox')
+            cbx.each(function(index, checkbox) {
+                $(checkbox).prop('checked', (status == 'checked' ? true : false))
+            });
+        } else if (cls == 'tl_tree_checkbox') {
+            $('#' + id + ' .parent .tl_tree_checkbox').each(function(index, checkbox) {
+                $(checkbox).prop('checked', (status == 'checked' ? true : false))
+            });
+        }
     },
 
     /**

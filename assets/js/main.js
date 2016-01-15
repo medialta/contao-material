@@ -532,16 +532,18 @@ var Backend = {
      */
     toggleCheckboxes: function(el, id) {
         var items = $('input'),
-            status = $(el).is(':checked') ? 'checked' : ''
+            status = $(el).is(':checked') ? 'checked' : '',
+            iter = 0;
 
         for (var i=0; i<items.length; i++) {
             if ($(items[i]).attr('type') != 'checkbox') {
                 continue;
             }
+            iter++
             (function (x) {
                 setTimeout(function () {
                     $(items[x]).prop('checked', (status == 'checked' ? true : false))
-                }, 50*x)
+                }, 50*iter)
             })(i);
         }
     },

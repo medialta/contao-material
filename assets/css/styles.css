@@ -20,6 +20,9 @@ h5 {
 h6 {
     font-size: 1.1em;
 }
+#modal {
+    z-index: 99999 !important;
+}
 .padding20 {
     padding: 20px;
 }

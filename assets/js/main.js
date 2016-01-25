@@ -440,7 +440,41 @@ var Backend = {
      * @param {object} win        The window object
      */
     openModalBrowser: function(field_name, url, type, win) {
-        
+        var file = 'file.php',
+            swtch = (type == 'file' ? '&amp;switch=1' : ''),
+            isLink = (url.indexOf('{{link_url::') != -1);
+        if (type == 'file' && (url == '' || isLink)) {
+            file = 'page.php';
+        }
+        if (isLink) {
+            url = url.replace(/^\{\{link_url::([0-9]+)\}\}$/, '$1');
+        }
+
+        var html = '<div class="modal-content"><h4>' + $('.mce-title').text() + '</h4><iframe src="contao/' + file + '?table=tl_content&amp;field=singleSRC&amp;value=' + url + swtch + '" name="simple-modal-iframe" width="100%" height="100%" frameborder="0"></iframe></div>';
+
+        html += '<div class="modal-footer"><a class="modal-action modal-apply btn orange lighten-2" title="' + Contao.lang.apply + '">' + Contao.lang.apply + '</a><a class="modal-action modal-close btn-flat" title="' + Contao.lang.close +'">' + Contao.lang.close +'</a></div>';
+        $('#modal').html(html);
+        $('#modal').openModal();
+        $('#modal .modal-apply').on('click', function () {
+            var frm = window.frames['simple-modal-iframe'],
+                val = [], inp, field, i;
+            if (frm === undefined) {
+                alert('Could not find the SimpleModal frame');
+                return;
+            }
+            inp = frm.document.getElementById('tl_select').getElementsByTagName('input');
+            for (i=0; i<inp.length; i++) {
+                if (inp[i].checked && !inp[i].id.match(/^reset_/)) {
+                    val = inp[i].get('value');
+                    break;
+                }
+            }
+            if (!isNaN(val)) {
+                val = '{{link_url::' + val + '}}';
+            }
+            $('#' + field_name).val(val);
+            $('#modal').closeModal();
+        });
     },
 
     /**

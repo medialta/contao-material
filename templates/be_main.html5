@@ -143,7 +143,12 @@
             <?php if (\Input::get('do') || \Input::get('act')): // Do not display a card on welcome screen ?>
             <div class="card -main">
                 <div class="card-image -main">
-                    <div style="background-image:url(/system/modules/contao-material/assets/img/cover.jpg);" class="cover-img"></div>
+                    <?php
+                        $cover = '/system/modules/contao-material/assets/img/cover.jpg';
+                        if (isset($GLOBALS['TL_CONFIG']['cover_image']) && $GLOBALS['TL_CONFIG']['cover_image'] != '')
+                            $cover = \FilesModel::findByUuid($GLOBALS['TL_CONFIG']['cover_image'])->path;
+                    ?>
+                    <div style="background-image:url(<?php echo $cover ?>);" class="cover-img"></div>
                     <div class="toggle-buttons -main">
                         <a href="#" class="toggle-button btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5 js-toggle-subpanel" id="toggle-limit-subpanel" data-toggle="limit-subpanel" data-position="top" data-delay="50" data-tooltip="<?= $GLOBALS['TL_LANG']['MSC']['showOnly'] ?>">
                             <i class="material-icons">dvr</i>

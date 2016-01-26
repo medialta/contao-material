@@ -319,6 +319,7 @@ nav {
 }
 .side-nav .collapsible .collapsible-header {
     padding-left: 0;
+    padding-right: 0;
 }
 .side-nav .collapsible-header .expand-icon {
     transition: transform .35s cubic-bezier(0.165, 0.84, 0.44, 1);

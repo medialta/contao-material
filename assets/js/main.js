@@ -1089,11 +1089,23 @@ var Backend = {
         })
     },
 
+    enableBadCronstructedCheckboxes: function ()
+    {
+        var id;
+        $('input[type=checkbox]').each(function(index, el) {
+            if ($(el).next('label').length == 0) {
+                id = $(el).attr('id') ? $(el).attr('id') : ''
+                $(el).after('<label for="' + id + '"></label>')
+            }
+        });
+    },
+
     initialize: function()
     {
         Backend.hideUnnecessaryToggles()
         Backend.enableToggleSelect()
         Backend.disableCollapseActions()
+        Backend.enableBadCronstructedCheckboxes()
 
         // Bind events
         $('.js-toggle-subpanel').click(Backend.toggleSubpanel)

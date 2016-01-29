@@ -725,7 +725,52 @@ var Backend = {
      * @param {string} id      The ID of the target element
      */
     listWizard: function(el, command, id) {
-        
+        var list = $('#' + id),
+            parent = $(el).closest('li'),
+            items = list.children(),
+            tabindex = list.data('tabindex'),
+            input, previous, next, rows, i;
+
+        Backend.getScrollOffset();
+
+        switch (command) {
+            case 'copy':
+                var clone = parent.clone(true)
+                parent.before(clone);
+                if (parent.find('input').length) {
+                    input = parent.find('input')
+                    clone.find('input').val(input.val());
+                }
+                break;
+            case 'up':
+                if (parent.prev('li').length) {
+                    parent.prev('li').before(parent)
+                } else {
+                    list.append(parent)
+                }
+                break;
+            case 'down':
+                if (parent.next('li').length) {
+                    parent.next('li').after(parent)
+                } else {
+                    list.prepend(parent)
+                }
+                break;
+            case 'delete':
+                if (items.length > 1) {
+                    parent.remove();
+                }
+                break;
+        }
+
+        rows = list.children();
+
+        for (i=0; i<rows.length; i++) {
+            if ($(rows[i]).find('input[type="text"]').length) {
+                input = $(rows[i]).find('input[type="text"]')
+                input.attr('tabindex', tabindex++)
+            }
+        }
     },
 
     /**

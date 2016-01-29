@@ -110,6 +110,31 @@ span.mandatory {
     width: 100%;
     margin-bottom: 0;
 }
+    .collapsible-body input.tl_text_trbl {
+        width: 19%;
+    }
+    .collapsible-body .tl_select_unit+.select2-container {
+        width: 19% !important;
+    }
+    .collapsible-body .tl_imageSize_0.tl_text_4,
+    .collapsible-body .tl_imageSize_1.tl_text_4 {
+        width: 29%;
+    }
+    .collapsible-body .tl_select_interval+.select2-container {
+        width: 39% !important;
+    }
+    .collapsible-body .w50 .tl_checkbox_single_container {
+        margin: 50px 0 0 0;
+    }
+    .collapsible-body .tl_radio_table+.tl_tip.tl_help {
+        margin-top: -9px;
+    }
+.wizard .tl_text {
+    width: calc(100% - 20px);
+}
+    .wizard .tl_text+a img {
+        margin-top: 25px;
+    }
 .tl_tip, p.tl_tip, .card-content p.tl_tip {
     padding: 0;
     margin-top: 5px;
@@ -498,6 +523,10 @@ footer .footer .copyright {
     color: #bdbdbd;
 }
 
+.tl_gray {
+    color: #b3b3b3;
+}
+
 /* popup */
 .popup .alerts {
     display: none;
@@ -505,6 +534,15 @@ footer .footer .copyright {
 .popup main {
     padding: 0;
     margin: 0;
+}
+.popup .container {
+    width: 100%;
+}
+.popup .cover-img {
+    height: 150px;
+}
+.popup .card.-main .header-new {
+    top: 150px;
 }
 
 @media (max-width: 600px) {

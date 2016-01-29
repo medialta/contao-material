@@ -482,6 +482,9 @@ abstract class DataContainer extends \Contao\DataContainer
 
         foreach ($GLOBALS['TL_DCA'][$strTable]['list']['operations_order'] as $k)
         {
+            $id = specialchars(rawurldecode($arrRow['id']));
+            $id = str_replace(array('/', '.'), '-', $id);
+            $id = str_replace(array('\'', ' '), '', $id);
             if (!$dropdownSet && $displayDropdown && $i++ > 2)
             {
                 $dropdownSet = true;
@@ -496,8 +499,6 @@ abstract class DataContainer extends \Contao\DataContainer
 
             $v = $GLOBALS['TL_DCA'][$strTable]['list']['operations'][$k];
             $v = is_array($v) ? $v : array($v);
-            $id = specialchars(rawurldecode($arrRow['id']));
-            $id = str_replace(array('/', '.'), '-', $id);
 
             $label = $v['label'][0] ?: $k;
             $title = sprintf($v['label'][1] ?: $k, $id);

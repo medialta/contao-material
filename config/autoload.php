@@ -40,6 +40,7 @@ ClassLoader::addClasses(array
 	'ContaoMaterial\DC_File'            => 'system/modules/contao-material/drivers/DC_File.php',
 
 	// Widgets
+	'ContaoMaterial\ChmodTable'         => 'system/modules/contao-material/widgets/ChmodTable.php',
 	'ContaoMaterial\TextArea'           => 'system/modules/contao-material/widgets/TextArea.php',
 	'ContaoMaterial\FileSelector'       => 'system/modules/contao-material/widgets/FileSelector.php',
 	'ContaoMaterial\PageSelector'       => 'system/modules/contao-material/widgets/PageSelector.php',

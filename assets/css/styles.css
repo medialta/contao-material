@@ -419,6 +419,14 @@ footer .footer .copyright {
 .modal.modal-fixed-footer .modal-content {
     overflow-y: inherit;
 }
+.modal-content {
+    display: flex;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    -ms-flex-direction: column;
+    -o-flex-direction: column;
+    flex-direction: column;
+}
 
 .selector_container p {
     margin: 0;

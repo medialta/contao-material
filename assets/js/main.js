@@ -873,7 +873,58 @@ var Backend = {
      * @param {string} id      The ID of the target element
      */
     optionsWizard: function(el, command, id) {
-        
+        var table = $('#' + id),
+            tbody = table.find('tbody'),
+            parent = $(el).closest('tr'),
+            rows = tbody.children(),
+            tabindex = tbody.data('tabindex'),
+            input, childs, i, j, tr;
+
+        switch (command) {
+            case 'copy':
+                tr = $('<tr/>')
+                childs = parent.children()
+                for (i=0; i<childs.length; i++) {
+                    var next = $(childs[i]).clone(true).appendTo(tr)
+                }
+                parent.after(tr)
+                break;
+            case 'up':
+                if (parent.prev('tr').length) {
+                   parent.prev('tr').before(parent)
+                } else {
+                    tbody.append(parent)
+                }
+                break;
+            case 'down':
+                if (parent.next('tr').length) {
+                    parent.next('tr').after(parent)
+                } else {
+                    tbody.prepend(parent)
+                }
+                break;
+            case 'delete':
+                if (rows.length > 1) {
+                    parent.remove();
+                }
+                break;
+        }
+
+        rows = tbody.children()
+
+        for (i=0; i<rows.length; i++) {
+            childs = $(rows[i]).children()
+            for (j=0; j<childs.length; j++) {
+                if ($(childs[j]).find('input').length) {
+                    input = $(childs[j]).find('input')
+                    input.attr('tabindex', tabindex++)
+                    input.attr('name', input.attr('name').replace(/\[[0-9]+\]/g, '[' + i + ']'))
+                    if (input.attr('type') == 'checkbox') {
+                        input.attr('id', input.attr('name').replace(/\[[0-9]+\]/g, '').replace(/\[/g, '_').replace(/\]/g, '') + '_' + i)
+                    }
+                }
+            }
+        }
     },
 
     /**

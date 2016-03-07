@@ -781,7 +781,75 @@ var Backend = {
      * @param {string} id      The ID of the target element
      */
     tableWizard: function(el, command, id) {
-        
+        var table = $('#' + id),
+            tbody = table.find('tbody'),
+            rows = tbody.children(),
+            parentTd = $(el).closest('td'),
+            parentTr = parentTd.closest('tr'),
+            headTr = table.find('thead').find('tr'),
+            cols = parentTr.children(),
+            index = 0,
+            textarea, previous, next, current, i, tr;
+
+        for (i=0; i<cols.length; i++) {
+            if ($(cols[i]) == parentTd) {
+                break;
+            }
+            index++;
+        }
+
+        Backend.getScrollOffset();
+
+        switch (command) {
+            case 'rcopy':
+                tr = $('<tr/>')
+                for (i=0; i<cols.length; i++) {
+                    next = $(cols[i]).clone(true).appendTo(tr);
+                    if (textarea = $(cols[i]).find('textarea')) {
+                        next.find('textarea').val(textarea.val());
+                    }
+                }
+                parentTr.after(tr);
+                break;
+            case 'rup':
+                if (parentTr.prev('tr').length) {
+                    parentTr.prev('tr').before(parentTr);
+                } else {
+                    tbody.append(parentTr);
+                }
+                break;
+            case 'rdown':
+                if (parentTr.next('tr').length) {
+                    parentTr.next('tr').after(parentTr);
+                } else {
+                    tbody.prepend(parentTr);
+                }
+                break;
+            case 'rdelete':
+                if (rows.length > 1) {
+                    parentTr.remove();
+                } else {
+                    parentTr.find('textarea').val('');
+                }
+                break;
+            case 'ccopy':
+                TODO
+                break;
+            case 'cmovel':
+                TODO
+                break;
+            case 'cmover':
+                TODO
+                break;
+            case 'cdelete':
+                TODO
+                break;
+
+        }
+
+        Backend.tableWizardResort(tbody);
+
+        Backend.tableWizardResize();
     },
 
     /**
@@ -790,7 +858,19 @@ var Backend = {
      * @param {object} tbody The DOM element
      */
     tableWizardResort: function(tbody) {
-        
+        var rows = tbody.children(),
+            tabindex = tbody.data('tabindex'),
+            textarea, childs, i, j;
+        for (i=0; i<rows.length; i++) {
+            childs = $(rows[i]).children()
+            for (j=0; j<childs.length; j++) {
+                if ($(childs[j]).find('textarea').length) {
+                    textarea = $(childs[j]).find('textarea')
+                    textarea.attr('tabindex', tabindex++)
+                    textarea.attr('name', textarea.attr('name').replace(/\[[0-9]+\][[0-9]+\]/g, '[' + i + '][' + j + ']'))
+                }
+            }
+        }
     },
 
     /**

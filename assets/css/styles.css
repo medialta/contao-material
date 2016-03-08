@@ -138,6 +138,9 @@ span.mandatory {
 .tl_listwizard .tl_text {
     width: calc(100% - 100px);
 }
+.tl_checkbox_wizard .sortable span {
+    display: block;
+}
 .tl_tip, p.tl_tip, .card-content p.tl_tip {
     padding: 0;
     margin-top: 5px;

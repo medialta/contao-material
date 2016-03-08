@@ -493,7 +493,9 @@ footer .footer .copyright {
     line-height: inherit;
 }
 
-span.inactive-option
+span.inactive-option {
+    width: 32px;
+}
 
 /* Couleurs */
 .accent.-c100:not(.text) {

@@ -651,7 +651,7 @@ $return = $version . '
             }
 
             // Redirect
-            if (\Input::post('saveNclose'))
+            if (isset($_POST['saveNclose']))
             {
                 \Message::reset();
                 \System::setCookie('BE_PAGE_OFFSET', 0, 0);

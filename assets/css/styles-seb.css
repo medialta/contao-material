@@ -372,7 +372,8 @@ footer {
             }
 
             .listing .actions .btn-icon i,
-            .parent_view .actions .btn-icon i {
+            .parent_view .actions .btn-icon i,
+            .listing .actions i {
                 line-height: 32px;
             }
 

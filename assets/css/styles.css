@@ -459,7 +459,7 @@ footer .footer .copyright {
 
 .dz-container {
     padding: 6px;
-    border: 3px dashed #ddd
+    border: 3px dashed #ddd;
 }
 
 .dz-message {
@@ -468,7 +468,7 @@ footer .footer .copyright {
     -moz-transition: all .15s linear;
     -webkit-transition: all .15s linear;
     -o-transition: all .15s linear;
-    transition: all .15s linear
+    transition: all .15s linear;
 }
 
 .dz-message span {
@@ -492,6 +492,8 @@ footer .footer .copyright {
     height: inherit;
     line-height: inherit;
 }
+
+span.inactive-option
 
 /* Couleurs */
 .accent.-c100:not(.text) {

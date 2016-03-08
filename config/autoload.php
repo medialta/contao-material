@@ -78,6 +78,7 @@ TemplateLoader::addFiles(array
 	'be_no_page'       => 'system/modules/contao-material/templates',
 	'be_widget_pw'     => 'system/modules/contao-material/templates',
 	'be_navigation'    => 'system/modules/contao-material/templates',
+	'dev_extension'    => 'system/modules/contao-material/templates',
 	'be_no_root'       => 'system/modules/contao-material/templates',
 	'be_login'         => 'system/modules/contao-material/templates',
 	'be_no_active'     => 'system/modules/contao-material/templates',

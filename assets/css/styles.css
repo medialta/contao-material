@@ -474,19 +474,19 @@ footer .footer .copyright {
 .dz-message span {
     font-size: 21px;
     font-size: 1.3125rem;
-    color: #ccc
+    color: #ccc;
 }
 
 .dropdown-content li {
     font-size: 1.2rem;
     display: block;
-    padding: 1rem 1rem;
     color: #757575;
 }
 .dropdown-content li>a, .dropdown-content li>span {
     font-size: inherit;
     padding: 0;
-    display: inline-block;
+    display: block;
+    padding: 1rem 1rem;
 }
 .dropdown-content li>span>i {
     height: inherit;

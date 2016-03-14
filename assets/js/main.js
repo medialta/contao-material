@@ -756,7 +756,32 @@ var Backend = {
      */
     makeWizardsSortable: function()
     {
+        $('.tl_listwizard, .tl_tablewizard, .tl_modulewizard, .tl_optionwizard, .tl_checkbox_wizard').each(function()
+        {
+            if (!$(this).is('.tl_checkbox_wizard.sortable-done'))
+            {
+                var drag = dragula([$(this).find('.sortable').get(0)],
+                {
+                    moves: function (el, container, handle)
+                    {
+                        return $(handle).is('.drag-handle') || $(handle).closest('.drag-handle').length > 0;
+                    }
+                });
 
+                if ($(this).is('.tl_checkbox_wizard'))
+                {
+                    $(this).addClass('sortable-done');
+                }
+
+                if ($(this).is('.tl_tablewizard'))
+                {
+                    drag.on('drop', function(el, target, source, sibling)
+                    {
+                        Backend.tableWizardResort($(drag.containers[0]));
+                    });
+                }
+            }
+        })
     },
 
     /**
@@ -1329,20 +1354,21 @@ var Backend = {
 
     initialize: function()
     {
-        Backend.hideUnnecessaryToggles()
-        Backend.enableToggleSelect()
-        Backend.disableCollapseActions()
-        Backend.enableBadCronstructedCheckboxes()
+        Backend.hideUnnecessaryToggles();
+        Backend.enableToggleSelect();
+        Backend.disableCollapseActions();
+        Backend.enableBadCronstructedCheckboxes();
 
         // Bind events
-        $('.js-toggle-subpanel').click(Backend.toggleSubpanel)
-        $('.js-toggle-version').click(Backend.toggleVersion)
+        $('.js-toggle-subpanel').click(Backend.toggleSubpanel);
+        $('.js-toggle-version').click(Backend.toggleVersion);
 
         $('select').select2();
         $('.tooltipped').tooltip({delay: 50});
 
         Backend.limitPreviewHeight();
         Backend.initPanels();
+        Backend.makeWizardsSortable();
     }
 }
 

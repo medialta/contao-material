@@ -628,6 +628,10 @@ footer {
     }
 
 /* DRAG AND DROP */
+.drag-handle {
+    cursor: move;
+}
+
 .gu-mirror {
     list-style-type: none;
 }
@@ -642,4 +646,12 @@ footer {
 
         .gu-mirror .tl_content .drag-handle {
             float: right;
+        }
+
+    span.gu-mirror {
+
+    }
+
+        span.gu-mirror label {
+            font-size: 1.2rem;
         }

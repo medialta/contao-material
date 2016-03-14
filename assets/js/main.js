@@ -1,4 +1,5 @@
 'use strict';
+
 var AjaxRequest = {
     /**
      * The theme path
@@ -15,7 +16,7 @@ var AjaxRequest = {
      * @returns {boolean}
      */
     toggleNavigation: function(el, id) {
-        
+
     },
 
     /**
@@ -29,7 +30,7 @@ var AjaxRequest = {
      * @returns {boolean}
      */
     toggleStructure: function (el, id, level, mode) {
-        
+
     },
 
     /**
@@ -43,7 +44,7 @@ var AjaxRequest = {
      * @returns {boolean}
      */
     toggleFileManager: function (el, id, folder, level) {
-        
+
     },
 
     /**
@@ -58,7 +59,7 @@ var AjaxRequest = {
      * @returns {boolean}
      */
     togglePagetree: function (el, id, field, name, level) {
-        
+
     },
 
     /**
@@ -74,7 +75,7 @@ var AjaxRequest = {
      * @returns {boolean}
      */
     toggleFiletree: function (el, id, folder, field, name, level) {
-        
+
     },
 
     /**
@@ -218,7 +219,7 @@ var AjaxRequest = {
      * @returns {boolean}
      */
     toggleFeatured: function(el, id) {
-        
+
     },
 
     /**
@@ -262,7 +263,7 @@ var AjaxRequest = {
      * @returns {boolean}
      */
     toggleCheckboxGroup: function(el, id) {
-        
+
     },
 
     /**
@@ -272,7 +273,7 @@ var AjaxRequest = {
      * @param {string} id The ID of the input field
      */
     liveUpdate: function(el, id) {
-        
+
     },
 
     /**
@@ -281,16 +282,17 @@ var AjaxRequest = {
      * @param {string} message The message text
      */
     displayBox: function(message) {
-        
+
     },
 
     /**
      * Hide the "loading data" message
      */
     hideBox: function() {
-        
+
     }
 }
+
 var Backend = {
     /**
      * The current ID
@@ -328,7 +330,7 @@ var Backend = {
      * @param {object} event The event object
      */
     getMousePosition: function(event) {
-        
+
     },
 
     /**
@@ -341,7 +343,7 @@ var Backend = {
      * @deprecated Use Backend.openModalWindow() instead
      */
     openWindow: function(el, width, height) {
-        
+
     },
 
     /**
@@ -352,7 +354,7 @@ var Backend = {
      * @param {string} content The window's content
      */
     openModalWindow: function(width, title, content) {
-        
+
     },
 
     /**
@@ -361,7 +363,7 @@ var Backend = {
      * @param {object} options An optional options object
      */
     openModalImage: function(options) {
-        
+
     },
 
     /**
@@ -481,7 +483,7 @@ var Backend = {
      * Get the current scroll offset and store it in a cookie
      */
     getScrollOffset: function() {
-        
+
     },
 
     /**
@@ -504,7 +506,7 @@ var Backend = {
      * @param {int} offset The offset to scroll to
      */
     vScrollTo: function(offset) {
-        
+
     },
 
     /**
@@ -614,7 +616,7 @@ var Backend = {
      * @param {string} cls The CSS class name
      */
     toggleCheckboxElements: function(el, cls) {
-        
+
     },
 
     /**
@@ -623,14 +625,14 @@ var Backend = {
      * @param {string} id The ID of the target element
      */
     toggleWrap: function(id) {
-        
+
     },
 
     /**
      * Toggle the synchronization results
      */
     toggleUnchanged: function() {
-        
+
     },
 
     /**
@@ -659,7 +661,7 @@ var Backend = {
      * @deprecated Use Backend.openModalIframe() instead
      */
     pickPage: function(id) {
-        
+
     },
 
     /**
@@ -671,21 +673,21 @@ var Backend = {
      * @deprecated Use Backend.openModalIframe() instead
      */
     pickFile: function(id, filter) {
-        
+
     },
 
     /**
      * Collapse all palettes
      */
     collapsePalettes: function() {
-        
+
     },
 
     /**
      * Add the interactive help
      */
     addInteractiveHelp: function() {
-        
+
     },
 
     /**
@@ -696,8 +698,46 @@ var Backend = {
      * @author Joe Ray Gregory
      * @author Martin Auswöger
      */
-    makeParentViewSortable: function(ul) {
-        
+    makeParentViewSortable: function(ul)
+    {
+        var drag = dragula([document.getElementById(ul)],
+        {
+            moves: function (el, container, handle)
+            {
+                return $(handle).is('.drag-handle') || $(handle).closest('.drag-handle').length > 0;
+            }
+        })
+
+        drag.on('drop', function(el, target, source, sibling)
+        {
+            var pid, mode;
+            var id = el.id.replace(/li_/, '');
+            var href = window.location.href.replace(/\?.*$/, '');
+
+            var $prevLi = $(el).prev('li');
+            var $parentUl = $(el).parent('ul');
+
+            if ($prevLi.length)
+            {
+                pid = $prevLi.attr('id').replace(/li_/, '');
+                mode = 1;
+            }
+            else if ($parentUl.length)
+            {
+                pid = $parentUl.attr('id').replace(/ul_/, '');
+                mode = 2;
+            }
+
+            if (mode)
+            {
+                $.ajax({
+                    url: href,
+                    dataType: 'JSON',
+                    type: 'GET',
+                    data: window.location.search.replace(/id=[0-9]*/, 'id=' + id).replace('?', '') + '&act=cut&mode=' + mode + '&pid=' + pid
+                });
+            }
+        })
     },
 
     /**
@@ -706,15 +746,17 @@ var Backend = {
      * @param {string} id  The ID of the target element
      * @param {string} oid The DOM element
      */
-    makeMultiSrcSortable: function(id, oid) {
-        
+    makeMultiSrcSortable: function(id, oid)
+    {
+
     },
 
     /**
      * Make the wizards sortable
      */
-    makeWizardsSortable: function() {
-        
+    makeWizardsSortable: function()
+    {
+
     },
 
     /**
@@ -879,7 +921,7 @@ var Backend = {
      * @param {float} factor The resize factor
      */
     tableWizardResize: function(factor) {
-        
+
     },
 
     /**
@@ -1080,7 +1122,7 @@ var Backend = {
      * @param {string} id      The ID of the target element
      */
     checkboxWizard: function(el, command, id) {
-        
+
     },
 
     /**
@@ -1090,7 +1132,7 @@ var Backend = {
      * @param {string} ul The DOM element
      */
     metaWizard: function(el, ul) {
-        
+
     },
 
     /**
@@ -1099,7 +1141,7 @@ var Backend = {
      * @param {object} el The DOM element
      */
     metaDelete: function(el) {
-        
+
     },
 
     /**
@@ -1108,7 +1150,7 @@ var Backend = {
      * @param {object} el The DOM element
      */
     toggleAddLanguageButton: function(el) {
-        
+
     },
 
     /**
@@ -1117,21 +1159,21 @@ var Backend = {
      * @param {object} el The DOM element
      */
     updateModuleLink: function(el) {
-        
+
     },
 
     /**
      * Convert the "enable module" checkboxes
      */
     convertEnableModules: function() {
-        
+
     },
 
     /**
      * Update the fields of the imageSize widget upon change
      */
     enableImageSizeWidgets: function() {
-        
+
     },
 
     /**
@@ -1193,7 +1235,7 @@ var Backend = {
      * @param {object} el The DOM element
      */
     editPreviewWizard: function(el) {
-        
+
     },
 
     hideUnnecessaryToggles: function()
@@ -1295,19 +1337,19 @@ var Backend = {
         // Bind events
         $('.js-toggle-subpanel').click(Backend.toggleSubpanel)
         $('.js-toggle-version').click(Backend.toggleVersion)
+
+        $('select').select2();
+        $('.tooltipped').tooltip({delay: 50});
+
+        Backend.limitPreviewHeight();
+        Backend.initPanels();
     }
 }
 
 $(function()
 {
-    $(".button-collapse").sideNav()
-    $('#modules-nav .collapsible-header').click(function(e) { e.preventDefault() })
+    $(".button-collapse").sideNav();
+    $('#modules-nav .collapsible-header').click(function(e) { e.preventDefault() });
 
-    Backend.initialize()
-
-    $('select').select2()
-    $('.tooltipped').tooltip({delay: 50})
-
-    Backend.limitPreviewHeight();
-    Backend.initPanels();
+    Backend.initialize();
 })

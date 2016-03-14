@@ -626,3 +626,20 @@ footer {
         border-top-width: 1px;
         background-color: #f5f5f5;
     }
+
+/* DRAG AND DROP */
+.gu-mirror {
+    list-style-type: none;
+}
+
+    .gu-mirror .tl_content {
+
+    }
+
+        .gu-mirror .tl_content .actions > *:not(.drag-handle) {
+            display: none;
+        }
+
+        .gu-mirror .tl_content .drag-handle {
+            float: right;
+        }

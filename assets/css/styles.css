@@ -563,6 +563,58 @@ span.inactive-option {
     top: 150px;
 }
 
+#diff .change {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin: 15px 0;
+}
+#diff .change h2 {
+    font-size: 1.5rem;
+    padding: 10px 6px 10px;
+    margin: 0;
+    background-color: #eee;
+    border-bottom: 1px solid #ddd;
+}
+
+#diff .left {
+    float: none !important;
+}
+#diff .right {
+    float: none !important;
+}
+
+#diff .replace.left,#diff .delete.left {
+    background: #fdd;
+}
+
+#diff .replace.right,#diff .insert.right {
+    background: #dfd;
+}
+
+#diff .replace ins {
+    color: #060;
+    background: #bfb;
+}
+
+#diff .replace del {
+    color: #a00;
+    background: #fbb;
+}
+
+#diff ins,#diff del {
+    text-decoration: none;
+}
+
+#diff dl {
+    margin: 0;
+    padding: 0;
+}
+
+#diff dt,#diff dd {
+    margin: 0;
+    padding: 2px 6px 1px;
+}
+
 @media (max-width: 600px) {
     header {
         position: inherit;

@@ -10,18 +10,23 @@
 
     <link rel="stylesheet" href="/system/modules/contao-material/assets/css/materialize.min.css">
     <link rel="stylesheet" href="/system/modules/contao-material/assets/css/login.css">
-    <link rel="stylesheet" href="/system/modules/contao-material/assets/css/styles.css">
+    <link rel="stylesheet" href="/system/modules/contao-material/assets/css/select2.min.css"></link>
+    <link rel="stylesheet" href="/system/modules/contao-material/assets/css/styles.css"></link>
+    <link rel="stylesheet" href="/system/modules/contao-material/assets/css/styles-seb.css"></link>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--[if IE]><link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/themes/<?= $this->theme ?>/iefixes.css"><![endif]-->
     <?= $this->stylesheets ?>
 
+    <script><?= $this->getLocaleString() ?></script>
     <script type="text/javascript" src="/system/modules/contao-material/assets/js/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="/system/modules/contao-material/assets/js/materialize.min.js"></script>
+    <script type="text/javascript" src="/system/modules/contao-material/assets/js/select2.min.js"></script>
+    <script type="text/javascript" src="/system/modules/contao-material/assets/js/main.js"></script>
     <?= $this->javascripts ?>
     <!--[if lt IE 9]><script src="<?= TL_ASSETS_URL ?>assets/html5shiv/<?= $GLOBALS['TL_ASSETS']['HTML5SHIV'] ?>/html5shiv.min.js"></script><![endif]-->
 
 </head>
-<body class="<?= $this->ua ?> orange lighten-1">
+<body class="<?= $this->ua ?>">
 
     <div class="row">
         <div class="card" style="max-width:600px;margin:20px auto;">
@@ -48,9 +53,11 @@
                                 <?php endforeach; ?>
                             </select>
                         <?php endif; ?>
+                        <br><br>
                         <button type="submit" class="btn orange lighten-1 waves-effect waves-light"><?= $this->showLabel ?></button>
                         </div>
                     </form>
+                    <br>
                     <div id="diff">
                         <?= $this->content ?>
                     </div>

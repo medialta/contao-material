@@ -1207,30 +1207,7 @@ var Backend = {
      * @author Kamil Kuzminski
      */
     enableToggleSelect: function() {
-        $('.file_toggle_select').unbind('click').on('click', function(e) {
-            var input = $(this).find('input[type="checkbox"],input[type="radio"]');
-            if (!input) {
-                return;
-            }
 
-            // Radio buttons
-            if (input.attr('type') == 'radio') {
-                if (!input.attr('checked')) {
-                    $('.file_toggle_select input[type="radio"]').removeAttr('checked')
-                    input.prop('checked', true);
-                }
-                return;
-            }
-
-            // Checkboxes
-            if (input.attr('type') == 'checkbox') {
-                if (!input.attr('checked')) {
-                    $('.file_toggle_select input[type="checkbox"]').removeAttr('checked')
-                    input.prop('checked', true);
-                }
-                return;
-            }
-        });
     },
 
     selectCheckboxRadio: function(el) {

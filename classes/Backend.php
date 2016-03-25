@@ -172,4 +172,99 @@ abstract class Backend extends \Contao\Backend
         // Return the image
         return '<a href="contao/main.php?do=feRedirect&amp;page='.$row['id'].'" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['view']).'"' . (($dc->table != 'tl_page') ? ' class="tl_gray"' : '') . ' target="_blank">'.\Helper::getIconHtml($image, '', $imageAttribute).'</a> '.$label;
     }
+
+    /**
+     * Add a breadcrumb menu to the file tree
+     *
+     * @param string $strKey
+     *
+     * @throws \RuntimeException
+     */
+    public static function addFilesBreadcrumb($strKey='tl_files_node')
+    {
+        $objSession = \Session::getInstance();
+
+        // Set a new node
+        if (isset($_GET['node']))
+        {
+            // Check the path (thanks to Arnaud Buchoux)
+            if (\Validator::isInsecurePath(\Input::get('node', true)))
+            {
+                throw new \RuntimeException('Insecure path ' . \Input::get('node', true));
+            }
+
+            $objSession->set($strKey, \Input::get('node', true));
+            \Controller::redirect(preg_replace('/(&|\?)node=[^&]*/', '', \Environment::get('request')));
+        }
+
+        $strNode = $objSession->get($strKey);
+
+        if ($strNode == '')
+        {
+            return;
+        }
+
+        // Check the path (thanks to Arnaud Buchoux)
+        if (\Validator::isInsecurePath($strNode))
+        {
+            throw new \RuntimeException('Insecure path ' . $strNode);
+        }
+
+        // Currently selected folder does not exist
+        if (!is_dir(TL_ROOT . '/' . $strNode))
+        {
+            $objSession->set($strKey, '');
+
+            return;
+        }
+
+        $objUser  = \BackendUser::getInstance();
+        $strPath  = \Config::get('uploadPath');
+        $arrNodes = explode('/', preg_replace('/^' . preg_quote(\Config::get('uploadPath'), '/') . '\//', '', $strNode));
+        $arrLinks = array();
+
+        // Add root link
+        $arrLinks[] = \Helper::getIconHtml('filemounts.gif') . ' <a href="' . \Controller::addToUrl('node=') . '" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['selectAllNodes']).'">' . $GLOBALS['TL_LANG']['MSC']['filterAll'] . '</a>';
+
+        // Generate breadcrumb trail
+        foreach ($arrNodes as $strFolder)
+        {
+            $strPath .= '/' . $strFolder;
+
+            // Do not show pages which are not mounted
+            if (!$objUser->hasAccess($strPath, 'filemounts'))
+            {
+                continue;
+            }
+
+            // No link for the active folder
+            if ($strPath == $strNode)
+            {
+                $arrLinks[] = \Helper::getIconHtml('folderC.gif') . $strFolder;
+            }
+            else
+            {
+                $arrLinks[] = \Helper::getIconHtml('folderC.gif') . ' <a href="' . \Controller::addToUrl('node='.$strPath) . '" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['selectNode']).'">' . $strFolder . '</a>';
+            }
+        }
+
+        // Check whether the node is mounted
+        if (!$objUser->hasAccess($strNode, 'filemounts'))
+        {
+            $objSession->set($strKey, '');
+
+            \System::log('Folder ID '.$strNode.' was not mounted', __METHOD__, TL_ERROR);
+            \Controller::redirect('contao/main.php?act=error');
+        }
+
+        // Limit tree
+        $GLOBALS['TL_DCA']['tl_files']['list']['sorting']['root'] = array($strNode);
+
+        // Insert breadcrumb menu
+        $GLOBALS['TL_DCA']['tl_files']['list']['sorting']['breadcrumb'] .= '
+
+        <ul class="breadcrumb">
+            <li>' . implode(' &gt; </li><li>', $arrLinks) . '</li>
+        </ul>';
+    }
 }

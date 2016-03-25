@@ -227,6 +227,16 @@ span.mandatory {
     transition: transform .35s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
+.messages {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.welcome .messages,
+.card-content .messages {
+    margin-left: 0;
+    margin-right: 0;
+}
+
 figure {
     margin: 1rem 0;
 }

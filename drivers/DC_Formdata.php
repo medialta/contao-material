@@ -1257,7 +1257,7 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
                 }
             }
 
-            $class = 'tl_tbox';
+            $class = '';
             $fs = $this->Session->get('fieldset_states');
             $blnIsFirst = true;
 
@@ -1273,19 +1273,21 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
                 if (isset($legends[$k]))
                 {
                     list($key, $cls) = explode(':', $legends[$k]);
-                    $legend = "\n" . '<legend onclick="AjaxRequest.toggleFieldset(this,\'' . $key . '\',\'' . $this->strTable . '\')">' . (isset($GLOBALS['TL_LANG'][$this->strTable][$key]) ? $GLOBALS['TL_LANG'][$this->strTable][$key] : $key) . '</legend>';
+                    $legend = "\n" . '<div class="collapsible-header '.($cls == 'hide' ? '' : 'active').'" onclick="AjaxRequest.toggleFieldset(this,\'' . $key . '\',\'' . $this->strTable . '\')">' . (isset($GLOBALS['TL_LANG'][$this->strTable][$key]) ? $GLOBALS['TL_LANG'][$this->strTable][$key] : $key) . '</div><div class="collapsible-body">';
+                } else {
+                    $legend = "\n" . '<div class="collapsible-header active" onclick="AjaxRequest.toggleFieldset(this,\'' . $key . '\',\'' . $this->strTable . '\')"></div><div class="collapsible-body" style="display:block">';
                 }
 
-                if (isset($fs[$this->strTable][$key]))
+                /*if (isset($fs[$this->strTable][$key]))
                 {
                     $class .= ($fs[$this->strTable][$key] ? '' : ' collapsed');
                 }
                 else
                 {
                     $class .= (($cls && $legend) ? ' ' . $cls : '');
-                }
+                }*/
 
-                $return .= "\n\n" . '<fieldset' . ($key ? ' id="pal_'.$key.'"' : '') . ' class="' . $class . ($legend ? '' : ' nolegend') . '">' . $legend;
+                $return .= "\n\n" . '<li' . ($key ? ' id="pal_'.$key.'"' : '') . ' class="' . $class . ($legend ? '' : ' nolegend') . '">' . $legend;
 
                 // Build rows of the current box
                 foreach ($v as $kk => $vv)
@@ -1722,8 +1724,8 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
                     $blnAjax ? $strAjax .= $this->row($this->strPalette) : $return .= $this->row($this->strPalette);
                 }
 
-                $class = 'tl_box';
-                $return .= "\n" . '</fieldset>';
+                $class = '';
+                $return .= "\n" . '</li>';
             }
         }
 
@@ -1772,11 +1774,9 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
 
         // Add some buttons and end the form
         $return .= '
-</div>
+
 
 <div class="card-action">
-
-<div class="submit-container">
   ' . implode(' ', $arrButtons) . '
 </div>
 
@@ -1802,13 +1802,13 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
 
 <h2 class="sub_headline">'.sprintf($GLOBALS['TL_LANG']['MSC']['editRecord'], ($this->intId ? 'ID '.$this->intId : '')).'</h2>
 '.\Message::generate().'
-<form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form" method="post" enctype="' . ($this->blnUploadable ? 'multipart/form-data' : 'application/x-www-form-urlencoded') . '"'.(!empty($this->onsubmit) ? ' onsubmit="'.implode(' ', $this->onsubmit).'"' : '').'>
-<div class="tl_formbody_edit">
+<form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form" method="post" enctype="' . ($this->blnUploadable ? 'multipart/form-data' : 'application/x-www-form-urlencoded') . '"'.(!empty($this->onsubmit) ? ' onsubmit="'.implode(' ', $this->onsubmit).'"' : '').'>'.($this->noReload ? '
+
+<p class="tl_error">'.$GLOBALS['TL_LANG']['ERR']['general'].'</p>' : '').'
+<ul class="collapsible dca-edit" data-collapsible="expandable">
 <input type="hidden" name="FORM_SUBMIT" value="'.specialchars($this->strTable).'">
 <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
-<input type="hidden" name="FORM_FIELDS[]" value="'.specialchars($this->strPalette).'">'.($this->noReload ? '
-
-<p class="tl_error">'.$GLOBALS['TL_LANG']['ERR']['general'].'</p>' : '').$return;
+<input type="hidden" name="FORM_FIELDS[]" value="'.specialchars($this->strPalette).'">'.$return;
 
         // Reload the page to prevent _POST variables from being sent twice
         if (\Input::post('FORM_SUBMIT') == $this->strTable && !$this->noReload)
@@ -3221,13 +3221,13 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
 <input type="hidden" name="FORM_SUBMIT" value="tl_select">
 <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">' : '').'
 
-<div class="tl_listing_container list_view">'.((\Input::get('act') == 'select') ? '
+<div class="listing-container list_view">'.((\Input::get('act') == 'select') ? '
 
 <div class="tl_select_trigger">
 <label for="tl_select_trigger" class="tl_select_label">'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</label> <input type="checkbox" id="tl_select_trigger" onclick="Backend.toggleCheckboxes(this)" class="tl_tree_checkbox">
 </div>' : '').'
 
-<table class="tl_listing' . ($GLOBALS['TL_DCA'][$this->strTable]['list']['label']['showColumns'] ? ' showColumns' : '') . '">';
+<table class="listing' . ($GLOBALS['TL_DCA'][$this->strTable]['list']['label']['showColumns'] ? ' showColumns' : '') . ' bordered highlight responsive-table">';
 
             // Automatically add the "order by" field as last column if we do not have group headers
             if ($GLOBALS['TL_DCA'][$this->strTable]['list']['label']['showColumns'] && !in_array($firstOrderBy, $GLOBALS['TL_DCA'][$this->strTable]['list']['label']['fields']))
@@ -3269,17 +3269,17 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
                 foreach ($GLOBALS['TL_DCA'][$this->strTable]['list']['label']['fields'] as $f)
                 {
                     $return .= '
-    <th class="tl_folder_tlist col_' . $f . (($f == $firstOrderBy) ? ' ordered_by' : '') . '">'.$GLOBALS['TL_DCA'][$this->strTable]['fields'][$f]['label'][0].'</th>';
+    <th class="row-headline col_' . $f . (($f == $firstOrderBy) ? ' ordered_by' : '') . '">'.$GLOBALS['TL_DCA'][$this->strTable]['fields'][$f]['label'][0].'</th>';
                 }
 
                 $return .= '
-    <th class="tl_folder_tlist tl_right_nowrap">&nbsp;</th>
+    <th class="row-headline actions">&nbsp;</th>
   </tr>';
             }
 
             // Process result and add label and buttons
             $remoteCur = false;
-            $groupclass = 'tl_folder_tlist';
+            $groupclass = 'row-healine';
             $eoCount = -1;
 
             foreach ($result as $row)
@@ -3424,12 +3424,12 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
   <tr>
     <td colspan="2" class="'.$groupclass.'">'.$group.'</td>
   </tr>';
-                        $groupclass = 'tl_folder_list';
+                        $groupclass = 'row-healine';
                     }
                 }
 
                 $return .= '
-  <tr class="'.((++$eoCount % 2 == 0) ? 'even' : 'odd').' click2edit" onmouseover="Theme.hoverRow(this,1)" onmouseout="Theme.hoverRow(this,0)" onclick="Theme.toggleSelect(this)">
+  <tr class="'.((++$eoCount % 2 == 0) ? 'even' : 'odd').' click2edit toggle-select">
     ';
 
                 $colspan = 1;
@@ -3467,7 +3467,7 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
                 {
                     foreach ($args as $j => $arg)
                     {
-                        $return .= '<td colspan="' . $colspan . '" class="tl_file_list col_' . $GLOBALS['TL_DCA'][$this->strTable]['list']['label']['fields'][$j] . (($GLOBALS['TL_DCA'][$this->strTable]['list']['label']['fields'][$j] == $firstOrderBy) ? ' ordered_by' : '') . '">' . ($arg ?: '-') . '</td>';
+                        $return .= '<td colspan="' . $colspan . '" class="item col_' . $GLOBALS['TL_DCA'][$this->strTable]['list']['label']['fields'][$j] . (($GLOBALS['TL_DCA'][$this->strTable]['list']['label']['fields'][$j] == $firstOrderBy) ? ' ordered_by' : '') . '">' . ($arg ?: '-') . '</td>';
                     }
                 }
                 else
@@ -3477,16 +3477,16 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
 
                 // Buttons ($row, $table, $root, $blnCircularReference, $childs, $previous, $next)
                 $return .= ((\Input::get('act') == 'select') ? '
-    <td class="tl_file_list tl_right_nowrap"><input type="checkbox" name="IDS[]" id="ids_'.$row['id'].'" class="tl_tree_checkbox" value="'.$row['id'].'"></td>' : '
-    <td class="tl_file_list tl_right_nowrap">'.$this->generateButtons($row, $this->strTable, $this->root).'</td>') . '
+    <td class="item actions -select"><input type="checkbox" name="IDS[]" id="ids_'.$row['id'].'" class="tl_tree_checkbox" value="'.$row['id'].'"></td>' : '
+    <td class="item actions">'.$this->generateButtons($row, $this->strTable, $this->root).'</td>') . '
   </tr>';
             }
 
             // Close the table
-            $return .= '
-</table>
+            $return .= $_buttons . ''.$tree.'
+        </table>
 
-</div>';
+        </div>';
 
             // Close the form
             if (\Input::get('act') == 'select')
@@ -3626,7 +3626,7 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
 <input type="hidden" name="FORM_SUBMIT" value="tl_filters">
 <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
 ' . $return . '
-</div>
+</ul>
 </form>
 ';
 

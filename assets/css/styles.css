@@ -94,6 +94,7 @@ span.mandatory {
     line-height: 3.9rem;
     color: #ffa726;
     font-weight: bold;
+    min-height: inherit;
 }
 
 .collapsible-body {

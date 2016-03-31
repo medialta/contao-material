@@ -296,7 +296,7 @@ class FileSelector extends \Contao\FileSelector
             {
                 $folderAttribute = '';
                 $alt = $blnIsOpen ? $GLOBALS['TL_LANG']['MSC']['collapseNode'] : $GLOBALS['TL_LANG']['MSC']['expandNode'];
-                $return .= '<a href="'.$this->addToUrl($flag.'tg='.$tid).'" class="tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($alt).'" onclick="return AjaxRequest.toggleFiletree(this,\''.$xtnode.'_'.$tid.'\',\''.$currentFolder.'\',\''.$this->strField.'\',\''.$this->strName.'\','.$level.')"><i class="material-icons expand-icon">expand_less</i></a>';
+                $return .= '<a href="'.$this->addToUrl($flag.'tg='.$tid).'" class="tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($alt).'" onclick="return AjaxRequest.toggleFiletree(this,\''.$xtnode.'_'.$tid.'\',\''.str_replace("'", "\'", $currentFolder).'\',\''.$this->strField.'\',\''.$this->strName.'\','.$level.')"><i class="material-icons expand-icon">expand_less</i></a>';
             }
 
             $protected = ($blnProtected === true || array_search('.htaccess', $content) !== false) ? true : false;

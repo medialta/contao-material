@@ -203,8 +203,8 @@
         </footer>
 
         <?php if ($this->pageOffset): ?>
-            <script>//Backend.vScrollTo($('paste_hint') ? <?= $this->pageOffset + 20 ?> : <?= $this->pageOffset ?>)</script>
-            <?php //System::setCookie('BE_PAGE_OFFSET', 0, 0); ?>
+            <script>Backend.vScrollTo($('.paste_hint').length ? <?= $this->pageOffset + 20 ?> : <?= $this->pageOffset ?>)</script>
+            <?php System::setCookie('BE_PAGE_OFFSET', 0, 0); ?>
         <?php endif; ?>
     <?php endif; ?>
 

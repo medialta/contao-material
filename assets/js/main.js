@@ -483,7 +483,7 @@ var Backend = {
      * Get the current scroll offset and store it in a cookie
      */
     getScrollOffset: function() {
-
+        document.cookie = "BE_PAGE_OFFSET=" + $(document).scrollTop() + "; path=" + (Contao.path || '/');
     },
 
     /**
@@ -506,7 +506,9 @@ var Backend = {
      * @param {int} offset The offset to scroll to
      */
     vScrollTo: function(offset) {
-
+        jQuery(document).ready(function($) {
+            $('html,body').animate({ scrollTop: parseInt(offset) }, 600);
+        });
     },
 
     /**

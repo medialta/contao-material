@@ -884,7 +884,7 @@ $return = $version . '
             if ($countFiles > 0)
             {
                 $alt = ($session['filetree'][$md5] == 1) ? $GLOBALS['TL_LANG']['MSC']['collapseNode'] : $GLOBALS['TL_LANG']['MSC']['expandNode'];
-                $return .= '<a href="'.$this->addToUrl('tg='.$md5).'" class="tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($alt).'" onclick="Backend.getScrollOffset(); return AjaxRequest.toggleFileManager(this, \'filetree_'.$md5.'\', \''.$currentFolder.'\', '.$level.')"><i class="material-icons expand-icon">expand_less</i></a>';
+                $return .= '<a href="'.$this->addToUrl('tg='.$md5).'" class="tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($alt).'" onclick="Backend.getScrollOffset(); return AjaxRequest.toggleFileManager(this, \'filetree_'.$md5.'\', \''.str_replace("'", "\'", $currentFolder).'\', '.$level.')"><i class="material-icons expand-icon">expand_less</i></a>';
             }
 
             $protected = ($blnProtected === true || array_search('.htaccess', $content) !== false) ? true : false;

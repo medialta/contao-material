@@ -3279,7 +3279,7 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
 
             // Process result and add label and buttons
             $remoteCur = false;
-            $groupclass = 'row-healine';
+            $groupclass = 'row-headline';
             $eoCount = -1;
 
             foreach ($result as $row)
@@ -3424,7 +3424,7 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
   <tr>
     <td colspan="2" class="'.$groupclass.'">'.$group.'</td>
   </tr>';
-                        $groupclass = 'row-healine';
+                        $groupclass = 'row-headline';
                     }
                 }
 

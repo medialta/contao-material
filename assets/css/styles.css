@@ -559,6 +559,31 @@ span.inactive-option {
 .tl_gray {
     color: #b3b3b3;
 }
+.card-content .pagination p {
+    max-width: 30%;
+    float: left;
+    margin-top: 20px;
+}
+.pagination ul {
+    max-width: 60%;
+    float: right;
+}
+.pagination li {
+    padding: 0;
+    line-height: inherit;
+}
+    .pagination .current,
+    .pagination a {
+        padding: 4px 10px;
+        border-radius: 2px;
+    }
+    .pagination a:hover {
+        background-color: #f5f5f5;
+    }
+    .pagination .current {
+        background-color: #ffa726;
+        color: #fff;
+    }
 
 /* popup */
 .popup .alerts {

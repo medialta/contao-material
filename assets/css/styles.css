@@ -704,7 +704,7 @@ span.inactive-option {
 .navigation.log {
     background-image: url(/system/modules/contao-material/assets/icon/log.png) !important;
 }
-.navigation.settings {
+.navigation.settings, .navigation.config {
     background-image: url(/system/modules/contao-material/assets/icon/settings.png) !important;
 }
 .navigation.maintenance {
@@ -724,4 +724,13 @@ span.inactive-option {
 }
 .navigation.labels {
     background-image: url(/system/modules/contao-material/assets/icon/labels.png) !important;
+}
+.navigation.post_install {
+    background-image: url(/system/modules/contao-material/assets/icon/post_install.png) !important;
+}
+.navigation.check {
+    background-image: url(/system/modules/contao-material/assets/icon/check.png) !important;
+}
+.navigation.feedback, .navigation[class*='fd_'] {
+    background-image: url(/system/modules/contao-material/assets/icon/form_data.png) !important;
 }

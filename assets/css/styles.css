@@ -559,7 +559,16 @@ span.inactive-option {
 .tl_gray {
     color: #b3b3b3;
 }
-.card-content .pagination p {
+.pagination {
+    min-height: 4rem;
+    padding: 0 20px;
+}
+.card-content .pagination {
+    min-height: inherit;
+    padding: 0;
+}
+.card-content .pagination p,
+.pagination p {
     max-width: 30%;
     float: left;
     margin-top: 20px;

@@ -205,12 +205,6 @@ span.mandatory {
 
 .parent_view .tl_content {
     border-bottom: 1px solid #d0d0d0;
-    margin-bottom: 1rem;
-    padding-bottom: 1rem;
-    margin-top: 1rem;
-}
-
-.tl_content.no_padding {
     margin-bottom: 0;
     padding-bottom: 0;
     min-height: 40px;

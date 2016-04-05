@@ -176,6 +176,10 @@ span.mandatory {
     margin-top: 0;
 }
 
+td, th {
+    border-radius: 0;
+}
+
 .table-header {
     line-height: 0.5rem;
     border-top: 1px solid #d0d0d0;
@@ -403,6 +407,18 @@ footer .footer .copyright {
     position: absolute;
     top: 8px;
 }
+#tl_buttons {
+    padding: 20px;
+}
+    #tl_buttons a, .submit-container .tl_submit {
+        color: #ffab40;
+        margin-right: 20px;
+        margin-left: 0;
+        transition: color .3s ease;
+        text-transform: uppercase;
+        background-color: transparent;
+        border: 0;
+    }
 .card .card-action {
 }
 .card.-main {
@@ -678,6 +694,11 @@ span.inactive-option {
     background-position: left center;
     vertical-align: middle;
     padding-left: 2rem;
+}
+.list_icon_new {
+    width: 16px;
+    background-position: left center;
+    background-repeat: no-repeat;
 }
 
 /* Navigation */

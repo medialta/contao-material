@@ -769,3 +769,45 @@ span.inactive-option {
 .navigation.feedback, .navigation[class*='fd_'] {
     background-image: url(/system/modules/contao-material/assets/icon/form_data.png) !important;
 }
+
+/* FIX module contao codés en dur (newsletter, ...) */
+.tl_submit_container {
+    border-top: 1px solid rgba(160,160,160,0.2);
+    padding: 20px;
+}
+    .tl_submit_container .tl_submit {
+        border: none;
+        border-radius: 2px;
+        display: inline-block;
+        height: 36px;
+        line-height: 36px;
+        outline: 0;
+        padding: 0 2rem;
+        text-transform: uppercase;
+        vertical-align: middle;
+        -webkit-tap-highlight-color: transparent;
+        color: #ffb74d;
+        background-color: transparent;
+    }
+    .tl_submit_container .tl_submit:first-child {
+        text-decoration: none;
+        color: #fff;
+        background-color: #ffb74d !important;
+        text-align: center;
+        letter-spacing: .5px;
+        -webkit-transition: .2s ease-out;
+        -moz-transition: .2s ease-out;
+        -o-transition: .2s ease-out;
+        -ms-transition: .2s ease-out;
+        transition: .2s ease-out;
+        cursor: pointer;
+    }
+
+.tl_newsletter_send {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 1rem;
+}
+.tl_formbody_edit label {
+    font-size: 1.2rem;
+}

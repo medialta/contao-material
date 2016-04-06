@@ -778,6 +778,9 @@ span.inactive-option {
 .navigation.post_install {
     background-image: url(/system/modules/contao-material/assets/icon/post_install.png) !important;
 }
+.navigation.theme_maker {
+    background-image: url(/system/modules/contao-material/assets/icon/theme_maker.png) !important;
+}
 .navigation.check {
     background-image: url(/system/modules/contao-material/assets/icon/check.png) !important;
 }

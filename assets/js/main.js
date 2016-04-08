@@ -1348,6 +1348,19 @@ var Backend = {
         Backend.limitPreviewHeight();
         Backend.initPanels();
         Backend.makeWizardsSortable();
+    },
+
+    fixPrimaryAction: function ()
+    {
+        scroll = $('body').scrollTop();
+        if ($('.card.-main .header-new').length) {
+            if (scroll > 280) {
+                $('.card.-main .header-new').addClass('fixed');
+            } else {
+                $('.card.-main .header-new').removeClass('fixed');
+            }
+
+        }
     }
 }
 
@@ -1357,4 +1370,9 @@ $(function()
     $('#modules-nav .collapsible-header').click(function(e) { e.preventDefault() });
 
     Backend.initialize();
+
+    window.onscroll = function()
+    {
+        Backend.fixPrimaryAction();
+    }
 })

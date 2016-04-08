@@ -99,6 +99,13 @@ footer {
         right: 0;
         transform: translate(-50%, -50%);
     }
+    body:not(.popup) .card.-main .header-new.fixed {
+        position: fixed;
+        bottom: 0;
+        top: inherit;
+        right: 0px;
+        left: inherit;
+    }
 
     .toggle-buttons.-main {
         position: absolute;

@@ -214,6 +214,14 @@ td, th {
     min-height: 40px;
     line-height: 40px;
 }
+.tl_content.wrapper_start, .tl_content.wrapper_separator, .tl_content.wrapper_stop {
+    background: #eeeeee;
+    padding-left: 1rem;
+}
+.tl_content.indent {
+    border-left: 1rem solid #eeeeee;
+    padding-left: 1rem;
+}
 
 .limit_height {
     overflow: hidden;

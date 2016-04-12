@@ -107,12 +107,12 @@ class TableWizard extends \Contao\TableWizard
 
         // Return form
         return '
-        <div id="tl_buttons">
-            <a href="'.ampersand(str_replace('&key=table', '', \Environment::get('request'))).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
+        <div id="tl_buttons" class="card-action">
+            <a href="'.ampersand(str_replace('&key=table', '', \Environment::get('request'))).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b"><i class="material-icons black-text">keyboard_backspace</i></a>
         </div>
         '.\Message::generate().'
         <form action="'.ampersand(\Environment::get('request'), true).'" id="tl_table_import" class="tl_form" method="post" enctype="multipart/form-data">
-            <div class="tl_formbody_edit">
+            <div class="tl_formbody_edit card-content" style="padding-top:0">
                 <input type="hidden" name="FORM_SUBMIT" value="tl_table_import">
                 <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
 
@@ -123,17 +123,17 @@ class TableWizard extends \Contao\TableWizard
                         <option value="semicolon">'.$GLOBALS['TL_LANG']['MSC']['semicolon'].'</option>
                         <option value="tabulator">'.$GLOBALS['TL_LANG']['MSC']['tabulator'].'</option>
                     </select>'.(($GLOBALS['TL_LANG']['MSC']['separator'][1] != '') ? '
-                      <p class="tl_help tl_tip">'.$GLOBALS['TL_LANG']['MSC']['separator'][1].'</p>' : '').'
+                      <p class="tl_help tl_tip"><i class="tiny material-icons help-icon">info_outline</i>'.$GLOBALS['TL_LANG']['MSC']['separator'][1].'</p>' : '').'
                     <h3>'.$GLOBALS['TL_LANG']['MSC']['source'][0].'</h3>'.$objUploader->generateMarkup().(isset($GLOBALS['TL_LANG']['MSC']['source'][1]) ? '
-                      <p class="tl_help tl_tip">'.$GLOBALS['TL_LANG']['MSC']['source'][1].'</p>' : '').'
+                      <p class="tl_help tl_tip"><i class="tiny material-icons help-icon">info_outline</i>'.$GLOBALS['TL_LANG']['MSC']['source'][1].'</p>' : '').'
                 </div>
 
             </div>
 
-            <div class="tl_formbody_submit">
+            <div class="card-action">
 
-                <div class="tl_submit_container">
-                    <input type="submit" name="save" id="save" class="tl_submit" accesskey="s" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['tw_import'][0]).'">
+                <div class="submit-container">
+                    <input type="submit" name="save" id="save" class="btn orange lighten-2" accesskey="s" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['tw_import'][0]).'">
                 </div>
 
             </div>

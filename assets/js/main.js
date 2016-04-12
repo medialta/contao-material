@@ -1331,12 +1331,23 @@ var Backend = {
         });
     },
 
+    editBadHeaderBack: function ()
+    {
+        $('.header_back').each(function () {
+            $(this).removeClass('header_back');
+            $(this).addClass('header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5');
+            $(this).attr('data-tooltip', $(this).attr('title'));
+            $(this).html('<i class="material-icons black-text">keyboard_backspace</i>');
+        });
+    },
+
     initialize: function()
     {
         Backend.hideUnnecessaryToggles();
         Backend.enableToggleSelect();
         Backend.disableCollapseActions();
         Backend.enableBadCronstructedCheckboxes();
+        Backend.editBadHeaderBack();
 
         // Bind events
         $('.js-toggle-subpanel').click(Backend.toggleSubpanel);

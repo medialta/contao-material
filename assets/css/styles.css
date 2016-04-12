@@ -84,7 +84,7 @@ span.mandatory {
 .tl_tbox, .tl_box {
     padding: 20px;
 }
-.card-content .tl_tbox, .card-content .tl_box {
+.card-content .tl_tbox, .card-content .tl_box, .collapsible .tl_tbox, .collapsible .tl_box {
     padding: 0;
 }
 

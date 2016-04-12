@@ -85,6 +85,7 @@ span.mandatory {
     box-shadow: none;
     border-right: 0;
     border-left: 0;
+    margin-top: 0;
 }
 .side-nav .collapsible-header {
     font-weight: bold;
@@ -416,7 +417,13 @@ footer .footer .copyright {
     top: 8px;
 }
 #tl_buttons {
-    padding: 20px;
+    padding: 0;
+    padding-left: 20px;
+}
+#tl_buttons a:not(.header-back):not(.header-new) {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: inline-block;
 }
     #tl_buttons a, .submit-container .tl_submit {
         color: #ffab40;

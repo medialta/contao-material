@@ -81,6 +81,13 @@ span.mandatory {
     margin-left: 20px;
 }
 
+.tl_tbox, .tl_box {
+    padding: 20px;
+}
+.card-content .tl_tbox, .card-content .tl_box {
+    padding: 0;
+}
+
 .collapsible {
     box-shadow: none;
     border-right: 0;

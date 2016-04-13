@@ -690,7 +690,9 @@ var Backend = {
      * Add the interactive help
      */
     addInteractiveHelp: function() {
-
+        $('.tl_tip').each(function(index, el) {
+            $(this).attr('data-title', $(this).html().replace('<i class="tiny material-icons help-icon">info_outline</i>', ''))
+        });
     },
 
     /**
@@ -1363,6 +1365,14 @@ var Backend = {
         Backend.limitPreviewHeight();
         Backend.initPanels();
         Backend.makeWizardsSortable();
+
+        Backend.addInteractiveHelp();
+        $('.tl_tip').mouseenter(function (e) {
+            var tip = $(this).html()
+            $(this).append('<div class="help-tooltip">' + tip + '</div>')
+        }).mouseleave(function() {
+            $(this).children('.help-tooltip').remove()
+        });
     },
 
     fixPrimaryAction: function ()

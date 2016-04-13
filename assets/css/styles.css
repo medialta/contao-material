@@ -869,24 +869,16 @@ span.inactive-option {
         color: #ffb74d;
         background-color: transparent;
     }
-    .tl_submit_container .tl_submit:first-child {
-        text-decoration: none;
-        color: #fff;
-        background-color: #ffb74d !important;
-        text-align: center;
-        letter-spacing: .5px;
-        -webkit-transition: .2s ease-out;
-        -moz-transition: .2s ease-out;
-        -o-transition: .2s ease-out;
-        -ms-transition: .2s ease-out;
-        transition: .2s ease-out;
-        cursor: pointer;
-    }
 
 .tl_newsletter_send {
     margin-left: 20px;
     margin-right: 20px;
     margin-bottom: 1rem;
+}
+.tl_newsletter_send:after {
+    content: " ";
+    display: table;
+    clear: both;
 }
 .tl_formbody_edit label {
     font-size: 1.2rem;

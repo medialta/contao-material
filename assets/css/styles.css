@@ -166,6 +166,15 @@ span.mandatory {
 .tl_checkbox_wizard .sortable span {
     display: block;
 }
+.js .button-move {
+    width: 0;
+    height: 0;
+    left: -1000px;
+    top: -1000px;
+    position: absolute;
+    overflow: hidden;
+    display: inline;
+}
 .tl_tip, p.tl_tip, .card-content p.tl_tip {
     padding: 0;
     margin-top: 5px;

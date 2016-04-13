@@ -1353,6 +1353,8 @@ var Backend = {
 
     initialize: function()
     {
+        $('body').addClass('js');
+
         Backend.hideUnnecessaryToggles();
         Backend.enableToggleSelect();
         Backend.disableCollapseActions();

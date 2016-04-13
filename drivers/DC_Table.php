@@ -501,8 +501,8 @@ class DC_Table extends \Contao\DC_Table
         </form>
 
         <script>
-        window.addEvent(\'domready\', function() {
-            Theme.focusInput("'.$this->strTable.'");
+        $(document).ready(function() {
+            Backend.focusInput("'.$this->strTable.'");
         });
         </script>';
 

@@ -325,6 +325,10 @@ var Backend = {
      */
     themePath: Contao.script_url + 'system/modules/contao-material/assets/images/',
 
+    focusInput: function (input) {
+
+    },
+
     /**
      * Get the current mouse position
      *

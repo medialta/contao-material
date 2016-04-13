@@ -580,11 +580,11 @@ class DC_Folder extends \Contao\DC_Folder
       </ul>
   </form>
 
-  <script>
-      window.addEvent(\'domready\', function() {
-        Theme.focusInput("'.$this->strTable.'");
-    });
-</script>';
+        <script>
+        $(document).ready(function() {
+            Backend.focusInput("'.$this->strTable.'");
+        });
+        </script>';
 
         // Begin the form (-> DO NOT CHANGE THIS ORDER -> this way the onsubmit attribute of the form can be changed by a field)
 $return = $version . '

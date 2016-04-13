@@ -1782,11 +1782,11 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
 </div>
 </form>
 
-<script>
-  window.addEvent(\'domready\', function() {
-    Theme.focusInput("'.$this->strTable.'");
-  });
-</script>';
+        <script>
+        $(document).ready(function() {
+            Backend.focusInput("'.$this->strTable.'");
+        });
+        </script>';
 
 
         // TODO: find a better solution to handle toggleSubpalette ...

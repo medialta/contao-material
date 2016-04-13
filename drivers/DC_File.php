@@ -70,7 +70,7 @@ class DC_File extends \Contao\DC_File
             }
 
             // Render boxes
-            $class = 'tl_tbox';
+            $class = '';
             $fs = $this->Session->get('fieldset_states');
             $blnIsFirst = true;
 
@@ -85,19 +85,19 @@ class DC_File extends \Contao\DC_File
                 if (isset($legends[$k]))
                 {
                     list($key, $cls) = explode(':', $legends[$k]);
-                    $legend = "\n" . '<div class="collapsible-header '.($cls == 'hide' ? '' : 'active').'" onclick="AjaxRequest.toggleFieldset(this, \'' . $key . '\', \'' . $this->strTable . '\')">' . (isset($GLOBALS['TL_LANG'][$this->strTable][$key]) ? $GLOBALS['TL_LANG'][$this->strTable][$key] : $key) . '</div><div class="collapsible-body">';
+                    if (isset($fs[$this->strTable][$key]))
+                    {
+
+                        $class .= ($fs[$this->strTable][$key] ? '' : ' active');
+                    }
+                    else
+                    {
+                        $class .= ($cls == 'hide' ? '' : ' active');
+                    }
+                    $legend = "\n" . '<div class="collapsible-header '.$class.'" onclick="AjaxRequest.toggleFieldset(this, \'' . $key . '\', \'' . $this->strTable . '\')">' . (isset($GLOBALS['TL_LANG'][$this->strTable][$key]) ? $GLOBALS['TL_LANG'][$this->strTable][$key] : $key) . '</div><div class="collapsible-body">';
                 }
 
-                /*if (isset($fs[$this->strTable][$key]))
-                {
-                    $class .= ($fs[$this->strTable][$key] ? '' : ' collapsed');
-                }
-                else
-                {
-                    $class .= (($cls && $legend) ? ' ' . $cls : '');
-                }*/
-
-                $return .= "\n\n" . '<li' . ($key ? ' id="pal_'.$key.'"' : '') . ' class="' . $class . ($legend ? '' : ' nolegend') . '">' . $legend;
+                $return .= "\n\n" . '<li' . ($key ? ' id="pal_'.$key.'"' : '') . ' class="' . ($legend ? '' : ' nolegend') . '">' . $legend;
 
                 // Build rows of the current box
                 foreach ($v as $vv)

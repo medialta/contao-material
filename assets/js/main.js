@@ -124,9 +124,10 @@ var AjaxRequest = {
             $(el).parent('div').parent('div').after(div);
             el.value = 1;
             el.checked = 'checked';
-            div.getElements('a').each(function(el) {
+            div.find('a').each(function(el) {
                 el.href = el.href.replace(/&ref=[a-f0-9]+/, '&ref=' + Contao.referer_id);
             });
+            $('select').select2();
         });
     },
 
@@ -965,9 +966,11 @@ var Backend = {
             rows = tbody.children(),
             tabindex = tbody.data('tabindex'),
             input, select, childs, a, i, j, tr;
-
         switch (command) {
             case 'copy':
+                parent.find('select').each(function(index, ele) {
+                    $(ele).select2('destroy')
+                });
                 tr = $('<tr/>')
                 childs = parent.children()
                 for (i=0; i<childs.length; i++) {
@@ -1012,6 +1015,7 @@ var Backend = {
                 }
             }
         }
+        $('select').select2()
     },
 
     /**

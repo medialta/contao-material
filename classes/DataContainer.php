@@ -334,7 +334,6 @@ abstract class DataContainer extends \Contao\DataContainer
         if (!empty($arrData['eval']['rte']))
         {
             list ($file, $type) = explode('|', $arrData['eval']['rte'], 2);
-
             if (!file_exists(TL_ROOT . '/system/config/' . $file . '.php'))
             {
                 throw new \Exception(sprintf('Cannot find editor configuration file "%s.php"', $file));
@@ -344,7 +343,11 @@ abstract class DataContainer extends \Contao\DataContainer
             $language = \Backend::getTinyMceLanguage(); // backwards compatibility
 
             ob_start();
-            include TL_ROOT . '/system/config/' . $file . '.php';
+            if (file_exists(TL_ROOT . '/system/modules/contao-material/config/' . $file . '.php')) {
+                include TL_ROOT . '/system/modules/contao-material/config/' . $file . '.php';
+            } else {
+                include TL_ROOT . '/system/config/' . $file . '.php';
+            }
             $updateMode = ob_get_contents();
             ob_end_clean();
 

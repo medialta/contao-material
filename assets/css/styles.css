@@ -44,11 +44,23 @@ input:-webkit-autofill:active {
 span.mandatory {
     color: #c33;
 }
+.ace_editor {
+    min-height: 3rem;
+}
+.clr {
+    width: 100%;
+    clear: both;
+}
 .w50 {
-    width: 49%;
-    display: inline-block;
+    width: 50%;
+    float: left;
     padding-right: 10px;
     vertical-align: top;
+}
+.collapsible-body:after {
+    content: " ";
+    display: table;
+    clear: both;
 }
 
 @media (max-width: 991px) {

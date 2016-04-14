@@ -1377,7 +1377,7 @@ var Backend = {
         $('.js-toggle-subpanel').click(Backend.toggleSubpanel);
         $('.js-toggle-version').click(Backend.toggleVersion);
 
-        $('select').select2();
+        $('select:not(.browser-default)').select2();
         $('.tooltipped').tooltip({delay: 50});
 
         Backend.limitPreviewHeight();

@@ -232,7 +232,8 @@ abstract class DataContainer extends \Contao\DataContainer
         if ($arrData['eval']['datepicker'])
         {
             $rgxp = $arrData['eval']['rgxp'];
-            $format = \Date::formatToJs(\Config::get($rgxp.'Format'));
+            $format = \Config::get($rgxp.'Format');
+            $formatjs = \Date::formatToJs(\Config::get($rgxp.'Format'));
 
             switch ($rgxp)
             {
@@ -248,20 +249,20 @@ abstract class DataContainer extends \Contao\DataContainer
                 $time = '';
                 break;
             }
-            $search_date = array('Y', 'm', 'd');
-            $replace_date = array('yyyy', 'mm', 'dd');
+            $search_date = array('Y', 'm', 'd', 'H', 'i');
+            $replace_date = array('yyyy', 'mm', 'dd', '00', '00');
 
-            $wizard .= ' <img src="assets/mootools/datepicker/' . $GLOBALS['TL_ASSETS']['DATEPICKER'] . '/icon.gif" width="20" height="20" alt="" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['datepicker']).'" id="toggle_' . $objWidget->id . '" style="vertical-align:-6px;cursor:pointer">
+            $wizard .= ' <img src="system/modules/contao-material/assets/img/datepicker.png" width="20" height="20" alt="" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['datepicker']).'" id="toggle_' . $objWidget->id . '" style="position:absolute;right:0;top:1rem;;">
             <script>
             $("#ctrl_' . $objWidget->id . '").pickadate({
                 selectMonths: true, // Creates a dropdown to control month
                 selectYears: 15,
-                format: \''.str_replace($search_date, $replace_date, \Config::get('dateFormat')).'\',
-                monthsFull: [\''.$GLOBALS['TL_LANG']['MONTHS'][0].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][1].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][2].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][3].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][4].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][5].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][6].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][7].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][8].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][9].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][10].'\', \''.$GLOBALS['TL_LANG']['MONTHS'][11].'\'],
-                weekdaysShort: [\'Dim\', \'Lun\', \'Mar\', \'Mer\', \'Jeu\', \'Ven\', \'Sam\'],
-                today: \'aujourd\\\'hui\',
-                clear: \'<i class="material-icons">close</i>\',
-                close: \'<i class="material-icons">check</i>\',
+                format: "'.str_replace($search_date, $replace_date, $format).'",
+                monthsFull: ["'.$GLOBALS['TL_LANG']['MONTHS'][0].'", "'.$GLOBALS['TL_LANG']['MONTHS'][1].'", "'.$GLOBALS['TL_LANG']['MONTHS'][2].'", "'.$GLOBALS['TL_LANG']['MONTHS'][3].'", "'.$GLOBALS['TL_LANG']['MONTHS'][4].'", "'.$GLOBALS['TL_LANG']['MONTHS'][5].'", "'.$GLOBALS['TL_LANG']['MONTHS'][6].'", "'.$GLOBALS['TL_LANG']['MONTHS'][7].'", "'.$GLOBALS['TL_LANG']['MONTHS'][8].'", "'.$GLOBALS['TL_LANG']['MONTHS'][9].'", "'.$GLOBALS['TL_LANG']['MONTHS'][10].'", "'.$GLOBALS['TL_LANG']['MONTHS'][11].'"],
+                weekdaysShort: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+                today: "'.$GLOBALS['TL_LANG']['MSC']['today'].'",
+                clear: "<i class=\"material-icons\">close</i>",
+                close: "<i class=\"material-icons\">check</i>",
             });
             </script>';
         }

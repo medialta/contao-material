@@ -155,11 +155,15 @@ span.mandatory {
         margin-top: -9px;
     }
 .wizard .tl_text {
-    width: calc(100% - 25px);
+    
 }
     .wizard .tl_text+a img {
         margin-top: 25px;
     }
+
+#ctrl_module+.select2-container {
+    width: calc(100% - 20px) !important;
+}
 .tl_listwizard .tl_text {
     width: calc(100% - 100px);
 }

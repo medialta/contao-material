@@ -16,3 +16,4 @@
  * Miscellaneous
  */
 $GLOBALS['TL_LANG']['MSC'][''] = '';
+$GLOBALS['TL_LANG']['MSC']['today'] = 'Today';

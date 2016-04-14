@@ -1345,7 +1345,7 @@ var Backend = {
     enableBadCronstructedCheckboxes: function ()
     {
         var id;
-        $('input[type=checkbox]').each(function(index, el) {
+        $('input[type=checkbox]:not(.mw_enable)').each(function(index, el) {
             if ($(el).next('label').length == 0) {
                 id = $(el).attr('id') ? $(el).attr('id') : ''
                 $(el).after('<label for="' + id + '"></label>')

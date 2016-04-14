@@ -212,7 +212,6 @@ span.mandatory {
 .tl_error.tl_tip {
     color: #E57373;
     font-weight: bold;
-    padding: 10px 0;
 }
 .collapsible-body label {
     font-size: 1.2rem;
@@ -380,6 +379,11 @@ img.preview {
     border-left: 0;
     border-right: 0;
     border-top: 0;
+}
+.tl_select.active+.select2-container .select2-selection,
+.tl_text.active {
+    border-color: #26a69a;
+    border-width: 2px;
 }
 header {
     position: fixed;

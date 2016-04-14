@@ -49,6 +49,9 @@ ClassLoader::addClasses(array
 	'ContaoMaterial\InputUnit'          => 'system/modules/contao-material/widgets/InputUnit.php',
 	'ContaoMaterial\TextField'          => 'system/modules/contao-material/widgets/TextField.php',
 	'ContaoMaterial\TableWizard'        => 'system/modules/contao-material/widgets/TableWizard.php',
+
+	// Library
+	'ContaoMaterial\Image'              => 'system/modules/contao-material/library/Image.php',
 ));
 
 

@@ -187,10 +187,11 @@ class Helper extends \System
      */
     public static function getIconHtml($src, $alt = '', $attributes = '')
     {
+        $srcgif = str_replace('.png', '.gif', $src);
         $icon = '';
         $inactive = self::isInactiveIcon($src);
 
-        if (self::isImage($src))
+        if (self::isImage($src) || self::isImage($srcgif))
         {
             if (!isset($GLOBALS['MD_ICONS']))
             {
@@ -204,6 +205,14 @@ class Helper extends \System
             else if (isset($GLOBALS['MD_ICONS'][basename($src)]))
             {
                 $icon = $GLOBALS['MD_ICONS'][basename($src)];
+            }
+            else if (isset($GLOBALS['MD_ICONS'][$srcgif]))
+            {
+                $icon = $GLOBALS['MD_ICONS'][$srcgif];
+            }
+            else if (isset($GLOBALS['MD_ICONS'][basename($srcgif)]))
+            {
+                $icon = $GLOBALS['MD_ICONS'][basename($srcgif)];
             }
             else if ($inactive)
             {

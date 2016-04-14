@@ -162,7 +162,7 @@ span.mandatory {
     }
 
 #ctrl_module+.select2-container {
-    width: calc(100% - 20px) !important;
+    width: calc(100% - 30px) !important;
 }
 .tl_listwizard .tl_text {
     width: calc(100% - 100px);

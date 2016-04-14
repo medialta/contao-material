@@ -623,7 +623,17 @@ var Backend = {
      * @param {string} cls The CSS class name
      */
     toggleCheckboxElements: function(el, cls) {
+        var status = $(el).is(':checked') ? 'checked' : ''
 
+        $('.' + cls).each(function(index, checkbox) {
+             if ($(checkbox).hasClass('tl_checkbox')) {
+                setTimeout(function () {
+                    $(checkbox).prop('checked', (status == 'checked' ? true : false))
+                }, 50*index)
+             }
+        });
+
+        Backend.getScrollOffset();
     },
 
     /**

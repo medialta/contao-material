@@ -1234,10 +1234,10 @@ var Backend = {
 
     selectCheckboxRadio: function(el) {
         var input = $(el).find('.actions').find('input[type="checkbox"],input[type="radio"]');
+
         // Radio buttons
         if (input.attr('type') == 'radio') {
             if (!input.attr('checked')) {
-                $('.file_toggle_select input[type="radio"]').removeAttr('checked')
                 input.prop('checked', true);
             }
             return;
@@ -1245,9 +1245,11 @@ var Backend = {
 
         // Checkboxes
         if (input.attr('type') == 'checkbox') {
-            if (!input.attr('checked')) {
-                $('.file_toggle_select input[type="checkbox"]').removeAttr('checked')
+
+            if (!input.prop('checked')) {
                 input.prop('checked', true);
+            } else {
+                input.prop('checked', false);
             }
             return;
         }

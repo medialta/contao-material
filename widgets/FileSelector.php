@@ -288,7 +288,7 @@ class FileSelector extends \Contao\FileSelector
                     $countFiles++;
                 }
             }
-            $return .= "\n    " . '<li class="'.$folderClass.' toggle_select"><div class="collapsible-header' . $isNodeActive . ($countFiles > 0 ? ' -with-child' : '') . '"><div class="item">';
+            $return .= "\n    " . '<li class="'.$folderClass.' toggle_select"><div class="collapsible-header' . $isNodeActive . ($countFiles > 0 ? ' -with-child' : '') . '" onclick="Backend.selectCheckboxRadio(this)"><div class="item">';
 
 
             // Add a toggle button if there are childs
@@ -356,7 +356,7 @@ class FileSelector extends \Contao\FileSelector
                     continue;
                 }
 
-                $return .= "\n    " . '<li class="file row-container file_toggle_select"><div class="collapsible-header"><div class="item">';
+                $return .= "\n    " . '<li class="file row-container file_toggle_select"><div class="collapsible-header" onclick="Backend.selectCheckboxRadio(this)"><div class="item">';
 
                 // Generate thumbnail
                 if ($objFile->isImage && $objFile->viewHeight > 0)

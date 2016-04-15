@@ -255,17 +255,21 @@ class Helper extends \System
     {
         $static = TL_FILES_URL;
         $src = rawurldecode($src);
+        $srcpng = str_replace('.gif', '.png', $src);
 
         if (strpos($src, '/') === false)
         {
             if (strncmp($src, 'icon', 4) === 0)
             {
-                $static = TL_ASSETS_URL;
-                $src = 'assets/contao/images/' . $src;
+                if (file_exists( __DIR__ . '/../assets/images/' . $srcpng)) {
+                    $src = 'system/modules/contao-material/assets/images/' . $srcpng;
+                } else {
+                    $static = TL_ASSETS_URL;
+                    $src = 'assets/contao/images/' . $src;
+                }
             }
             else
             {
-                $srcpng = str_replace('.gif', '.png', $src);
                 if (file_exists( __DIR__ . '/../assets/images/' . $srcpng)) {
                     $src = 'system/modules/contao-material/assets/images/' . $srcpng;
                 } else {

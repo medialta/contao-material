@@ -58,6 +58,9 @@ span.mandatory {
     vertical-align: top;
     min-height: 100px !important;
 }
+.w50 + :not(.w50) {
+    clear: both;
+}
 .collapsible-body:after {
     content: " ";
     display: table;

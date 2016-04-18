@@ -11,8 +11,9 @@
  * @copyright Medialta 2015
  */
 
-
-\MetaPalettes::appendFields('tl_settings', 'ContaoMaterial', array('cover_image'));
+if (class_exists('\MetaPalettes')) {
+    \MetaPalettes::appendFields('tl_settings', 'ContaoMaterial', array('cover_image'));
+}
 
 
 $GLOBALS['TL_DCA']['tl_settings']['fields']['cover_image'] = array

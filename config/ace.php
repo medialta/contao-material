@@ -66,15 +66,16 @@ window.ace && $(document).ready(function() {
 
   editor.on('focus', function() {
     Backend.getScrollOffset();
-    updateHeight();
+    //updateHeight();
   });
 
   editor.getSession().on('change', function() {
     ta.value = editor.getValue();
-    updateHeight();
+    //updateHeight();
+    editor.resize();
   });
 
-  updateHeight();
+  //updateHeight();
 });
 </script>
 <?php endif; ?>

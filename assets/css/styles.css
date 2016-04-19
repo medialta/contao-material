@@ -45,7 +45,7 @@ span.mandatory {
     color: #c33;
 }
 .ace_editor {
-    min-height: 3rem;
+    min-height: 20rem;
 }
 .clr {
     width: 100%;

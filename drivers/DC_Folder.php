@@ -765,7 +765,7 @@ $return = $version . '
           <p class="right"><input type="checkbox" id="show-hidden" class="tl_checkbox" onclick="Backend.toggleUnchanged()"> <label for="show-hidden">' . $GLOBALS['TL_LANG']['tl_files']['syncShowUnchanged'] . '</label></p>
           <div class="clear"></div>
       </div>
-      <div class="tl_message nobg" id="result-list" style="margin-bottom:2em">';
+      <div class="tl_message nobg sync-result" id="result-list" style="margin-bottom:2em">';
 
         // Add the messages
         foreach ($arrMessages as $strMessage)

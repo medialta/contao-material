@@ -649,7 +649,9 @@ var Backend = {
      * Toggle the synchronization results
      */
     toggleUnchanged: function() {
-
+        $('#result-list .tl_confirm').each(function(index, el) {
+            $(el).toggleClass('hidden');
+        });
     },
 
     /**

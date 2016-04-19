@@ -47,6 +47,15 @@ span.mandatory {
 .ace_editor {
     min-height: 20rem;
 }
+.hidden {
+    display: none;
+}
+.clear {
+    clear: both;
+    height: .1px;
+    line-height: .1px;
+    font-size: .1px;
+}
 .clr {
     width: 100%;
     clear: both;
@@ -897,4 +906,25 @@ span.inactive-option {
 }
 .tl_formbody_edit label {
     font-size: 1.2rem;
+}
+
+#sync-results, .sync-result {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.sync-result .tl_error, .sync-result .tl_confirm, .sync-result .tl_info, .sync-result .tl_new {
+    margin: 1px 0 0;
+    padding: 4px 5px 5px 5px;
+}
+.sync-result .tl_confirm {
+    color: #81c784;
+}
+.sync-result .tl_info {
+    color: #64b5f6;
+}
+.sync-result .tl_new {
+    color: #fbc02d;
+}
+.sync-result .tl_error {
+    color: #E57373;
 }

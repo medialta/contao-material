@@ -352,7 +352,7 @@ footer {
     .parent_view .actions {
         padding-top: 0;
         padding-bottom: 0;
-        margin-top: -1px;
+        margin-top: -2px;
     }
 
         table.listing .actions,

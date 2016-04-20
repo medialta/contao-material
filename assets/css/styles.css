@@ -433,8 +433,7 @@ nav {
     margin: 0;
     padding: 12px 0 12px 4rem;
     background-repeat: no-repeat;
-    background-position: left center;
-    background-position-x: 1.5rem;
+    background-position: 1.5rem center;
 }
 .side-nav .collapsible-body a.active {
 }

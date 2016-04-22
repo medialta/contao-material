@@ -52,7 +52,7 @@
                         <li class="no-padding">
                             <ul class="collapsible collapsible-accordion<?= $arrModules['class'] ?>">
                                 <li><!--
-                                 --><a class="collapsible-header <?php echo (strpos($arrModules['class'], 'trail') !== false ? 'active' : '') ?>" href="<?= $arrModules['href'] ?>" title="<?= $arrModules['title'] ?>"><i class="material-icons expand-icon">expand_more</i><span><?= $arrModules['label'] ?></span></a>
+                                 --><a class="collapsible-header <?php echo (strpos($arrModules['class'], 'trail') !== false ? 'active' : '') ?>" title="<?= $arrModules['title'] ?>"><i class="material-icons expand-icon">expand_more</i><span><?= $arrModules['label'] ?></span></a>
                                     <?php if ($arrModules['modules']): ?>
                                         <div class="collapsible-body primary -c100">
                                             <ul>

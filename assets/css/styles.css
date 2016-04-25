@@ -166,16 +166,12 @@ span.mandatory {
     .collapsible-body .tl_radio_table+.tl_tip.tl_help {
         margin-top: -9px;
     }
-.wizard .tl_text {
-    
+.wizard .tl_text:not(.picker__input) {
+    width: calc(100% - 30px);
 }
     .wizard .tl_text+a img {
         margin-top: 25px;
     }
-
-#ctrl_url, #ctrl_imageUrl {
-    width: calc(100% - 30px);
-}
 
 #ctrl_module+.select2-container {
     width: calc(100% - 30px) !important;

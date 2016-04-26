@@ -685,6 +685,209 @@ $return = $version . '
     }
 
     /**
+     * Load the source editor
+     *
+     * @return string
+     */
+    public function source()
+    {
+        $this->isValid($this->intId);
+
+        if (is_dir(TL_ROOT .'/'. $this->intId))
+        {
+            $this->log('Folder "'.$this->intId.'" cannot be edited', __METHOD__, TL_ERROR);
+            $this->redirect('contao/main.php?act=error');
+        }
+        elseif (!file_exists(TL_ROOT .'/'. $this->intId))
+        {
+            $this->log('File "'.$this->intId.'" does not exist', __METHOD__, TL_ERROR);
+            $this->redirect('contao/main.php?act=error');
+        }
+
+        $this->import('BackendUser', 'User');
+
+        // Check user permission
+        if (!$this->User->hasAccess('f5', 'fop'))
+        {
+            $this->log('Not enough permissions to edit the file source of file "'.$this->intId.'"', __METHOD__, TL_ERROR);
+            $this->redirect('contao/main.php?act=error');
+        }
+
+        $objFile = new \File($this->intId, true);
+
+        // Check whether file type is editable
+        if (!in_array($objFile->extension, trimsplit(',', \Config::get('editableFiles'))))
+        {
+            $this->log('File type "'.$objFile->extension.'" ('.$this->intId.') is not allowed to be edited', __METHOD__, TL_ERROR);
+            $this->redirect('contao/main.php?act=error');
+        }
+
+        // Add the versioning routines
+        if ($this->blnIsDbAssisted)
+        {
+            $objMeta = \FilesModel::findByPath($objFile->value);
+
+            if ($objMeta === null)
+            {
+                $objMeta = \Dbafs::addResource($objFile->value);
+            }
+
+            $objVersions = new \Versions($this->strTable, $objMeta->id);
+
+            if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['hideVersionMenu'])
+            {
+                // Compare versions
+                if (\Input::get('versions'))
+                {
+                    $objVersions->compare();
+                }
+
+                // Restore a version
+                if (\Input::post('FORM_SUBMIT') == 'tl_version' && \Input::post('version') != '')
+                {
+                    $objVersions->restore(\Input::post('version'));
+
+                    // Purge the script cache (see #7005)
+                    if ($objFile->extension == 'css' || $objFile->extension == 'scss' || $objFile->extension == 'less')
+                    {
+                        $this->import('Automator');
+                        $this->Automator->purgeScriptCache();
+                    }
+
+                    $this->reload();
+                }
+            }
+
+            $objVersions->initialize();
+        }
+
+        $strContent = $objFile->getContent();
+
+        if ($objFile->extension == 'svgz')
+        {
+            $strContent = gzdecode($strContent);
+        }
+
+        // Process the request
+        if (\Input::post('FORM_SUBMIT') == 'tl_files')
+        {
+            // Restore the basic entities (see #7170)
+            $strSource = \StringUtil::restoreBasicEntities(\Input::postRaw('source'));
+
+            // Save the file
+            if (md5($strContent) != md5($strSource))
+            {
+                if ($objFile->extension == 'svgz')
+                {
+                    $strSource = gzencode($strSource);
+                }
+
+                // Write the file
+                $objFile->write($strSource);
+                $objFile->close();
+
+                // Update the database
+                if ($this->blnIsDbAssisted)
+                {
+                    /** @var \FilesModel $objMeta */
+                    $objMeta->hash = $objFile->hash;
+                    $objMeta->save();
+
+                    $objVersions->create();
+                }
+
+                // Purge the script cache (see #7005)
+                if ($objFile->extension == 'css' || $objFile->extension == 'scss' || $objFile->extension == 'less')
+                {
+                    $this->import('Automator');
+                    $this->Automator->purgeScriptCache();
+                }
+            }
+
+            if (\Input::post('saveNclose'))
+            {
+                \System::setCookie('BE_PAGE_OFFSET', 0, 0);
+                $this->redirect($this->getReferer());
+            }
+
+            $this->reload();
+        }
+
+        $codeEditor = '';
+
+        // Prepare the code editor
+        if (\Config::get('useCE'))
+        {
+            $selector = 'ctrl_source';
+            $type = $objFile->extension;
+
+            // Load the code editor configuration
+            ob_start();
+            include TL_ROOT . '/system/modules/contao-material/config/ace.php';
+            $codeEditor = ob_get_contents();
+            ob_end_clean();
+
+            unset($selector, $type);
+        }
+
+        // Versions overview
+        if ($this->blnIsDbAssisted && $GLOBALS['TL_DCA'][$this->strTable]['config']['enableVersioning'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['hideVersionMenu'])
+        {
+            $version = $objVersions->renderDropdown();
+        }
+        else
+        {
+            $version = '';
+        }
+
+        // Submit buttons
+        $arrButtons = array();
+        $arrButtons['save'] = '<button type="submit" name="save" id="save" class="btn orange lighten-2" accesskey="s">'.specialchars($GLOBALS['TL_LANG']['MSC']['save']).'</button>';
+        $arrButtons['saveNclose'] = '<button type="submit" name="saveNclose" id="saveNclose" class="btn-flat orange-text text-lighten-2" accesskey="c">'.specialchars($GLOBALS['TL_LANG']['MSC']['saveNclose']).'</button>';
+
+        // Call the buttons_callback (see #4691)
+        if (is_array($GLOBALS['TL_DCA'][$this->strTable]['edit']['buttons_callback']))
+        {
+            foreach ($GLOBALS['TL_DCA'][$this->strTable]['edit']['buttons_callback'] as $callback)
+            {
+                if (is_array($callback))
+                {
+                    $this->import($callback[0]);
+                    $arrButtons = $this->$callback[0]->$callback[1]($arrButtons, $this);
+                }
+                elseif (is_callable($callback))
+                {
+                    $arrButtons = $callback($arrButtons, $this);
+                }
+            }
+        }
+
+        // Add the form
+        return $version . '
+        <div id="tl_buttons" class="card-action">
+            <a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">arrow_back</i></a>
+        </div>
+        '.\Message::generate().'
+        <form action="'.ampersand(\Environment::get('request'), true).'" id="tl_files" class="tl_form" method="post">
+            <div class="tl_formbody_edit">
+                <input type="hidden" name="FORM_SUBMIT" value="tl_files">
+                <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
+                <div class="tl_tbox">
+                  <h3><label for="ctrl_source">'.$GLOBALS['TL_LANG']['tl_files']['editor'][0].'</label></h3>
+                  <textarea name="source" id="ctrl_source" class="tl_textarea monospace" rows="12" cols="80" style="height:400px" onfocus="Backend.getScrollOffset()">' . "\n" . htmlspecialchars($strContent) . '</textarea>' . ((\Config::get('showHelp') && strlen($GLOBALS['TL_LANG']['tl_files']['editor'][1])) ? '
+                      <p class="tl_help tl_tip">'.$GLOBALS['TL_LANG']['tl_files']['editor'][1].'</p>' : '') . '
+              </div>
+          </div>
+
+          <div class="card-action">
+
+              ' . implode(' ', $arrButtons) . '
+          </div>
+
+        </form>' . "\n\n" . $codeEditor;
+    }
+
+    /**
      * Synchronize the file system with the database
      *
      * @return string

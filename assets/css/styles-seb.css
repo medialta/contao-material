@@ -127,6 +127,10 @@ footer {
         display: none;
         margin-bottom: 0;
     }
+    .subpanel.row {
+        margin-left: 0;
+        margin-right: 0;
+    }
 
         .subpanel input[type=search] {
             margin-bottom: 0;

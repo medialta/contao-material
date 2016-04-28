@@ -124,8 +124,8 @@ var AjaxRequest = {
             $(el).parent('div').parent('div').after(div);
             el.value = 1;
             el.checked = 'checked';
-            div.find('a').each(function(el) {
-                el.href = el.href.replace(/&ref=[a-f0-9]+/, '&ref=' + Contao.referer_id);
+            div.find('a').each(function(index, el) {
+                $(el).attr('href', $(el).attr('href').replace(/&ref=[a-f0-9]+/, '&ref=' + Contao.referer_id));
             });
             $('select').select2();
         });

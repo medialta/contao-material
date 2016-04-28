@@ -387,7 +387,7 @@ var Backend = {
      * @param {object} options An optional options object
      */
     openModalIframe: function(e) {
-        $('#modal').html('<iframe src="' + e.url + '" width="100%" height="100%" frameborder="0"></iframe>');
+        $('#modal').html('<iframe src="' + e.url + '" width="100%" height="100%" frameborder="0"></iframe><div class="modal-footer"><a class="modal-action modal-close btn-flat" title="' + Contao.lang.close +'">' + Contao.lang.close +'</a></div>');
         $('#modal').openModal();
         return ;
     },

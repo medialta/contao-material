@@ -1,5 +1,9 @@
 'use strict';
 
+$.fn.addEvent = function () {
+    console.warn('Use deprecated function addEvent')
+}
+
 var AjaxRequest = {
     /**
      * The theme path
@@ -290,6 +294,12 @@ var AjaxRequest = {
      * Hide the "loading data" message
      */
     hideBox: function() {
+
+    }
+}
+
+var Theme = {
+    hoverRow: function () {
 
     }
 }
@@ -1347,9 +1357,17 @@ var Backend = {
     enableBadCronstructedCheckboxes: function ()
     {
         var id;
+        var i = 0;
         $('input[type=checkbox]:not(.mw_enable)').each(function(index, el) {
             if ($(el).next('label').length == 0) {
-                id = $(el).attr('id') ? $(el).attr('id') : ''
+                if ($(el).attr('id')) {
+                    id = $(el).attr('id')
+                }
+                else {
+                    id = 'checkboxdynamic_'+i
+                    i++
+                    $(el).attr('id', id)
+                }
                 $(el).after('<label for="' + id + '"></label>')
             }
         });
@@ -1363,6 +1381,28 @@ var Backend = {
             $(this).attr('data-tooltip', $(this).attr('title'));
             $(this).html('<i class="material-icons black-text">keyboard_backspace</i>');
         });
+    },
+
+    scriptComposer: function ()
+    {
+        if ($('table.composer_package_list input[name="select"]').length > 0) {
+            var inputs = $('table.composer_package_list input[name="select"]')
+            inputs.removeAttr('disabled')
+            inputs.change(function(event) {
+                var names = []
+                inputs.each(function(index, el) {
+                    if ($(el).is(':checked')) {
+                        names.push($(el).val())
+                    }
+                });
+                $('.package_names').val(names.join(','))
+                if (names.length) {
+                    $('#tl_composer_actions > button').removeAttr('disabled');
+                } else {
+                    $('#tl_composer_actions > button').attr('disabled', true);
+                }
+            });
+        }
     },
 
     initialize: function()
@@ -1393,6 +1433,8 @@ var Backend = {
         }).mouseleave(function() {
             $(this).children('.help-tooltip').remove()
         });
+
+        Backend.scriptComposer();
     },
 
     fixPrimaryAction: function ()

@@ -330,14 +330,27 @@ var AjaxRequest = {
      * @param {string} message The message text
      */
     displayBox: function(message) {
+        var box = $('#tl_ajaxBox'),
+            scroll = $(document).scrollTop();
 
+        if (box.length == 0) {
+            $('body').append('<div id="tl_ajaxBox"></div>')
+            box = $('#tl_ajaxBox')
+        }
+
+        box.css('display', 'block')
+        box.css('top', (scroll + 100) + 'px')
+        box.html(message)
     },
 
     /**
      * Hide the "loading data" message
      */
     hideBox: function() {
-
+        var box = $('#tl_ajaxBox')
+        if (box.length) {
+            box.css('display', 'none')
+        }
     }
 }
 

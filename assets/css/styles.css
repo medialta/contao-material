@@ -771,6 +771,19 @@ span.inactive-option {
     padding: 2px 6px 1px;
 }
 
+#tl_ajaxBox {
+    width:20%;
+    padding:24px;
+    position:absolute;
+    left:40%;
+    background:#fff;
+    border:2px solid #666;
+    border-radius:6px;
+    font-size:15px;
+    text-align:left;
+}
+
+
 @media (max-width: 600px) {
     header {
         position: inherit;

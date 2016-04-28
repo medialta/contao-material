@@ -2978,7 +2978,7 @@ class DC_Table extends \Contao\DC_Table
         {
             if (!empty($childs) && $session[$node][$id] == 1)
             {
-                $return .= '</div><div class="collapsible-body" id="'.$node.'-'.$id.'"><ul class="level-'.$level.' collapsible" data-collapsible="expandable">';
+                $return .= '</div><div class="collapsible-body" id="'.$node.'_'.$id.'"><ul class="level-'.$level.' collapsible" data-collapsible="expandable">';
             }
 
             // Add the records of the parent table

@@ -401,7 +401,7 @@ var Backend = {
         var opt = options || {},
             max = (screen.height*0.45);
         if (!opt.height || opt.height > max) opt.height = max;
-        var html = '<div class="modal-content"><h4>' + opt.title + '</h4><iframe src="' + opt.url + '" name="simple-modal-iframe" width="100%" height="' + opt.height + '" frameborder="0"></iframe></div>';
+        var html = '<div class="modal-content"><h4>' + opt.title + '</h4><iframe src="' + opt.url + '" name="simple-modal-iframe" width="100%" height="100%" frameborder="0"></iframe></div>';
 
         html += '<div class="modal-footer"><a class="modal-action modal-apply btn orange lighten-2" title="' + Contao.lang.apply + '">' + Contao.lang.apply + '</a><a class="modal-action modal-close btn-flat" title="' + Contao.lang.close +'">' + Contao.lang.close +'</a></div>';
         $('#modal').html(html);

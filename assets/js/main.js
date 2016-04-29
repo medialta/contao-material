@@ -91,7 +91,49 @@ var AjaxRequest = {
      * @returns {boolean}
      */
     toggleFileManager: function (el, id, folder, level) {
+        el.blur();
 
+        var item = $('#' + id)
+
+        if (item.length) {
+            if (item.css('display') == 'none') {
+                item.css('display', 'block')
+                $.ajax({
+                    url: window.location,
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {action: 'toggleFileManager', id: id, state: 1, REQUEST_TOKEN:Contao.request_token},
+                });
+            } else {
+                item.css('display', 'none')
+                $.ajax({
+                    url: window.location,
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {action: 'toggleFileManager', id: id, state: 0, REQUEST_TOKEN:Contao.request_token},
+                });
+            }
+            $(el).closest('.collapsible-header').toggleClass('active')
+            return false;
+        }
+
+        AjaxRequest.displayBox(Contao.lang.loading + ' …')
+        $.ajax({
+            url: window.location,
+            type: 'POST',
+            dataType: 'HTML',
+            data: {action: 'loadFileManager', id: id, level: level, 'folder': folder, state: 1, REQUEST_TOKEN: Contao.request_token},
+        })
+        .done(function (res) {
+            var div = '<div class="collapsible-body" id="' + id + '" style="display: block;"><ul class="level_' + level + ' collapsible" data-collapsible="expandable">'
+            div += res
+            div += '</ul></div>'
+            $(el).closest('.collapsible-header').after(div)
+            $(el).closest('.collapsible-header').toggleClass('active')
+            $('.tooltipped').tooltip({delay: 50});
+            AjaxRequest.hideBox();
+        })
+        return false;
     },
 
     /**

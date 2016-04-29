@@ -164,7 +164,50 @@ var AjaxRequest = {
      * @returns {boolean}
      */
     toggleFiletree: function (el, id, folder, field, name, level) {
+        el.blur();
+        Backend.getScrollOffset();
 
+        var item = $('#' + id);
+
+        if (item.length) {
+            if (item.css('display') == 'none') {
+                item.css('display', 'block')
+                $.ajax({
+                    url: window.location,
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {action: 'toggleFiletree', id: id, state: 1, REQUEST_TOKEN:Contao.request_token},
+                });
+            } else {
+                item.css('display', 'none')
+                $.ajax({
+                    url: window.location,
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {action: 'toggleFiletree', id: id, state: 0, REQUEST_TOKEN:Contao.request_token},
+                });
+            }
+            $(el).closest('.collapsible-header').toggleClass('active')
+            return false;
+        }
+
+        AjaxRequest.displayBox(Contao.lang.loading + ' …')
+        $.ajax({
+            url: window.location,
+            type: 'POST',
+            dataType: 'HTML',
+            data: {action: 'loadFiletree', id: id, level: level, 'folder': folder, 'field':field, 'name':name, state: 1, REQUEST_TOKEN: Contao.request_token},
+        })
+        .done(function (res) {
+            var div = '<div class="collapsible-body" id="' + id + '" style="display: block;"><ul class="level_' + level + ' collapsible" data-collapsible="expandable">'
+            div += res
+            div += '</ul></div>'
+            $(el).closest('.collapsible-header').after(div)
+            $(el).closest('.collapsible-header').toggleClass('active')
+            $('.tooltipped').tooltip({delay: 50});
+            AjaxRequest.hideBox();
+        })
+        return false;
     },
 
     /**

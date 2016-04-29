@@ -160,6 +160,7 @@ var AjaxRequest = {
             return;
         }
 
+        AjaxRequest.displayBox(Contao.lang.loading + ' …')
         $.ajax({
             url: window.location,
             type: 'POST',
@@ -175,6 +176,7 @@ var AjaxRequest = {
                 $(el).attr('href', $(el).attr('href').replace(/&ref=[a-f0-9]+/, '&ref=' + Contao.referer_id));
             });
             $('select').select2();
+            AjaxRequest.hideBox();
         });
     },
 

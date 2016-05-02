@@ -1589,6 +1589,14 @@ var Backend = {
                 }
             });
         }
+
+        $('#ctrl_show_dependants').change(function(event) {
+            $('tr.dependant').css('display', $(this).is(':checked') ? '' : 'none')
+        });
+
+        $('#ctrl_show_dependencies').change(function(event) {
+            $('tr.dependency').css('display', $(this).is(':checked') ? '' : 'none')
+        });
     },
 
     initialize: function()

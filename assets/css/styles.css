@@ -702,6 +702,9 @@ span.inactive-option {
     }
 
 /* popup */
+.popup {
+    padding-bottom: 56px;
+}
 .popup .alerts {
     display: none;
 }

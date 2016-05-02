@@ -1,6 +1,7 @@
 <?php
 
 $GLOBALS['MD_ICONS'] = [
+    'apply.gif'             => 'check',
     'article.gif'           => 'library_books',
     'bootstrap.png'         => 'format_bold',
     'css.gif'               => 'brush',

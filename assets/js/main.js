@@ -62,6 +62,7 @@ var AjaxRequest = {
         }
 
         AjaxRequest.displayBox(Contao.lang.loading + ' …')
+        $('.tooltipped').tooltip('remove');
         $.ajax({
             url: window.location,
             type: 'POST',
@@ -118,6 +119,7 @@ var AjaxRequest = {
         }
 
         AjaxRequest.displayBox(Contao.lang.loading + ' …')
+        $('.tooltipped').tooltip('remove');
         $.ajax({
             url: window.location,
             type: 'POST',
@@ -176,6 +178,7 @@ var AjaxRequest = {
         }
 
         AjaxRequest.displayBox(Contao.lang.loading + ' …')
+        $('.tooltipped').tooltip('remove');
         $.ajax({
             url: window.location,
             type: 'POST',
@@ -235,6 +238,7 @@ var AjaxRequest = {
         }
 
         AjaxRequest.displayBox(Contao.lang.loading + ' …')
+        $('.tooltipped').tooltip('remove');
         $.ajax({
             url: window.location,
             type: 'POST',

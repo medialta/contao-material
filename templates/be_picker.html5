@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/css/materialize.min.css"></link>
     <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/css/select2.min.css"></link>
     <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/css/styles.css"></link>
-    <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/css/styles-seb.css"></link>
 
     <script><?= $this->getLocaleString() ?></script>
     <script src="<?php

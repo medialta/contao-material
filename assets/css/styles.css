@@ -321,6 +321,7 @@ nav {
     top: 0 !important;
     width: 100%;
     border-radius: 0;
+    background-color: #fff;
 }
     .modal.modal-fixed-footer {
         padding-bottom: 56px;
@@ -345,6 +346,7 @@ nav {
     }
     .popup .container {
         width: 100%;
+        max-width: inherit;
     }
     .popup .cover-img {
         height: 150px;

@@ -145,9 +145,14 @@
             <div class="card -main">
                 <div class="card-image -main">
                     <?php
+                        $do = $GLOBALS['_GET']['do'];
                         $cover = '/system/modules/contao-material/assets/img/cover.jpg';
-                        if (isset($GLOBALS['TL_CONFIG']['cover_image']) && $GLOBALS['TL_CONFIG']['cover_image'] != '')
+                        if (isset($GLOBALS['TL_CONFIG']['cover_image']) && $GLOBALS['TL_CONFIG']['cover_image'] != '') {
                             $cover = \FilesModel::findByUuid($GLOBALS['TL_CONFIG']['cover_image'])->path;
+                        }
+                        elseif (isset($GLOBALS['CONTAO_MATERIAL']['COVER_IMAGE'][$do])) {
+                            $cover = $GLOBALS['CONTAO_MATERIAL']['COVER_IMAGE'][$do];
+                        }
                     ?>
                     <div style="background-image:url(<?php echo $cover ?>);" class="cover-img"></div>
                     <div class="toggle-buttons -main">

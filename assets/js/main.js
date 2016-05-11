@@ -610,7 +610,7 @@ var Backend = {
             inp = frm.document.getElementById('tl_select').getElementsByTagName('input');
             for (i=0; i<inp.length; i++) {
                 if (!inp[i].checked || inp[i].id.match(/^check_all_/)) continue;
-                //if (!inp[i].id.match(/^reset_/)) val.push(inp[i].get('value'));
+                if (!inp[i].id.match(/^reset_/)) val.push(inp[i].get('value'));
             }
             if (opt.tag) {
                 $('#' + opt.tag).val(val.join(','));

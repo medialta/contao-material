@@ -1200,6 +1200,7 @@ td, th {
 
 .limit_height {
     overflow: hidden;
+    line-height: 1.2em;
 }
 .limit_toggler {
     margin-top: 1rem;

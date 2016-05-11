@@ -26,3 +26,5 @@ $GLOBALS['CONTAO_MATERIAL']['COVER_IMAGE']['files'] = '/system/modules/contao-ma
 $GLOBALS['CONTAO_MATERIAL']['COVER_IMAGE']['calendar'] = '/system/modules/contao-material/assets/img/cover_calendar.jpg';
 $GLOBALS['CONTAO_MATERIAL']['COVER_IMAGE']['news'] = '/system/modules/contao-material/assets/img/cover_news.jpg';
 $GLOBALS['CONTAO_MATERIAL']['COVER_IMAGE']['themes'] = '/system/modules/contao-material/assets/img/cover_themes.jpg';
+
+unset($GLOBALS['TL_JAVASCRIPT']['mcw']);

@@ -2016,7 +2016,7 @@ class DC_Table extends \Contao\DC_Table
         // Return if there are no records
         if ($tree == '' && \Input::get('act') != 'paste')
         {
-            return $return . \Message::parseMessage(\Message::getCssClass('tl_info'), $GLOBALS['TL_LANG']['MSC']['noResult']);
+            return $return . '<div class="card-content">'.\Message::parseMessage(\Message::getCssClass('tl_info'), $GLOBALS['TL_LANG']['MSC']['noResult']).'</div>';
         }
 
         $return .= '<div class="card-content">';

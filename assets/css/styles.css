@@ -1197,10 +1197,24 @@ td, th {
     background: #eeeeee;
     padding-left: 1rem;
 }
+
 .tl_content.indent {
     border-left: 1rem solid #eeeeee;
     padding-left: 1rem;
 }
+    .tl_content.indent_1 {
+        background: #dddddd;
+    }
+    .tl_content.indent.indent_2 {
+        margin-left: 1rem;
+        border-left: 1rem solid #dddddd;
+        box-shadow: -1rem 0 #eeeeee;
+    }
+    .tl_content.indent.indent_3 {
+        margin-left: 2rem;
+        border-left: 1rem solid #eeeeee;
+        box-shadow: -1rem 0 #dddddd,-2rem 0 #eeeeee;
+    }
 
 .limit_height {
     overflow: hidden;

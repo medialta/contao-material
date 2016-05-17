@@ -233,38 +233,59 @@ abstract class DataContainer extends \Contao\DataContainer
         {
             $rgxp = $arrData['eval']['rgxp'];
             $format = \Config::get($rgxp.'Format');
-            $formatjs = \Date::formatToJs(\Config::get($rgxp.'Format'));
+            $dateformat = '';
 
             switch ($rgxp)
             {
                 case 'datim':
-                $time = ",\n      timePicker:true";
+                if ($format == 'd/m/Y H:i') {
+                    $dateformat = 'DD/MM/Y HH:mm';
+                }
+                if ($format == 'd-m-Y H:i') {
+                    $dateformat = 'DD-MM-Y HH:mm';
+                }
+                if ($format == 'm/d/Y H:i') {
+                    $dateformat = 'MM/DD/Y HH:mm';
+                }
+                if ($format == 'm-d-Y H:i') {
+                    $dateformat = 'MM-DD-YY HH:mm';
+                }
                 break;
 
                 case 'time':
-                $time = ",\n      pickOnly:\"time\"";
+                if ($format == 'H:i') {
+                    $dateformat = 'HH:mm';
+                }
                 break;
 
                 default:
-                $time = '';
+                if ($format == 'd/m/Y') {
+                    $dateformat = 'DD/MM/Y';
+                }
+                if ($format == 'd-m-Y') {
+                    $dateformat = 'DD-MM-Y';
+                }
+                if ($format == 'm/d/Y') {
+                    $dateformat = 'MM/DD/Y';
+                }
+                if ($format == 'm-d-Y') {
+                    $dateformat = 'MM-DD-YY';
+                }
                 break;
             }
-            $search_date = array('Y', 'm', 'd', 'H', 'i');
-            $replace_date = array('yyyy', 'mm', 'dd', '00', '00');
 
-            $wizard .= ' <img src="system/modules/contao-material/assets/img/datepicker.png" width="20" height="20" alt="" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['datepicker']).'" id="toggle_' . $objWidget->id . '" style="position:absolute;right:0;top:1rem;;">
-            <script>
-            $("#ctrl_' . $objWidget->id . '").pickadate({
-                selectMonths: true, // Creates a dropdown to control month
-                selectYears: 15,
-                format: "'.str_replace($search_date, $replace_date, $format).'",
-                monthsFull: ["'.$GLOBALS['TL_LANG']['MONTHS'][0].'", "'.$GLOBALS['TL_LANG']['MONTHS'][1].'", "'.$GLOBALS['TL_LANG']['MONTHS'][2].'", "'.$GLOBALS['TL_LANG']['MONTHS'][3].'", "'.$GLOBALS['TL_LANG']['MONTHS'][4].'", "'.$GLOBALS['TL_LANG']['MONTHS'][5].'", "'.$GLOBALS['TL_LANG']['MONTHS'][6].'", "'.$GLOBALS['TL_LANG']['MONTHS'][7].'", "'.$GLOBALS['TL_LANG']['MONTHS'][8].'", "'.$GLOBALS['TL_LANG']['MONTHS'][9].'", "'.$GLOBALS['TL_LANG']['MONTHS'][10].'", "'.$GLOBALS['TL_LANG']['MONTHS'][11].'"],
-                weekdaysShort: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
-                today: "'.$GLOBALS['TL_LANG']['MSC']['today'].'",
-                clear: "<i class=\"material-icons\">close</i>",
-                close: "<i class=\"material-icons\">check</i>",
-            });
-            </script>';
+            if ($dateformat == '') {
+                $wizard .= 'You have an error in your date format configuration.';
+            } else {
+                $wizard .= '<img src="system/modules/contao-material/assets/img/datepicker.png" width="20" height="20" alt="" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['datepicker']).'" id="toggle_' . $objWidget->id . '" style="position:absolute;right:0;top:1rem;">
+                <script>
+                $("#ctrl_' . $objWidget->id . '").addClass("datetimepicker")
+                $("#ctrl_' . $objWidget->id . '").datetimepicker({
+                    locale: "'.$GLOBALS['TL_LANGUAGE'].'",
+                    format: "'.$dateformat.'"
+                })
+                </script>';
+            }
         }
 
         // Color picker

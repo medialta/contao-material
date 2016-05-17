@@ -1090,7 +1090,7 @@ legend {
         margin-top: 0;
     }
 
-.wizard .tl_text:not(.picker__input) {
+.wizard .tl_text:not(.datetimepicker) {
     width: calc(100% - 30px);
 }
     .wizard .tl_text+a img {

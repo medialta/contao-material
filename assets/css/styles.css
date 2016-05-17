@@ -485,6 +485,7 @@ nav {
 #tl_buttons {
     padding: 0;
     padding-left: 20px;
+    border: 0;
 }
     #tl_buttons a:not(.header-back):not(.header-new) {
         padding-top: 20px;

@@ -1530,6 +1530,42 @@ img.preview {
             font-size: 1.2rem;
         }
 
+/**
+ * GLOBALS OPERATIONS
+ */
+.header_toggle, .header_rss, .header_edit_all, .header_theme_import, .header_store, .header_new_folder, .header_new, .header_sync, .header_clipboard {
+    background-position: left center;
+    background-repeat: no-repeat;
+    padding-left: 20px;
+}
+.header_toggle {
+    background: url("/system/modules/contao-material/assets/images/operations/header_toggle.png") no-repeat 0 center;
+}
+.header_rss {
+    background: url("/system/modules/contao-material/assets/images/operations/header_rss.png") no-repeat 0 center;
+}
+.header_edit_all {
+    background: url("/system/modules/contao-material/assets/images/operations/header_edit_all.png") no-repeat 0 center;
+}
+.header_theme_import {
+    background: url("/system/modules/contao-material/assets/images/operations/download.png") no-repeat 0 center;
+}
+.header_store {
+    background: url("/system/modules/contao-material/assets/images/operations/shop.png") no-repeat 0 center;
+}
+.header_new_folder {
+    background: url("/system/modules/contao-material/assets/images/operations/new_folder.png") no-repeat 0 center;
+}
+.header_new {
+    background: url("/system/modules/contao-material/assets/images/operations/new_file.png") no-repeat 0 center;
+}
+.header_sync {
+    background: url("/system/modules/contao-material/assets/images/operations/sync.png") no-repeat 0 center;
+}
+.header_clipboard {
+    background: url("/system/modules/contao-material/assets/images/operations/header_clipboard.png") no-repeat 0 center;
+}
+
 /* FIX module contao codés en dur (newsletter, ...) */
 .tl_submit_container {
     border-top: 1px solid rgba(160,160,160,0.2);

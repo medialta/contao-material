@@ -1203,7 +1203,7 @@ td, th {
     border-left: 1rem solid #eeeeee;
     padding-left: 1rem;
 }
-    .tl_content.indent_1 {
+    .tl_content.wrapper_start.indent_1, .tl_content.wrapper_separator.indent_1, .tl_content.wrapper_stop.indent_1 {
         background: #dddddd;
     }
     .tl_content.indent.indent_2 {

@@ -1533,37 +1533,42 @@ img.preview {
 /**
  * GLOBALS OPERATIONS
  */
-.header_toggle, .header_rss, .header_edit_all, .header_theme_import, .header_store, .header_new_folder, .header_new, .header_sync, .header_clipboard {
-    background-position: left center;
+#tl_buttons a:not(.header-back):not(.header-new) {
     background-repeat: no-repeat;
+    background-position: 0 center;
+}
+#tl_buttons a:not(.header-back):not(.header-new)[style*=background-image] {
+    padding-left: 20px;
+}
+.header_toggle, .header_rss, .header_edit_all, .header_theme_import, .header_store, .header_new_folder, .header_new, .header_sync, .header_clipboard {
     padding-left: 20px;
 }
 .header_toggle {
-    background: url("/system/modules/contao-material/assets/images/operations/header_toggle.png") no-repeat 0 center;
+    background-image: url("/system/modules/contao-material/assets/images/operations/header_toggle.png");
 }
 .header_rss {
-    background: url("/system/modules/contao-material/assets/images/operations/header_rss.png") no-repeat 0 center;
+    background-image: url("/system/modules/contao-material/assets/images/operations/header_rss.png");
 }
 .header_edit_all {
-    background: url("/system/modules/contao-material/assets/images/operations/header_edit_all.png") no-repeat 0 center;
+    background-image: url("/system/modules/contao-material/assets/images/operations/header_edit_all.png");
 }
 .header_theme_import {
-    background: url("/system/modules/contao-material/assets/images/operations/download.png") no-repeat 0 center;
+    background-image: url("/system/modules/contao-material/assets/images/operations/download.png");
 }
 .header_store {
-    background: url("/system/modules/contao-material/assets/images/operations/shop.png") no-repeat 0 center;
+    background-image: url("/system/modules/contao-material/assets/images/operations/shop.png");
 }
 .header_new_folder {
-    background: url("/system/modules/contao-material/assets/images/operations/new_folder.png") no-repeat 0 center;
+    background-image: url("/system/modules/contao-material/assets/images/operations/new_folder.png");
 }
 .header_new {
-    background: url("/system/modules/contao-material/assets/images/operations/new_file.png") no-repeat 0 center;
+    background-image: url("/system/modules/contao-material/assets/images/operations/new_file.png");
 }
 .header_sync {
-    background: url("/system/modules/contao-material/assets/images/operations/sync.png") no-repeat 0 center;
+    background-image: url("/system/modules/contao-material/assets/images/operations/sync.png");
 }
 .header_clipboard {
-    background: url("/system/modules/contao-material/assets/images/operations/header_clipboard.png") no-repeat 0 center;
+    background-image: url("/system/modules/contao-material/assets/images/operations/header_clipboard.png");
 }
 
 /* FIX module contao codés en dur (newsletter, ...) */

@@ -62,7 +62,7 @@ h6 {
 }
 
 select {
-    display: block;
+    display: inline-block;
 }
 
 /**

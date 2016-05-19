@@ -969,7 +969,21 @@ var Backend = {
      */
     makeMultiSrcSortable: function(id, oid)
     {
+        var drag = dragula([document.getElementById(id)]);
 
+        $('#' + id + ' > li').addClass('drag-handle')
+
+        drag.on('drop', function(el, target, source, sibling)
+        {
+            var els = [];
+
+            $('#' + id).children('li').each(function(index)
+            {
+                els.push(this.getAttribute('data-id'));
+            })
+
+            document.getElementById(oid).value = els.join(',');
+        });
     },
 
     /**

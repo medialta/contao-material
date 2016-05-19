@@ -1660,6 +1660,7 @@ table.composer_package_list {
 .tl_formbody_submit #tl_composer_search .tl_text {
     width: calc(100% - 150px);
     min-width: 150px;
+    margin-left: 20px;
 }
 .tl_formbody_submit #tl_composer_search .tl_submit {
     color: #fff;

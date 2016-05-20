@@ -1142,7 +1142,6 @@ var Backend = {
                         next.find('textarea').val(textarea.val());
                     }
                 }
-                //headTr.getFirst('td').clone(true).inject(headTr.getLast('td'), 'before');
                 headTr.children().last().before(headTr.children().first().clone(true));
                 break;
             case 'cmovel':
@@ -1218,6 +1217,16 @@ var Backend = {
      * @param {float} factor The resize factor
      */
     tableWizardResize: function(factor) {
+        if (!factor || factor === null) return;
+        $('.tl_tablewizard textarea').each(function(index, el) {
+            var newwidth = (parseInt($(el).css('width')) * factor).toFixed(0)
+            if (newwidth >= 142 && newwidth <= 284)
+                $(el).css('width', newwidth)
+
+            var newheight = (parseInt($(el).css('height')) * factor).toFixed(0)
+            if (newheight >= 66 && newheight <= 132)
+                $(el).css('height', newheight)
+        });
 
     },
 

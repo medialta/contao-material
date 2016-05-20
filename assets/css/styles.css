@@ -1129,6 +1129,12 @@ legend {
 .tl_checkbox_wizard .sortable span {
     display: block;
 }
+#tl_tablewizard {
+    overflow: auto;
+}
+table.tl_tablewizard {
+    width: inherit;
+}
 .js .button-move {
     width: 0;
     height: 0;

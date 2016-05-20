@@ -1092,9 +1092,9 @@ var Backend = {
             cols = parentTr.children(),
             index = 0,
             textarea, previous, next, current, i, tr;
-
         for (i=0; i<cols.length; i++) {
-            if ($(cols[i]) == parentTd) {
+
+            if (parentTr.children()[i] == parentTd.get(0)) {
                 break;
             }
             index++;
@@ -1135,16 +1135,53 @@ var Backend = {
                 }
                 break;
             case 'ccopy':
-                TODO
+                for (i=0; i<rows.length; i++) {
+                    current = $(rows[i]).children()[index];
+                    next = $(current).after($(current).clone(true));
+                    if (textarea = $(current).find('textarea')) {
+                        next.find('textarea').val(textarea.val());
+                    }
+                }
+                //headTr.getFirst('td').clone(true).inject(headTr.getLast('td'), 'before');
+                headTr.children().last().before(headTr.children().first().clone(true));
                 break;
             case 'cmovel':
-                TODO
+                if (index > 0) {
+                    for (i=0; i<rows.length; i++) {
+                        current = $(rows[i]).children()[index];
+                        $(current).prev().before(current)
+                    }
+                } else {
+                    for (i=0; i<rows.length; i++) {
+                        current = $(rows[i]).children()[index];
+                        $(rows[i]).children().last().before(current)
+                    }
+                }
                 break;
             case 'cmover':
-                TODO
+                if (index < (cols.length - 2)) {
+                    for (i=0; i<rows.length; i++) {
+                        current = $(rows[i]).children()[index];
+                        $(current).next().after(current)
+                    }
+                } else {
+                    for (i=0; i<rows.length; i++) {
+                        current = $(rows[i]).children()[index];
+                        $(rows[i]).children().first().before(current)
+                    }
+                }
                 break;
             case 'cdelete':
-                TODO
+                if (cols.length > 2) {
+                    for (i=0; i<rows.length; i++) {
+                        $(rows[i]).children()[index].remove();
+                    }
+                    headTr.find('td').first().remove();
+                } else {
+                    for (i=0; i<rows.length; i++) {
+                        $(rows[i]).find('textarea').val('');
+                    }
+                }
                 break;
 
         }

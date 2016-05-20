@@ -14,6 +14,7 @@ $GLOBALS['MD_ICONS'] = [
     'edit.gif'              => 'edit',
     'editor.gif'            => 'description',
     'featured.gif'          => 'star',
+    'featured_.gif'         => 'star_border',
     'group.gif'             => 'people_outline',
     'header.gif'            => 'settings',
     'invisible.gif'         => 'visibility_off',

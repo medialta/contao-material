@@ -401,7 +401,32 @@ var AjaxRequest = {
      * @returns {boolean}
      */
     toggleFeatured: function(el, id) {
+        el.blur();
 
+        var icon = $(el).find('i'),
+            featured = (icon.text() == 'star');
+
+        // Send the request
+        if (!featured) {
+            icon.text('star')
+            icon.parent('span.inactive-option').removeClass('inactive-option')
+            $.ajax({
+                url: window.location,
+                type: 'POST',
+                dataType: 'JSON',
+                data: {action: 'toggleFeatured',id: id, state: 1, REQUEST_TOKEN: Contao.request_token},
+            })
+        } else {
+            icon.text('star_border')
+            $.ajax({
+                url: window.location,
+                type: 'POST',
+                dataType: 'JSON',
+                data: {action: 'toggleFeatured',id: id, state: 0, REQUEST_TOKEN: Contao.request_token},
+            })
+        }
+
+        return false;
     },
 
     /**

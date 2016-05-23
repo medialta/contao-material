@@ -1554,6 +1554,9 @@ img.preview {
         span.gu-mirror label {
             font-size: 1.2rem;
         }
+    .gu-mirror [name="listitems[]"] {
+        width: calc(100% - 100px);
+    }
 
 /**
  * GLOBALS OPERATIONS

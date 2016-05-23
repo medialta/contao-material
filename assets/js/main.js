@@ -1018,7 +1018,17 @@ var Backend = {
     {
         $('.tl_listwizard, .tl_tablewizard, .tl_modulewizard, .tl_optionwizard, .tl_checkbox_wizard').each(function()
         {
-            if (!$(this).is('.tl_checkbox_wizard.sortable-done'))
+            if ($(this).is('.tl_listwizard'))
+            {
+                var drag = dragula([this],
+                {
+                    moves: function (el, container, handle)
+                    {
+                        return $(handle).is('.drag-handle') || $(handle).closest('.drag-handle').length > 0;
+                    }
+                });
+            }
+            else if (!$(this).is('.tl_checkbox_wizard.sortable-done'))
             {
                 var drag = dragula([$(this).find('.sortable').get(0)],
                 {

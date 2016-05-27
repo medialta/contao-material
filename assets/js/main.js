@@ -833,7 +833,7 @@ var Backend = {
                 }, 50*index)
             });
         } else if (cls == 'tl_tree_checkbox') {
-            $('#' + id + ' .parent .tl_tree_checkbox').each(function(index, checkbox) {
+            $('#' + id + ' .tl_tree_checkbox').each(function(index, checkbox) {
                 setTimeout(function () {
                     $(checkbox).prop('checked', (status == 'checked' ? true : false))
                 }, 50*index)

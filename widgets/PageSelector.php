@@ -205,12 +205,12 @@ class PageSelector extends \Contao\PageSelector
         // Select all checkboxes
         if ($this->fieldType == 'checkbox')
         {
-            $strReset = "\n" . '    <li class="tl_folder"><div class="tl_left">&nbsp;</div> <div class="actions"><label for="check_all_' . $this->strId . '" class="tl_change_selected">' . $GLOBALS['TL_LANG']['MSC']['selectAll'] . '</label> <input type="checkbox" id="check_all_' . $this->strId . '" class="tl_tree_checkbox" value="" onclick="Backend.toggleCheckboxGroup(this,\'' . $this->strName . '\')"><label></label></div></li>';
+            $strReset = "\n" . '    <li class="tl_folder"><div class="select-trigger"><input type="checkbox" id="check_all_' . $this->strId . '" class="tl_tree_checkbox" value="" onclick="Backend.toggleCheckboxGroup(this,\'' . $this->strName . '\')"><label for="check_all_' . $this->strId . '" class="tl_change_selected">' . $GLOBALS['TL_LANG']['MSC']['selectAll'] . '</label></div></li>';
         }
         // Reset radio button selection
         else
         {
-            $strReset = "\n" . '    <li class="tl_folder row-container white"><div><div class="tl_left">&nbsp;</div> <div class="actions"><label for="reset_' . $this->strId . '" class="tl_change_selected">' . $GLOBALS['TL_LANG']['MSC']['resetSelected'] . '</label> <input type="radio" name="' . $this->strName . '" id="reset_' . $this->strName . '" class="tl_tree_radio" value="" onfocus="Backend.getScrollOffset()"><label for="reset_' . $this->strName . '"></label></div></div></li>';
+            $strReset = "\n" . '    <li class="tl_folder row-container white"><div><div class="actions select-trigger"><input type="radio" name="' . $this->strName . '" id="reset_' . $this->strName . '" class="tl_tree_radio" value="" onfocus="Backend.getScrollOffset()"><label for="reset_' . $this->strId . '" class="tl_change_selected">' . $GLOBALS['TL_LANG']['MSC']['resetSelected'] . '</label></div></li>';
         }
 
         // Return the tree

@@ -576,6 +576,19 @@ nav {
                     left: auto;
                     right: 23px;
                 }
+    .tl_folder .select-trigger {
+        margin-top: 10px;
+    }
+        .tl_folder .select-trigger label {
+            padding-right: 50px;
+        }
+        .tl_folder .select-trigger label::before {
+            right: 15px;
+        }
+        .tl_folder .select-trigger.actions label::before, .tl_folder .select-trigger.actions label::after {
+            right: 10px;
+            left: inherit;
+        }
 
 .listing, .parent_view {
 
@@ -1554,9 +1567,6 @@ img.preview {
         span.gu-mirror label {
             font-size: 1.2rem;
         }
-    .gu-mirror [name="listitems[]"] {
-        width: calc(100% - 100px);
-    }
 
 /**
  * GLOBALS OPERATIONS

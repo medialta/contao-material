@@ -1666,6 +1666,9 @@ img.preview {
         color: #E57373;
     }
 
+.tl_green {
+    color: #81c784;
+}
 table.composer_package_list {
     width: inherit;
     margin-top: 20px;

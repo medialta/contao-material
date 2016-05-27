@@ -17,20 +17,19 @@
             </div>
 
             <script>
-            window.addEvent('domready', function() {
-                var urls = $$('.page_url'),
+            $(document).ready(function() {
+                var urls = $('.page_url'),
                 last = urls.length-1, url;
-                urls.each(function(el, i) {
-                    el.getAttribute('data-url') && new Request({
-                        'url': el.getAttribute('data-url'),
-                        onComplete: function() {
-                            el.addClass('tl_green');
-                            if (i == last) {
-                                $('index_loading').setStyle('display', 'none');
-                                $('index_complete').setStyle('display', 'block');
-                            }
-                        }
-                    }).get();
+                urls.each(function(i, el) {
+                    if ($(el).attr('data-url').length) {
+                        $.ajax({
+                            url: $(el).attr('data-url'),
+                            type: 'GET',
+                        })
+                        .done(function() {
+                            $(el).addClass('tl_green')
+                        })
+                    }
                 });
             });
             </script>

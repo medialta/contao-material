@@ -427,7 +427,7 @@ nav {
             margin-top: 0;
         }
 
-    .card-action {
+    .card-content .card-action {
         margin-left: -20px;
         margin-right: -20px;
     }

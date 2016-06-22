@@ -294,7 +294,7 @@ abstract class DataContainer extends \Contao\DataContainer
             // Support single fields as well (see #5240)
             $strKey = $arrData['eval']['multiple'] ? $this->strField . '_0' : $this->strField;
 
-            $wizard .= ' ' . Helper::getIconHtml('pickcolor.gif', $GLOBALS['TL_LANG']['MSC']['colorpicker'], 'style="vertical-align:top;cursor:pointer" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['colorpicker']).'" id="moo_' . $this->strField . '"') . '
+            $wizard .= ' ' . Helper::getIconHtml('pickcolor.gif', $GLOBALS['TL_LANG']['MSC']['colorpicker'], 'style="vertical-align:middle;cursor:pointer" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['colorpicker']).'" id="moo_' . $this->strField . '"') . '
             <script>
             window.addEvent("domready", function() {
                 new MooRainbow("moo_' . $this->strField . '", {

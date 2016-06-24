@@ -277,10 +277,10 @@ abstract class DataContainer extends \Contao\DataContainer
             if ($dateformat == '') {
                 $wizard .= 'You have an error in your date format configuration.';
             } else {
-                $wizard .= '<img src="system/modules/contao-material/assets/img/datepicker.png" width="20" height="20" alt="" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['datepicker']).'" id="toggle_' . $objWidget->id . '" style="position:absolute;right:0;top:1rem;">
+                $wizard .= '<span class="input-group-addon"><img src="system/modules/contao-material/assets/img/datepicker.png" width="20" height="20" alt="" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['datepicker']).'" id="toggle_' . $objWidget->id . '" style="position:absolute;right:0;top:1rem;"></span>
                 <script>
-                $("#ctrl_' . $objWidget->id . '").addClass("datetimepicker")
-                $("#ctrl_' . $objWidget->id . '").datetimepicker({
+                $("#ctrl_' . $objWidget->id . '").parent().addClass("input-group date datetimepicker")
+                $("#ctrl_' . $objWidget->id . '").parent().datetimepicker({
                     locale: "'.$GLOBALS['TL_LANGUAGE'].'",
                     format: "'.$dateformat.'"
                 })

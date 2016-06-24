@@ -1126,12 +1126,16 @@ legend {
         margin-top: 0;
     }
 
-.wizard .tl_text:not(.datetimepicker) {
+.wizard .tl_text {
     width: calc(100% - 30px);
 }
     .wizard .tl_text+a img {
         margin-top: 25px;
     }
+
+.wizard .datetimepicker .tl_text {
+    width: 100%;
+}
 
 #ctrl_module+.select2-container {
     width: calc(100% - 30px) !important;

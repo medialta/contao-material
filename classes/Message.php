@@ -1,12 +1,13 @@
 <?php
 
 /**
-* Contao Open Source CMS
-*
-* Copyright (c) 2005-2015 Leo Feyer
-*
-* @license LGPL-3.0+
-*/
+ * Contao Open Source CMS
+ *
+ * @author Medialta <http://www.medialta.com>
+ * @package ContaoMaterial
+ * @copyright Medialta
+ * @license LGPL-3.0+
+ */
 
 namespace ContaoMaterial;
 
@@ -23,8 +24,6 @@ namespace ContaoMaterial;
 *     Message::addConfirmation('The data has been stored');
 *     Message::addNew('There are two new messages');
 *     Message::addInfo('You can upload only two files');
-*
-* @author Medialta <http://www.medialta.com>
 */
 class Message extends \Contao\Message
 {

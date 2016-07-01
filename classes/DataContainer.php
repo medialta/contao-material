@@ -3,8 +3,9 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2015 Leo Feyer
- *
+ * @author Medialta <http://www.medialta.com>
+ * @package ContaoMaterial
+ * @copyright Medialta
  * @license LGPL-3.0+
  */
 
@@ -24,8 +25,6 @@ namespace ContaoMaterial;
  * @property boolean $blnUploadable
  * @property array   $root
  * @property array   $rootIds
- *
- * @author Leo Feyer <https://github.com/leofeyer>
  */
 abstract class DataContainer extends \Contao\DataContainer
 {

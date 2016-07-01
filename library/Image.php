@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Contao Open Source CMS
+ *
+ * @author Medialta <http://www.medialta.com>
+ * @package ContaoMaterial
+ * @copyright Medialta
+ * @license LGPL-3.0+
+ */
+
 namespace ContaoMaterial;
 
 class Image extends \Contao\Image

@@ -3,12 +3,10 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2015 Leo Feyer
- *
- * @package   ContaoMaterial
- * @author    Medialta
- * @license   GNU/LGPL
- * @copyright Medialta 2015
+ * @author Medialta <http://www.medialta.com>
+ * @package ContaoMaterial
+ * @copyright Medialta
+ * @license LGPL-3.0+
  */
 
 if (class_exists('\MetaPalettes')) {

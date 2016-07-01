@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Contao Open Source CMS
+ *
+ * @author Medialta <http://www.medialta.com>
+ * @package ContaoMaterial
+ * @copyright Medialta
+ * @license LGPL-3.0+
+ */
+
 $GLOBALS['TL_DCA']['tl_article']['list']['label']['label_callback'] = array('tl_article_contaomaterial', 'addIcon');
 
 class tl_article_contaomaterial extends Backend

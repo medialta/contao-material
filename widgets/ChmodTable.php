@@ -3,8 +3,9 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2015 Leo Feyer
- *
+ * @author Medialta <http://www.medialta.com>
+ * @package ContaoMaterial
+ * @copyright Medialta
  * @license LGPL-3.0+
  */
 
@@ -13,8 +14,6 @@ namespace ContaoMaterial;
 
 /**
  * Provide methods to handle CHMOD tables.
- *
- * @author Leo Feyer <https://github.com/leofeyer>
  */
 class ChmodTable extends \Contao\ChmodTable
 {

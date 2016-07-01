@@ -3,8 +3,9 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2015 Leo Feyer
- *
+ * @author Medialta <http://www.medialta.com>
+ * @package ContaoMaterial
+ * @copyright Medialta
  * @license LGPL-3.0+
  */
 
@@ -19,8 +20,6 @@ namespace ContaoMaterial;
  * @property boolean $multiple
  * @property array   $options
  * @property boolean $chosen
- *
- * @author Leo Feyer <https://github.com/leofeyer>
  */
 class SelectMenu extends \Contao\SelectMenu
 {

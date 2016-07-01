@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Contao Open Source CMS
+ *
+ * @author Medialta <http://www.medialta.com>
+ * @package ContaoMaterial
+ * @copyright Medialta
+ * @license LGPL-3.0+
+ */
+
 $GLOBALS['MD_ICONS'] = [
     'apply.gif'             => 'check',
     'article.gif'           => 'library_books',

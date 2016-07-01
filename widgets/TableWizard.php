@@ -3,8 +3,9 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2015 Leo Feyer
- *
+ * @author Medialta <http://www.medialta.com>
+ * @package ContaoMaterial
+ * @copyright Medialta
  * @license LGPL-3.0+
  */
 
@@ -15,8 +16,6 @@ namespace ContaoMaterial;
  *
  * @property integer $rows
  * @property integer $cols
- *
- * @author Leo Feyer <https://github.com/leofeyer>
  */
 class TableWizard extends \Contao\TableWizard
 {

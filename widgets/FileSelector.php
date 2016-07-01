@@ -3,8 +3,9 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2015 Leo Feyer
- *
+ * @author Medialta <http://www.medialta.com>
+ * @package ContaoMaterial
+ * @copyright Medialta
  * @license LGPL-3.0+
  */
 
@@ -20,8 +21,6 @@ namespace ContaoMaterial;
  * @property boolean $files
  * @property boolean $filesOnly
  * @property string  $extensions
- *
- * @author Leo Feyer <https://github.com/leofeyer>
  */
 class FileSelector extends \Contao\FileSelector
 {

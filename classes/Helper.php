@@ -3,8 +3,9 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2015 Leo Feyer
- *
+ * @author Medialta <http://www.medialta.com>
+ * @package ContaoMaterial
+ * @copyright Medialta
  * @license LGPL-3.0+
  */
 
@@ -13,8 +14,6 @@ namespace ContaoMaterial;
 
 /**
  * Class Helper
- *
- * @author Medialta <http://www.medialta.com>
  */
 class Helper extends \System
 {

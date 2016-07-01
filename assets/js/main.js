@@ -941,9 +941,6 @@ var Backend = {
      * Make parent view items sortable
      *
      * @param {object} ul The DOM element
-     *
-     * @author Joe Ray Gregory
-     * @author Martin Auswöger
      */
     makeParentViewSortable: function(ul)
     {
@@ -1523,8 +1520,6 @@ var Backend = {
 
     /**
      * Allow to toggle checkboxes or radio buttons by clicking a row
-     *
-     * @author Kamil Kuzminski
      */
     enableToggleSelect: function() {
 

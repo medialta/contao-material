@@ -3,8 +3,9 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2015 Leo Feyer
- *
+ * @author Medialta <http://www.medialta.com>
+ * @package ContaoMaterial
+ * @copyright Medialta
  * @license LGPL-3.0+
  */
 
@@ -14,8 +15,6 @@ namespace ContaoMaterial\Database;
 /**
  * Compares the existing database structure with the DCA table settings and
  * calculates the queries needed to update the database.
- *
- * @author Leo Feyer <https://github.com/leofeyer>
  */
 class Installer extends \Contao\Database\Installer
 {

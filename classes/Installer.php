@@ -52,17 +52,17 @@ class Installer extends \Contao\Database\Installer
             {
                 // Headline
                 $return .= '
-    <h4>
-      '.$label.'
-    </h4>';
+                <h4>
+                '.$label.'
+                </h4>';
 
                 // Check all
                 $return .= '
-    <ul class="collection with-header">
-      <li class="collection-header">
-        <input type="checkbox" id="check_all_' . $count . '" class="tl_checkbox" onclick="Backend.toggleCheckboxElements(this, \'' . strtolower($command) . '\')">
-        <label for="check_all_' . $count . '" style="color:#a6a6a6"><em>' . $GLOBALS['TL_LANG']['MSC']['selectAll'] . '</em></label>
-      </li>';
+                <ul class="collection with-header">
+                <li class="collection-header">
+                <input type="checkbox" id="check_all_' . $count . '" class="tl_checkbox" onclick="Backend.toggleCheckboxElements(this, \'' . strtolower($command) . '\')">
+                <label for="check_all_' . $count . '" style="color:#a6a6a6"><em>' . $GLOBALS['TL_LANG']['MSC']['selectAll'] . '</em></label>
+                </li>';
 
                 // Fields
                 foreach ($sql_command[$command] as $vv)
@@ -71,20 +71,20 @@ class Installer extends \Contao\Database\Installer
                     $_SESSION['sql_commands'][$key] = $vv;
 
                     $return .= '
-    <li class="collection-item">
-      <input type="checkbox" name="sql[]" id="sql_'.$count.'" class="tl_checkbox ' . strtolower($command) . '" value="'.$key.'"'.((stristr($command, 'DROP') === false) ? ' checked="checked"' : '').'>
-      <label for="sql_'.$count++.'">'.$vv.'</label>
-    </li>';
+                    <li class="collection-item">
+                    <input type="checkbox" name="sql[]" id="sql_'.$count.'" class="tl_checkbox ' . strtolower($command) . '" value="'.$key.'"'.((stristr($command, 'DROP') === false) ? ' checked="checked"' : '').'>
+                    <label for="sql_'.$count++.'">'.$vv.'</label>
+                    </li>';
                 }
                 $return .= '</ul>';
             }
         }
 
         return '
-<div id="sql_wrapper">
-  <table id="sql_table">'.$return.'
-  </table>
-</div>';
+        <div id="sql_wrapper">
+        <table id="sql_table">'.$return.'
+        </table>
+        </div>';
     }
 
 

@@ -163,7 +163,7 @@ class DC_File extends \Contao\DC_File
                             if (is_array($callback))
                             {
                                 $this->import($callback[0]);
-                                $this->varValue = $this->$callback[0]->$callback[1]($this->varValue, $this);
+                                $this->varValue = $this->{$callback[0]}->{$callback[1]}($this->varValue, $this);
                             }
                             elseif (is_callable($callback))
                             {
@@ -202,7 +202,7 @@ class DC_File extends \Contao\DC_File
                 if (is_array($callback))
                 {
                     $this->import($callback[0]);
-                    $arrButtons = $this->$callback[0]->$callback[1]($arrButtons, $this);
+                    $arrButtons = $this->{$callback[0]}->{$callback[1]}($arrButtons, $this);
                 }
                 elseif (is_callable($callback))
                 {
@@ -254,7 +254,7 @@ class DC_File extends \Contao\DC_File
                     if (is_array($callback))
                     {
                         $this->import($callback[0]);
-                        $this->$callback[0]->$callback[1]($this);
+                        $this->{$callback[0]}->{$callback[1]}($this);
                     }
                     elseif (is_callable($callback))
                     {
@@ -357,7 +357,7 @@ class DC_File extends \Contao\DC_File
                 if (is_array($callback))
                 {
                     $this->import($callback[0]);
-                    $varValue = $this->$callback[0]->$callback[1]($varValue, $this);
+                    $varValue = $this->{$callback[0]}->{$callback[1]}($varValue, $this);
                 }
                 elseif (is_callable($callback))
                 {

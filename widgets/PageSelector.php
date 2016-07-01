@@ -214,8 +214,8 @@ class PageSelector extends \Contao\PageSelector
 
         // Return the tree
         return '<ul class="white listing tree collapsible'.(($this->strClass != '') ? ' ' . $this->strClass : '').'" id="'.$this->strId.'" data-collapsible="expandable">
-    <li class="row-top"><div class="tl_left">'.Helper::getIconHtml($GLOBALS['TL_DCA']['tl_page']['list']['sorting']['icon'] ?: 'pagemounts.gif').' <label>'.(\Config::get('websiteTitle') ?: 'Contao Open Source CMS').'</label></div> <div class="actions">&nbsp;</div></li><li class="row-container toggle_select" id="'.$this->strId.'_parent">'.$tree.$strReset.'
-  </li></ul>';
+        <li class="row-top"><div class="tl_left">'.Helper::getIconHtml($GLOBALS['TL_DCA']['tl_page']['list']['sorting']['icon'] ?: 'pagemounts.gif').' <label>'.(\Config::get('websiteTitle') ?: 'Contao Open Source CMS').'</label></div> <div class="actions">&nbsp;</div></li><li class="row-container toggle_select" id="'.$this->strId.'_parent">'.$tree.$strReset.'
+        </li></ul>';
     }
 
 

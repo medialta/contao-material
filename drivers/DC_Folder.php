@@ -572,12 +572,12 @@ class DC_Folder extends \Contao\DC_Folder
 
         <div class="card-action">
 
-            <div class="submit-container">
-              ' . implode(' ', $arrButtons) . '
-          </div>
+        <div class="submit-container">
+        ' . implode(' ', $arrButtons) . '
+        </div>
 
-      </ul>
-  </form>
+        </ul>
+        </form>
 
         <script>
         $(document).ready(function() {
@@ -586,14 +586,14 @@ class DC_Folder extends \Contao\DC_Folder
         </script>';
 
         // Begin the form (-> DO NOT CHANGE THIS ORDER -> this way the onsubmit attribute of the form can be changed by a field)
-$return = $version . '
-<div id="tl_buttons" class="card-action">
-    <a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a>
-</div>
-'.\Message::generate().'
-<form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form" method="post"'.(!empty($this->onsubmit) ? ' onsubmit="'.implode(' ', $this->onsubmit).'"' : '').'>'.($this->noReload ? '
-    <p class="tl_error">'.$GLOBALS['TL_LANG']['ERR']['general'].'</p>' : '').'
-    <ul class="collapsible dca-edit" data-collapsible="expandable">
+        $return = $version . '
+        <div id="tl_buttons" class="card-action">
+        <a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a>
+        </div>
+        '.\Message::generate().'
+        <form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form" method="post"'.(!empty($this->onsubmit) ? ' onsubmit="'.implode(' ', $this->onsubmit).'"' : '').'>'.($this->noReload ? '
+        <p class="tl_error">'.$GLOBALS['TL_LANG']['ERR']['general'].'</p>' : '').'
+        <ul class="collapsible dca-edit" data-collapsible="expandable">
         <input type="hidden" name="FORM_SUBMIT" value="'.specialchars($this->strTable).'">
         <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">'.$return;
 
@@ -680,7 +680,7 @@ $return = $version . '
         </script>';
         }
 
-    return $return;
+        return $return;
     }
 
     /**
@@ -963,11 +963,11 @@ $return = $version . '
         </div>
         '.\Message::generate().'
         <div id="sync-results">
-          <p class="left">' . sprintf($GLOBALS['TL_LANG']['tl_files']['syncResult'], \System::getFormattedNumber($arrCounts['Added'], 0), \System::getFormattedNumber($arrCounts['Changed'], 0), \System::getFormattedNumber($arrCounts['Unchanged'], 0), \System::getFormattedNumber($arrCounts['Moved'], 0), \System::getFormattedNumber($arrCounts['Deleted'], 0)) . '</p>
-          <p class="right"><input type="checkbox" id="show-hidden" class="tl_checkbox" onclick="Backend.toggleUnchanged()"> <label for="show-hidden">' . $GLOBALS['TL_LANG']['tl_files']['syncShowUnchanged'] . '</label></p>
-          <div class="clear"></div>
-      </div>
-      <div class="tl_message nobg sync-result" id="result-list" style="margin-bottom:2em">';
+        <p class="left">' . sprintf($GLOBALS['TL_LANG']['tl_files']['syncResult'], \System::getFormattedNumber($arrCounts['Added'], 0), \System::getFormattedNumber($arrCounts['Changed'], 0), \System::getFormattedNumber($arrCounts['Unchanged'], 0), \System::getFormattedNumber($arrCounts['Moved'], 0), \System::getFormattedNumber($arrCounts['Deleted'], 0)) . '</p>
+        <p class="right"><input type="checkbox" id="show-hidden" class="tl_checkbox" onclick="Backend.toggleUnchanged()"> <label for="show-hidden">' . $GLOBALS['TL_LANG']['tl_files']['syncShowUnchanged'] . '</label></p>
+        <div class="clear"></div>
+        </div>
+        <div class="tl_message nobg sync-result" id="result-list" style="margin-bottom:2em">';
 
         // Add the messages
         foreach ($arrMessages as $strMessage)
@@ -976,18 +976,18 @@ $return = $version . '
         }
 
         $return .= '
-    </div>
-    <div class="card-action">
+        </div>
+        <div class="card-action">
         <div class="submit-container">
-          <a href="'.$this->getReferer(true).'" class="btn orange lighten-2 white-text" style="display:inline-block">'.$GLOBALS['TL_LANG']['MSC']['continue'].'</a>
-      </div>
-    </div>
-    ';
+        <a href="'.$this->getReferer(true).'" class="btn orange lighten-2 white-text" style="display:inline-block">'.$GLOBALS['TL_LANG']['MSC']['continue'].'</a>
+        </div>
+        </div>
+        ';
 
-    return $return;
+        return $return;
     }
 
-/**
+    /**
      * Render the file tree and return it as HTML string
      *
      * @param string  $path

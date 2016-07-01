@@ -214,15 +214,15 @@ class DC_File extends \Contao\DC_File
         // Add the buttons and end the form
         $return .= '
 
-<div class="card-action">
+        <div class="card-action">
 
-<div class="submit-container">
-  ' . implode(' ', $arrButtons) . '
-</div>
+        <div class="submit-container">
+        ' . implode(' ', $arrButtons) . '
+        </div>
 
-</div>
-</ul>
-</form>
+        </div>
+        </ul>
+        </form>
 
         <script>
         $(document).ready(function() {
@@ -232,16 +232,16 @@ class DC_File extends \Contao\DC_File
 
         // Begin the form (-> DO NOT CHANGE THIS ORDER -> this way the onsubmit attribute of the form can be changed by a field)
         $return = '
-<div id="tl_buttons" class="card-action">
-<a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a>
-</div>
-'.\Message::generate().'
-<form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form" method="post"'.(!empty($this->onsubmit) ? ' onsubmit="'.implode(' ', $this->onsubmit).'"' : '').'>'.($this->noReload ? '
-<p class="tl_error">'.$GLOBALS['TL_LANG']['ERR']['general'].'</p>' : '').'
-<ul class="collapsible dca-edit" data-collapsible="expandable">
-<input type="hidden" name="FORM_SUBMIT" value="'.specialchars($this->strTable).'">
-<input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
-<input type="hidden" name="FORM_FIELDS[]" value="'.specialchars($this->strPalette).'">'.$return;
+        <div id="tl_buttons" class="card-action">
+        <a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a>
+        </div>
+        '.\Message::generate().'
+        <form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form" method="post"'.(!empty($this->onsubmit) ? ' onsubmit="'.implode(' ', $this->onsubmit).'"' : '').'>'.($this->noReload ? '
+        <p class="tl_error">'.$GLOBALS['TL_LANG']['ERR']['general'].'</p>' : '').'
+        <ul class="collapsible dca-edit" data-collapsible="expandable">
+        <input type="hidden" name="FORM_SUBMIT" value="'.specialchars($this->strTable).'">
+        <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
+        <input type="hidden" name="FORM_FIELDS[]" value="'.specialchars($this->strPalette).'">'.$return;
 
         // Reload the page to prevent _POST variables from being sent twice
         if (\Input::post('FORM_SUBMIT') == $this->strTable && !$this->noReload)
@@ -279,11 +279,11 @@ class DC_File extends \Contao\DC_File
         {
             $return .= '
 
-<script>
-  window.addEvent(\'domready\', function() {
-    Backend.vScrollTo(($(\'' . $this->strTable . '\').getElement(\'label.error\').getPosition().y - 20));
-  });
-</script>';
+            <script>
+            window.addEvent(\'domready\', function() {
+                Backend.vScrollTo(($(\'' . $this->strTable . '\').getElement(\'label.error\').getPosition().y - 20));
+            });
+            </script>';
         }
 
         return $return;

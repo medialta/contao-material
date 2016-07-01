@@ -522,24 +522,24 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
         {
             $return .= '
 
-<form action="'.ampersand(\Environment::get('request'), true).'" class="tl_form" method="post">
-<div class="tl_formbody">
-<input type="hidden" name="FORM_SUBMIT" value="tl_filters_limit">
-<input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
+            <form action="'.ampersand(\Environment::get('request'), true).'" class="tl_form" method="post">
+            <div class="tl_formbody">
+            <input type="hidden" name="FORM_SUBMIT" value="tl_filters_limit">
+            <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
 
-<div class="tl_panel_bottom">
+            <div class="tl_panel_bottom">
 
-<div class="tl_submit_panel tl_subpanel">
-<input type="image" name="btfilter" id="btfilter" src="' . TL_FILES_URL . 'system/themes/' . \Backend::getTheme() . '/images/reload.gif" class="tl_img_submit" title="' . specialchars($GLOBALS['TL_LANG']['MSC']['applyTitle']) . '" alt="' . specialchars($GLOBALS['TL_LANG']['MSC']['apply']) . '">
-</div>' . $strLimit . '
+            <div class="tl_submit_panel tl_subpanel">
+            <input type="image" name="btfilter" id="btfilter" src="' . TL_FILES_URL . 'system/themes/' . \Backend::getTheme() . '/images/reload.gif" class="tl_img_submit" title="' . specialchars($GLOBALS['TL_LANG']['MSC']['applyTitle']) . '" alt="' . specialchars($GLOBALS['TL_LANG']['MSC']['apply']) . '">
+            </div>' . $strLimit . '
 
-<div class="clear"></div>
+            <div class="clear"></div>
 
-</div>
+            </div>
 
-</div>
-</form>
-';
+            </div>
+            </form>
+            ';
         }
 
         // Store the current IDs
@@ -750,22 +750,22 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
             }
 
             $return .= '
-  <tr>
-    <td'.$class.'><span class="tl_label">'.$label.': </span></td>
-    <td'.$class.'>'.$row[$i].'</td>
-  </tr>';
+            <tr>
+            <td'.$class.'><span class="tl_label">'.$label.': </span></td>
+            <td'.$class.'>'.$row[$i].'</td>
+            </tr>';
         }
 
         // Return table
         return '
-<div id="tl_buttons" class="card-action">' . (!\Input::get('popup') ? '
-<a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">arrow_back</i></a>' : '') . '
-</div>
+        <div id="tl_buttons" class="card-action">' . (!\Input::get('popup') ? '
+        <a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">arrow_back</i></a>' : '') . '
+        </div>
 
-<h2 class="sub_headline">'.sprintf($GLOBALS['TL_LANG']['MSC']['showRecord'], ($this->intId ? 'ID '.$this->intId : '')).'</h2>
+        <h2 class="sub_headline">'.sprintf($GLOBALS['TL_LANG']['MSC']['showRecord'], ($this->intId ? 'ID '.$this->intId : '')).'</h2>
 
-<table class="tl_show">'.$return.'
-</table>';
+        <table class="tl_show">'.$return.'
+        </table>';
     }
 
 
@@ -1770,12 +1770,12 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
         $return .= '
 
 
-<div class="card-action">
-  ' . implode(' ', $arrButtons) . '
-</div>
+        <div class="card-action">
+        ' . implode(' ', $arrButtons) . '
+        </div>
 
-</div>
-</form>
+        </div>
+        </form>
 
         <script>
         $(document).ready(function() {
@@ -1790,19 +1790,19 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
 
         // Begin the form (-> DO NOT CHANGE THIS ORDER -> this way the onsubmit attribute of the form can be changed by a field)
         $return = $version . '
-<div id="tl_buttons" class="card-action">' . (\Input::get('nb') ? '&nbsp;' : '
-<a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">arrow_back</i></a>') . '
-</div>
+        <div id="tl_buttons" class="card-action">' . (\Input::get('nb') ? '&nbsp;' : '
+        <a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">arrow_back</i></a>') . '
+        </div>
 
-<h2 class="sub_headline">'.sprintf($GLOBALS['TL_LANG']['MSC']['editRecord'], ($this->intId ? 'ID '.$this->intId : '')).'</h2>
-'.\Message::generate().'
-<form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form" method="post" enctype="' . ($this->blnUploadable ? 'multipart/form-data' : 'application/x-www-form-urlencoded') . '"'.(!empty($this->onsubmit) ? ' onsubmit="'.implode(' ', $this->onsubmit).'"' : '').'>'.($this->noReload ? '
+        <h2 class="sub_headline">'.sprintf($GLOBALS['TL_LANG']['MSC']['editRecord'], ($this->intId ? 'ID '.$this->intId : '')).'</h2>
+        '.\Message::generate().'
+        <form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form" method="post" enctype="' . ($this->blnUploadable ? 'multipart/form-data' : 'application/x-www-form-urlencoded') . '"'.(!empty($this->onsubmit) ? ' onsubmit="'.implode(' ', $this->onsubmit).'"' : '').'>'.($this->noReload ? '
 
-<p class="tl_error">'.$GLOBALS['TL_LANG']['ERR']['general'].'</p>' : '').'
-<ul class="collapsible dca-edit" data-collapsible="expandable">
-<input type="hidden" name="FORM_SUBMIT" value="'.specialchars($this->strTable).'">
-<input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
-<input type="hidden" name="FORM_FIELDS[]" value="'.specialchars($this->strPalette).'">'.$return;
+        <p class="tl_error">'.$GLOBALS['TL_LANG']['ERR']['general'].'</p>' : '').'
+        <ul class="collapsible dca-edit" data-collapsible="expandable">
+        <input type="hidden" name="FORM_SUBMIT" value="'.specialchars($this->strTable).'">
+        <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
+        <input type="hidden" name="FORM_FIELDS[]" value="'.specialchars($this->strPalette).'">'.$return;
 
         // Reload the page to prevent _POST variables from being sent twice
         if (\Input::post('FORM_SUBMIT') == $this->strTable && !$this->noReload)
@@ -1881,11 +1881,11 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
         {
             $return .= '
 
-<script>
-  window.addEvent(\'domready\', function() {
-    Backend.vScrollTo(($(\'' . $this->strTable . '\').getElement(\'label.error\').getPosition().y - 20));
-  });
-</script>';
+            <script>
+            window.addEvent(\'domready\', function() {
+                Backend.vScrollTo(($(\'' . $this->strTable . '\').getElement(\'label.error\').getPosition().y - 20));
+            });
+            </script>';
         }
 
         return $return;
@@ -1963,7 +1963,7 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
                 $strAjax = '';
                 $blnAjax = false;
                 $return .= '
-<div class="'.$class.'">';
+                <div class="'.$class.'">';
 
                 $class = 'tl_box';
                 $formFields = array();
@@ -2424,8 +2424,8 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
 
                 // Close box
                 $return .= '
- <input type="hidden" name="FORM_FIELDS_'.$this->intId.'[]" value="'.specialchars(implode(',', $formFields)).'">
-</div>';
+                <input type="hidden" name="FORM_FIELDS_'.$this->intId.'[]" value="'.specialchars(implode(',', $formFields)).'">
+                </div>';
 
                 // Save record
                 if (\Input::post('FORM_SUBMIT') == $this->strTable && !$this->noReload)
@@ -2479,25 +2479,25 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
             // Add the form
             $return = '
 
-<h2 class="sub_headline_all">'.sprintf($GLOBALS['TL_LANG']['MSC']['all_info'], $this->strTable).'</h2>
+            <h2 class="sub_headline_all">'.sprintf($GLOBALS['TL_LANG']['MSC']['all_info'], $this->strTable).'</h2>
 
-<form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form" method="post" enctype="' . ($this->blnUploadable ? 'multipart/form-data' : 'application/x-www-form-urlencoded') . '">
-<div class="tl_formbody_edit">
-<input type="hidden" name="FORM_SUBMIT" value="'.$this->strTable.'">
-<input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">'.($this->noReload ? '
+            <form action="'.ampersand(\Environment::get('request'), true).'" id="'.$this->strTable.'" class="tl_form" method="post" enctype="' . ($this->blnUploadable ? 'multipart/form-data' : 'application/x-www-form-urlencoded') . '">
+            <div class="tl_formbody_edit">
+            <input type="hidden" name="FORM_SUBMIT" value="'.$this->strTable.'">
+            <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">'.($this->noReload ? '
 
-<p class="tl_error">'.$GLOBALS['TL_LANG']['ERR']['general'].'</p>' : '').$return.'
+            <p class="tl_error">'.$GLOBALS['TL_LANG']['ERR']['general'].'</p>' : '').$return.'
 
-</div>
+            </div>
 
-<div class="tl_formbody_submit">
+            <div class="tl_formbody_submit">
 
-<div class="tl_submit_container">
-  ' . implode(' ', $arrButtons) . '
-</div>
+            <div class="tl_submit_container">
+            ' . implode(' ', $arrButtons) . '
+            </div>
 
-</div>
-</form>';
+            </div>
+            </form>';
 
             // TODO: find a better solution to handle toggleSubpalette ...
             $return .= $this->getSubpaletteJavascript();
@@ -2508,11 +2508,11 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
             {
                 $return .= '
 
-<script>
-  window.addEvent(\'domready\', function() {
-    Backend.vScrollTo(($(\'' . $this->strTable . '\').getElement(\'label.error\').getPosition().y - 20));
-  });
-</script>';
+                <script>
+                window.addEvent(\'domready\', function() {
+                    Backend.vScrollTo(($(\'' . $this->strTable . '\').getElement(\'label.error\').getPosition().y - 20));
+                });
+                </script>';
             }
 
             // Reload the page to prevent _POST variables from being sent twice
@@ -2557,7 +2557,7 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
                 if ($field == 'pid' || $field == 'sorting' || (!$GLOBALS['TL_DCA'][$this->strTable]['fields'][$field]['exclude'] && !$GLOBALS['TL_DCA'][$this->strTable]['fields'][$field]['eval']['doNotShow'] && (strlen($GLOBALS['TL_DCA'][$this->strTable]['fields'][$field]['inputType']) || is_array($GLOBALS['TL_DCA'][$this->strTable]['fields'][$field]['input_field_callback']))))
                 {
                     $options .= '
-  <input type="checkbox" name="all_fields[]" id="all_'.$field.'" class="tl_checkbox" value="'.specialchars($field).'"> <label for="all_'.$field.'" class="tl_checkbox_label">'.($GLOBALS['TL_DCA'][$this->strTable]['fields'][$field]['label'][0] ?: $GLOBALS['TL_LANG']['MSC'][$field][0]).'</label><br>';
+                    <input type="checkbox" name="all_fields[]" id="all_'.$field.'" class="tl_checkbox" value="'.specialchars($field).'"> <label for="all_'.$field.'" class="tl_checkbox_label">'.($GLOBALS['TL_DCA'][$this->strTable]['fields'][$field]['label'][0] ?: $GLOBALS['TL_LANG']['MSC'][$field][0]).'</label><br>';
                 }
             }
 
@@ -2566,41 +2566,41 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
             // Return the select menu
             $return .= '
 
-<h2 class="sub_headline_all">'.sprintf($GLOBALS['TL_LANG']['MSC']['all_info'], $this->strTable).'</h2>
+            <h2 class="sub_headline_all">'.sprintf($GLOBALS['TL_LANG']['MSC']['all_info'], $this->strTable).'</h2>
 
-<form action="'.ampersand(\Environment::get('request'), true).'&amp;fields=1" id="'.$this->strTable.'_all" class="tl_form" method="post">
-<div class="tl_formbody_edit">
-<input type="hidden" name="FORM_SUBMIT" value="'.$this->strTable.'_all">
-<input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">'.($blnIsError ? '
+            <form action="'.ampersand(\Environment::get('request'), true).'&amp;fields=1" id="'.$this->strTable.'_all" class="tl_form" method="post">
+            <div class="tl_formbody_edit">
+            <input type="hidden" name="FORM_SUBMIT" value="'.$this->strTable.'_all">
+            <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">'.($blnIsError ? '
 
-<p class="tl_error">'.$GLOBALS['TL_LANG']['ERR']['general'].'</p>' : '').'
+            <p class="tl_error">'.$GLOBALS['TL_LANG']['ERR']['general'].'</p>' : '').'
 
-<div class="tl_tbox">
-<fieldset class="tl_checkbox_container">
-  <legend'.($blnIsError ? ' class="error"' : '').'>'.$GLOBALS['TL_LANG']['MSC']['all_fields'][0].'</legend>
-  <input type="checkbox" id="check_all" class="tl_checkbox" onclick="Backend.toggleCheckboxes(this)"> <label for="check_all" style="color:#a6a6a6"><em>'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</em></label><br>'.$options.'
-</fieldset>'.($blnIsError ? '
-<p class="tl_error">'.$GLOBALS['TL_LANG']['ERR']['all_fields'].'</p>' : (($GLOBALS['TL_CONFIG']['showHelp'] && strlen($GLOBALS['TL_LANG']['MSC']['all_fields'][1])) ? '
-<p class="tl_help tl_tip">'.$GLOBALS['TL_LANG']['MSC']['all_fields'][1].'</p>' : '')).'
-</div>
+            <div class="tl_tbox">
+            <fieldset class="tl_checkbox_container">
+            <legend'.($blnIsError ? ' class="error"' : '').'>'.$GLOBALS['TL_LANG']['MSC']['all_fields'][0].'</legend>
+            <input type="checkbox" id="check_all" class="tl_checkbox" onclick="Backend.toggleCheckboxes(this)"> <label for="check_all" style="color:#a6a6a6"><em>'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</em></label><br>'.$options.'
+            </fieldset>'.($blnIsError ? '
+            <p class="tl_error">'.$GLOBALS['TL_LANG']['ERR']['all_fields'].'</p>' : (($GLOBALS['TL_CONFIG']['showHelp'] && strlen($GLOBALS['TL_LANG']['MSC']['all_fields'][1])) ? '
+            <p class="tl_help tl_tip">'.$GLOBALS['TL_LANG']['MSC']['all_fields'][1].'</p>' : '')).'
+            </div>
 
-</div>
+            </div>
 
-<div class="tl_formbody_submit">
+            <div class="tl_formbody_submit">
 
-<div class="tl_submit_container">
-<input type="submit" name="save" id="save" class="tl_submit" accesskey="s" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['continue']).'">
-</div>
+            <div class="tl_submit_container">
+            <input type="submit" name="save" id="save" class="tl_submit" accesskey="s" value="'.specialchars($GLOBALS['TL_LANG']['MSC']['continue']).'">
+            </div>
 
-</div>
-</form>';
+            </div>
+            </form>';
         }
 
         // Return
         return '
-<div id="tl_buttons" class="card-action">
-<a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">arrow_back</i></a>
-</div>'.$return;
+        <div id="tl_buttons" class="card-action">
+        <a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">arrow_back</i></a>
+        </div>'.$return;
     }
 
 
@@ -3189,11 +3189,11 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
         {
             $return .= '
 
-<div id="'.$this->bid.'" class="card-action">'.((\Input::get('act') == 'select' || $this->ptable) ? '
-<a href="'.$this->getReferer(true, $this->ptable).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">arrow_back</i></a> ' : (isset($GLOBALS['TL_DCA'][$this->strTable]['config']['backlink']) ? '
-<a href="contao/main.php?'.$GLOBALS['TL_DCA'][$this->strTable]['config']['backlink'].'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a> ' : '')) . ((\Input::get('act') != 'select') ? '
-'.(!$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] ? '<a href="'.(($this->ptable != '') ? \Backend::addToUrl('act=create' . (($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] < 4) ? '&amp;mode=2' : '') . '&amp;pid=' . $this->intId) : \Backend::addToUrl('act=create')).'" class="header-new btn-floating btn-large waves-effect waves-light green tooltipped"  data-position="left" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['new'][1]).'" accesskey="n" onclick="Backend.getScrollOffset()"><i class="material-icons">add</i></a> ' : '') . $this->generateGlobalButtons() : '') . '
-</div>' . \Message::generate(true);
+            <div id="'.$this->bid.'" class="card-action">'.((\Input::get('act') == 'select' || $this->ptable) ? '
+            <a href="'.$this->getReferer(true, $this->ptable).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">arrow_back</i></a> ' : (isset($GLOBALS['TL_DCA'][$this->strTable]['config']['backlink']) ? '
+            <a href="contao/main.php?'.$GLOBALS['TL_DCA'][$this->strTable]['config']['backlink'].'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a> ' : '')) . ((\Input::get('act') != 'select') ? '
+            '.(!$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] ? '<a href="'.(($this->ptable != '') ? \Backend::addToUrl('act=create' . (($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] < 4) ? '&amp;mode=2' : '') . '&amp;pid=' . $this->intId) : \Backend::addToUrl('act=create')).'" class="header-new btn-floating btn-large waves-effect waves-light green tooltipped"  data-position="left" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['new'][1]).'" accesskey="n" onclick="Backend.getScrollOffset()"><i class="material-icons">add</i></a> ' : '') . $this->generateGlobalButtons() : '') . '
+            </div>' . \Message::generate(true);
         }
 
         $return .= '<div class="card-content">';
@@ -3210,18 +3210,18 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
             $result = $objRow->fetchAllAssoc();
             $return .= ((\Input::get('act') == 'select') ? '
 
-<form action="'.ampersand(\Environment::get('request'), true).'" id="tl_select" class="tl_form" method="post">
-<div class="tl_formbody">
-<input type="hidden" name="FORM_SUBMIT" value="tl_select">
-<input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">' : '').'
+            <form action="'.ampersand(\Environment::get('request'), true).'" id="tl_select" class="tl_form" method="post">
+            <div class="tl_formbody">
+            <input type="hidden" name="FORM_SUBMIT" value="tl_select">
+            <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">' : '').'
 
-<div class="listing-container list_view">'.((\Input::get('act') == 'select') ? '
+            <div class="listing-container list_view">'.((\Input::get('act') == 'select') ? '
 
-<div class="select-trigger">
-    <input type="checkbox" id="tl_select_trigger" onclick="Backend.toggleCheckboxes(this)" class="tl_tree_checkbox"><label for="tl_select_trigger" class="tl_select_label">'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</label>
-</div>' : '').'
+            <div class="select-trigger">
+            <input type="checkbox" id="tl_select_trigger" onclick="Backend.toggleCheckboxes(this)" class="tl_tree_checkbox"><label for="tl_select_trigger" class="tl_select_label">'.$GLOBALS['TL_LANG']['MSC']['selectAll'].'</label>
+            </div>' : '').'
 
-<table class="listing' . ($GLOBALS['TL_DCA'][$this->strTable]['list']['label']['showColumns'] ? ' showColumns' : '') . ' bordered highlight responsive-table">';
+            <table class="listing' . ($GLOBALS['TL_DCA'][$this->strTable]['list']['label']['showColumns'] ? ' showColumns' : '') . ' bordered highlight responsive-table">';
 
             // Automatically add the "order by" field as last column if we do not have group headers
             if ($GLOBALS['TL_DCA'][$this->strTable]['list']['label']['showColumns'] && !in_array($firstOrderBy, $GLOBALS['TL_DCA'][$this->strTable]['list']['label']['fields']))
@@ -3258,17 +3258,17 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
             if ($GLOBALS['TL_DCA'][$this->strTable]['list']['label']['showColumns'])
             {
                 $return .= '
-  <tr>';
+                <tr>';
 
                 foreach ($GLOBALS['TL_DCA'][$this->strTable]['list']['label']['fields'] as $f)
                 {
                     $return .= '
-    <th class="row-headline col_' . $f . (($f == $firstOrderBy) ? ' ordered_by' : '') . '">'.$GLOBALS['TL_DCA'][$this->strTable]['fields'][$f]['label'][0].'</th>';
+                    <th class="row-headline col_' . $f . (($f == $firstOrderBy) ? ' ordered_by' : '') . '">'.$GLOBALS['TL_DCA'][$this->strTable]['fields'][$f]['label'][0].'</th>';
                 }
 
                 $return .= '
-    <th class="row-headline actions">&nbsp;</th>
-  </tr>';
+                <th class="row-headline actions">&nbsp;</th>
+                </tr>';
             }
 
             // Process result and add label and buttons
@@ -3415,16 +3415,16 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
                         $remoteCur = $remoteNew;
 
                         $return .= '
-  <tr>
-    <td colspan="2" class="'.$groupclass.'">'.$group.'</td>
-  </tr>';
+                        <tr>
+                        <td colspan="2" class="'.$groupclass.'">'.$group.'</td>
+                        </tr>';
                         $groupclass = 'row-headline';
                     }
                 }
 
                 $return .= '
-  <tr class="'.((++$eoCount % 2 == 0) ? 'even' : 'odd').' click2edit toggle-select">
-    ';
+                <tr class="'.((++$eoCount % 2 == 0) ? 'even' : 'odd').' click2edit toggle-select">
+                ';
 
                 $colspan = 1;
 
@@ -3471,16 +3471,16 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
 
                 // Buttons ($row, $table, $root, $blnCircularReference, $childs, $previous, $next)
                 $return .= ((\Input::get('act') == 'select') ? '
-    <td class="item actions -select"><input type="checkbox" name="IDS[]" id="ids_'.$row['id'].'" class="tl_tree_checkbox" value="'.$row['id'].'"></td>' : '
-    <td class="item actions">'.$this->generateButtons($row, $this->strTable, $this->root).'</td>') . '
-  </tr>';
+                <td class="item actions -select"><input type="checkbox" name="IDS[]" id="ids_'.$row['id'].'" class="tl_tree_checkbox" value="'.$row['id'].'"></td>' : '
+                <td class="item actions">'.$this->generateButtons($row, $this->strTable, $this->root).'</td>') . '
+                </tr>';
             }
 
             // Close the table
             $return .= $_buttons . ''.$tree.'
-        </table>
+            </table>
 
-        </div>';
+            </div>';
 
             // Close the form
             if (\Input::get('act') == 'select')
@@ -3615,14 +3615,14 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
         }
 
         $return = '
-<form action="'.ampersand(\Environment::get('request'), true).'" class="tl_form" method="post">
-<div class="tl_formbody">
-<input type="hidden" name="FORM_SUBMIT" value="tl_filters">
-<input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
-' . $return . '
-</ul>
-</form>
-';
+        <form action="'.ampersand(\Environment::get('request'), true).'" class="tl_form" method="post">
+        <div class="tl_formbody">
+        <input type="hidden" name="FORM_SUBMIT" value="tl_filters">
+        <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
+        ' . $return . '
+        </ul>
+        </form>
+        ';
 
         return $return;
     }
@@ -3931,13 +3931,13 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
                     }
 
                     $options .= '
-  <option value="'.$this_limit.'"' . \Widget::optionSelected($this->limit, $this_limit) . '>'.($i*$GLOBALS['TL_CONFIG']['resultsPerPage']+1).' - '.$upper_limit.'</option>';
+                    <option value="'.$this_limit.'"' . \Widget::optionSelected($this->limit, $this_limit) . '>'.($i*$GLOBALS['TL_CONFIG']['resultsPerPage']+1).' - '.$upper_limit.'</option>';
                 }
 
                 if (!$blnIsMaxResultsPerPage)
                 {
                     $options .= '
-  <option value="all"' . \Widget::optionSelected($this->limit, null) . '>'.$GLOBALS['TL_LANG']['MSC']['filterAll'].'</option>';
+                    <option value="all"' . \Widget::optionSelected($this->limit, null) . '>'.$GLOBALS['TL_LANG']['MSC']['filterAll'].'</option>';
                 }
             }
 
@@ -4968,36 +4968,36 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
 
         // Preview Mail
         $return = '
-<div id="tl_buttons">
-<a href="'.$this->getReferer(ENCODE_AMPERSANDS).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
-</div>
+        <div id="tl_buttons">
+        <a href="'.$this->getReferer(ENCODE_AMPERSANDS).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
+        </div>
 
-<h2 class="sub_headline">'.$GLOBALS['TL_LANG']['tl_formdata']['mail'][0].'</h2>' . \Message::generate() . $strHint .'
+        <h2 class="sub_headline">'.$GLOBALS['TL_LANG']['tl_formdata']['mail'][0].'</h2>' . \Message::generate() . $strHint .'
 
-<form action="'.ampersand(\Environment::get('script'), ENCODE_AMPERSANDS).'" id="tl_formdata_send" class="tl_form" method="get">
-<div class="tl_formbody_edit fd_mail_send">
-<input type="hidden" name="do" value="' . \Input::get('do') . '">
-<input type="hidden" name="table" value="' . \Input::get('table') . '">
-<input type="hidden" name="act" value="' . \Input::get('act') . '">
-<input type="hidden" name="id" value="' . \Input::get('id') . '">
-<input type="hidden" name="rt" value="'.REQUEST_TOKEN.'">
-<input type="hidden" name="token" value="' . $strToken . '">
+        <form action="'.ampersand(\Environment::get('script'), ENCODE_AMPERSANDS).'" id="tl_formdata_send" class="tl_form" method="get">
+        <div class="tl_formbody_edit fd_mail_send">
+        <input type="hidden" name="do" value="' . \Input::get('do') . '">
+        <input type="hidden" name="table" value="' . \Input::get('table') . '">
+        <input type="hidden" name="act" value="' . \Input::get('act') . '">
+        <input type="hidden" name="id" value="' . \Input::get('id') . '">
+        <input type="hidden" name="rt" value="'.REQUEST_TOKEN.'">
+        <input type="hidden" name="token" value="' . $strToken . '">
 
-<table cellpadding="0" cellspacing="0" class="prev_header" summary="">
-  <tr class="row_0">
-    <td class="col_0">' . $GLOBALS['TL_LANG']['tl_formdata']['mail_sender'][0] . '</td>
-    <td class="col_1">' . $objMailProperties->sender . '</td>
-  </tr>
+        <table cellpadding="0" cellspacing="0" class="prev_header" summary="">
+        <tr class="row_0">
+        <td class="col_0">' . $GLOBALS['TL_LANG']['tl_formdata']['mail_sender'][0] . '</td>
+        <td class="col_1">' . $objMailProperties->sender . '</td>
+        </tr>
 
-  <tr class="row_1">
-    <td class="col_0"><label for="ctrl_formdata_recipient">' . $GLOBALS['TL_LANG']['tl_formdata']['mail_recipient'][0]. '</label></td>
-    <td class="col_1"><input name="recipient" type="ctrl_recipient" class="tl_text" value="' . implode(',', $objMailProperties->recipients) . '" '.($blnSend ? 'disabled="disabled"' : '').'></td>
-  </tr>
+        <tr class="row_1">
+        <td class="col_0"><label for="ctrl_formdata_recipient">' . $GLOBALS['TL_LANG']['tl_formdata']['mail_recipient'][0]. '</label></td>
+        <td class="col_1"><input name="recipient" type="ctrl_recipient" class="tl_text" value="' . implode(',', $objMailProperties->recipients) . '" '.($blnSend ? 'disabled="disabled"' : '').'></td>
+        </tr>
 
-  <tr class="row_2">
-    <td class="col_0">' . $GLOBALS['TL_LANG']['tl_formdata']['mail_subject'][0] . '</td>
-    <td class="col_1">' . $objMailProperties->subject . '</td>
-  </tr>';
+        <tr class="row_2">
+        <td class="col_0">' . $GLOBALS['TL_LANG']['tl_formdata']['mail_subject'][0] . '</td>
+        <td class="col_1">' . $objMailProperties->subject . '</td>
+        </tr>';
 
         if (!empty($objMailProperties->attachments))
         {
@@ -5008,46 +5008,46 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
             }
 
             $return .= '
-  <tr class="row_3">
-    <td class="col_0" style="vertical-align:top">' . $GLOBALS['TL_LANG']['tl_formdata']['attachments'] . '</td>
-    <td class="col_1">' . implode(',<br> ', $attachments) . '</td>
-  </tr>';
+            <tr class="row_3">
+            <td class="col_0" style="vertical-align:top">' . $GLOBALS['TL_LANG']['tl_formdata']['attachments'] . '</td>
+            <td class="col_1">' . implode(',<br> ', $attachments) . '</td>
+            </tr>';
         }
 
         $return .= '
-</table>
+        </table>
 
-<h3>' . $GLOBALS['TL_LANG']['tl_formdata']['mail_body_plaintext'][0] . '</h3>
-<div class="preview_plaintext">
-' . nl2br($objMailProperties->messageText) . '
-</div>';
+        <h3>' . $GLOBALS['TL_LANG']['tl_formdata']['mail_body_plaintext'][0] . '</h3>
+        <div class="preview_plaintext">
+        ' . nl2br($objMailProperties->messageText) . '
+        </div>';
 
         if (!empty($objMailProperties->messageHtml))
         {
             $return .= '
-<h3>' . $GLOBALS['TL_LANG']['tl_formdata']['mail_body_html'][0] . '</h3>
-<div class="preview_html">
-' . preg_replace(array('/.*?<body.*?>/si','/<\/body>.*$/si'), array('', ''), $objMailProperties->messageHtml) . '
-</div>';
+            <h3>' . $GLOBALS['TL_LANG']['tl_formdata']['mail_body_html'][0] . '</h3>
+            <div class="preview_html">
+            ' . preg_replace(array('/.*?<body.*?>/si','/<\/body>.*$/si'), array('', ''), $objMailProperties->messageHtml) . '
+            </div>';
         }
 
         $return .= '
-</div>';
+        </div>';
 
         if (!$blnSend)
         {
             $return .= '
-<div class="tl_formbody_submit">
+            <div class="tl_formbody_submit">
 
-<div class="tl_submit_container">
-<input type="submit" id="send" class="tl_submit" accesskey="s" value="'.specialchars($GLOBALS['TL_LANG']['tl_formdata']['mail'][0]).'">
-</div>
+            <div class="tl_submit_container">
+            <input type="submit" id="send" class="tl_submit" accesskey="s" value="'.specialchars($GLOBALS['TL_LANG']['tl_formdata']['mail'][0]).'">
+            </div>
 
-</div>';
+            </div>';
         }
 
         $return .= '
-</form>';
+        </form>';
 
         return $return;
     }
@@ -5381,53 +5381,53 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
 
         // Return form
         return '
-<div id="tl_buttons">
-<a href="'.ampersand(str_replace('&key=import', '', \Environment::get('request'))).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBT']).'" accesskey="b">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
-</div>
+        <div id="tl_buttons">
+        <a href="'.ampersand(str_replace('&key=import', '', \Environment::get('request'))).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBT']).'" accesskey="b">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
+        </div>
 
-<h2 class="sub_headline">'.$GLOBALS['TL_LANG']['tl_formdata']['import'][1].'</h2>
-'.\Message::generate().'
-<form action="'.ampersand(\Environment::get('request'), true).'" id="tl_formdata_import" class="tl_form" method="post">
-<div class="tl_formbody_edit">
-<input type="hidden" name="FORM_SUBMIT" value="tl_formdata_import">
-<input type="hidden" name="FORM_MODE" value="preview">
-<input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
+        <h2 class="sub_headline">'.$GLOBALS['TL_LANG']['tl_formdata']['import'][1].'</h2>
+        '.\Message::generate().'
+        <form action="'.ampersand(\Environment::get('request'), true).'" id="tl_formdata_import" class="tl_form" method="post">
+        <div class="tl_formbody_edit">
+        <input type="hidden" name="FORM_SUBMIT" value="tl_formdata_import">
+        <input type="hidden" name="FORM_MODE" value="preview">
+        <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
 
-<div class="tl_tbox block">
-  <div class="w50">
-  <h3><label for="separator">'.$GLOBALS['TL_LANG']['MSC']['separator'][0].'</label></h3>
-  <select name="separator" id="separator" class="tl_select" onfocus="Backend.getScrollOffset()">
-    <option value="comma"'.($arrSessionData['import'][$this->strFormKey]['separator'] == 'comma' ? ' selected="selected"' : '').'>'.$GLOBALS['TL_LANG']['MSC']['comma'].'</option>
-    <option value="semicolon"'.($arrSessionData['import'][$this->strFormKey]['separator'] == 'semicolon' || !isset($arrSessionData['import'][$this->strFormKey]['separator']) ? ' selected="selected"' : '').'>'.$GLOBALS['TL_LANG']['MSC']['semicolon'].'</option>
-    <option value="tabulator"'.($arrSessionData['import'][$this->strFormKey]['separator'] == 'tabulator' ? ' selected="selected"' : '').'>'.$GLOBALS['TL_LANG']['MSC']['tabulator'].'</option>
-  </select>'.(strlen($GLOBALS['TL_LANG']['MSC']['separator'][1]) ? '
-  <p class="tl_help tl_tip">'.$GLOBALS['TL_LANG']['MSC']['separator'][1].'</p>' : '').'
-  </div>
-  <div class="w50 m12 cbx">
-  <div class="tl_checkbox_single_container">
-  <input name="csv_has_header" id="csv_has_header" type="checkbox" value="1"'.($arrSessionData['import'][$this->strFormKey]['csv_has_header'] == '1' ? ' checked="checked"' : '').'>
-  <label for="csv_has_header">'.$GLOBALS['TL_LANG']['tl_formdata']['csv_has_header'][0].'</label>
-  </div>
-  <p class="tl_help tl_tip">'.$GLOBALS['TL_LANG']['tl_formdata']['csv_has_header'][1].'</p>
-  </div>
+        <div class="tl_tbox block">
+        <div class="w50">
+        <h3><label for="separator">'.$GLOBALS['TL_LANG']['MSC']['separator'][0].'</label></h3>
+        <select name="separator" id="separator" class="tl_select" onfocus="Backend.getScrollOffset()">
+        <option value="comma"'.($arrSessionData['import'][$this->strFormKey]['separator'] == 'comma' ? ' selected="selected"' : '').'>'.$GLOBALS['TL_LANG']['MSC']['comma'].'</option>
+        <option value="semicolon"'.($arrSessionData['import'][$this->strFormKey]['separator'] == 'semicolon' || !isset($arrSessionData['import'][$this->strFormKey]['separator']) ? ' selected="selected"' : '').'>'.$GLOBALS['TL_LANG']['MSC']['semicolon'].'</option>
+        <option value="tabulator"'.($arrSessionData['import'][$this->strFormKey]['separator'] == 'tabulator' ? ' selected="selected"' : '').'>'.$GLOBALS['TL_LANG']['MSC']['tabulator'].'</option>
+        </select>'.(strlen($GLOBALS['TL_LANG']['MSC']['separator'][1]) ? '
+        <p class="tl_help tl_tip">'.$GLOBALS['TL_LANG']['MSC']['separator'][1].'</p>' : '').'
+        </div>
+        <div class="w50 m12 cbx">
+        <div class="tl_checkbox_single_container">
+        <input name="csv_has_header" id="csv_has_header" type="checkbox" value="1"'.($arrSessionData['import'][$this->strFormKey]['csv_has_header'] == '1' ? ' checked="checked"' : '').'>
+        <label for="csv_has_header">'.$GLOBALS['TL_LANG']['tl_formdata']['csv_has_header'][0].'</label>
+        </div>
+        <p class="tl_help tl_tip">'.$GLOBALS['TL_LANG']['tl_formdata']['csv_has_header'][1].'</p>
+        </div>
 
-  <div class="clr">'
+        <div class="clr">'
         . $objFileSelector->parse() . (strlen($GLOBALS['TL_LANG']['tl_formdata']['import_source'][1]) ? '
-  <p class="tl_help tl_tip">'.$GLOBALS['TL_LANG']['tl_formdata']['import_source'][1].'</p>' : '') . '
+        <p class="tl_help tl_tip">'.$GLOBALS['TL_LANG']['tl_formdata']['import_source'][1].'</p>' : '') . '
 
-  </div>
-</div>
+        </div>
+        </div>
 
-</div>
+        </div>
 
-<div class="tl_formbody_submit">
+        <div class="tl_formbody_submit">
 
-<div class="tl_submit_container">
-  <input type="submit" name="save" id="save" class="tl_submit" accesskey="s" value="'.specialchars($GLOBALS['TL_LANG']['tl_formdata']['import'][0]).'" onfocus="document.cookie = \'BE_PAGE_OFFSET=0; path=/\';">
-</div>
+        <div class="tl_submit_container">
+        <input type="submit" name="save" id="save" class="tl_submit" accesskey="s" value="'.specialchars($GLOBALS['TL_LANG']['tl_formdata']['import'][0]).'" onfocus="document.cookie = \'BE_PAGE_OFFSET=0; path=/\';">
+        </div>
 
-</div>
-</form>' . $this->getFilepickerJavascript('reloadEfgImportSource');
+        </div>
+        </form>' . $this->getFilepickerJavascript('reloadEfgImportSource');
 
     }
 
@@ -5490,46 +5490,46 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
         // plugin stylect cannot handle selects inside scrolling div
         // .. deactivate it
         $return = '
-<script>
-var Stylect = {
-    convertSelects: function() { return; }
-};
-</script>
-';
+        <script>
+        var Stylect = {
+            convertSelects: function() { return; }
+        };
+        </script>
+        ';
 
         $return .= '
-<div id="tl_buttons">
-<a href="'.ampersand(str_replace('&key=import', '', \Environment::get('request'))).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBT']).'" accesskey="b">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
-</div>
+        <div id="tl_buttons">
+        <a href="'.ampersand(str_replace('&key=import', '', \Environment::get('request'))).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBT']).'" accesskey="b">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
+        </div>
 
-<h2 class="sub_headline">'.$GLOBALS['TL_LANG']['tl_formdata']['import'][1].'</h2>'
-            .\Message::generate().'
-<form action="'.ampersand(\Environment::get('request'), true).'" id="tl_formdata_import" class="tl_form" method="post">
-<div class="tl_formbody_edit tl_formdata_import">
-    <input type="hidden" name="FORM_SUBMIT" value="tl_formdata_import">
-    <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
-    <input type="hidden" name="FORM_MODE" value="import">
-    <input type="hidden" name="import_source" value="'.\Input::post('import_source').'">
-    <input type="hidden" name="separator" value="'.\Input::post('separator').'">
-    <input type="hidden" name="csv_has_header" value="'.\Input::post('csv_has_header').'">
+        <h2 class="sub_headline">'.$GLOBALS['TL_LANG']['tl_formdata']['import'][1].'</h2>'
+        .\Message::generate().'
+        <form action="'.ampersand(\Environment::get('request'), true).'" id="tl_formdata_import" class="tl_form" method="post">
+        <div class="tl_formbody_edit tl_formdata_import">
+        <input type="hidden" name="FORM_SUBMIT" value="tl_formdata_import">
+        <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
+        <input type="hidden" name="FORM_MODE" value="import">
+        <input type="hidden" name="import_source" value="'.\Input::post('import_source').'">
+        <input type="hidden" name="separator" value="'.\Input::post('separator').'">
+        <input type="hidden" name="csv_has_header" value="'.\Input::post('csv_has_header').'">
 
-    <div class="tl_tbox block">
+        <div class="tl_tbox block">
         <h3>'.$GLOBALS['TL_LANG']['tl_formdata']['import_preview'][0].'</h3>
         <p class="tl_help">'.$GLOBALS['TL_LANG']['tl_formdata']['import_preview'][1].'</p>
         <div class="fd_import_prev">
-            <div>';
+        <div>';
         $return .= '
-            <table class="fd_import_data">
-                <thead><tr>';
+        <table class="fd_import_data">
+        <thead><tr>';
         foreach ($arrEntries[0] as $col => $val)
         {
             $return .= '
-                    <td>'.$this->importFieldmapMenu($arrEntries, $col, $val).'</td>';
+            <td>'.$this->importFieldmapMenu($arrEntries, $col, $val).'</td>';
         }
         $return .= '
-                </tr></thead>';
+        </tr></thead>';
         $return .= '
-                <tbody>';
+        <tbody>';
 
         if ($blnUseCsvHeader)
         {
@@ -5539,30 +5539,30 @@ var Stylect = {
         foreach ($arrEntries as $row)
         {
             $return .= '
-                <tr>';
+            <tr>';
             foreach ($row as $col => $val)
             {
                 $return .= '
-                    <td>'.$val.'</td>';
+                <td>'.$val.'</td>';
             }
             $return .= '
             </tr>';
         }
         $return .= '
-                </tbody>
-            </table>';
+        </tbody>
+        </table>';
         $return .= '
-            </div>
         </div>
-    </div>
-</div>
+        </div>
+        </div>
+        </div>
 
-<div class="tl_formbody_submit">
-    <div class="tl_submit_container">
+        <div class="tl_formbody_submit">
+        <div class="tl_submit_container">
         <input type="submit" name="save" id="save" class="tl_submit" accesskey="s" value="'.specialchars($GLOBALS['TL_LANG']['tl_formdata']['import'][0]).'">
-    </div>
-</div>
-</form>';
+        </div>
+        </div>
+        </form>';
 
         return $return;
 
@@ -5579,8 +5579,8 @@ var Stylect = {
         $arrSessionData = $this->Session->get('EFG');
 
         $return = '
-<select name="import_cols['.$col.']">
-    <option value="__IGNORE__"'.((!isset($arrSessionData['import'][$this->strFormKey]['import_cols'][$col]) || $arrSessionData['import'][$this->strFormKey]['import_cols'][$col] == '__IGNORE__') ? ' selected="SELECTED"' : '').'>'.$GLOBALS['TL_LANG']['tl_formdata']['option_import_ignore'].'</option>';
+        <select name="import_cols['.$col.']">
+        <option value="__IGNORE__"'.((!isset($arrSessionData['import'][$this->strFormKey]['import_cols'][$col]) || $arrSessionData['import'][$this->strFormKey]['import_cols'][$col] == '__IGNORE__') ? ' selected="SELECTED"' : '').'>'.$GLOBALS['TL_LANG']['tl_formdata']['option_import_ignore'].'</option>';
         if (!empty($this->arrImportableFields))
         {
             foreach (array_keys($this->arrImportableFields) as $strFdField)
@@ -5597,7 +5597,7 @@ var Stylect = {
             }
         }
         $return .= '
-</select>';
+        </select>';
 
         return $return;
 
@@ -6253,62 +6253,62 @@ var Stylect = {
     {
 
         $strJs = "
-<script>
-    AjaxRequest.toggleEfgSubpalette = function (el, id, field) {
-        el.blur();
-        var item = $(id);
+        <script>
+        AjaxRequest.toggleEfgSubpalette = function (el, id, field) {
+            el.blur();
+            var item = $(id);
 
-        if (item) {
-            if (!el.value) {
-                el.value = 1;
-                el.checked = 'checked';
-                item.setStyle('display', 'block');
-                new Request.Contao({field:el}).post({'action':'toggleEfgSubpalette', 'id':id, 'field':field, 'state':1, 'REQUEST_TOKEN':Contao.request_token});
-            } else {
-                el.value = '';
-                el.checked = '';
-                item.setStyle('display', 'none');
-                new Request.Contao({field:el}).post({'action':'toggleEfgSubpalette', 'id':id, 'field':field, 'state':0, 'REQUEST_TOKEN':Contao.request_token});
+            if (item) {
+                if (!el.value) {
+                    el.value = 1;
+                    el.checked = 'checked';
+                    item.setStyle('display', 'block');
+                    new Request.Contao({field:el}).post({'action':'toggleEfgSubpalette', 'id':id, 'field':field, 'state':1, 'REQUEST_TOKEN':Contao.request_token});
+                } else {
+                    el.value = '';
+                    el.checked = '';
+                    item.setStyle('display', 'none');
+                    new Request.Contao({field:el}).post({'action':'toggleEfgSubpalette', 'id':id, 'field':field, 'state':0, 'REQUEST_TOKEN':Contao.request_token});
+                }
+                return;
             }
-            return;
+
+            new Request.Contao({
+                field: el,
+                evalScripts: false,
+                onRequest: AjaxRequest.displayBox(Contao.lang.loading + ' …'),
+                onSuccess: function(txt, json) {
+                    var div = new Element('div', {
+                        'id': id,
+                        'html': txt,
+                        'styles': {
+                            'display': 'block'
+                        }
+                    }).inject($(el).getParent('div').getParent('div'), 'after');
+
+                    // Execute scripts after the DOM has been updated
+                    if (json.javascript) $exec(json.javascript);
+
+                    el.value = 1;
+                    el.checked = 'checked';
+
+                    AjaxRequest.hideBox();
+                    Backend.addInteractiveHelp();
+                    Backend.addColorPicker();
+
+                    // HOOK
+                    window.fireEvent('subpalette'); // Backwards compatibility
+                    window.fireEvent('ajax_change');
+                }
+            }).post({'action':'toggleEfgSubpalette', 'id':id, 'field':field, 'load':1, 'state':1, 'REQUEST_TOKEN':Contao.request_token});
         }
 
-        new Request.Contao({
-            field: el,
-            evalScripts: false,
-            onRequest: AjaxRequest.displayBox(Contao.lang.loading + ' …'),
-            onSuccess: function(txt, json) {
-                var div = new Element('div', {
-                    'id': id,
-                    'html': txt,
-                    'styles': {
-                        'display': 'block'
-                    }
-                }).inject($(el).getParent('div').getParent('div'), 'after');
-
-                // Execute scripts after the DOM has been updated
-                if (json.javascript) $exec(json.javascript);
-
-                el.value = 1;
-                el.checked = 'checked';
-
-                AjaxRequest.hideBox();
-                Backend.addInteractiveHelp();
-                Backend.addColorPicker();
-
-                // HOOK
-                window.fireEvent('subpalette'); // Backwards compatibility
-                window.fireEvent('ajax_change');
-            }
-        }).post({'action':'toggleEfgSubpalette', 'id':id, 'field':field, 'load':1, 'state':1, 'REQUEST_TOKEN':Contao.request_token});
-    }
-
-window.addEvent('domready', function(){
-    $$('input[onclick^=AjaxRequest.toggleSubpalette]').each(function(item){
-        item.set('onclick', (item.get('onclick').replace(/toggleSubpalette/, 'toggleEfgSubpalette')))
-    });
-});
-</script>";
+        window.addEvent('domready', function(){
+            $$('input[onclick^=AjaxRequest.toggleSubpalette]').each(function(item){
+                item.set('onclick', (item.get('onclick').replace(/toggleSubpalette/, 'toggleEfgSubpalette')))
+            });
+        });
+        </script>";
 
         return $strJs;
 
@@ -6319,68 +6319,68 @@ window.addEvent('domready', function(){
     {
 
         $strJs = "
-<script>
-function handleEfgFileselectorButton(){
-    $$('a[href*=contao/file.php]').addEvent('click', function(e){
-        var el = e.target;
-        var elHidden = el.getParent('div.selector_container').getPrevious('input[type=hidden]');
-        var opt = { 'id': elHidden.get('name'), 'url': e.target.get('href') };
+        <script>
+        function handleEfgFileselectorButton(){
+            $$('a[href*=contao/file.php]').addEvent('click', function(e){
+                var el = e.target;
+                var elHidden = el.getParent('div.selector_container').getPrevious('input[type=hidden]');
+                var opt = { 'id': elHidden.get('name'), 'url': e.target.get('href') };
 
-        $$('div#simple-modal div.simple-modal-footer a.btn.primary').removeEvents('click').addEvent('click', function() {
-            var val = [],
-                frm = null,
-                frms = window.frames;
-            for (var i=0; i<frms.length; i++) {
-                if (frms[i].name == 'simple-modal-iframe') {
-                    frm = frms[i];
-                    break;
-                }
-            }
-            if (frm === null) {
-                alert('Could not find the SimpleModal frame');
-                return;
-            }
-            if (frm.document.location.href.indexOf('contao/main.php') != -1) {
-                alert(Contao.lang.picker);
-                return; // see #5704
-            }
-            var inp = frm.document.getElementById('tl_listing').getElementsByTagName('input');
-            for (var i=0; i<inp.length; i++) {
-                if (!inp[i].checked || inp[i].id.match(/^check_all_/)) continue;
-                if (!inp[i].id.match(/^reset_/)) val.push(inp[i].get('value'));
-            }
-            if (opt.tag) {
-                $(opt.tag).value = val.join(',');
-                if (opt.url.match(/page\.php/)) {
-                    $(opt.tag).value = '{{link_url::' + $(opt.tag).value + '}}';
-                }
-                opt.self.set('href', opt.self.get('href').replace(/&value=[^&]*/, '&value='+val.join(',')));
-            } else {
-                $('ctrl_'+opt.id).value = val.join(\"\t\");
-                var act = (opt.url.indexOf('contao/page.php') != -1) ? 'reloadPagetree' : '" . $strReload . "';
-                new Request.Contao({
-                    field: $('ctrl_'+opt.id),
-                    evalScripts: false,
-                    onRequest: AjaxRequest.displayBox(Contao.lang.loading + ' …'),
-                    onSuccess: function(txt, json) {
-                        $('ctrl_'+opt.id).getParent('div').set('html', json.content);
-                        json.javascript && Browser.exec(json.javascript);
-                        AjaxRequest.hideBox();
-                        window.fireEvent('ajax_change');
+                $$('div#simple-modal div.simple-modal-footer a.btn.primary').removeEvents('click').addEvent('click', function() {
+                    var val = [],
+                    frm = null,
+                    frms = window.frames;
+                    for (var i=0; i<frms.length; i++) {
+                        if (frms[i].name == 'simple-modal-iframe') {
+                            frm = frms[i];
+                            break;
+                        }
                     }
-                }).post({'action':act, 'name':opt.id, 'value':$('ctrl_'+opt.id).value, 'REQUEST_TOKEN':Contao.request_token});
-            }
-            $('simple-modal').hide();
-            $('simple-modal-overlay').hide();
-            document.body.setStyle('overflow', 'auto');
-        });
-    });
-}
+                    if (frm === null) {
+                        alert('Could not find the SimpleModal frame');
+                        return;
+                    }
+                    if (frm.document.location.href.indexOf('contao/main.php') != -1) {
+                        alert(Contao.lang.picker);
+                        return; // see #5704
+                    }
+                    var inp = frm.document.getElementById('tl_listing').getElementsByTagName('input');
+                    for (var i=0; i<inp.length; i++) {
+                        if (!inp[i].checked || inp[i].id.match(/^check_all_/)) continue;
+                        if (!inp[i].id.match(/^reset_/)) val.push(inp[i].get('value'));
+                    }
+                    if (opt.tag) {
+                        $(opt.tag).value = val.join(',');
+                        if (opt.url.match(/page\.php/)) {
+                            $(opt.tag).value = '{{link_url::' + $(opt.tag).value + '}}';
+                        }
+                        opt.self.set('href', opt.self.get('href').replace(/&value=[^&]*/, '&value='+val.join(',')));
+                    } else {
+                        $('ctrl_'+opt.id).value = val.join(\"\t\");
+                        var act = (opt.url.indexOf('contao/page.php') != -1) ? 'reloadPagetree' : '" . $strReload . "';
+                        new Request.Contao({
+                            field: $('ctrl_'+opt.id),
+                            evalScripts: false,
+                            onRequest: AjaxRequest.displayBox(Contao.lang.loading + ' …'),
+                            onSuccess: function(txt, json) {
+                                $('ctrl_'+opt.id).getParent('div').set('html', json.content);
+                                json.javascript && Browser.exec(json.javascript);
+                                AjaxRequest.hideBox();
+                                window.fireEvent('ajax_change');
+                            }
+                        }).post({'action':act, 'name':opt.id, 'value':$('ctrl_'+opt.id).value, 'REQUEST_TOKEN':Contao.request_token});
+                    }
+                    $('simple-modal').hide();
+                    $('simple-modal-overlay').hide();
+                    document.body.setStyle('overflow', 'auto');
+                });
+            });
+        }
 
-window.addEvent('domready', function(){
-    handleEfgFileselectorButton();
-});
-</script>";
+        window.addEvent('domready', function(){
+            handleEfgFileselectorButton();
+        });
+        </script>";
 
         return $strJs;
 

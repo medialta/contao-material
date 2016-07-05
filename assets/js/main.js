@@ -1694,6 +1694,45 @@ var Backend = {
         });
     },
 
+    multicolumnwizard: function ()
+    {
+        $('.multicolumnwizard td.operations a[rel]').click(function (e) {
+            e.preventDefault()
+            var rel = $(this).attr('rel')
+            var parent = $(this).closest('tr')
+
+            switch (rel) {
+                case 'copy':
+                    parent.find('select').each(function(index, ele) {
+                        $(ele).select2('destroy')
+                    });
+                    var clone = parent.clone(true)
+                    parent.after(clone);
+                    break
+
+                case 'up':
+                    if (parent.prev('tr').length) {
+                        parent.prev('tr').before(parent)
+                    }
+                    break;
+
+                case 'down':
+                    if (parent.next('tr').length) {
+                        parent.next('tr').after(parent)
+                    }
+                    break;
+
+                case 'delete':
+                    if ($(this).closest('tbody').children().length > 1) {
+                        parent.remove()
+                    }
+                    break;
+            }
+
+            $('select').select2()
+        })
+    },
+
     initialize: function()
     {
         $('body').addClass('js');
@@ -1703,6 +1742,7 @@ var Backend = {
         Backend.disableCollapseActions();
         Backend.enableBadCronstructedCheckboxes();
         Backend.editBadHeaderBack();
+        Backend.multicolumnwizard();
 
         // Bind events
         $('.js-toggle-subpanel').click(Backend.toggleSubpanel);

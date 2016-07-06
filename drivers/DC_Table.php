@@ -146,6 +146,10 @@ class DC_Table extends \Contao\DC_Table
             {
                 $row[$i] = ($value != '') ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'];
             }
+            elseif ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['eval']['rgxp'] == 'email')
+            {
+                $row[$i] = \Idna::decodeEmail($value);
+            }
             elseif ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['inputType'] == 'textarea' && ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['eval']['allowHtml'] || $GLOBALS['TL_DCA'][$this->strTable]['fields'][$i]['eval']['preserveTags']))
             {
                 $row[$i] = specialchars($value);
@@ -417,7 +421,7 @@ class DC_Table extends \Contao\DC_Table
                             if (is_array($callback))
                             {
                                 $this->import($callback[0]);
-                                $this->varValue = $this->$callback[0]->$callback[1]($this->varValue, $this);
+                                $this->varValue = $this->{$callback[0]}->{$callback[1]}($this->varValue, $this);
                             }
                             elseif (is_callable($callback))
                             {
@@ -479,7 +483,7 @@ class DC_Table extends \Contao\DC_Table
                 if (is_array($callback))
                 {
                     $this->import($callback[0]);
-                    $arrButtons = $this->$callback[0]->$callback[1]($arrButtons, $this);
+                    $arrButtons = $this->{$callback[0]}->{$callback[1]}($arrButtons, $this);
                 }
                 elseif (is_callable($callback))
                 {
@@ -531,7 +535,7 @@ class DC_Table extends \Contao\DC_Table
                     if (is_array($callback))
                     {
                         $this->import($callback[0]);
-                        $this->$callback[0]->$callback[1]($this);
+                        $this->{$callback[0]}->{$callback[1]}($this);
                     }
                     elseif (is_callable($callback))
                     {
@@ -548,12 +552,14 @@ class DC_Table extends \Contao\DC_Table
                 // Call the onversion_callback
                 if (is_array($GLOBALS['TL_DCA'][$this->strTable]['config']['onversion_callback']))
                 {
+                    @trigger_error('Using the onversion_callback has been deprecated and will no longer work in Contao 5.0. Use the oncreate_version_callback instead.', E_USER_DEPRECATED);
+
                     foreach ($GLOBALS['TL_DCA'][$this->strTable]['config']['onversion_callback'] as $callback)
                     {
                         if (is_array($callback))
                         {
                             $this->import($callback[0]);
-                            $this->$callback[0]->$callback[1]($this->strTable, $this->intId, $this);
+                            $this->{$callback[0]}->{$callback[1]}($this->strTable, $this->intId, $this);
                         }
                         elseif (is_callable($callback))
                         {
@@ -561,8 +567,6 @@ class DC_Table extends \Contao\DC_Table
                         }
                     }
                 }
-
-                $this->log('A new version of record "'.$this->strTable.'.id='.$this->intId.'" has been created'.$this->getParentEntries($this->strTable, $this->intId), __METHOD__, TL_GENERAL);
             }
 
             // Set the current timestamp (-> DO NOT CHANGE THE ORDER version - timestamp)
@@ -591,7 +595,7 @@ class DC_Table extends \Contao\DC_Table
                 \System::setCookie('BE_PAGE_OFFSET', 0, 0);
 
                 $strUrl = $this->addToUrl($GLOBALS['TL_DCA'][$this->strTable]['list']['operations']['edit']['href'], false);
-                $strUrl = preg_replace('/(&amp;)?(s2e|act)=[^&]*/i', '', $strUrl);
+                $strUrl = preg_replace('/&(amp;)?(s2e|act|mode|pid)=[^&]*/i', '', $strUrl);
 
                 $this->redirect($strUrl);
             }
@@ -711,7 +715,7 @@ class DC_Table extends \Contao\DC_Table
                 if (is_array($arrCallback))
                 {
                     $this->import($arrCallback[0]);
-                    $panel = $this->$arrCallback[0]->$arrCallback[1]($this);
+                    $panel = $this->{$arrCallback[0]}->{$arrCallback[1]}($this);
                 }
                 elseif (is_callable($arrCallback))
                 {
@@ -946,10 +950,9 @@ class DC_Table extends \Contao\DC_Table
         $return = '
         <div id="tl_buttons" class="card-action">' . (\Input::get('nb') ? '&nbsp;' : ($this->ptable ? '
         <a href="'.$this->getReferer(true, $this->ptable).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">arrow_back</i></a>' : (isset($GLOBALS['TL_DCA'][$this->strTable]['config']['backlink']) ? '
-        <a href="contao/main.php?'.$GLOBALS['TL_DCA'][$this->strTable]['config']['backlink'].'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">arrow_back</i></a>' : ''))) . ' ' .
-        (!$blnClipboard ? ((\Input::get('act') != 'select') ? ((!$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable']) ? '
-        <a href="'.$this->addToUrl(($blnHasSorting ? 'act=paste&amp;mode=create' : 'act=create&amp;mode=2&amp;pid='.$this->intId)).'" class="header-new btn-floating btn-large waves-effect waves-light green tooltipped" data-position="left" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['new'][1]).'" accesskey="n" onclick="Backend.getScrollOffset()"><i class="material-icons">add</i></a> ' : '') .
-        $this->generateGlobalButtons() : '') : '<a href="'.$this->addToUrl('clipboard=1').'" class="header_clipboard" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['clearClipboard']).'" accesskey="x">'.$GLOBALS['TL_LANG']['MSC']['clearClipboard'].'</a> ') . '
+        <a href="contao/main.php?'.$GLOBALS['TL_DCA'][$this->strTable]['config']['backlink'].'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">arrow_back</i></a>' : ''))) . ' ' . ((\Input::get('act') != 'select' && !$blnClipboard && !$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable']) ? '
+        <a href="'.$this->addToUrl(($blnHasSorting ? 'act=paste&amp;mode=create' : 'act=create&amp;mode=2&amp;pid='.$this->intId)).'" class="header-new btn-floating btn-large waves-effect waves-light green tooltipped" data-position="left" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['new'][1]).'" accesskey="n" onclick="Backend.getScrollOffset()"><i class="material-icons">add</i></a> ' : '') . ($blnClipboard ? '
+        <a href="'.$this->addToUrl('clipboard=1').'" class="header_clipboard" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['clearClipboard']).'" accesskey="x">'.$GLOBALS['TL_LANG']['MSC']['clearClipboard'].'</a> ' : $this->generateGlobalButtons()) . '
         </div>' . \Message::generate(true);
 
         // Get all details of the parent record
@@ -1001,6 +1004,17 @@ class DC_Table extends \Contao\DC_Table
             foreach ($headerFields as $v)
             {
                 $_v = deserialize($objParent->$v);
+
+                // Translate UUIDs to paths
+                if ($GLOBALS['TL_DCA'][$this->ptable]['fields'][$v]['inputType'] == 'fileTree')
+                {
+                    $objFiles = \FilesModel::findMultipleByUuids((array) $_v);
+
+                    if ($objFiles !== null)
+                    {
+                        $_v = $objFiles->fetchEach('path');
+                    }
+                }
 
                 if (is_array($_v))
                 {
@@ -1069,6 +1083,19 @@ class DC_Table extends \Contao\DC_Table
                 elseif ($GLOBALS['TL_DCA'][$this->ptable]['fields'][$v]['eval']['isAssociative'] || array_is_assoc($GLOBALS['TL_DCA'][$this->ptable]['fields'][$v]['options']))
                 {
                     $_v = $GLOBALS['TL_DCA'][$this->ptable]['fields'][$v]['options'][$_v];
+                }
+                elseif (is_array($GLOBALS['TL_DCA'][$this->ptable]['fields'][$v]['options_callback']))
+                {
+                    $strClass = $GLOBALS['TL_DCA'][$this->ptable]['fields'][$v]['options_callback'][0];
+                    $strMethod = $GLOBALS['TL_DCA'][$this->ptable]['fields'][$v]['options_callback'][1];
+                    $this->import($strClass);
+                    $options_callback = $this->$strClass->$strMethod($this);
+                    $_v = $options_callback[$_v];
+                }
+                elseif (is_callable($GLOBALS['TL_DCA'][$this->ptable]['fields'][$v]['options_callback']))
+                {
+                    $options_callback = $GLOBALS['TL_DCA'][$this->ptable]['fields'][$v]['options_callback']($this);
+                    $_v = $options_callback[$_v];
                 }
 
                 // Add the sorting field
@@ -1395,7 +1422,7 @@ class DC_Table extends \Contao\DC_Table
                     if (is_array($callback))
                     {
                         $this->import($callback[0]);
-                        $arrButtons = $this->$callback[0]->$callback[1]($arrButtons, $this);
+                        $arrButtons = $this->{$callback[0]}->{$callback[1]}($arrButtons, $this);
                     }
                     elseif (is_callable($callback))
                     {
@@ -1534,10 +1561,10 @@ class DC_Table extends \Contao\DC_Table
 
             <div class="card-action" id="'.$this->bid.'">'.((\Input::get('act') == 'select' || $this->ptable) ? '
             <a href="'.$this->getReferer(true, $this->ptable).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="right" data-delay="50" data-tooltip"'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">arrow_back</i></a> ' : (isset($GLOBALS['TL_DCA'][$this->strTable]['config']['backlink']) ? '
-            <a href="contao/main.php?'.$GLOBALS['TL_DCA'][$this->strTable]['config']['backlink'].'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">arrow_back</i></a> ' : '')) . ((\Input::get('act') != 'select') ? '
-            '.((!$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable']) ? '<a href="'.(($this->ptable != '') ? $this->addToUrl('act=create' .
-            (($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] < 4) ? '&amp;mode=2' : '') . '&amp;pid=' . $this->intId) : $this->addToUrl('act=create')).'" class="header-new btn-floating btn-large waves-effect waves-light green tooltipped" data-position="left" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['new'][1]).'" accesskey="n" onclick="Backend.getScrollOffset()"><i class="material-icons">add</i></a> ' : '') . $this->generateGlobalButtons() : '') .
-            '</div>' . \Message::generate(true);
+            <a href="contao/main.php?'.$GLOBALS['TL_DCA'][$this->strTable]['config']['backlink'].'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">arrow_back</i></a> ' : '')) . ((\Input::get('act') != 'select' && !$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable']) ? '
+            <a href="'.(($this->ptable != '') ? $this->addToUrl('act=create' .
+            (($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] < 4) ? '&amp;mode=2' : '') . '&amp;pid=' . $this->intId) : $this->addToUrl('act=create')).'" class="header-new btn-floating btn-large waves-effect waves-light green tooltipped" data-position="left" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['new'][1]).'" accesskey="n" onclick="Backend.getScrollOffset()"><i class="material-icons">add</i></a> ' : '') . $this->generateGlobalButtons() . '
+            </div>' . \Message::generate(true);
         }
 
         $return .= '<div class="card-content">';
@@ -1578,7 +1605,7 @@ class DC_Table extends \Contao\DC_Table
                 {
                     if (strpos($f, ':') !== false)
                     {
-                        list($f,) = explode(':', $f, 2);
+                        list($f) = explode(':', $f, 2);
                     }
 
                     if ($firstOrderBy == $f)
@@ -1604,7 +1631,7 @@ class DC_Table extends \Contao\DC_Table
                 {
                     if (strpos($f, ':') !== false)
                     {
-                        list($f,) = explode(':', $f, 2);
+                        list($f) = explode(':', $f, 2);
                     }
 
                     $return .= '
@@ -1664,7 +1691,7 @@ class DC_Table extends \Contao\DC_Table
                     }
                     elseif ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$v]['inputType'] == 'checkbox' && !$GLOBALS['TL_DCA'][$this->strTable]['fields'][$v]['eval']['multiple'])
                     {
-                        $args[$k] = ($row[$v] != '') ? $GLOBALS['TL_DCA'][$table]['fields'][$v]['label'][0] : '';
+                        $args[$k] = ($row[$v] != '') ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'];
                     }
                     else
                     {
@@ -1821,7 +1848,7 @@ class DC_Table extends \Contao\DC_Table
                         if (is_array($callback))
                         {
                             $this->import($callback[0]);
-                            $arrButtons = $this->$callback[0]->$callback[1]($arrButtons, $this);
+                            $arrButtons = $this->{$callback[0]}->{$callback[1]}($arrButtons, $this);
                         }
                         elseif (is_callable($callback))
                         {
@@ -1932,9 +1959,9 @@ class DC_Table extends \Contao\DC_Table
         <a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">arrow_back</i></a> ' : (isset($GLOBALS['TL_DCA'][$this->strTable]['config']['backlink']) ? '
         <a href="contao/main.php?'.$GLOBALS['TL_DCA'][$this->strTable]['config']['backlink'].'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">arrow_back</i></a> ' : '')) .
         ((\Input::get('act') != 'select' && !$blnClipboard && !$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable']) ? '
-        <a href="'.$this->addToUrl('act=paste&amp;mode=create').'" class="header-new btn-floating btn-large waves-effect waves-light green tooltipped" data-position="left" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['new'][1]).'" accesskey="n" onclick="Backend.getScrollOffset()"><i class="material-icons">add</i></a> ' : '') .
-        ((\Input::get('act') != 'select' && !$blnClipboard) ? $this->generateGlobalButtons() : '') . ($blnClipboard ? '<a href="'.$this->addToUrl('clipboard=1').'" class="header_clipboard" data-position="top" data-delay="50" data-tooltip="'.
-        specialchars($GLOBALS['TL_LANG']['MSC']['clearClipboard']).'" accesskey="x">'.$GLOBALS['TL_LANG']['MSC']['clearClipboard'].'</a> ' : '') . '
+        <a href="'.$this->addToUrl('act=paste&amp;mode=create').'" class="header-new btn-floating btn-large waves-effect waves-light green tooltipped" data-position="left" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['new'][1]).'" accesskey="n" onclick="Backend.getScrollOffset()"><i class="material-icons">add</i></a> ' : '') . ($blnClipboard ? '
+        <a href="'.$this->addToUrl('clipboard=1').'" class="header_clipboard" data-position="top" data-delay="50" data-tooltip="'.
+        specialchars($GLOBALS['TL_LANG']['MSC']['clearClipboard']).'" accesskey="x">'.$GLOBALS['TL_LANG']['MSC']['clearClipboard'].'</a> ' : $this->generateGlobalButtons()) . '
         </div>' . \Message::generate(true);
 
         $tree = '';
@@ -2105,7 +2132,7 @@ class DC_Table extends \Contao\DC_Table
                     if (is_array($callback))
                     {
                         $this->import($callback[0]);
-                        $arrButtons = $this->$callback[0]->$callback[1]($arrButtons, $this);
+                        $arrButtons = $this->{$callback[0]}->{$callback[1]}($arrButtons, $this);
                     }
                     elseif (is_callable($callback))
                     {
@@ -2479,7 +2506,7 @@ class DC_Table extends \Contao\DC_Table
 
                         if ($objShowFields->numRows)
                         {
-                            $vv = $objShowFields->$showFields[0];
+                            $vv = $objShowFields->{$showFields[0]};
                         }
                     }
 
@@ -2940,7 +2967,7 @@ class DC_Table extends \Contao\DC_Table
                     $_buttons .= ($arrClipboard['mode'] == 'cut' && ($blnCircularReference || $arrClipboard['id'] == $id) || $arrClipboard['mode'] == 'cutAll' && ($blnCircularReference || in_array($id, $arrClipboard['id'])) ||
                     (!empty($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root']) && !$GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['rootPaste'] && in_array($id, $this->root))) ? '<span class="inactive-option">' . $imagePasteAfter . '</span> ' : '<a href="' .
                     $this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=1&amp;pid='.$id.(!is_array($arrClipboard['id']) ? '&amp;id='.$arrClipboard['id'] : '')).'" class="paste-action -after btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars(sprintf($GLOBALS['TL_LANG'][$this->strTable]['pasteafter'][1], $id)).'" onclick="Backend.getScrollOffset()">'.$imagePasteAfter.'</a> ';
-                    $_buttons .= ($arrClipboard['mode'] == 'paste' && ($blnCircularReference || $arrClipboard['id'] == $id) || $arrClipboard['mode'] == 'cutAll' && ($blnCircularReference || in_array($id, $arrClipboard['id']))) ? '<span class="inactive-option">' . $imagePasteInto . '</span> ' : '<a href="' .
+                    $_buttons .= ($arrClipboard['mode'] == 'cut' && ($blnCircularReference || $arrClipboard['id'] == $id) || $arrClipboard['mode'] == 'cutAll' && ($blnCircularReference || in_array($id, $arrClipboard['id']))) ? '<span class="inactive-option">' . $imagePasteInto . '</span> ' : '<a href="' .
                     $this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=2&amp;pid='.$id.(!is_array($arrClipboard['id']) ? '&amp;id='.$arrClipboard['id'] : '')).'" class="paste-action -into btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars(sprintf($GLOBALS['TL_LANG'][$this->strTable]['pasteinto'][1], $id)).'" onclick="Backend.getScrollOffset()">'.$imagePasteInto.'</a> ';
                 }
 

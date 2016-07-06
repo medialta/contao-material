@@ -117,8 +117,10 @@ class DC_Folder extends \Contao\DC_Folder
         // Build the tree
         $return = '
         <div id="tl_buttons" class="card-action">'.((\Input::get('act') == 'select') ? '
-            <a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5 data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a> ' : '') . ((\Input::get('act') != 'select' && !$blnClipboard) ? '
-            <a href="'.$this->addToUrl($hrfNew).'" class="'.$clsNew.' tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($ttlNew).'" accesskey="n" onclick="Backend.getScrollOffset()">'.$lblNew.'</a> ' . ((!$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable']) ? '<a href="'.$this->addToUrl('&amp;act=paste&amp;mode=move').'" class="header-new btn-floating btn-large waves-effect waves-light green tooltipped" data-position="left" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['move'][1]).'" onclick="Backend.getScrollOffset()"><i class="material-icons">add</i></a> ' : '') . $this->generateGlobalButtons() : '') . ($blnClipboard ? '<a href="'.$this->addToUrl('clipboard=1').'" class="header_clipboard tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['clearClipboard']).'" accesskey="x">'.$GLOBALS['TL_LANG']['MSC']['clearClipboard'].'</a> ' : '') . '
+            <a href="'.$this->getReferer(true).'" class="header-back btn-flat btn-icon waves-effect waves-circle waves-orange tooltipped grey lighten-5 data-position="right" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" onclick="Backend.getScrollOffset()"><i class="material-icons black-text">keyboard_backspace</i></a> ' : '') . ((\Input::get('act') != 'select' && !$blnClipboard && !$GLOBALS['TL_DCA'][$this->strTable]['config']['closed'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['notCreatable']) ? '
+            <a href="'.$this->addToUrl($hrfNew).'" class="'.$clsNew.' tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($ttlNew).'" accesskey="n" onclick="Backend.getScrollOffset()">'.$lblNew.'</a>
+            <a href="'.$this->addToUrl('&amp;act=paste&amp;mode=move').'" class="header-new btn-floating btn-large waves-effect waves-light green tooltipped" data-position="left" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG'][$this->strTable]['move'][1]).'" onclick="Backend.getScrollOffset()"><i class="material-icons">add</i></a> ' : '') . ($blnClipboard ? '
+            <a href="'.$this->addToUrl('clipboard=1').'" class="header_clipboard tooltipped" data-position="top" data-delay="50" data-tooltip="'.specialchars($GLOBALS['TL_LANG']['MSC']['clearClipboard']).'" accesskey="x">'.$GLOBALS['TL_LANG']['MSC']['clearClipboard'].'</a> ' : $this->generateGlobalButtons()) . '
         </div>' . \Message::generate(true) . '<div class="card-content">' . ((\Input::get('act') == 'select') ? '
 
             <form action="'.ampersand(\Environment::get('request'), true).'" id="tl_select" class="tl_form'.((\Input::get('act') == 'select') ? ' unselectable' : '').'" method="post" novalidate>
@@ -174,7 +176,7 @@ class DC_Folder extends \Contao\DC_Folder
                         if (is_array($callback))
                         {
                             $this->import($callback[0]);
-                            $arrButtons = $this->$callback[0]->$callback[1]($arrButtons, $this);
+                            $arrButtons = $this->{$callback[0]}->{$callback[1]}($arrButtons, $this);
                         }
                         elseif (is_callable($callback))
                         {
@@ -248,7 +250,7 @@ class DC_Folder extends \Contao\DC_Folder
         if (\Input::post('FORM_SUBMIT') == 'tl_upload')
         {
             // Generate the DB entries
-            if ($this->blnIsDbAssisted)
+            if ($this->blnIsDbAssisted && \Dbafs::shouldBeSynchronized($strFolder))
             {
                 // Upload the files
                 $arrUploaded = $objUploader->uploadTo($strFolder);
@@ -291,7 +293,7 @@ class DC_Folder extends \Contao\DC_Folder
                     if (is_array($callback))
                     {
                         $this->import($callback[0]);
-                        $this->$callback[0]->$callback[1]($arrUploaded);
+                        $this->{$callback[0]}->{$callback[1]}($arrUploaded);
                     }
                     elseif (is_callable($callback))
                     {
@@ -301,7 +303,7 @@ class DC_Folder extends \Contao\DC_Folder
             }
 
             // Update the hash of the target folder
-            if ($this->blnIsDbAssisted && $strFolder != \Config::get('uploadPath'))
+            if ($this->blnIsDbAssisted && \Dbafs::shouldBeSynchronized($strFolder))
             {
                 \Dbafs::updateFolderHashes($strFolder);
             }
@@ -333,7 +335,7 @@ class DC_Folder extends \Contao\DC_Folder
                 if (is_array($callback))
                 {
                     $this->import($callback[0]);
-                    $arrButtons = $this->$callback[0]->$callback[1]($arrButtons, $this);
+                    $arrButtons = $this->{$callback[0]}->{$callback[1]}($arrButtons, $this);
                 }
                 elseif (is_callable($callback))
                 {
@@ -388,41 +390,52 @@ class DC_Folder extends \Contao\DC_Folder
             $this->redirect('contao/main.php?act=error');
         }
 
-        // Get the DB entry
-        if ($this->blnIsDbAssisted && stristr($this->intId, '__new__') === false)
-        {
-            $objFile = \FilesModel::findByPath($this->intId);
+        $objModel = null;
+		$objVersions = null;
 
-            if ($objFile === null)
-            {
-                $objFile = \Dbafs::addResource($this->intId);
-            }
+		// Add the versioning routines
+		if ($this->blnIsDbAssisted && \Dbafs::shouldBeSynchronized($this->intId))
+		{
+			if (stristr($this->intId, '__new__') === false)
+			{
+				$objModel = \FilesModel::findByPath($this->intId);
 
-            $this->objActiveRecord = $objFile;
-        }
+				if ($objModel === null)
+				{
+					$objModel = \Dbafs::addResource($this->intId);
+				}
 
-        $this->blnCreateNewVersion = false;
+				$this->objActiveRecord = $objModel;
+			}
 
-        /** @var \FilesModel $objFile */
-        $objVersions = new \Versions($this->strTable, $objFile->id);
+			$this->blnCreateNewVersion = false;
 
-        if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['hideVersionMenu'])
-        {
-            // Compare versions
-            if (\Input::get('versions'))
-            {
-                $objVersions->compare();
-            }
+			/** @var \FilesModel $objModel */
+			$objVersions = new \Versions($this->strTable, $objModel->id);
 
-            // Restore a version
-            if (\Input::post('FORM_SUBMIT') == 'tl_version' && \Input::post('version') != '')
-            {
-                $objVersions->restore(\Input::post('version'));
-                $this->reload();
-            }
-        }
+			if (!$GLOBALS['TL_DCA'][$this->strTable]['config']['hideVersionMenu'])
+			{
+				// Compare versions
+				if (\Input::get('versions'))
+				{
+					$objVersions->compare();
+				}
 
-        $objVersions->initialize();
+				// Restore a version
+				if (\Input::post('FORM_SUBMIT') == 'tl_version' && \Input::post('version') != '')
+				{
+					$objVersions->restore(\Input::post('version'));
+					$this->reload();
+				}
+			}
+
+			$objVersions->initialize();
+		}
+		else
+		{
+			// Unset the database fields
+			$GLOBALS['TL_DCA'][$this->strTable]['fields'] = array_intersect_key($GLOBALS['TL_DCA'][$this->strTable]['fields'], array('name' => true, 'protected' => true));
+		}
 
         // Build an array from boxes and rows (do not show excluded fields)
         $this->strPalette = $this->getPalette();
@@ -460,83 +473,75 @@ class DC_Folder extends \Contao\DC_Folder
                 <div class="'.$class.'" style="display:block">';
 
                 // Build rows of the current box
-                    foreach ($v as $vv)
-                    {
-                        $this->strField = $vv;
-                        $this->strInputName = $vv;
+                foreach ($v as $vv)
+                {
+                    $this->strField = $vv;
+                    $this->strInputName = $vv;
 
                     // Load the current value
-                        if ($vv == 'name')
-                        {
-                            $pathinfo = pathinfo($this->intId);
-                            $this->strPath = $pathinfo['dirname'];
+                    if ($vv == 'name')
+                    {
+                        $objFile = is_dir(TL_ROOT . '/' . $this->intId) ? new \Folder($this->intId) : new \File($this->intId, true);
 
-                            if (is_dir(TL_ROOT . '/' . $this->intId))
-                            {
-                                $this->strExtension = '';
-                                $this->varValue = basename($pathinfo['basename']);
-                            }
-                            else
-                            {
-                                $this->strExtension = ($pathinfo['extension'] != '') ? '.'.$pathinfo['extension'] : '';
-                                $this->varValue = basename($pathinfo['basename'], $this->strExtension);
-                            }
+						$this->strPath = str_replace(TL_ROOT . '/', '', $objFile->dirname);
+						$this->strExtension = ($objFile->origext != '') ? '.'.$objFile->origext : '';
+						$this->varValue = $objFile->filename;
 
                         // Fix Unix system files like .htaccess
-                            if (strncmp($this->varValue, '.', 1) === 0)
-                            {
-                                $this->strExtension = '';
-                            }
+                        if (strncmp($this->varValue, '.', 1) === 0)
+                        {
+                            $this->strExtension = '';
+                        }
 
                         // Clear the current value if it is a new folder
-                            if (\Input::post('FORM_SUBMIT') != 'tl_files' && \Input::post('FORM_SUBMIT') != 'tl_templates' && $this->varValue == '__new__')
-                            {
-                                $this->varValue = '';
-                            }
-                        }
-                        else
+                        if (\Input::post('FORM_SUBMIT') != 'tl_files' && \Input::post('FORM_SUBMIT') != 'tl_templates' && $this->varValue == '__new__')
                         {
-                            $this->varValue = $objFile->$vv;
+                            $this->varValue = '';
                         }
-
-                    // Autofocus the first field
-                        if ($blnIsFirst && $GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['inputType'] == 'text')
-                        {
-                            $GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['eval']['autofocus'] = 'autofocus';
-                            $blnIsFirst = false;
-                        }
-
-                    // Call load_callback
-                        if (is_array($GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['load_callback']))
-                        {
-                            foreach ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['load_callback'] as $callback)
-                            {
-                                if (is_array($callback))
-                                {
-                                    $this->import($callback[0]);
-                                    $this->varValue = $this->$callback[0]->$callback[1]($this->varValue, $this);
-                                }
-                                elseif (is_callable($callback))
-                                {
-                                    $this->varValue = $callback($this->varValue, $this);
-                                }
-                            }
-                        }
-
-                    // Build row
-                        $return .= $this->row();
+                    }
+                    else
+                    {
+                        $this->varValue = ($objModel !== null) ? $objModel->$vv : null;
                     }
 
-                    $class = 'collapsible-body';
-                    $return .= '
-                    <input type="hidden" name="FORM_FIELDS[]" value="'.specialchars($this->strPalette).'">
-                    <div class="clear"></div>
+                    // Autofocus the first field
+                    if ($blnIsFirst && $GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['inputType'] == 'text')
+                    {
+                        $GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['eval']['autofocus'] = 'autofocus';
+                        $blnIsFirst = false;
+                    }
+
+                    // Call load_callback
+                    if (is_array($GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['load_callback']))
+                    {
+                        foreach ($GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['load_callback'] as $callback)
+                        {
+                            if (is_array($callback))
+                            {
+                                $this->import($callback[0]);
+                                $this->varValue = $this->{$callback[0]}->{$callback[1]}($this->varValue, $this);
+                            }
+                            elseif (is_callable($callback))
+                            {
+                                $this->varValue = $callback($this->varValue, $this);
+                            }
+                        }
+                    }
+
+                    // Build row
+                    $return .= $this->row();
+                }
+
+                $class = 'collapsible-body';
+                $return .= '
+                <input type="hidden" name="FORM_FIELDS[]" value="'.specialchars($this->strPalette).'">
+                <div class="clear"></div>
                 </div>';
             }
         }
 
         // Versions overview
-        if ($GLOBALS['TL_DCA'][$this->strTable]['config']['enableVersioning'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['hideVersionMenu'])
+        if ($GLOBALS['TL_DCA'][$this->strTable]['config']['enableVersioning'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['hideVersionMenu'] && $this->blnIsDbAssisted && \Dbafs::shouldBeSynchronized($this->intId))
         {
             $version = $objVersions->renderDropdown();
         }
@@ -558,7 +563,7 @@ class DC_Folder extends \Contao\DC_Folder
                 if (is_array($callback))
                 {
                     $this->import($callback[0]);
-                    $arrButtons = $this->$callback[0]->$callback[1]($arrButtons, $this);
+                    $arrButtons = $this->{$callback[0]}->{$callback[1]}($arrButtons, $this);
                 }
                 elseif (is_callable($callback))
                 {
@@ -608,7 +613,7 @@ class DC_Folder extends \Contao\DC_Folder
                     if (is_array($callback))
                     {
                         $this->import($callback[0]);
-                        $this->$callback[0]->$callback[1]($this);
+                        $this->{$callback[0]}->{$callback[1]}($this);
                     }
                     elseif (is_callable($callback))
                     {
@@ -618,23 +623,25 @@ class DC_Folder extends \Contao\DC_Folder
             }
 
             // Save the current version
-            if ($this->blnCreateNewVersion)
+            if ($this->blnCreateNewVersion && $objModel !== null)
             {
                 $objVersions->create();
 
                 // Call the onversion_callback
                 if (is_array($GLOBALS['TL_DCA'][$this->strTable]['config']['onversion_callback']))
                 {
+                    @trigger_error('Using the onversion_callback has been deprecated and will no longer work in Contao 5.0. Use the oncreate_version_callback instead.', E_USER_DEPRECATED);
+
                     foreach ($GLOBALS['TL_DCA'][$this->strTable]['config']['onversion_callback'] as $callback)
                     {
                         if (is_array($callback))
                         {
                             $this->import($callback[0]);
-                            $this->$callback[0]->$callback[1]($this->strTable, $objFile->id, $this);
+                            $this->{$callback[0]}->{$callback[1]}($this->strTable, $objModel->id, $this);
                         }
                         elseif (is_callable($callback))
                         {
-                            $callback($this->strTable, $objFile->id, $this);
+                            $callback($this->strTable, $objModel->id, $this);
                         }
                     }
                 }
@@ -643,10 +650,10 @@ class DC_Folder extends \Contao\DC_Folder
             }
 
             // Set the current timestamp (-> DO NOT CHANGE THE ORDER version - timestamp)
-            if ($this->blnIsDbAssisted)
+            if ($this->blnIsDbAssisted && $objModel !== null)
             {
                 $this->Database->prepare("UPDATE " . $this->strTable . " SET tstamp=? WHERE id=?")
-                ->execute(time(), $objFile->id);
+                ->execute(time(), $objModel->id);
             }
 
             // Redirect
@@ -658,7 +665,7 @@ class DC_Folder extends \Contao\DC_Folder
             }
 
             // Reload
-            if ($this->blnIsDbAssisted)
+            if ($this->blnIsDbAssisted && $this->objActiveRecord !== null)
             {
                 $this->redirect($this->addToUrl('id='.$this->urlEncode($this->objActiveRecord->path)));
             }
@@ -715,14 +722,17 @@ class DC_Folder extends \Contao\DC_Folder
         $objFile = new \File($this->intId, true);
 
         // Check whether file type is editable
-        if (!in_array($objFile->extension, trimsplit(',', \Config::get('editableFiles'))))
+        if (!in_array($objFile->extension, trimsplit(',', strtolower(\Config::get('editableFiles')))))
         {
             $this->log('File type "'.$objFile->extension.'" ('.$this->intId.') is not allowed to be edited', __METHOD__, TL_ERROR);
             $this->redirect('contao/main.php?act=error');
         }
 
+        $objMeta = null;
+		$objVersions = null;
+
         // Add the versioning routines
-        if ($this->blnIsDbAssisted)
+        if ($this->blnIsDbAssisted && \Dbafs::shouldBeSynchronized($this->intId))
         {
             $objMeta = \FilesModel::findByPath($objFile->value);
 
@@ -786,7 +796,7 @@ class DC_Folder extends \Contao\DC_Folder
                 $objFile->close();
 
                 // Update the database
-                if ($this->blnIsDbAssisted)
+                if ($this->blnIsDbAssisted && $objMeta !== null)
                 {
                     /** @var \FilesModel $objMeta */
                     $objMeta->hash = $objFile->hash;
@@ -830,7 +840,7 @@ class DC_Folder extends \Contao\DC_Folder
         }
 
         // Versions overview
-        if ($this->blnIsDbAssisted && $GLOBALS['TL_DCA'][$this->strTable]['config']['enableVersioning'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['hideVersionMenu'])
+        if ($GLOBALS['TL_DCA'][$this->strTable]['config']['enableVersioning'] && !$GLOBALS['TL_DCA'][$this->strTable]['config']['hideVersionMenu'] && $this->blnIsDbAssisted && $objVersions !== null)
         {
             $version = $objVersions->renderDropdown();
         }
@@ -852,7 +862,7 @@ class DC_Folder extends \Contao\DC_Folder
                 if (is_array($callback))
                 {
                     $this->import($callback[0]);
-                    $arrButtons = $this->$callback[0]->$callback[1]($arrButtons, $this);
+                    $arrButtons = $this->{$callback[0]}->{$callback[1]}($arrButtons, $this);
                 }
                 elseif (is_callable($callback))
                 {
@@ -1090,11 +1100,11 @@ class DC_Folder extends \Contao\DC_Folder
             }
 
             $protected = ($blnProtected === true || array_search('.htaccess', $content) !== false) ? true : false;
-            $folderImg = ($session['filetree'][$md5] == 1 && $countFiles > 0) ? ($protected ? 'folderOP.gif' : 'folderO.gif') : ($protected ? 'folderCP.gif' : 'folderC.gif');
+            $folderImg = $protected ? 'folderCP.gif' : 'folderC.gif';
 
             // Add the current folder
             $strFolderNameEncoded = utf8_convert_encoding(specialchars(basename($currentFolder)), \Config::get('characterSet'));
-            $return .= Helper::getIconHtml($folderImg, '').' <a href="' . $this->addToUrl('node='.$currentEncoded) . '" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['selectNode']).'"><strong>'.$strFolderNameEncoded.'</strong></a></div> <div class="actions">';
+            $return .= Helper::getIconHtml($folderImg, '').' <a href="' . $this->addToUrl('fn='.$currentEncoded) . '" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['selectNode']).'"><strong>'.$strFolderNameEncoded.'</strong></a></div> <div class="actions">';
 
             // Paste buttons
             if ($arrClipboard !== false && \Input::get('act') != 'select')

@@ -25,7 +25,7 @@ class DropZone extends \Contao\DropZone
     public function generateMarkup()
     {
         // Maximum file size in MB
-        $intMaxSize = intval($this->getMaximumUploadSize() / 1024 / 1024);
+        $intMaxSize = round($this->getMaximumUploadSize() / 1024 / 1024);
 
         // String of accepted file extensions
         $strAccepted = implode(',', array_map(function($a) { return '.' . $a; }, trimsplit(',', strtolower(\Config::get('uploadTypes')))));
@@ -55,7 +55,7 @@ class DropZone extends \Contao\DropZone
                 acceptedFiles: "' . $strAccepted . '",
                 previewsContainer: ".dropzone-previews",
                 uploadMultiple: true
-            }).on("processing", function() {
+            }).on("drop", function() {
                 $(".dz-message").css("padding", "12px 18px 0");
             });
         $(".card-action:last-child").css("display", "none");

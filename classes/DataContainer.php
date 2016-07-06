@@ -70,7 +70,7 @@ abstract class DataContainer extends \Contao\DataContainer
                 if (is_array($callback))
                 {
                     $this->import($callback[0]);
-                    $xlabel .= $this->$callback[0]->$callback[1]($this);
+                    $xlabel .= $this->{$callback[0]}->{$callback[1]}($this);
                 }
                 elseif (is_callable($callback))
                 {
@@ -84,7 +84,7 @@ abstract class DataContainer extends \Contao\DataContainer
         {
             $this->import($arrData['input_field_callback'][0]);
 
-            return $this->$arrData['input_field_callback'][0]->$arrData['input_field_callback'][1]($this, $xlabel);
+            return $this->{$arrData['input_field_callback'][0]}->{$arrData['input_field_callback'][1]}($this, $xlabel);
         }
         elseif (is_callable($arrData['input_field_callback']))
         {
@@ -316,7 +316,7 @@ abstract class DataContainer extends \Contao\DataContainer
                 if (is_array($callback))
                 {
                     $this->import($callback[0]);
-                    $wizard .= $this->$callback[0]->$callback[1]($this);
+                    $wizard .= $this->{$callback[0]}->{$callback[1]}($this);
                 }
                 elseif (is_callable($callback))
                 {
@@ -542,7 +542,7 @@ abstract class DataContainer extends \Contao\DataContainer
             if (is_array($v['button_callback']))
             {
                 $this->import($v['button_callback'][0]);
-                $currentButton = $this->$v['button_callback'][0]->$v['button_callback'][1]($arrRow, $v['href'], $label, $title, $v['icon'], $attributes, $strTable, $arrRootIds, $arrChildRecordIds, $blnCircularReference, $strPrevious, $strNext, $this);
+                $currentButton = $this->{$v['button_callback'][0]}->{$v['button_callback'][1]}($arrRow, $v['href'], $label, $title, $v['icon'], $attributes, $strTable, $arrRootIds, $arrChildRecordIds, $blnCircularReference, $strPrevious, $strNext, $this);
                 $return .= Helper::formatButtonCallback($currentButton, $dropdownSet, $title);
 
                 if ($dropdownSet)
@@ -638,6 +638,11 @@ abstract class DataContainer extends \Contao\DataContainer
 
         foreach ($GLOBALS['TL_DCA'][$this->strTable]['list']['global_operations'] as $k=>$v)
         {
+            if (\Input::get('act') == 'select' && !$v['showOnSelect'])
+			{
+				continue;
+			}
+
             $v = is_array($v) ? $v : array($v);
             $label = is_array($v['label']) ? $v['label'][0] : $v['label'];
             $title = is_array($v['label']) ? $v['label'][1] : $v['label'];
@@ -670,7 +675,7 @@ abstract class DataContainer extends \Contao\DataContainer
             if (is_array($v['button_callback']))
             {
                 $this->import($v['button_callback'][0]);
-                $return .= $this->$v['button_callback'][0]->$v['button_callback'][1]($v['href'], $label, '', $v['class'].' tooltipped', $attributes.'data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'"', $this->strTable, $this->root);
+                $return .= $this->{$v['button_callback'][0]}->{$v['button_callback'][1]}($v['href'], $label, '', $v['class'].' tooltipped', $attributes.'data-position="top" data-delay="50" data-tooltip="'.specialchars($title).'"', $this->strTable, $this->root);
                 continue;
             }
             elseif (is_callable($v['button_callback']))

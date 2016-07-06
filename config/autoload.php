@@ -28,10 +28,8 @@ ClassLoader::addClasses(array
 	'ContaoMaterial\FileUpload'         => 'system/modules/contao-material/classes/FileUpload.php',
 	'ContaoMaterial\DropZone'           => 'system/modules/contao-material/classes/DropZone.php',
 	'ContaoMaterial\DataContainer'      => 'system/modules/contao-material/classes/DataContainer.php',
-	'ContaoMaterial\Message'            => 'system/modules/contao-material/classes/Message.php',
 	'ContaoMaterial\Backend'            => 'system/modules/contao-material/classes/Backend.php',
 	'ContaoMaterial\Helper'             => 'system/modules/contao-material/classes/Helper.php',
-	'ContaoMaterial\Database\Installer' => 'system/modules/contao-material/classes/Installer.php',
 	'ContaoMaterial\Versions'           => 'system/modules/contao-material/classes/Versions.php',
 	'ContaoMaterial\Messages'           => 'system/modules/contao-material/classes/Messages.php',
 
@@ -52,7 +50,9 @@ ClassLoader::addClasses(array
 	'ContaoMaterial\TableWizard'        => 'system/modules/contao-material/widgets/TableWizard.php',
 
 	// Library
-	'ContaoMaterial\Image'              => 'system/modules/contao-material/library/Image.php',
+	'ContaoMaterial\Message'            => 'system/modules/contao-material/library/Contao/Message.php',
+	'ContaoMaterial\Database\Installer' => 'system/modules/contao-material/library/Contao/Database/Installer.php',
+	'ContaoMaterial\Image'              => 'system/modules/contao-material/library/Contao/Image.php',
 ));
 
 

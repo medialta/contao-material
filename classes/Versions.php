@@ -57,7 +57,7 @@ class Versions extends \Contao\Versions
                         </div>
                     </div>
                     <button type="submit" name="showVersion" id="showVersion" class="btn waves-effect grey lighten-5 black-text"><i class="material-icons left">undo</i>'.specialchars($GLOBALS['TL_LANG']['MSC']['restore']).'</button>
-                    <a href="'.$this->addToUrl('versions=1&amp;popup=1').'" class="btn waves-effect grey lighten-5 black-text" onclick="Backend.openModalIframe({\'width\':768,\'title\':\''.specialchars(str_replace("'", "\\'", $GLOBALS['TL_LANG']['MSC']['showDifferences'])).'\',\'url\':this.href});return false"><i class="material-icons left">history</i>'.specialchars($GLOBALS['TL_LANG']['MSC']['showDifferences']).'</a>
+                    <a href="'.\Backend::addToUrl('versions=1&amp;popup=1').'" class="btn waves-effect grey lighten-5 black-text" onclick="Backend.openModalIframe({\'width\':768,\'title\':\''.specialchars(str_replace("'", "\\'", $GLOBALS['TL_LANG']['MSC']['showDifferences'])).'\',\'url\':this.href});return false"><i class="material-icons left">history</i>'.specialchars($GLOBALS['TL_LANG']['MSC']['showDifferences']).'</a>
                 </div>
             </form>
 

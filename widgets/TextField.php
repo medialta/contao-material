@@ -36,10 +36,15 @@ class TextField extends \Contao\TextField
         if (!$this->multiple)
         {
             // Hide the Punycode format (see #2750)
-            if ($this->rgxp == 'url' || $this->rgxp == 'email' || $this->rgxp == 'friendly')
+            if ($this->rgxp == 'url')
             {
                 $this->varValue = \Idna::decode($this->varValue);
             }
+            elseif ($this->rgxp == 'email' || $this->rgxp == 'friendly')
+            {
+                $this->varValue = \Idna::decodeEmail($this->varValue);
+            }
+
             return sprintf('<div class="input-field"><input type="%s" name="%s" id="ctrl_%s" class="tl_text%s" value="%s"%s onfocus="Backend.getScrollOffset()">%s</div>',
                             $strType,
                             $this->strName,

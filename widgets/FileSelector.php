@@ -176,7 +176,21 @@ class FileSelector extends \Contao\FileSelector
 
         $this->convertValuesToPaths();
 
-        return $this->renderFiletree(TL_ROOT . '/' . $folder, ($level * 20), $mount);
+        $blnProtected = false;
+        $strPath = $folder;
+
+        // Check for public parent folders (see #213)
+        while ($strPath != '' && $strPath != '.')
+        {
+            if (file_exists(TL_ROOT . '/' . $strPath . '/.htaccess'))
+            {
+                $blnProtected = true;
+                break;
+            }
+            $strPath = dirname($strPath);
+        }
+
+        return $this->renderFiletree(TL_ROOT . '/' . $folder, ($level * 20), $mount, $blnProtected);
     }
 
 
@@ -299,11 +313,11 @@ class FileSelector extends \Contao\FileSelector
             }
 
             $protected = ($blnProtected === true || array_search('.htaccess', $content) !== false) ? true : false;
-            $folderImg = ($blnIsOpen && $countFiles > 0) ? ($protected ? 'folderOP.gif' : 'folderO.gif') : ($protected ? 'folderCP.gif' : 'folderC.gif');
+            $folderImg = $protected ? 'folderCP.gif' : 'folderC.gif';
             $folderLabel = ($this->files || $this->filesOnly) ? '<strong>'.specialchars(basename($currentFolder)).'</strong>' : specialchars(basename($currentFolder));
 
             // Add the current folder
-            $return .= Helper::getIconHtml($folderImg, '', $folderAttribute).' <a href="' . $this->addToUrl('node='.$this->urlEncode($currentFolder)) . '" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['selectNode']).'">'.$folderLabel.'</a></div><div class="actions">';
+            $return .= Helper::getIconHtml($folderImg, '', $folderAttribute).' <a href="' . $this->addToUrl('fn='.$this->urlEncode($currentFolder)) . '" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['selectNode']).'">'.$folderLabel.'</a></div><div class="actions">';
 
             // Add a checkbox or radio button
             if (!$this->filesOnly)
@@ -338,7 +352,7 @@ class FileSelector extends \Contao\FileSelector
 
             if ($this->extensions != '')
             {
-                $allowedExtensions = trimsplit(',', $this->extensions);
+                $allowedExtensions = trimsplit(',', strtolower($this->extensions));
             }
 
             for ($h=0, $c=count($files); $h<$c; $h++)

@@ -24,9 +24,17 @@ class Messages extends \Contao\Messages
 	 */
 	public function versionCheck()
 	{
+		$this->import('BackendUser', 'User');
+
 		if (\Config::get('latestVersion') && version_compare(VERSION . '.' . BUILD, \Config::get('latestVersion'), '<'))
 		{
-            return \Message::parseMessage(\Message::getCssClass('tl_new'), '<a href="contao/main.php?do=maintenance">' . sprintf($GLOBALS['TL_LANG']['MSC']['updateVersion'], \Config::get('latestVersion')) . '</a>');
+			if ($this->User->hasAccess('maintenance', 'modules')) {
+            	return \Message::parseMessage(\Message::getCssClass('tl_new'), '<a href="contao/main.php?do=maintenance">' . sprintf($GLOBALS['TL_LANG']['MSC']['updateVersion'], \Config::get('latestVersion')) . '</a>');
+			}
+			else
+			{
+				return \Message::parseMessage(\Message::getCssClass('tl_new'), sprintf($GLOBALS['TL_LANG']['MSC']['updateVersion'], \Config::get('latestVersion')));
+			}
 		}
 
 		return '';

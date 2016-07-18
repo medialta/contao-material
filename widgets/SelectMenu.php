@@ -76,7 +76,7 @@ class SelectMenu extends \Contao\SelectMenu
             $strClass .= ' tl_chosen';
         }
 
-        return sprintf('%<div class="input-field"><select name="%s" id="ctrl_%s" class="%s%s"%s onfocus="Backend.getScrollOffset()">%s</select>%s</div>',
+        return sprintf('%s<div class="input-field"><select name="%s" id="ctrl_%s" class="%s%s"%s onfocus="Backend.getScrollOffset()">%s</select>%s</div>',
                         ($this->multiple ? '<input type="hidden" name="'. rtrim($this->strName, '[]') .'" value="">' : ''),
                         $this->strName,
                         $this->strId,

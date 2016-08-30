@@ -1216,7 +1216,7 @@ class DC_Table extends \Contao\DC_Table
             if ($objOrderBy->numRows < 1)
             {
                 return $return . '
-                <p class="tl_empty_parent_view">'.$GLOBALS['TL_LANG']['MSC']['noResult'].'</p>
+                <p class="tl_empty_parent_view">'.\Message::parseMessage(\Message::getCssClass('tl_info'), $GLOBALS['TL_LANG']['MSC']['noResult']).'</p>
 
                 </div>';
             }

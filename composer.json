@@ -1,0 +1,28 @@
+{
+    "name": "medialta/contao-material",
+    "description": "Backend theme Contao Material for Contao Open Source CMS",
+    "keywords": ["contao", "material", "theme", "backend", "backend theme", "contao-material"],
+    "type": "contao-module",
+    "license": "LGPL-3.0+",
+    "authors": [
+        {
+            "name": "Medialta",
+            "homepage": "https://www.medialta.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "contao/core": ">=3.5",
+        "contao-community-alliance/composer-plugin": "2.*"
+    },
+    "replace": {
+        "contao-legacy/contao-material": "self.version"
+    },
+    "extra": {
+        "contao": {
+            "sources": {
+                "": "system/modules/contao-material"
+            }
+        }
+    }
+}

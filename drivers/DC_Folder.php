@@ -465,7 +465,6 @@ class DC_Folder extends \Contao\DC_Folder
 
             // Render boxes
             $class = 'collapsible-body';
-            $blnIsFirst = true;
 
             foreach ($boxes as $v)
             {
@@ -502,13 +501,6 @@ class DC_Folder extends \Contao\DC_Folder
                     else
                     {
                         $this->varValue = ($objModel !== null) ? $objModel->$vv : null;
-                    }
-
-                    // Autofocus the first field
-                    if ($blnIsFirst && $GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['inputType'] == 'text')
-                    {
-                        $GLOBALS['TL_DCA'][$this->strTable]['fields'][$this->strField]['eval']['autofocus'] = 'autofocus';
-                        $blnIsFirst = false;
                     }
 
                     // Call load_callback
@@ -582,13 +574,7 @@ class DC_Folder extends \Contao\DC_Folder
         </div>
 
         </ul>
-        </form>
-
-        <script>
-        $(document).ready(function() {
-            Backend.focusInput("'.$this->strTable.'");
-        });
-        </script>';
+        </form>';
 
         // Begin the form (-> DO NOT CHANGE THIS ORDER -> this way the onsubmit attribute of the form can be changed by a field)
         $return = $version . '

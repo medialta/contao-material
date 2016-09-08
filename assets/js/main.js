@@ -1707,6 +1707,9 @@ var Backend = {
                         $(ele).select2('destroy')
                     });
                     var clone = parent.clone(true)
+                    var level = $(this).closest('tbody').children('tr').length
+                    var re = new RegExp("\\[" + (level - 1) + "\\]" , 'g')
+                    clone.html(clone.html().replace(re, '[' + level + ']'))
                     parent.after(clone);
                     break
 

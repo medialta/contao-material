@@ -508,7 +508,7 @@ abstract class DataContainer extends \Contao\DataContainer
         {
             $id = specialchars(rawurldecode($arrRow['id']));
             $id = str_replace(array('/', '.'), '-', $id);
-            $id = str_replace(array('\'', ' '), '', $id);
+            $id = str_replace(array('\'', '"', ' ', ';', '!', '(', ')', '@', '&amp', '#', '\\'), '', $id);
             if (!$dropdownSet && $displayDropdown && $i++ > 2)
             {
                 $dropdownSet = true;

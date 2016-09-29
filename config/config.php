@@ -9,6 +9,10 @@
  * @license LGPL-3.0+
  */
 
+/**
+ * Version
+ */
+define('VERSION_CONTAO_MATERIAL', '3.5.17');
 
 /**
  * Hooks

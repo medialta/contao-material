@@ -203,7 +203,8 @@
                         <i class="material-icons ">expand_less</i>
                     </a>
                     <div class="center-align text primary -c300 copyright">
-                        Contao Material Design by <a href="http://www.medialta.com" class="text primary -c300" target="_blank">Medialta</a>
+                        Contao Material <?= VERSION_CONTAO_MATERIAL ?><br>
+                        Made with ♥ by <a href="https://www.medialta.com" class="text primary -c300" target="_blank">Medialta</a>
                     </div>
                 </div>
             </div>

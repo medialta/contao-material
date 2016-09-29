@@ -22,9 +22,6 @@ namespace ContaoMaterial;
  * @property string  $inputName
  * @property string  $palette
  * @property object  $activeRecord
- * @property boolean $blnUploadable
- * @property array   $root
- * @property array   $rootIds
  */
 abstract class DataContainer extends \Contao\DataContainer
 {

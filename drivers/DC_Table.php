@@ -13,6 +13,13 @@ namespace ContaoMaterial;
 
 /**
  * Provide methods to modify the database.
+ *
+ * @property integer $id
+ * @property string  $parentTable
+ * @property array   $childTable
+ * @property array   $rootIds
+ * @property boolean $createNewVersion
+ *
  */
 class DC_Table extends \Contao\DC_Table
 {

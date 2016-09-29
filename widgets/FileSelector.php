@@ -387,19 +387,18 @@ class FileSelector extends \Contao\FileSelector
                 }
 
                 $return .= "\n    " . '<li class="file row-container file_toggle_select"><div class="collapsible-header" onclick="Backend.selectCheckboxRadio(this)"><div class="item">';
+                $thumbnail .= ' <span class="tl_gray">('.$this->getReadableSize($objFile->filesize);
+
+                if ($objFile->width && $objFile->height)
+                {
+                    $thumbnail .= ', '.$objFile->width.'x'.$objFile->height.' px';
+                }
+                $thumbnail .= ')</span>';
 
                 // Generate thumbnail
-                if ($objFile->isImage && $objFile->viewHeight > 0)
+                if ($objFile->isImage && $objFile->viewHeight > 0 && \Config::get('thumbnails') && ($objFile->isSvgImage || $objFile->height <= \Config::get('gdMaxImgHeight') && $objFile->width <= \Config::get('gdMaxImgWidth')))
                 {
-                    if ($objFile->width && $objFile->height)
-                    {
-                        $thumbnail .= ' <span class="tl_gray">(' . $objFile->width . 'x' . $objFile->height . ')</span>';
-                    }
-
-                    if (\Config::get('thumbnails') && ($objFile->isSvgImage || $objFile->height <= \Config::get('gdMaxImgHeight') && $objFile->width <= \Config::get('gdMaxImgWidth')))
-                    {
-                        $thumbnail .= '<br><img src="' . TL_FILES_URL . \Image::get($currentEncoded, 400, (($objFile->height && $objFile->height < 50) ? $objFile->height : 50), 'box') . '" alt="" class="preview">';
-                    }
+                    $thumbnail .= '<br>' . \Image::getHtml(\Image::get($currentEncoded, 400, (($objFile->height && $objFile->height < 50) ? $objFile->height : 50), 'box'), '', 'style="margin:0 0 2px -19px"');
                 }
 
                 $return .= Helper::getIconHtml($objFile->icon, $objFile->mime).' '.utf8_convert_encoding(specialchars(basename($currentFile)), \Config::get('characterSet')).$thumbnail.'</div><div class="actions">';

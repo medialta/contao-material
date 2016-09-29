@@ -14,6 +14,12 @@ namespace ContaoMaterial;
 
 /**
  * Provide methods to modify the file system.
+ *
+ * @property string  $path
+ * @property string  $extension
+ * @property boolean $createNewVersion
+ * @property boolean $isDbAssisted
+ *
  */
 class DC_Folder extends \Contao\DC_Folder
 {
@@ -255,7 +261,7 @@ class DC_Folder extends \Contao\DC_Folder
                 // Upload the files
                 $arrUploaded = $objUploader->uploadTo($strFolder);
 
-                if (empty($arrUploaded))
+                if (empty($arrUploaded) && !$objUploader->hasError())
                 {
                     \Message::addError($GLOBALS['TL_LANG']['ERR']['emptyUpload']);
                     $this->reload();
@@ -1142,6 +1148,14 @@ class DC_Folder extends \Contao\DC_Folder
 
             $currentEncoded = $this->urlEncode($currentFile);
             $return .= "\n  " . '<li class="row-container click2edit toggle_select"><div class="collapsible-header"><div class="item">';
+            $thumbnail .= ' <span class="tl_gray">('.$this->getReadableSize($objFile->filesize);
+
+            if ($objFile->width && $objFile->height)
+            {
+                $thumbnail .= ', '.$objFile->width.'x'.$objFile->height.' px';
+            }
+
+            $thumbnail .= ')</span>';
 
             // Generate the thumbnail
             if ($objFile->isImage)
@@ -1159,15 +1173,6 @@ class DC_Folder extends \Contao\DC_Folder
                         $popupHeight = 625 / $objFile->viewWidth * $objFile->viewHeight + 210;
                     }
 
-                    $thumbnail .= ' <span class="tl_gray">('.$this->getReadableSize($objFile->filesize);
-
-                    if ($objFile->width && $objFile->height)
-                    {
-                        $thumbnail .= ', '.$objFile->width.'x'.$objFile->height.' px';
-                    }
-
-                    $thumbnail .= ')</span>';
-
                     if (\Config::get('thumbnails') && ($objFile->isSvgImage || $objFile->height <= \Config::get('gdMaxImgHeight') && $objFile->width <= \Config::get('gdMaxImgWidth')))
                     {
                         $thumbnail .= '<br><img src="' . TL_FILES_URL . \Image::get($currentEncoded, 400, (($objFile->height && $objFile->height < 50) ? $objFile->height : 50), 'box') . '" alt="" class="preview">';
@@ -1177,10 +1182,6 @@ class DC_Folder extends \Contao\DC_Folder
                 {
                     $popupHeight = 360; // dimensionless SVGs are rendered at 300x150px, so the popup needs to be 150px + 210px high
                 }
-            }
-            else
-            {
-                $thumbnail .= ' <span class="tl_gray">('.$this->getReadableSize($objFile->filesize).')</span>';
             }
 
             $strFileNameEncoded = utf8_convert_encoding(specialchars(basename($currentFile)), \Config::get('characterSet'));

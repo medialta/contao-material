@@ -13,5 +13,4 @@
 /**
  * Miscellaneous
  */
-$GLOBALS['TL_LANG']['MSC']['today'] = 'Today';
-$GLOBALS['TL_LANG']['MSC']['newVersionContaoMaterial'] = 'A new version of Contao Material is available';
+$GLOBALS['TL_LANG']['MSC']['newVersionContaoMaterial'] = 'Eine neue Version von Contao Material ist verfügbar';

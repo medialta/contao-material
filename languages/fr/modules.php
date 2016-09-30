@@ -14,9 +14,3 @@
  * Back end modules
  */
 $GLOBALS['TL_LANG']['MOD']['contao-material'] = array('Thème Contao material', 'Thème Contao material');
-
-
-/**
- * Front end modules
- */
-$GLOBALS['TL_LANG']['FMD'][''] = array('', '');

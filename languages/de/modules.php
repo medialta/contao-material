@@ -11,7 +11,6 @@
 
 
 /**
- * Miscellaneous
+ * Back end modules
  */
-$GLOBALS['TL_LANG']['MSC']['today'] = 'Today';
-$GLOBALS['TL_LANG']['MSC']['newVersionContaoMaterial'] = 'A new version of Contao Material is available';
+$GLOBALS['TL_LANG']['MOD']['contao-material'] = array('Contao material Theme', 'Contao material Theme');

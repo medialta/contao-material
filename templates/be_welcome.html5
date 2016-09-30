@@ -7,6 +7,11 @@
             <?= $this->messages ?>
         </div>
     <?php endif; ?>
+    <?php if (!\Helper::latestContaoMaterial()): ?>
+        <div class="card-panel -new">
+            <p><a href="contao/main.php?do=composer"><?= $GLOBALS['TL_LANG']['MSC']['newVersionContaoMaterial'] ?></a></p>
+        </div>
+    <?php endif; ?>
 
     <div class="card -shortcuts">
         <div class="card-content">

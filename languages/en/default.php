@@ -15,3 +15,4 @@
  */
 $GLOBALS['TL_LANG']['MSC'][''] = '';
 $GLOBALS['TL_LANG']['MSC']['today'] = 'Today';
+$GLOBALS['TL_LANG']['MSC']['newVersionContaoMaterial'] = 'A new version of Contao Material is available';

@@ -286,4 +286,40 @@ class Helper extends \System
 
         return '<img src="' . $static . \System::urlEncode($src) . '" width="' . $objFile->width . '" height="' . $objFile->height . '" alt="' . specialchars($alt) . '"' . (($attributes != '') ? ' ' . $attributes : '') . '>';
     }
+
+    /**
+    * Check if latest contao-material version
+    *
+    * @return boolean
+    */
+    public static function latestContaoMaterial()
+    {
+
+        $repository = 'medialta/contao-material';
+        $url = 'https://api.github.com/repos/' . $repository . '/tags';
+
+        $opts = [
+            'http' => [
+                'method' => 'GET',
+                'header' => [
+                    'User-Agent: PHP'
+                ]
+            ]
+        ];
+
+        $context = stream_context_create($opts);
+        $content = file_get_contents($url, false, $context);
+        $decode = json_decode($content);
+
+        if ($decode[0])
+        {
+            $tag = $decode[0]->name;
+            if (VERSION_CONTAO_MATERIAL != $tag)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

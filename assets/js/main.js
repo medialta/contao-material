@@ -1692,6 +1692,16 @@ var Backend = {
         $('#ctrl_show_dependencies').change(function(event) {
             $('tr.dependency').css('display', $(this).is(':checked') ? '' : 'none')
         });
+
+        $('#ctrl_composer_versions .release .toggler').click(function(event) {
+            if ($(this).parent('.release').children('.details').css('opacity') == '0') {
+                $(this).parent('.release').children('.details').css('opacity', 1)
+                $(this).parent('.release').children('.details').css('height', 'auto')
+            } else {
+                $(this).parent('.release').children('.details').css('opacity', 0)
+                $(this).parent('.release').children('.details').css('height', 0)
+            }
+        });
     },
 
     multicolumnwizard: function ()

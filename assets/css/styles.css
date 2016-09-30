@@ -1703,6 +1703,11 @@ table.composer_package_list {
     background: #fff;
     padding: 9px 5px;
 }
+#ctrl_composer_versions .release .details {
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
 .create_table {
     color: #81c784;
 }

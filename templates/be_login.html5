@@ -77,7 +77,7 @@
 </div>
     <script>
     $('#username').focus();
-    window.addEvent('domready', function() {
+    $(function() {
         if (parent.frames[0] && parent.frames[0].name == 'switch') {
             parent.location.reload();
         }
@@ -86,15 +86,12 @@
 
     <?php if (!$this->disableCron): ?>
         <script>
-        new Request({
-            url:'system/cron/cron.txt',
-            onComplete: function(txt) {
-                if (!txt) txt = 0;
-                if (parseInt(txt) < (Date.now()/1000 - 300)) {
-                    new Request({url:'system/cron/cron.php'}).send();
-                }
+        $.ajax('system/cron/cron.txt').done(function(txt) {
+            if (!txt) txt = 0;
+            if (parseInt(txt) < (Date.now()/1000 - 300)) {
+                $.ajax('system/cron/cron.php');
             }
-        }).send();
+        })
         </script>
     <?php endif; ?>
 

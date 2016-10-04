@@ -77,7 +77,7 @@
                 <div class="nav-wrapper orange lighten-1">
                     <a href="#" data-activates="modules-nav" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
                     <a href="<?= $this->base ?>contao/main.php" class="brand-logo">
-                        <img src="/system/modules/contao-material/assets/img/contao-logo-grey.png" class="logo-contao-nav" alt="Contao">
+                        <img src="system/modules/contao-material/assets/img/contao-logo-grey.png" class="logo-contao-nav" alt="Contao">
                         <span>Contao Open Source CMS <?= VERSION . '.' . BUILD ?></span>
                     </a>
 
@@ -149,7 +149,7 @@
                 <div class="card-image -main">
                     <?php
                         $do = $GLOBALS['_GET']['do'];
-                        $cover = '/system/modules/contao-material/assets/img/cover.jpg';
+                        $cover = 'system/modules/contao-material/assets/img/cover.jpg';
                         if (isset($GLOBALS['TL_CONFIG']['cover_image']) && $GLOBALS['TL_CONFIG']['cover_image'] != '') {
                             $cover = \FilesModel::findByUuid($GLOBALS['TL_CONFIG']['cover_image'])->path;
                         }

@@ -292,15 +292,16 @@ abstract class DataContainer extends \Contao\DataContainer
 
             $wizard .= ' ' . Helper::getIconHtml('pickcolor.gif', $GLOBALS['TL_LANG']['MSC']['colorpicker'], 'style="vertical-align:middle;cursor:pointer" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['colorpicker']).'" id="moo_' . $this->strField . '"') . '
             <script>
-            window.addEvent("domready", function() {
-                new MooRainbow("moo_' . $this->strField . '", {
-                    id: "ctrl_' . $strKey . '",
-                    startColor: ((cl = $("ctrl_' . $strKey . '").value.hexToRgb(true)) ? cl : [255, 0, 0]),
-                    imgPath: "assets/mootools/colorpicker/' . $GLOBALS['TL_ASSETS']['COLORPICKER'] . '/images/",
-                    onComplete: function(color) {
-                        $("ctrl_' . $strKey . '").value = color.hex.replace("#", "");
-                    }
-                });
+            $(document).ready(function() {
+                $("#moo_' . $this->strField . '").ColorPicker({
+                    color: "' . $this->varValue . '",
+                    onChange: function(hsb, hex, rgb, el) {
+                        $("#ctrl_' . $strKey . '").val(hex)
+                    },
+                    onSubmit: function(hsb, hex, rgb, el) {
+                        $(el).ColorPickerHide();
+                    },
+                })
             });
             </script>';
         }

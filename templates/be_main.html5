@@ -8,22 +8,6 @@
     <meta name="generator" content="Contao Open Source CMS">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-    <?php if ($this->loadFonts): ?>
-        <!-- <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/themes/<?= $this->theme ?>/fonts.css"> -->
-    <?php endif; ?>
-    <link rel="stylesheet" href="<?php
-    /*$objCombiner = new Combiner();
-    $objCombiner->add('assets/mootools/colorpicker/'. $GLOBALS['TL_ASSETS']['COLORPICKER'] .'/css/mooRainbow.css', $GLOBALS['TL_ASSETS']['COLORPICKER']);
-    $objCombiner->add('assets/mootools/chosen/chosen.css');
-    $objCombiner->add('assets/mootools/stylect/css/stylect.css');
-    $objCombiner->add('assets/mootools/simplemodal/'. $GLOBALS['TL_ASSETS']['SIMPLEMODAL'] .'/css/simplemodal.css', $GLOBALS['TL_ASSETS']['SIMPLEMODAL']);
-    $objCombiner->add('assets/mootools/datepicker/'. $GLOBALS['TL_ASSETS']['DATEPICKER'] .'/datepicker.css', $GLOBALS['TL_ASSETS']['DATEPICKER']);
-    $objCombiner->add('system/themes/'. $this->theme .'/basic.css');
-    $objCombiner->add('system/themes/'. $this->theme .'/main.css');
-    echo $objCombiner->getCombinedFile();*/
-    ?>">
-    <!--[if IE]><link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/themes/<?= $this->theme ?>/iefixes.css"><![endif]-->
-    <?= $this->stylesheets ?>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/css/materialize.min.css"></link>
     <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/css/select2.min.css"></link>
@@ -31,6 +15,7 @@
     <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/css/colorpicker.css"></link>
     <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/css/bootstrap-datetimepicker.css"></link>
     <link rel="stylesheet" href="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/css/styles.css"></link>
+    <?= $this->stylesheets ?>
 
     <script><?= $this->getLocaleString() ?></script>
     <script type="text/javascript" src="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/js/jquery-2.1.4.min.js"></script>
@@ -41,8 +26,6 @@
     <script type="text/javascript" src="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/js/moment.js"></script>
     <script type="text/javascript" src="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/js/bootstrap-datetimepicker.js"></script>
     <script type="text/javascript" src="<?= TL_ASSETS_URL ?>system/modules/contao-material/assets/js/main.js"></script>
-
-    <script><?= ''//$this->getDateString() ?></script>
     <?= $this->javascripts ?>
 
 </head>

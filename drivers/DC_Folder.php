@@ -673,10 +673,10 @@ class DC_Folder extends \Contao\DC_Folder
             $return .= '
 
             <script>
-              window.addEvent(\'domready\', function() {
-                Backend.vScrollTo(($(\'' . $this->strTable . '\').getElement(\'label.error\').getPosition().y - 20));
+            $(document).ready(function($) {
+                Backend.vScrollTo(($(\'#' . $this->strTable . ' label.error\').offset().top - 20));
             });
-        </script>';
+            </script>';
         }
 
         return $return;

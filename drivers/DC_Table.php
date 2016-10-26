@@ -653,8 +653,8 @@ class DC_Table extends \Contao\DC_Table
             $return .= '
 
             <script>
-            window.addEvent(\'domready\', function() {
-                Backend.vScrollTo(($(\'' . $this->strTable . '\').getElement(\'label.error\').getPosition().y - 20));
+            $(document).ready(function($) {
+                Backend.vScrollTo(($(\'#' . $this->strTable . ' label.error\').offset().top - 20));
             });
             </script>';
         }

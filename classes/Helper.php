@@ -47,21 +47,29 @@ class Helper extends \System
      */
     public static function isImage($src)
     {
+        $fileExists = false;
         $src = rawurldecode($src);
 
         if (strpos($src, '/') === false)
         {
             if (strncmp($src, 'icon', 4) === 0)
             {
-                $src = 'assets/contao/images/' . $src;
+                $fileExists = file_exists(TL_ROOT . '/assets/contao/images/' . $src);
             }
             else
             {
-                $src = 'system/themes/' . \Backend::getTheme() . '/images/' . $src;
+                $srcContao = 'system/themes/' . \Backend::getTheme() . '/images/' . $src;
+                $srcMaterial = 'system/modules/contao-material/assets/images/' . $src;
+
+                $fileExists = file_exists(TL_ROOT . '/' . $srcContao) || file_exists(TL_ROOT . '/' . $srcMaterial);
             }
         }
+        else
+        {
+            $fileExists = file_exists(TL_ROOT . '/' . $src);
+        }
 
-        return file_exists(TL_ROOT . '/' . $src);
+        return $fileExists;
     }
 
     /**

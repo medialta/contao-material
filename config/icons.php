@@ -22,6 +22,7 @@ $GLOBALS['MD_ICONS'] = [
     'diffTemplate.gif'      => 'history',
     'drag.gif'              => 'view_day',
     'edit.gif'              => 'edit',
+    'edit.png'              => 'edit',
     'editor.gif'            => 'description',
     'featured.gif'          => 'star',
     'featured_.gif'         => 'star_border',

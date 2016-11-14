@@ -108,7 +108,37 @@ select {
 #contao-debug {
     z-index: 9999;
 }
-
+    #contao-debug p {
+        box-shadow: 1px -1px 10px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+        border-top: 0 !important;
+        border-bottom: 0 !important;
+        background: #eee !important;
+        background-image: none !important;
+    }
+        #contao-debug p span {
+            padding: 6px 20px 6px 30px !important;
+        }
+    #contao-debug #debug-tog {
+        background-image: url(../images/debug/expand.png) !important;
+    }
+    .debug-closed #contao-debug #debug-tog {
+        background-image: url(../images/debug/collapse.png) !important;
+    }
+    #contao-debug .debug-time {
+        background-image: url(../images/debug/time.png) !important;
+    }
+    #contao-debug .debug-memory {
+        background-image: url(../images/debug/memory.png) !important;
+    }
+    #contao-debug .debug-db {
+        background-image: url(../images/debug/database.png) !important;
+    }
+    #contao-debug .debug-rows {
+        background-image: url(../images/debug/rows.png) !important;
+    }
+    #contao-debug .debug-models {
+        background-image: url(../images/debug/module.png) !important;
+    }
 
 /**
  * HELPERS
@@ -217,10 +247,10 @@ nav {
     height: calc(100% - 64px);
 }
 .debug-enabled .side-nav {
-    height: calc(100% - 365px);
+    height: calc(100% - 363px);
 }
 .debug-closed .side-nav {
-    height: calc(100% - 104px);
+    height: calc(100% - 102px);
 }
     .side-nav .collapsible {
 

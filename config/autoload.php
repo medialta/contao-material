@@ -3,9 +3,8 @@
 /**
  * Contao Open Source CMS
  *
- * @author Medialta <http://www.medialta.com>
- * @package ContaoMaterial
- * @copyright Medialta
+ * Copyright (c) 2005-2016 Leo Feyer
+ *
  * @license LGPL-3.0+
  */
 
@@ -50,6 +49,7 @@ ClassLoader::addClasses(array
 	'ContaoMaterial\TableWizard'        => 'system/modules/contao-material/widgets/TableWizard.php',
 
 	// Library
+	'ContaoMaterial\Template'           => 'system/modules/contao-material/library/Contao/Template.php',
 	'ContaoMaterial\Message'            => 'system/modules/contao-material/library/Contao/Message.php',
 	'ContaoMaterial\Database\Installer' => 'system/modules/contao-material/library/Contao/Database/Installer.php',
 	'ContaoMaterial\Image'              => 'system/modules/contao-material/library/Contao/Image.php',

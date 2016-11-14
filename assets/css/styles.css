@@ -105,6 +105,11 @@ select {
     display: inline-block;
 }
 
+#contao-debug {
+    z-index: 9999;
+}
+
+
 /**
  * HELPERS
  */
@@ -210,6 +215,12 @@ nav {
     top: 64px;
     overflow-y: overlay;
     height: calc(100% - 64px);
+}
+.debug-enabled .side-nav {
+    height: calc(100% - 365px);
+}
+.debug-closed .side-nav {
+    height: calc(100% - 104px);
 }
     .side-nav .collapsible {
 

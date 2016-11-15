@@ -781,7 +781,7 @@ nav {
         .listing:not(.listing-files) .collapsible-body .collapsible-header:not(.-with-child):only-child, .listing.listing-files li.folder .collapsible-body .collapsible-header:not(.-with-child):only-child {
             padding-left: 4rem;
         }
-        .listing:not(.listing-files) .collapsible-header:not(.-with-child):only-child, .listing.listing-files li:not(.folder) .collapsible-header:only-child {
+        .listing:not(.listing-files) .collapsible-header:not(.-with-child):only-child, .listing.listing-files li:not(.folder) .collapsible-header:not(.-with-child):only-child {
             padding-left: 3rem;
         }
         .listing.listing-files>.folder>.collapsible-header:not(.-with-child) {

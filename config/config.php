@@ -47,3 +47,10 @@ $GLOBALS['CONTAO_MATERIAL']['COVER_IMAGE']['autoload'] = 'system/modules/contao-
 $GLOBALS['CONTAO_MATERIAL']['COVER_IMAGE']['extension'] = 'system/modules/contao-material/assets/img/cover_extension.jpg';
 
 unset($GLOBALS['TL_JAVASCRIPT']['mcw']);
+
+/**
+ * Templates added manually
+ */
+\TemplateLoader::addFile('dev_autoload', 'system/modules/contao-material/templates');
+\TemplateLoader::addFile('dev_extension', 'system/modules/contao-material/templates');
+\TemplateLoader::addFile('dev_labels', 'system/modules/contao-material/templates');

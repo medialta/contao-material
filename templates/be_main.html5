@@ -59,7 +59,7 @@
         <header>
             <nav>
                 <div class="nav-wrapper orange lighten-1">
-                    <a href="#" data-activates="modules-nav" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+                    <a href="#" data-activates="modules-nav" class="button-collapse"><i class="material-icons">menu</i></a>
                     <a href="<?= $this->base ?>contao/main.php" class="brand-logo">
                         <img src="system/modules/contao-material/assets/img/contao-logo-grey.png" class="logo-contao-nav" alt="Contao">
                         <span>Contao Open Source CMS <?= VERSION . '.' . BUILD ?></span>

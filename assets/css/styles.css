@@ -232,6 +232,10 @@ nav {
     height: 64px;
     line-height: 64px;
 }
+    nav .button-collapse i {
+        height: 64px;
+        line-height: 64px;
+    }
 
 .logo-contao-nav {
     height: 45px;

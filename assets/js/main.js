@@ -1508,7 +1508,17 @@ var Backend = {
      * Convert the "enable module" checkboxes
      */
     convertEnableModules: function() {
-
+        $('img.mw_enable').click(function(event) {
+            Backend.getScrollOffset()
+            var cbx = $(this).next('input')
+            if (!cbx.attr('checked')) {
+                cbx.attr('checked', true)
+                $(this).attr('src', Backend.themePath + 'visible.png')
+            } else {
+                cbx.attr('checked', false)
+                $(this).attr('src', Backend.themePath + 'invisible.png')
+            }
+        });
     },
 
     /**
@@ -1756,6 +1766,7 @@ var Backend = {
         Backend.enableBadCronstructedCheckboxes();
         Backend.editBadHeaderBack();
         Backend.multicolumnwizard();
+        Backend.convertEnableModules();
 
         // Bind events
         $('.js-toggle-subpanel').click(Backend.toggleSubpanel);

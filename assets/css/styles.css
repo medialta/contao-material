@@ -1088,6 +1088,57 @@ nav {
         display: inline-block;
     }
 
+.tl_text_trbl, .tl_imageSize_0, .tl_imageSize_1, #ctrl_gradient input, #ctrl_playerSize input {
+    background: url("../images/hints.png") no-repeat -20px 20px;
+}
+    #ctrl_playerSize_0 {
+        background-position: right 30px !important;
+    }
+    #ctrl_playerSize_1 {
+        background-position: right -7px !important;
+    }
+    .tl_imageSize_0 {
+        background-position: right 30px !important;
+    }
+    .tl_imageSize_1 {
+        background-position: right -7px !important;
+    }
+    .trbl_top {
+        background-position: right -45px !important;
+    }
+    .trbl_right {
+        background-position: right -83px !important;
+    }
+    .trbl_bottom {
+        background-position: right -123px !important;
+    }
+    .trbl_left {
+        background-position: right -162px !important;
+    }
+    #ctrl_shadowsize_top {
+        background-position: right -203px !important;
+    }
+    #ctrl_shadowsize_right {
+        background-position: right -242px !important;
+    }
+    #ctrl_shadowsize_bottom {
+        background-position: right -282px !important;
+    }
+    #ctrl_shadowsize_left {
+        background-position: right -321px !important;
+    }
+    #ctrl_borderradius_top {
+        background-position: left -385px !important;
+    }
+    #ctrl_borderradius_right {
+        background-position: right -425px !important;
+    }
+    #ctrl_borderradius_bottom {
+        background-position: right -452px !important;
+    }
+    #ctrl_borderradius_left {
+        background-position: left -492px !important;
+    }
 
 /**
  * DCA

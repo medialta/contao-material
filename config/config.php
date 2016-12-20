@@ -12,7 +12,7 @@
 /**
  * Version
  */
-define('VERSION_CONTAO_MATERIAL', '3.5.19');
+define('VERSION_CONTAO_MATERIAL', '3.5.20');
 
 /**
  * Hooks

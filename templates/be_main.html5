@@ -192,7 +192,7 @@
                     </a>
                     <div class="center-align text primary -c300 copyright">
                         Contao Material <?= VERSION_CONTAO_MATERIAL ?><br>
-                        Made with ♥ by <a href="https://www.medialta.com" class="text primary -c300" target="_blank">Medialta</a>
+                        Made with ♥ by <a href="https://www.medialta.com" class="text primary -c300" target="_blank">Medialta</a> - Icons by <a href="https://icons8.com" class="text primary -c300" target="_blank">Icons8</a>
                     </div>
                 </div>
             </div>

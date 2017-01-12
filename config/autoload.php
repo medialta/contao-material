@@ -3,7 +3,7 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2016 Leo Feyer
+ * Copyright (c) 2005-2017 Leo Feyer
  *
  * @license LGPL-3.0+
  */
@@ -15,6 +15,7 @@
 ClassLoader::addNamespaces(array
 (
 	'ContaoMaterial',
+	'Efg',
 ));
 
 
@@ -34,7 +35,7 @@ ClassLoader::addClasses(array
 
 	// Drivers
 	'ContaoMaterial\DC_Table'           => 'system/modules/contao-material/drivers/DC_Table.php',
-	'ContaoMaterial\DC_Formdata'        => 'system/modules/contao-material/drivers/DC_Formdata.php',
+	'Efg\DC_Formdata'                   => 'system/modules/contao-material/drivers/DC_Formdata.php',
 	'ContaoMaterial\DC_Folder'          => 'system/modules/contao-material/drivers/DC_Folder.php',
 	'ContaoMaterial\DC_File'            => 'system/modules/contao-material/drivers/DC_File.php',
 

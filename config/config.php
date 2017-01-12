@@ -54,3 +54,4 @@ unset($GLOBALS['TL_JAVASCRIPT']['mcw']);
 \TemplateLoader::addFile('dev_autoload', 'system/modules/contao-material/templates');
 \TemplateLoader::addFile('dev_extension', 'system/modules/contao-material/templates');
 \TemplateLoader::addFile('dev_labels', 'system/modules/contao-material/templates');
+\ClassLoader::addClass('Efg\DC_Formdata', 'system/modules/contao-material/drivers/DC_Formdata.php');

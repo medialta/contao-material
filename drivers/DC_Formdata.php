@@ -13,7 +13,7 @@
 /**
  * Namespace
  */
-namespace ContaoMaterial;
+namespace Efg;
 
 
 /**

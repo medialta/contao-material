@@ -471,7 +471,36 @@ var AjaxRequest = {
      * @returns {boolean}
      */
     toggleCheckboxGroup: function(el, id) {
+        el.blur();
 
+        var item = $('#' + id),
+        image = $(el).find('img');
+
+
+        if (item.length) {
+            if (item.css('display') != 'block') {
+                item.css('display', 'block');
+                image.attr('src', AjaxRequest.themePath + 'folMinus.png');
+                $.ajax({
+                    url: window.location,
+                    dataType: 'JSON',
+                    type: 'POST',
+                    data: {action: 'toggleCheckboxGroup', id: id, state: 1, REQUEST_TOKEN: Contao.request_token},
+                });
+            } else {
+                item.css('display', 'none');
+                image.attr('src', AjaxRequest.themePath + 'folPlus.png');
+                $.ajax({
+                    url: window.location,
+                    dataType: 'JSON',
+                    type: 'POST',
+                    data: {action: 'toggleCheckboxGroup', id: id, state: 0, REQUEST_TOKEN: Contao.request_token},
+                });
+            }
+            return true;
+        }
+
+        return false;
     },
 
     /**

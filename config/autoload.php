@@ -47,6 +47,7 @@ ClassLoader::addClasses(array
 	'ContaoMaterial\SelectMenu'         => 'system/modules/contao-material/widgets/SelectMenu.php',
 	'ContaoMaterial\InputUnit'          => 'system/modules/contao-material/widgets/InputUnit.php',
 	'ContaoMaterial\TextField'          => 'system/modules/contao-material/widgets/TextField.php',
+	'ContaoMaterial\CheckBox'           => 'system/modules/contao-material/widgets/CheckBox.php',
 	'ContaoMaterial\TableWizard'        => 'system/modules/contao-material/widgets/TableWizard.php',
 
 	// Library

@@ -1675,16 +1675,19 @@ img.preview {
     }
 
 #tl_ajaxBox {
-    width:20%;
-    padding:24px;
-    position:absolute;
-    left:40%;
-    background:#fff;
-    border:2px solid #666;
-    border-radius:6px;
-    font-size:15px;
-    text-align:left;
+    position: fixed;
+    top: 0;
+    z-index: 9999;
+    left: 0;
+    right: 0;
+    text-align: center;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    padding-top: 25%;
 }
+    #tl_ajaxBox .spinner-layer {
+        border-color: #ffa726;
+    }
 
 .drag-handle {
     cursor: move;

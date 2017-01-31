@@ -523,13 +523,11 @@ var AjaxRequest = {
             scroll = $(document).scrollTop();
 
         if (box.length == 0) {
-            $('body').append('<div id="tl_ajaxBox"></div>')
+            $('body').append('<div id="tl_ajaxBox"><div class="preloader-wrapper big active"><div class="spinner-layer"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div>')
             box = $('#tl_ajaxBox')
         }
 
         box.css('display', 'block')
-        box.css('top', (scroll + 100) + 'px')
-        box.html(message)
     },
 
     /**

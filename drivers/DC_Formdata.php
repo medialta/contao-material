@@ -3603,7 +3603,7 @@ class DC_Formdata extends \DataContainer implements \listable, \editable
             {
                 $submit = '
 
-                <div class="submit-panel subpanel card-action js-subpanel" id="submit-subpanel">
+                <div class="submit-panel subpanel card-action row js-subpanel" id="submit-subpanel">
                 <button type="submit" class="btn waves-effect grey lighten-5 black-text" data-position="top" data-delay="50" data-tooltip="' . specialchars($GLOBALS['TL_LANG']['MSC']['applyTitle']) . '"><i class="material-icons left">refresh</i> ' . specialchars($GLOBALS['TL_LANG']['MSC']['apply']) . '</button>
                 </div>';
             }

@@ -40,7 +40,7 @@ class SelectMenu extends \Contao\SelectMenu
         }
 
         // Add an empty option (XHTML) if there are none
-        if (empty($this->arrOptions))
+        if (empty($this->arrOptions) || !is_array($this->arrOptions))
         {
             $this->arrOptions = array(array('value'=>'', 'label'=>'-'));
         }

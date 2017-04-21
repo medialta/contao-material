@@ -62,12 +62,14 @@ class Helper extends \System
                 $srcMaterial = 'system/modules/contao-material/assets/images/' . $src;
 
                 $fileExists = file_exists(TL_ROOT . '/' . $srcContao) || file_exists(TL_ROOT . '/' . $srcMaterial);
+
             }
         }
         else
         {
             $fileExists = file_exists(TL_ROOT . '/' . $src);
         }
+
 
         return $fileExists;
     }

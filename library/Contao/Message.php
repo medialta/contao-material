@@ -59,7 +59,7 @@ class Message extends \Contao\Message
                 continue;
             }
 
-            $strClass = self::getCssClass($strType);
+            $strClass = static::getCssClass($strType);
             $_SESSION[$strType] = array_unique($_SESSION[$strType]);
 
             foreach ($_SESSION[$strType] as $strMessage)
@@ -70,7 +70,7 @@ class Message extends \Contao\Message
                 }
                 else
                 {
-                    $strMessages .= self::parseMessage($strClass, $strMessage);
+                    $strMessages .= static::parseMessage($strClass, $strMessage);
                 }
             }
 

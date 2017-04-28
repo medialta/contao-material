@@ -15,3 +15,6 @@
  */
 $GLOBALS['TL_LANG']['MSC']['today'] = 'Today';
 $GLOBALS['TL_LANG']['MSC']['newVersionContaoMaterial'] = 'A new version of Contao Material is available';
+$GLOBALS['TL_LANG']['MSC']['feHelperArticles'] = 'Edit content';
+$GLOBALS['TL_LANG']['MSC']['feHelperModules'] = 'Edit modules';
+$GLOBALS['TL_LANG']['MSC']['feHelperLayout'] = 'Edit layout';

@@ -100,5 +100,6 @@ TemplateLoader::addFiles(array
 	'be_preview'       => 'system/modules/contao-material/templates',
 	'be_purge_data'    => 'system/modules/contao-material/templates',
 	'be_message'       => 'system/modules/contao-material/templates',
+	'fe_helper'        => 'system/modules/contao-material/templates',
 	'be_error'         => 'system/modules/contao-material/templates',
 ));

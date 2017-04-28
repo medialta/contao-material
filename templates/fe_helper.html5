@@ -1,0 +1,1 @@
+<?php foreach ($this->links as $link): ?><a href="<?= $link['link'] ?>" target="_blank" title="<?= $link['label'] ?>"><i class="material-icons"><?= $link['icon'] ?></i></a><?php endforeach; ?><a href="#" onclick="contaoMaterialFeHelperClose();return false;"><i class="material-icons">close</i></a>

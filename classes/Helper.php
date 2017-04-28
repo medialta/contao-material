@@ -85,7 +85,7 @@ class Helper extends \System
     {
         $inactive = false;
 
-        if (self::isImage($src))
+        if (static::isImage($src))
         {
             $filename = basename($src, strrchr($src, '.'));
             $inactive = substr($filename, -1) == '_';
@@ -151,7 +151,7 @@ class Helper extends \System
         if (isset($matches[1][0]) && isset($matches[2][0]) && strlen($matches[1][0]) && strlen($matches[2][0]))
         {
             $iconFile = basename($matches[2][0]);
-            $icon = self::getIconHtml($iconFile);
+            $icon = static::getIconHtml($iconFile);
 
             if ($dropdownSet)
             {
@@ -198,9 +198,9 @@ class Helper extends \System
     {
         $srcgif = str_replace('.png', '.gif', $src);
         $icon = '';
-        $inactive = self::isInactiveIcon($src);
+        $inactive = static::isInactiveIcon($src);
 
-        if (self::isImage($src) || self::isImage($srcgif))
+        if (static::isImage($src) || static::isImage($srcgif))
         {
             if (!isset($GLOBALS['MD_ICONS']))
             {
@@ -225,7 +225,7 @@ class Helper extends \System
             }
             else if ($inactive)
             {
-                $activeImage = self::getActiveImage($src);
+                $activeImage = static::getActiveImage($src);
 
                 if (isset($GLOBALS['MD_ICONS'][$activeImage]))
                 {
@@ -245,7 +245,7 @@ class Helper extends \System
         }
         else
         {
-            $icon = '<span class="old-icon-wrapper">' . self::getHtml($src, $alt, $attributes) . '</span>';
+            $icon = '<span class="old-icon-wrapper">' . static::getHtml($src, $alt, $attributes) . '</span>';
         }
 
         return $icon;

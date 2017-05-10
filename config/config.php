@@ -18,7 +18,6 @@ define('VERSION_CONTAO_MATERIAL', '3.5.26');
  * Hooks
  */
 $GLOBALS['TL_HOOKS']['postLogin'][] = array('Helper', 'postLogin');
-$GLOBALS['TL_HOOKS']['generatePage'][] = array('Helper', 'frontEndHelper');
 
 /**
  * Cover image

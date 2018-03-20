@@ -672,17 +672,18 @@ var Backend = {
                 }
                 $(opt.self).attr('href', $(opt.self).attr('href').replace(/&value=[^&]*/, '&value='+val.join(',')));
             } else {
-                field = $('ctrl_' + opt.id);
-                field.value = val.join("\t");
+                field = $('#ctrl_' + opt.id);
+                field.val(val.join("\t"));
                 var act = (frm.document.location.href.indexOf('contao/page.php') != -1) ? 'reloadPagetree' : 'reloadFiletree';
                 $.ajax({
                     url: window.location,
                     dataType: 'HTML',
                     type: 'POST',
-                    data: {action: act, name: opt.id, value: field.value, REQUEST_TOKEN: Contao.request_token},
+                    data: {action: act, name: opt.id, value: field.val(), REQUEST_TOKEN: Contao.request_token},
                 })
                 .done(function (res, json) {
                     $('#ctrl_'+opt.id).parent('div').html(res)
+                    field.trigger('change');
                 });
             }
             $('#modal').closeModal();
